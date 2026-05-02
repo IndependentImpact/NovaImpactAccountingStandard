@@ -92,16 +92,16 @@ indimp:additionalityJustification a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A justification for why an impact is considered additional."@en .
 
-indimp:authProof a owl:DatatypeProperty ;
+indimp:authProof a owl:ObjectProperty ;
     rdfs:label "authProof"@en ;
     rdfs:domain data:Document ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "The mechanism by which the authenticity of a document can be proven."@en .
 
-indimp:beneficialOrAdverse a owl:DatatypeProperty ;
+indimp:beneficialOrAdverse a owl:ObjectProperty ;
     rdfs:label "beneficialOrAdverse"@en ;
     rdfs:domain impactont:Impact ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "Indicates whether an impact of a project or an activity (whether intended or unintended) was an environmentally beneficial or environmentally adverse impact."@en .
 
 indimp:createdBy a owl:ObjectProperty ;
@@ -206,11 +206,11 @@ indimp:hederaTopic a owl:ObjectProperty ;
     rdfs:range hed:HederaTopic ;
     skos:definition "A Hedera topic."@en .
 
-indimp:impactIntentionality a owl:DatatypeProperty ;
+indimp:impactIntentionality a owl:ObjectProperty ;
     rdfs:label "intentionality"@en ;
     rdfs:comment "An unintentional impact (whether beneficial or adverse) is typically referred to as 'leakage'." ;
     rdfs:domain impactont:Impact ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "Indicates whether an of a project or activity was an intentional or an unintentional impact."@en .
 
 indimp:isEncrypted a owl:DatatypeProperty ;
@@ -243,11 +243,11 @@ indimp:licenseNumber a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A unique string identifier for an Independent Impact Agent License."@en .
 
-indimp:licenseScope a owl:DatatypeProperty ;
+indimp:licenseScope a owl:ObjectProperty ;
     rdfs:label "licenseScope"@en ;
     rdfs:domain indimp:AgentLicense ;
-    rdfs:range xsd:string ;
-    skos:definition "The label of the set of actions that the holder of the license is allowed to perform on the Independent Impact platform."@en .
+    rdfs:range skos:Concept ;
+    skos:definition "The set of actions that the holder of the license is allowed to perform on the Independent Impact platform."@en .
 
 indimp:locationShapefile a owl:ObjectProperty ;
     rdfs:label "locationShapefile"@en ;
@@ -255,10 +255,10 @@ indimp:locationShapefile a owl:ObjectProperty ;
     rdfs:range dcterms:Resource ;
     skos:definition "The shapefile for a physical location of a project or an activity."@en .
 
-indimp:monitored a owl:DatatypeProperty ;
+indimp:monitored a owl:ObjectProperty ;
     rdfs:label "monitored"@en ;
     rdfs:domain impactont:Impact ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "Indicates whether an impact of a project or an activity will be monitored or not."@en .
 
 indimp:monitoringPeriod a owl:ObjectProperty ;
@@ -304,10 +304,10 @@ indimp:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
 
-indimp:techMeasType a owl:DatatypeProperty ;
+indimp:techMeasType a owl:ObjectProperty ;
     rdfs:label "techMeasType"@en ;
     rdfs:domain indimp:TechnologyOrMeasure ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "The subtype of a technology or measure to be implemented or employed by a project or an activity."@en .
 
 indimp:technologyOrMeasure a owl:ObjectProperty ;
@@ -328,10 +328,10 @@ indimp:unitOfMeasure a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A unit of measure."@en .
 
-indimp:userType a owl:DatatypeProperty ;
+indimp:userType a owl:ObjectProperty ;
     rdfs:label "userType"@en ;
     rdfs:domain indimp:PlatformUser ;
-    rdfs:range xsd:string ;
+    rdfs:range skos:Concept ;
     skos:definition "The Independent Impact platform user type."@en .
 
 indimp:workflow a owl:ObjectProperty ;

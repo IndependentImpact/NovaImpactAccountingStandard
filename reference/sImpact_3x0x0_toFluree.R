@@ -8,10 +8,22 @@ sImpact_3x0x0_toFluree <- function(lsData, projectId) {
     
     '@type' = "impactont:Impact",
     
-    'indimp:impactIntentionality' = lsData$intentionality,
-    'indimp:beneficialOrAdverse' = lsData$beneficial_or_adverse,
+    'indimp:impactIntentionality' = list(
+      '@id' = switch(
+        lsData$intentionality,
+        INTENTIONAL = "indimp:intentional",
+        UNINTENTIONAL = "indimp:unintentional")),
+    'indimp:beneficialOrAdverse' = list(
+      '@id' = switch(
+        lsData$beneficial_or_adverse,
+        BENEFICIAL = "indimp:beneficial",
+        ADVERSE = "indimp:adverse")),
     'schema:description' = lsData$description,
-    'indimp:monitored' = lsData$monitored)
+    'indimp:monitored' = list(
+      '@id' = switch(
+        lsData$monitored,
+        YES = "indimp:yes",
+        NO = "indimp:no")))
   
   if (length(jellyfi3shR::emptyOrMissingAsNull(lsData$not_monitored_justifcation)) == 1) {
     res <- c(

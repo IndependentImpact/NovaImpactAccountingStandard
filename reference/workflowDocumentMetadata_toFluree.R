@@ -37,11 +37,12 @@ workflowDocumentMetadata_toFluree <- function(docId = NULL, dfDocMd = NULL, dbCo
     'indimp:isEncrypted' = dfDocMd$encrypted, 
     'indimp:documentAuthor' = list(
       '@id' = paste0("indimp:agents/", idAuthor)),
-    'indimp:authProof' = switch(
-      dfDocMd$type_doc,
-      REGULAR_UNSIGNED = "NONE",
-      REGULAR_SIGNED = "EDDSA",
-      VC = "VC"), # TODO. Determine this from the document's signature.
+    'indimp:authProof' = list(
+      '@id' = switch(
+        dfDocMd$type_doc,
+        REGULAR_UNSIGNED = "indimp:none",
+        REGULAR_SIGNED = "indimp:eddsa-signature",
+        VC = "indimp:vc")),
     
     'indimp:hasWorkflowSubmission' = list(
       '@type' = "indimp:WorkflowDocumentSubmission",

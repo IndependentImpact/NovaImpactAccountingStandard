@@ -6,7 +6,13 @@ sTechnologyOrMeasure_1x0x0_toFluree <- function(lsData) {
       "indimp" = "https://independentimpact.org/ns/",
       "schema" = "https://schema.org/"),
     '@type' = "indimp:TechnologyOrMeasure",
-    'indimp:techMeasType' = lsData$type_techmeas,
+    'indimp:techMeasType' = list(
+      '@id' = switch(
+        lsData$type_techmeas,
+        FACILITY = "indimp:facility",
+        SYSTEM = "indimp:system",
+        EQUIPMENT = "indimp:equipment",
+        OTHER = "indimp:other")),
     'schema:description' = lsData$description)
 
   if (length(jellyfi3shR::emptyOrMissingAsNull(lsData$age_current)) == 1) {
