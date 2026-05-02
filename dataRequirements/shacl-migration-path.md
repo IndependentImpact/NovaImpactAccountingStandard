@@ -9,6 +9,9 @@ AIA ontology suite:
 - Impact Ontology: `http://w3id.org/impactont#`
 - Claim Ontology: `http://w3id.org/claimont#`
 - Information Communication Ontology: `http://w3id.org/infocomm#`
+- Indicator Ontology: `http://independentimpact.org/indicator-owl/`
+- QUDT schema: `http://qudt.org/schema/qudt/`
+- QUDT unit vocabulary: `http://qudt.org/vocab/unit/`
 
 The current `reference/` directory contains both legacy R functions and JSON
 schema-like files. The R functions show how selected legacy payloads were
@@ -30,6 +33,15 @@ The repository already has three useful semantic layers:
   classification, and monitoring status.
 - `glossary/IndependentImpactStandardShapes.ttl`: early SHACL shapes for local
   controlled vocabularies, license numbers, and IPFS URI strings.
+
+An external indicator ontology is available at
+`http://independentimpact.org/indicator-owl/` (prefix `ind:`). It provides
+indicator-specific classes and properties aligned with the AIA ontology suite,
+including `ind:IndicatorDefinition`, `ind:hasUnit` (pointing to QUDT units),
+`ind:hasIndicatorStage`, `ind:IndicatorFormula`, `ind:IndicatorRationale`, and
+the `ind:IndicatorObservation` pattern for reporting observed values. SHACL
+shapes that describe indicators should import or reference this ontology where
+relevant rather than inventing parallel local terms.
 
 The concept scheme directories currently exist but are empty:
 
@@ -445,6 +457,9 @@ Target SHACL shape:
   `indimp:DataParameterRequirement` unless a suitable external class is chosen.
 - Require label, unit of measure, description, purpose, and monitored/fixed
   status.
+- Model `unit_of_measure` as `ind:hasUnit` pointing to a `qudt:Unit` IRI rather
+  than a free-text string. Accept a plain string only as a legacy fallback and
+  flag it as a migration warning.
 - Model `monitored_or_fixed` as a SKOS concept scheme with concepts for
   monitored and fixed ex-ante.
 - If fixed ex-ante, require the applied value and data source.
@@ -547,11 +562,38 @@ Current RDF output:
 Target model:
 
 - Indicators should live in `indicators/` as stable resources.
-- Each indicator should be typed as `impactont:Indicator`.
+- Each indicator should be typed as `ind:IndicatorDefinition`, which is a
+  subclass of both `impactont:Indicator` and `infocomm:Information`. Indicators
+  that are not yet formally defined may also be typed as plain
+  `impactont:Indicator` until they gain a canonical definition.
 - If the platform wants indicators selectable in UIs, also type each one as
   `skos:Concept` and place it in an indicator concept scheme.
+- Replace `indimp:unitOfMeasure` (a plain string) with `ind:hasUnit` pointing
+  to a `qudt:Unit` IRI from the QUDT unit vocabulary. Examples:
+  - carbon dioxide equivalent tonnes: `unit:T_CO2e` or the appropriate QUDT IRI
+  - kilowatt-hours: `unit:KiloW-HR`
+  - hectares: `unit:HA`
+
+  Keep a UCUM code on the unit individual for machine-to-machine exchange, as
+  recommended in the indicator ontology.
+- Use `ind:hasIndicatorStage` to classify indicators according to their position
+  in a theory of change. Values come from `ind:IndicatorStageScheme`:
+  `ind:ActivityIndicator`, `ind:OutputIndicator`, `ind:OutcomeIndicator`, or
+  `ind:ImpactIndicator`.
+- Use `ind:hasFormula` with an `ind:IndicatorFormula` resource if the indicator
+  has a computation method that should be recorded alongside the definition.
+  The formula node may carry `ind:expressionText` and optionally
+  `ind:mathTextRepresentationType` (one of `"LaTeX"`, `"AsciiMath"`, or
+  `"ContentMathML"`).
+- Use `ind:hasRationale` with an `ind:IndicatorRationale` resource to carry the
+  narrative justification for why the indicator is relevant to the objective or
+  state being monitored.
 - The SHACL requirement should prefer `impactont:isDefinedByIndicator` pointing
-  to a known indicator IRI.
+  to a known `ind:IndicatorDefinition` IRI.
+- For observed/reported indicator values, use `ind:IndicatorObservation` in
+  addition to `impactont:IndicatorValue`. The `ind:obsValue` datatype property
+  records the decimal value and `ind:hasUnit` records the QUDT unit. Link the
+  observation to its indicator definition via `ind:observesIndicator`.
 - For legacy free-text indicators, mint draft indicator IRIs and route them
   through curation instead of embedding one-off blank indicator nodes forever.
 
@@ -816,6 +858,14 @@ Target SHACL shapes:
 - Require the monitoring period, dataset references, calculation code/report
   IPFS resources, impact result resource, numeric impact value, unit, and
   issuance account.
+- Use `ind:hasUnit` pointing to a `qudt:Unit` IRI for `unit_impact` rather than
+  a bare string. This aligns the monitoring report with the indicator ontology
+  unit-of-measure pattern used in indicator definitions.
+- Use `ind:IndicatorObservation` to carry the observed impact value: link it to
+  the indicator definition via `ind:observesIndicator`, record the decimal value
+  via `ind:obsValue`, and record the unit via `ind:hasUnit`. Attach it to the
+  monitoring period via `ind:timePeriod` and to the monitoring report via
+  `ind:reportsObservation`.
 - Link the measured impact to `impactont:Impact`, `impactont:State`, and
   `impactont:IndicatorValue` rather than treating `value_impact` as a detached
   number.
@@ -1026,6 +1076,83 @@ to its validating shape:
 accepted. Otherwise use `dcterms:conformsTo` from the document schema resource
 to the shape resource.
 
+### Indicator Definition With Unit Of Measure
+
+Use the indicator ontology to constrain indicator resources in
+`impact-declaration-shapes.ttl` and `common-shapes.ttl`. The prefix declarations
+needed are:
+
+```turtle
+@prefix ind:   <http://independentimpact.org/indicator-owl/> .
+@prefix qudt:  <http://qudt.org/schema/qudt/> .
+@prefix unit:  <http://qudt.org/vocab/unit/> .
+```
+
+A minimal shape for a canonical indicator definition:
+
+```turtle
+indimp:IndicatorDefinitionShape
+  a sh:NodeShape ;
+  sh:targetClass ind:IndicatorDefinition ;
+  sh:property [
+    sh:path rdfs:label ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ind:hasUnit ;
+    sh:nodeKind sh:IRI ;
+    sh:class qudt:Unit ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Each indicator definition must declare exactly one QUDT unit via ind:hasUnit." ;
+  ] ;
+  sh:property [
+    sh:path ind:hasIndicatorStage ;
+    sh:nodeKind sh:IRI ;
+    sh:class skos:Concept ;
+    sh:in (
+      ind:ActivityIndicator
+      ind:OutputIndicator
+      ind:OutcomeIndicator
+      ind:ImpactIndicator
+    ) ;
+    sh:maxCount 1 ;
+  ] .
+```
+
+A shape for an indicator observation (reported measured value):
+
+```turtle
+indimp:IndicatorObservationShape
+  a sh:NodeShape ;
+  sh:targetClass ind:IndicatorObservation ;
+  sh:property [
+    sh:path ind:observesIndicator ;
+    sh:nodeKind sh:IRI ;
+    sh:class ind:IndicatorDefinition ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ind:obsValue ;
+    sh:datatype xsd:decimal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ind:hasUnit ;
+    sh:nodeKind sh:IRI ;
+    sh:class qudt:Unit ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] .
+```
+
+If the data graph will not include the QUDT ontology triples during validation,
+drop `sh:class qudt:Unit` and rely on `sh:nodeKind sh:IRI` alone, or load the
+QUDT schema graph alongside the shapes graph.
+
 ## Migration Phases
 
 ### Phase 0: Freeze And Inventory Legacy Inputs
@@ -1070,7 +1197,11 @@ Goal: make selectable values resolvable and reusable.
 Actions:
 
 - Populate `methodologies/` with methodology resources.
-- Populate `indicators/` with indicator resources.
+- Populate `indicators/` with indicator resources. Type each indicator as
+  `ind:IndicatorDefinition` (a subclass of `impactont:Indicator`) and attach
+  `ind:hasUnit` pointing to a `qudt:Unit` IRI from the QUDT unit vocabulary.
+  Use `ind:hasIndicatorStage` to classify each indicator using a concept from
+  `ind:IndicatorStageScheme`.
 - Populate `knowledgeDomains/` with knowledge domain resources for reputation
   requirements.
 - For UI-selectable resources, type them as both domain resources and
@@ -1091,6 +1222,10 @@ Actions:
   - SKOS concept values
   - technology or measure
   - state and indicator value
+  - `ind:IndicatorDefinition` with `ind:hasUnit` (QUDT), `ind:hasIndicatorStage`,
+    and optional `ind:hasFormula` and `ind:hasRationale`
+  - `ind:IndicatorObservation` with `ind:obsValue`, `ind:hasUnit`,
+    `ind:observesIndicator`, and `ind:timePeriod`
 - Create project design shapes from PDD-A.
 - Create impact declaration shapes from PDD-B.
 - Create document metadata and workflow submission shapes.
@@ -1106,6 +1241,8 @@ Actions:
 - Replace hard-coded string outputs for controlled values with SKOS IRIs.
 - Emit canonical namespace IRIs.
 - Emit `impactont:hasIndicatorValue` instead of `impactont:hasValue`.
+- Replace `indimp:unitOfMeasure` string literals with `ind:hasUnit` links to
+  `qudt:Unit` IRIs.
 - Replace embedded ad hoc methodologies and indicators with links to stable
   local concept resources where possible.
 - Keep a legacy-to-canonical mapping table so old API payloads can still be
@@ -1175,12 +1312,17 @@ Actions:
    `indimp:indicatorMethodology`.
 3. Replace `impactont:hasValue` with `impactont:hasIndicatorValue` plus
    `rdf:value`.
-4. Create initial methodology and indicator concept scheme files.
+4. Create initial methodology and indicator concept scheme files, typing
+   indicators as `ind:IndicatorDefinition` and attaching QUDT unit IRIs via
+   `ind:hasUnit`.
 5. Create `common-shapes.ttl`, `project-design-shapes.ttl`, and
-   `impact-declaration-shapes.ttl`.
-6. Turn the R functions into compatibility adapters that output canonical RDF.
+   `impact-declaration-shapes.ttl`, including indicator definition and
+   observation shapes that reference the indicator ontology.
+6. Turn the R functions into compatibility adapters that output canonical RDF,
+   replacing `indimp:unitOfMeasure` string literals with `ind:hasUnit` QUDT IRIs.
 8. Add claim/report wrappers after the direct domain shapes validate.
-9. Design monitoring report requirements as measured impact reports.
+9. Design monitoring report requirements as measured impact reports using
+   `ind:IndicatorObservation`.
 10. Add validation fixtures and CI checks.
 
 ## Working Principle
