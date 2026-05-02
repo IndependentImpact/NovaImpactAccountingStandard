@@ -378,6 +378,12 @@
       "group": "ns"
     },
     {
+      "id": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "label": "Monitored or fixed ex-ante",
+      "type": "class",
+      "group": "ns"
+    },
+    {
       "id": "https://independentimpact.org/ns/TechMeasType",
       "label": "Technology or measure subtypes",
       "type": "class",
@@ -420,6 +426,12 @@
       "group": "ns"
     },
     {
+      "id": "https://independentimpact.org/ns/fixed-ex-ante",
+      "label": "Fixed ex-ante",
+      "type": "class",
+      "group": "ns"
+    },
+    {
       "id": "https://independentimpact.org/ns/intentional",
       "label": "Intentional",
       "type": "class",
@@ -428,6 +440,12 @@
     {
       "id": "https://independentimpact.org/ns/mr-verifier",
       "label": "MR verifier",
+      "type": "class",
+      "group": "ns"
+    },
+    {
+      "id": "https://independentimpact.org/ns/monitored",
+      "label": "Monitored",
       "type": "class",
       "group": "ns"
     },
@@ -556,6 +574,16 @@
       "label": "topConceptOf"
     },
     {
+      "source": "https://independentimpact.org/ns/fixed-ex-ante",
+      "target": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "label": "inScheme"
+    },
+    {
+      "source": "https://independentimpact.org/ns/fixed-ex-ante",
+      "target": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "label": "topConceptOf"
+    },
+    {
       "source": "https://independentimpact.org/ns/intentional",
       "target": "https://independentimpact.org/ns/ImpactIntentionality",
       "label": "inScheme"
@@ -573,6 +601,16 @@
     {
       "source": "https://independentimpact.org/ns/mr-verifier",
       "target": "https://independentimpact.org/ns/LicenseScope",
+      "label": "topConceptOf"
+    },
+    {
+      "source": "https://independentimpact.org/ns/monitored",
+      "target": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "label": "inScheme"
+    },
+    {
+      "source": "https://independentimpact.org/ns/monitored",
+      "target": "https://independentimpact.org/ns/MonitoredOrFixed",
       "label": "topConceptOf"
     },
     {
@@ -788,6 +826,16 @@
     {
       "source": "https://independentimpact.org/ns/TechMeasType",
       "target": "https://independentimpact.org/ns/system",
+      "label": "hasTopConcept"
+    },
+    {
+      "source": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "target": "https://independentimpact.org/ns/fixed-ex-ante",
+      "label": "hasTopConcept"
+    },
+    {
+      "source": "https://independentimpact.org/ns/MonitoredOrFixed",
+      "target": "https://independentimpact.org/ns/monitored",
       "label": "hasTopConcept"
     }
   ],

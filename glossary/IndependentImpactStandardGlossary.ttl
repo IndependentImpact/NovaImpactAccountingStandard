@@ -37,6 +37,18 @@ indimp:intentional a skos:Concept ;
     skos:prefLabel "Intentional" ;
     skos:topConceptOf indimp:ImpactIntentionality .
 
+indimp:fixed-ex-ante a skos:Concept ;
+    skos:definition "Parameter or data point whose value is determined and fixed prior to the start of the crediting period." ;
+    skos:inScheme indimp:MonitoredOrFixed ;
+    skos:prefLabel "Fixed ex-ante" ;
+    skos:topConceptOf indimp:MonitoredOrFixed .
+
+indimp:monitored a skos:Concept ;
+    skos:definition "Parameter or data point whose value is determined through ongoing monitoring during the crediting period." ;
+    skos:inScheme indimp:MonitoredOrFixed ;
+    skos:prefLabel "Monitored" ;
+    skos:topConceptOf indimp:MonitoredOrFixed .
+
 indimp:mr-verifier a skos:Concept ;
     skos:definition "License scope permitting verification of monitoring reports." ;
     skos:inScheme indimp:LicenseScope ;
@@ -161,4 +173,10 @@ indimp:TechMeasType a skos:ConceptScheme ;
         indimp:other,
         indimp:system ;
     skos:prefLabel "Technology or measure subtypes" .
+
+indimp:MonitoredOrFixed a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary indicating whether a data parameter will be monitored during the crediting period or fixed ex-ante." ;
+    skos:hasTopConcept indimp:fixed-ex-ante,
+        indimp:monitored ;
+    skos:prefLabel "Monitored or fixed ex-ante" .
 
