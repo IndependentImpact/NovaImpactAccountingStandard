@@ -50,6 +50,11 @@ indimp:Methodology a owl:Class ;
     rdfs:subClassOf aiao:Control ;
     skos:definition "'A system of methods used in a particular area of study or activity.' (Oxford Languages)"@en .
 
+indimp:MonitoringReport a owl:Class ;
+    rdfs:label "MonitoringReport"@en ;
+    rdfs:subClassOf data:Document ;
+    skos:definition "A monitoring report documenting the measured impacts of a project activity for a specific crediting period."@en .
+
 indimp:PlatformUser a owl:Class ;
     rdfs:label "PlatformUser"@en ;
     rdfs:subClassOf owl:Thing ;
@@ -267,11 +272,17 @@ indimp:monitoringPeriod a owl:ObjectProperty ;
     rdfs:range time:Interval ;
     skos:definition "A monitoring period for an impact."@en .
 
-indimp:monitoringReport a owl:ObjectProperty ;
-    rdfs:label "monitoringReport"@en ;
-    rdfs:domain [ owl:unionOf ( aiao:Activity aiao:Project ) ] ;
-    rdfs:range data:Document ;
-    skos:definition "A monitoring report for a project or an activity."@en .
+indimp:forActivity a owl:ObjectProperty ;
+    rdfs:label "forActivity"@en ;
+    rdfs:domain indimp:MonitoringReport ;
+    rdfs:range aiao:Activity ;
+    skos:definition "The project activity that a monitoring report is about."@en .
+
+indimp:forPeriod a owl:ObjectProperty ;
+    rdfs:label "forPeriod"@en ;
+    rdfs:domain indimp:MonitoringReport ;
+    rdfs:range indimp:CreditingPeriod ;
+    skos:definition "The crediting period that a monitoring report covers."@en .
 
 indimp:notMonitoredJustification a owl:DatatypeProperty ;
     rdfs:label "notMonitoredJustification"@en ;
