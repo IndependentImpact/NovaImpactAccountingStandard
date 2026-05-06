@@ -1,5 +1,4 @@
-
-# Independent Impact Standard 
+# Nova Impact Accounting Standard
 
 <!-- toc -->
 <!-- tocstop -->
@@ -13,6 +12,12 @@
 !INCLUDE "04-a-KnowledgeAndSkillsReputationRules.md"
 
 !INCLUDE "05-a-ActivityScoringRules.md"
+
+!INCLUDE "06-a-IndicatorScoringRules.md"
+
+!INCLUDE "07-a-MethodologyScoringRules.md"
+
+!INCLUDE "08-a-InstrumentScoringRules.md"
 
 !INCLUDE "14-Appendices.md"
 
