@@ -408,6 +408,12 @@
       "group": "ns"
     },
     {
+      "id": "https://independentimpact.org/ns/MonitoringReport",
+      "label": "MonitoringReport",
+      "type": "class",
+      "group": "ns"
+    },
+    {
       "id": "https://independentimpact.org/ns/PlatformUser",
       "label": "PlatformUser",
       "type": "class",
@@ -506,6 +512,24 @@
     {
       "id": "https://independentimpact.org/ns/estimatedLifespanInYears",
       "label": "estimatedLifespanInYears",
+      "type": "property",
+      "group": "ns"
+    },
+    {
+      "id": "https://independentimpact.org/ns/alignedWithPDD",
+      "label": "alignedWithPDD",
+      "type": "property",
+      "group": "ns"
+    },
+    {
+      "id": "https://independentimpact.org/ns/forPeriod",
+      "label": "forPeriod",
+      "type": "property",
+      "group": "ns"
+    },
+    {
+      "id": "https://independentimpact.org/ns/hasMonitoringReport",
+      "label": "hasMonitoringReport",
       "type": "property",
       "group": "ns"
     },
@@ -703,6 +727,11 @@
       "label": "subClassOf"
     },
     {
+      "source": "https://independentimpact.org/ns/MonitoringReport",
+      "target": "https://jellyfiiish.xyz/ns/Document",
+      "label": "subClassOf"
+    },
+    {
       "source": "https://independentimpact.org/ns/PlatformUser",
       "target": "http://www.w3.org/2002/07/owl#Thing",
       "label": "subClassOf"
@@ -869,14 +898,19 @@
       "label": "isLinkedToHederaAccount"
     },
     {
-      "source": "https://w3id.org/aiao/Activity",
+      "source": "https://independentimpact.org/ns/MonitoringReport",
+      "target": "http://www.w3.org/2006/time#Interval",
+      "label": "forPeriod"
+    },
+    {
+      "source": "https://independentimpact.org/ns/MonitoringReport",
       "target": "https://jellyfiiish.xyz/ns/Document",
-      "label": "monitoringReport"
+      "label": "alignedWithPDD"
     },
     {
       "source": "https://w3id.org/aiao/Project",
-      "target": "https://jellyfiiish.xyz/ns/Document",
-      "label": "monitoringReport"
+      "target": "https://independentimpact.org/ns/MonitoringReport",
+      "label": "hasMonitoringReport"
     },
     {
       "source": "http://purl.org/dc/terms/Resource",
