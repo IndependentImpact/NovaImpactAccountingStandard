@@ -516,14 +516,20 @@
       "group": "ns"
     },
     {
-      "id": "https://independentimpact.org/ns/forActivity",
-      "label": "forActivity",
+      "id": "https://independentimpact.org/ns/alignedWithPDD",
+      "label": "alignedWithPDD",
       "type": "property",
       "group": "ns"
     },
     {
       "id": "https://independentimpact.org/ns/forPeriod",
       "label": "forPeriod",
+      "type": "property",
+      "group": "ns"
+    },
+    {
+      "id": "https://independentimpact.org/ns/hasMonitoringReport",
+      "label": "hasMonitoringReport",
       "type": "property",
       "group": "ns"
     },
@@ -893,13 +899,18 @@
     },
     {
       "source": "https://independentimpact.org/ns/MonitoringReport",
-      "target": "https://w3id.org/aiao/Activity",
-      "label": "forActivity"
+      "target": "http://www.w3.org/2006/time#Interval",
+      "label": "forPeriod"
     },
     {
       "source": "https://independentimpact.org/ns/MonitoringReport",
-      "target": "https://independentimpact.org/ns/CreditingPeriod",
-      "label": "forPeriod"
+      "target": "https://jellyfiiish.xyz/ns/Document",
+      "label": "alignedWithPDD"
+    },
+    {
+      "source": "https://w3id.org/aiao/Project",
+      "target": "https://independentimpact.org/ns/MonitoringReport",
+      "label": "hasMonitoringReport"
     },
     {
       "source": "http://purl.org/dc/terms/Resource",

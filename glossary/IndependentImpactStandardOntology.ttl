@@ -272,17 +272,23 @@ indimp:monitoringPeriod a owl:ObjectProperty ;
     rdfs:range time:Interval ;
     skos:definition "A monitoring period for an impact."@en .
 
-indimp:forActivity a owl:ObjectProperty ;
-    rdfs:label "forActivity"@en ;
+indimp:alignedWithPDD a owl:ObjectProperty ;
+    rdfs:label "alignedWithPDD"@en ;
     rdfs:domain indimp:MonitoringReport ;
-    rdfs:range aiao:Activity ;
-    skos:definition "The project activity that a monitoring report is about."@en .
+    rdfs:range data:Document ;
+    skos:definition "The project design document (PDD) on which a monitoring report is based."@en .
 
 indimp:forPeriod a owl:ObjectProperty ;
     rdfs:label "forPeriod"@en ;
     rdfs:domain indimp:MonitoringReport ;
-    rdfs:range indimp:CreditingPeriod ;
-    skos:definition "The crediting period that a monitoring report covers."@en .
+    rdfs:range time:Interval ;
+    skos:definition "The monitoring period (falling within the crediting period) for which a monitoring report is valid."@en .
+
+indimp:hasMonitoringReport a owl:ObjectProperty ;
+    rdfs:label "hasMonitoringReport"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range indimp:MonitoringReport ;
+    skos:definition "A monitoring report associated with a project."@en .
 
 indimp:notMonitoredJustification a owl:DatatypeProperty ;
     rdfs:label "notMonitoredJustification"@en ;
