@@ -1,6 +1,6 @@
-# Independent Impact Standard
+# Nova Impact Accounting Standard
 
-On the [Independent Impact Platform](https://independentimpact.org), a standard provides the following artefacts:
+On the [Nova Impact Accounting Standard](https://nova.org.za/novaimpactaccountingstandard), a standard provides the following artefacts:
 
 * A **glossary** in the form of a `skos:ConceptScheme` with its terms, definitions and taxonomies.
 * A list of relevant **indicators** (expressed in terms of the Indicator Ontology), as a `skos:ConceptScheme`

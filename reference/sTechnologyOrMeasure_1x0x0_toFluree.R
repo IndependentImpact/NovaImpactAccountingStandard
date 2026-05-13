@@ -3,28 +3,28 @@ sTechnologyOrMeasure_1x0x0_toFluree <- function(lsData) {
   
   res <- list(
     '@context' = list(
-      "indimp" = "https://independentimpact.org/ns/",
+      "nias-o" = "https://nova.org.za/novaimpactaccountingstandard/",
       "schema" = "https://schema.org/"),
-    '@type' = "indimp:TechnologyOrMeasure",
-    'indimp:techMeasType' = list(
+    '@type' = "nias-o:TechnologyOrMeasure",
+    'nias-o:techMeasType' = list(
       '@id' = switch(
         lsData$type_techmeas,
-        FACILITY = "indimp:facility",
-        SYSTEM = "indimp:system",
-        EQUIPMENT = "indimp:equipment",
-        OTHER = "indimp:other")),
+        FACILITY = "nias-o:facility",
+        SYSTEM = "nias-o:system",
+        EQUIPMENT = "nias-o:equipment",
+        OTHER = "nias-o:other")),
     'schema:description' = lsData$description)
 
   if (length(jellyfi3shR::emptyOrMissingAsNull(lsData$age_current)) == 1) {
     res <- c(
       res, 
-      list('indimp:currentAgeInYears' = lsData$age_current))
+      list('nias-o:currentAgeInYears' = lsData$age_current))
   }
   
   if (length(jellyfi3shR::emptyOrMissingAsNull(lsData$lifespan_estimated)) == 1) {
     res <- c(
       res, 
-      list('indimp:estimatedLifespanInYears' = lsData$lifespan_estimated))
+      list('nias-o:estimatedLifespanInYears' = lsData$lifespan_estimated))
   }
   
   return(res)

@@ -1,0 +1,81 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:LicenseNumberShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:licenseNumber ;
+            sh:pattern "^II-(PD|PV|MV)-[0-9]{2}X[0-9]{2}X[0-9]{11}-[0-9]{8}$" ] ;
+    sh:targetClass nias-o:AgentLicense .
+
+nias-o:authProofShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:none nias-cs:eddsa-signature nias-cs:rsa-signature nias-cs:vc ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:authProof ] ;
+    sh:targetClass data:Document .
+
+nias-o:beneficialOrAdverseShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:beneficial nias-cs:adverse ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:beneficialOrAdverse ] ;
+    sh:targetClass impactont:Impact .
+
+nias-o:impactIntentionalityShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:intentional nias-cs:unintentional ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:impactIntentionality ] ;
+    sh:targetClass impactont:Impact .
+
+nias-o:licenseScopeShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:project-developer nias-cs:pdd-validator nias-cs:mr-verifier ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:licenseScope ] ;
+    sh:targetClass nias-o:AgentLicense .
+
+nias-o:monitoredShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:yes nias-cs:no ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:monitored ] ;
+    sh:targetClass impactont:Impact .
+
+nias-o:resourceIpfsUriShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:resourceIpfsUri ;
+            sh:pattern "^(ipfs|ipns)://[a-zA-Z0-9]+(?:/[a-zA-Z0-9/._-]*)?$" ] ;
+    sh:targetClass dcterms:Resource .
+
+nias-o:techMeasTypeShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:facility nias-cs:system nias-cs:equipment nias-cs:other ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:techMeasType ] ;
+    sh:targetClass nias-o:TechnologyOrMeasure .
+
+nias-o:userTypeShape a sh:NodeShape ;
+    sh:property [ sh:class skos:Concept ;
+            sh:in ( nias-cs:standard-registry nias-cs:user ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:path nias-o:userType ] ;
+    sh:targetClass nias-o:PlatformUser .

@@ -1,9 +1,9 @@
 @prefix aiao: <http://w3id.org/aiao#> .
 @prefix data: <https://jellyfiiish.xyz/ns/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix hed: <https://independentimpact.org/ns/hedera/> .
+@prefix hed: <https://nova.org.za/novaimpactaccountingstandard/hedera/> .
 @prefix impactont: <http://w3id.org/impactont#> .
-@prefix indimp: <https://independentimpact.org/ns/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -13,370 +13,370 @@
 @prefix vcdm: <https://www.w3.org/ns/credentials/v2/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-indimp: a owl:Ontology ;
-    rdfs:label "Independent Impact Ontology"@en ;
-    rdfs:comment "Ontology for the Independent Impact Platform"@en ;
-    dcterms:title "Independent Impact Ontology"@en ;
-    dcterms:description "Ontology for the Independent Impact Platform"@en .
+nias-o: a owl:Ontology ;
+    rdfs:label "Nova Impact Accounting Standard Ontology"@en ;
+    rdfs:comment "Ontology for the Nova Impact Accounting Standard"@en ;
+    dcterms:title "Nova Impact Accounting Standard Ontology"@en ;
+    dcterms:description "Ontology for the Nova Impact Accounting Standard"@en .
 
-indimp:AgentActivityWorkflowRelation a owl:Class ;
+nias-o:AgentActivityWorkflowRelation a owl:Class ;
     rdfs:label "AgentActivityWorkflowRelation"@en ;
     rdfs:subClassOf aiao:AgentActivityRelation ;
     skos:definition "Relates an agent to an activity in the context of a specific workflow."@en .
 
-indimp:AgentLicense a owl:Class ;
+nias-o:AgentLicense a owl:Class ;
     rdfs:label "AgentLicense"@en ;
     rdfs:subClassOf vcdm:VerifiableCredential ;
-    skos:definition "A license that allows a platform user to perform specialised actions on the Independent Impact platform."@en .
+    skos:definition "A license that allows a platform user to perform specialised actions on the Nova Impact Accounting Standard platform."@en .
 
-indimp:CreditingPeriod a owl:Class ;
+nias-o:CreditingPeriod a owl:Class ;
     rdfs:label "CreditingPeriod"@en ;
     rdfs:subClassOf time:Interval ;
     skos:definition "A crediting period for a monitored impact."@en .
 
-indimp:DocumentSchema a owl:Class ;
+nias-o:DocumentSchema a owl:Class ;
     rdfs:label "DocumentSchema"@en ;
     rdfs:subClassOf dcterms:Resource,
         aiao:Control ;
     skos:definition "A specification for the structure and data types of a document."@en .
 
-indimp:EntityXhederaTopicLink a owl:Class ;
+nias-o:EntityXhederaTopicLink a owl:Class ;
     rdfs:label "EntityXhederaTopicLink"@en ;
     rdfs:subClassOf owl:Thing ;
-    skos:definition "Links an Independent Impact entity (user, project, methodology, etc.) to a Hedera topic."@en .
+    skos:definition "Links a Nova Impact Accounting Standard entity (user, project, methodology, etc.) to a Hedera topic."@en .
 
-indimp:Methodology a owl:Class ;
+nias-o:Methodology a owl:Class ;
     rdfs:label "Methodology"@en ;
     rdfs:subClassOf aiao:Control ;
     skos:definition "'A system of methods used in a particular area of study or activity.' (Oxford Languages)"@en .
 
-indimp:MonitoringReport a owl:Class ;
+nias-o:MonitoringReport a owl:Class ;
     rdfs:label "MonitoringReport"@en ;
     rdfs:subClassOf data:Document ;
     skos:definition "A monitoring report documenting the measured impacts of a project activity for a specific crediting period."@en .
 
-indimp:PlatformUser a owl:Class ;
+nias-o:PlatformUser a owl:Class ;
     rdfs:label "PlatformUser"@en ;
     rdfs:subClassOf owl:Thing ;
-    skos:definition "An actor on the Independent Impact platform."@en .
+    skos:definition "An actor on the Nova Impact Accounting Standard platform."@en .
 
-indimp:PlatformUserXhederaAccountLink a owl:Class ;
+nias-o:PlatformUserXhederaAccountLink a owl:Class ;
     rdfs:label "PlatformUserXhederaAccountLink"@en ;
     rdfs:subClassOf owl:Thing ;
-    skos:definition "Links an Independent Impact platform user to a Hedera account."@en .
+    skos:definition "Links an Nova Impact Accounting Standard platform user to a Hedera account."@en .
 
-indimp:TechnologyOrMeasure a owl:Class ;
+nias-o:TechnologyOrMeasure a owl:Class ;
     rdfs:label "TechnologyOrMeasure"@en ;
     rdfs:subClassOf aiao:Instrument ;
     skos:definition "A measure or a type of technology that will be implemented or employed by a project or an activity to achieve its purpose."@en .
 
-indimp:Workflow a owl:Class ;
+nias-o:Workflow a owl:Class ;
     rdfs:label "Workflow"@en ;
     rdfs:subClassOf aiao:Control ;
     skos:definition "A set of actions, processes or procedures that must be executed or performed to achieve a specific outcome."@en .
 
-indimp:WorkflowDocumentSubmission a owl:Class ;
+nias-o:WorkflowDocumentSubmission a owl:Class ;
     rdfs:label "WorkflowDocumentSubmission"@en ;
     rdfs:subClassOf owl:Thing ;
     skos:definition "Records the submission of a document to a specific step of a specific workflow for a specific workflow subject."@en .
 
-indimp:WorkflowStep a owl:Class ;
+nias-o:WorkflowStep a owl:Class ;
     rdfs:label "WorkflowStep"@en ;
     rdfs:subClassOf aiao:Control ;
     skos:definition "A single action, process or procedure of a workflow."@en .
 
-indimp:additionalInfo a owl:DatatypeProperty ;
+nias-o:additionalInfo a owl:DatatypeProperty ;
     rdfs:label "additionalInfo"@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:string ;
     skos:definition "Any additional information about a thing."@en .
 
-indimp:additionalityJustification a owl:DatatypeProperty ;
+nias-o:additionalityJustification a owl:DatatypeProperty ;
     rdfs:label "additionalityJustification"@en ;
     rdfs:domain impactont:Impact ;
     rdfs:range xsd:string ;
     skos:definition "A justification for why an impact is considered additional."@en .
 
-indimp:authProof a owl:ObjectProperty ;
+nias-o:authProof a owl:ObjectProperty ;
     rdfs:label "authProof"@en ;
     rdfs:domain data:Document ;
     rdfs:range skos:Concept ;
     skos:definition "The mechanism by which the authenticity of a document can be proven."@en .
 
-indimp:beneficialOrAdverse a owl:ObjectProperty ;
+nias-o:beneficialOrAdverse a owl:ObjectProperty ;
     rdfs:label "beneficialOrAdverse"@en ;
     rdfs:domain impactont:Impact ;
     rdfs:range skos:Concept ;
     skos:definition "Indicates whether an impact of a project or an activity (whether intended or unintended) was an environmentally beneficial or environmentally adverse impact."@en .
 
-indimp:createdBy a owl:ObjectProperty ;
+nias-o:createdBy a owl:ObjectProperty ;
     rdfs:label "createdBy"@en ;
     rdfs:domain aiao:Project ;
-    rdfs:range indimp:PlatformUser ;
-    skos:definition "The Independent Impact platform user who created the project."@en .
+    rdfs:range nias-o:PlatformUser ;
+    skos:definition "The Nova Impact Accounting Standard platform user who created the project."@en .
 
-indimp:creditingPeriod a owl:ObjectProperty ;
+nias-o:creditingPeriod a owl:ObjectProperty ;
     rdfs:label "creditingPeriod"@en ;
     rdfs:domain impactont:Impact ;
-    rdfs:range indimp:CreditingPeriod ;
+    rdfs:range nias-o:CreditingPeriod ;
     skos:definition "A crediting period for an impact. Must cover at least one monitoring period."@en .
 
-indimp:creditingPeriodIsRenewable a owl:DatatypeProperty ;
+nias-o:creditingPeriodIsRenewable a owl:DatatypeProperty ;
     rdfs:label "creditingPeriodIsRenewable"@en ;
-    rdfs:domain indimp:CreditingPeriod ;
+    rdfs:domain nias-o:CreditingPeriod ;
     rdfs:range xsd:boolean ;
     skos:definition "Indicates whether a crediting period is renewable or not."@en .
 
-indimp:currentAgeInYears a owl:DatatypeProperty ;
+nias-o:currentAgeInYears a owl:DatatypeProperty ;
     rdfs:label "currentAgeInYears"@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:decimal ;
     skos:definition "The age of a thing, given in years, at the time of reporting."@en .
 
-indimp:dateCreated a owl:DatatypeProperty ;
+nias-o:dateCreated a owl:DatatypeProperty ;
     rdfs:label "dateCreated"@en ;
     rdfs:domain aiao:Project ;
     rdfs:range xsd:dateTime ;
-    skos:definition "The timestamp at which a project was created on the Independent Impact platform."@en .
+    skos:definition "The timestamp at which a project was created on the Nova Impact Accounting Standard platform."@en .
 
-indimp:dateRegistered a owl:DatatypeProperty ;
+nias-o:dateRegistered a owl:DatatypeProperty ;
     rdfs:label "dateRegistered"@en ;
-    rdfs:domain indimp:PlatformUser ;
+    rdfs:domain nias-o:PlatformUser ;
     rdfs:range xsd:dateTime ;
-    skos:definition "The timestamp at which a user account was created on the Independent Impact platform."@en .
+    skos:definition "The timestamp at which a user account was created on the Nova Impact Accounting Standard platform."@en .
 
-indimp:didDocument a owl:ObjectProperty ;
+nias-o:didDocument a owl:ObjectProperty ;
     rdfs:label "didDocument"@en ;
-    rdfs:domain indimp:PlatformUser ;
+    rdfs:domain nias-o:PlatformUser ;
     rdfs:range data:Document ;
     skos:definition "The document providing a platform user's DID and its associated properties."@en .
 
-indimp:documentAuthor a owl:AnnotationProperty ;
+nias-o:documentAuthor a owl:AnnotationProperty ;
     rdfs:label "author"@en ;
     rdfs:domain data:Document ;
-    rdfs:range [ owl:unionOf ( indimp:PlatformUser aiao:Agent rdfs:Literal ) ] ;
+    rdfs:range [ owl:unionOf ( nias-o:PlatformUser aiao:Agent rdfs:Literal ) ] ;
     skos:definition "Identifies an entity responsible for the creation of the content of a document."@en .
 
-indimp:documentSchema a owl:ObjectProperty ;
+nias-o:documentSchema a owl:ObjectProperty ;
     rdfs:label "documentSchema"@en ;
     rdfs:domain data:Document ;
-    rdfs:range indimp:DocumentSchema ;
+    rdfs:range nias-o:DocumentSchema ;
     skos:definition "A schema specifying the format and structure that a document must adhere to."@en .
 
-indimp:entityXhederaTopicLinkDescription a owl:DatatypeProperty ;
+nias-o:entityXhederaTopicLinkDescription a owl:DatatypeProperty ;
     rdfs:label "description"@en ;
-    rdfs:domain indimp:EntityXhederaTopicLink ;
+    rdfs:domain nias-o:EntityXhederaTopicLink ;
     rdfs:range xsd:string ;
     skos:definition "A description of the link between an entity and a Hedera topic, e.g., 'DID'."@en .
 
-indimp:estimatedLifespanInYears a owl:DatatypeProperty ;
+nias-o:estimatedLifespanInYears a owl:DatatypeProperty ;
     rdfs:label "estimatedLifespanInYears"@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:decimal ;
     skos:definition "The estimated lifespan of a thing, given in years."@en .
 
-indimp:hasAgentLicense a owl:ObjectProperty ;
+nias-o:hasAgentLicense a owl:ObjectProperty ;
     rdfs:label "hasAgentLicense"@en ;
-    rdfs:domain indimp:PlatformUser ;
-    rdfs:range indimp:AgentLicense ;
-    skos:definition "An Independent Impact Agent License held by a platform user."@en .
+    rdfs:domain nias-o:PlatformUser ;
+    rdfs:range nias-o:AgentLicense ;
+    skos:definition "An Nova Impact Accounting Standard Agent License held by a platform user."@en .
 
-indimp:hasVerifiableCredential a owl:ObjectProperty ;
+nias-o:hasVerifiableCredential a owl:ObjectProperty ;
     rdfs:label "hasVerifiableCredential"@en ;
-    rdfs:domain [ owl:unionOf ( indimp:PlatformUser aiao:Activity aiao:Project ) ] ;
+    rdfs:domain [ owl:unionOf ( nias-o:PlatformUser aiao:Activity aiao:Project ) ] ;
     rdfs:range vcdm:VerifiableCredential ;
     skos:definition "A verifiable credential document held by an entity (e.g., by a user or an activity)."@en .
 
-indimp:hasWorkflowStep a owl:ObjectProperty ;
+nias-o:hasWorkflowStep a owl:ObjectProperty ;
     rdfs:label "Workflow"@en ;
-    rdfs:domain indimp:Workflow ;
-    rdfs:range indimp:WorkflowStep ;
+    rdfs:domain nias-o:Workflow ;
+    rdfs:range nias-o:WorkflowStep ;
     skos:definition "A specific step of a workflow."@en .
 
-indimp:hasWorkflowSubmission a owl:ObjectProperty ;
+nias-o:hasWorkflowSubmission a owl:ObjectProperty ;
     rdfs:label "hasWorkflowSubmission"@en ;
     rdfs:comment "Provides details about a workflow submission for the document in question." ;
     rdfs:domain data:Document ;
-    rdfs:range indimp:WorkflowDocumentSubmission .
+    rdfs:range nias-o:WorkflowDocumentSubmission .
 
-indimp:hederaAccount a owl:ObjectProperty ;
+nias-o:hederaAccount a owl:ObjectProperty ;
     rdfs:label "hederaAccount"@en ;
-    rdfs:domain indimp:PlatformUserXhederaAccountLink ;
+    rdfs:domain nias-o:PlatformUserXhederaAccountLink ;
     rdfs:range hed:HederaAccount ;
     skos:definition "A Hedera account."@en .
 
-indimp:hederaTopic a owl:ObjectProperty ;
+nias-o:hederaTopic a owl:ObjectProperty ;
     rdfs:label "hederaTopic"@en ;
-    rdfs:domain indimp:EntityXhederaTopicLink ;
+    rdfs:domain nias-o:EntityXhederaTopicLink ;
     rdfs:range hed:HederaTopic ;
     skos:definition "A Hedera topic."@en .
 
-indimp:impactIntentionality a owl:ObjectProperty ;
+nias-o:impactIntentionality a owl:ObjectProperty ;
     rdfs:label "intentionality"@en ;
     rdfs:comment "An unintentional impact (whether beneficial or adverse) is typically referred to as 'leakage'." ;
     rdfs:domain impactont:Impact ;
     rdfs:range skos:Concept ;
     skos:definition "Indicates whether an of a project or activity was an intentional or an unintentional impact."@en .
 
-indimp:isEncrypted a owl:DatatypeProperty ;
+nias-o:isEncrypted a owl:DatatypeProperty ;
     rdfs:label "isEncrypted"@en ;
     rdfs:domain dcterms:Resource ;
     rdfs:range xsd:boolean ;
     skos:definition "Indicates whether the content of a resource is encrypted."@en .
 
-indimp:isLinkedToHederaAccount a owl:ObjectProperty ;
+nias-o:isLinkedToHederaAccount a owl:ObjectProperty ;
     rdfs:label "isLinkedToHederaAccount"@en ;
-    rdfs:comment "Links an Independent Impact platform user to a Hedera account." ;
-    rdfs:domain indimp:PlatformUser ;
-    rdfs:range indimp:PlatformUserXhederaAccountLink .
+    rdfs:comment "Links an Nova Impact Accounting Standard platform user to a Hedera account." ;
+    rdfs:domain nias-o:PlatformUser ;
+    rdfs:range nias-o:PlatformUserXhederaAccountLink .
 
-indimp:isLinkedToHederaTopic a owl:ObjectProperty ;
+nias-o:isLinkedToHederaTopic a owl:ObjectProperty ;
     rdfs:label "isLinkedToHederaTopic"@en ;
-    rdfs:comment "Links an Independent Impact entity to a Hedera topic." ;
-    rdfs:domain indimp:PlatformUser ;
-    rdfs:range indimp:EntityXhederaTopicLink .
+    rdfs:comment "Links an Nova Impact Accounting Standard entity to a Hedera topic." ;
+    rdfs:domain nias-o:PlatformUser ;
+    rdfs:range nias-o:EntityXhederaTopicLink .
 
-indimp:isReviewOf a owl:ObjectProperty ;
+nias-o:isReviewOf a owl:ObjectProperty ;
     rdfs:label "isReviewOf"@en ;
     rdfs:comment "Identifies a document as a review of another document." ;
     rdfs:domain data:Document ;
     rdfs:range data:Document .
 
-indimp:licenseNumber a owl:DatatypeProperty ;
+nias-o:licenseNumber a owl:DatatypeProperty ;
     rdfs:label "licenseNumber"@en ;
-    rdfs:domain indimp:AgentLicense ;
+    rdfs:domain nias-o:AgentLicense ;
     rdfs:range xsd:string ;
-    skos:definition "A unique string identifier for an Independent Impact Agent License."@en .
+    skos:definition "A unique string identifier for an Nova Impact Accounting Standard Agent License."@en .
 
-indimp:licenseScope a owl:ObjectProperty ;
+nias-o:licenseScope a owl:ObjectProperty ;
     rdfs:label "licenseScope"@en ;
-    rdfs:domain indimp:AgentLicense ;
+    rdfs:domain nias-o:AgentLicense ;
     rdfs:range skos:Concept ;
-    skos:definition "The set of actions that the holder of the license is allowed to perform on the Independent Impact platform."@en .
+    skos:definition "The set of actions that the holder of the license is allowed to perform on the Nova Impact Accounting Standard platform."@en .
 
-indimp:locationShapefile a owl:ObjectProperty ;
+nias-o:locationShapefile a owl:ObjectProperty ;
     rdfs:label "locationShapefile"@en ;
     rdfs:domain [ owl:unionOf ( aiao:Activity aiao:Project ) ] ;
     rdfs:range dcterms:Resource ;
     skos:definition "The shapefile for a physical location of a project or an activity."@en .
 
-indimp:monitored a owl:ObjectProperty ;
+nias-o:monitored a owl:ObjectProperty ;
     rdfs:label "monitored"@en ;
     rdfs:domain impactont:Impact ;
     rdfs:range skos:Concept ;
     skos:definition "Indicates whether an impact of a project or an activity will be monitored or not."@en .
 
-indimp:monitoringPeriod a owl:ObjectProperty ;
+nias-o:monitoringPeriod a owl:ObjectProperty ;
     rdfs:label "monitoringPeriod"@en ;
     rdfs:domain impactont:Impact ;
     rdfs:range time:Interval ;
     skos:definition "A monitoring period for an impact."@en .
 
-indimp:alignedWithPDD a owl:ObjectProperty ;
+nias-o:alignedWithPDD a owl:ObjectProperty ;
     rdfs:label "alignedWithPDD"@en ;
-    rdfs:domain indimp:MonitoringReport ;
+    rdfs:domain nias-o:MonitoringReport ;
     rdfs:range data:Document ;
     skos:definition "The project design document (PDD) on which a monitoring report is based."@en .
 
-indimp:forPeriod a owl:ObjectProperty ;
+nias-o:forPeriod a owl:ObjectProperty ;
     rdfs:label "forPeriod"@en ;
-    rdfs:domain indimp:MonitoringReport ;
+    rdfs:domain nias-o:MonitoringReport ;
     rdfs:range time:Interval ;
     skos:definition "The monitoring period (falling within the crediting period) for which a monitoring report is valid."@en .
 
-indimp:hasMonitoringReport a owl:ObjectProperty ;
+nias-o:hasMonitoringReport a owl:ObjectProperty ;
     rdfs:label "hasMonitoringReport"@en ;
     rdfs:domain aiao:Project ;
-    rdfs:range indimp:MonitoringReport ;
+    rdfs:range nias-o:MonitoringReport ;
     skos:definition "A monitoring report associated with a project."@en .
 
-indimp:notMonitoredJustification a owl:DatatypeProperty ;
+nias-o:notMonitoredJustification a owl:DatatypeProperty ;
     rdfs:label "notMonitoredJustification"@en ;
     rdfs:domain impactont:Impact ;
     rdfs:range xsd:string ;
     skos:definition "Provides a justification for why an impact of a project or activity will not be monitored."@en .
 
-indimp:platformUserXhederaAccountLinkDescription a owl:DatatypeProperty ;
+nias-o:platformUserXhederaAccountLinkDescription a owl:DatatypeProperty ;
     rdfs:label "description"@en ;
-    rdfs:domain indimp:PlatformUserXhederaAccountLink ;
+    rdfs:domain nias-o:PlatformUserXhederaAccountLink ;
     rdfs:range xsd:string ;
     skos:definition "A description of the link between a platform user and a Hedera account, e.g., 'PRIMARY_ACCOUNT'."@en .
 
-indimp:projectHistory a owl:DatatypeProperty ;
+nias-o:projectHistory a owl:DatatypeProperty ;
     rdfs:label "projectHistory"@en ;
     rdfs:domain aiao:Project ;
     rdfs:range xsd:string ;
     skos:definition "The history of the project and its activities."@en .
 
-indimp:resourceHederaMessageId a owl:ObjectProperty ;
+nias-o:resourceHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
     rdfs:domain dcterms:Resource ;
     rdfs:range hed:HederaMessageId ;
-    skos:definition "The ID of the Hedera consensus message that recorded the moment of publication, listing or receipt (by the II platform) of the resource in question."@en .
+    skos:definition "The ID of the Hedera consensus message that recorded the moment of publication, listing or receipt (by the NIAS platform) of the resource in question."@en .
 
-indimp:resourceIpfsUri a owl:DatatypeProperty ;
+nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:label "ipfsUri"@en ;
     rdfs:comment "If no value is provided for this property, the content of the resource should be provided via the data:resourceContent property, or the location of the content should be provided via the data:resourceContentLocation property." ;
     rdfs:domain dcterms:Resource ;
     rdfs:range xsd:string ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
 
-indimp:techMeasType a owl:ObjectProperty ;
+nias-o:techMeasType a owl:ObjectProperty ;
     rdfs:label "techMeasType"@en ;
-    rdfs:domain indimp:TechnologyOrMeasure ;
+    rdfs:domain nias-o:TechnologyOrMeasure ;
     rdfs:range skos:Concept ;
     skos:definition "The subtype of a technology or measure to be implemented or employed by a project or an activity."@en .
 
-indimp:technologyOrMeasure a owl:ObjectProperty ;
+nias-o:technologyOrMeasure a owl:ObjectProperty ;
     rdfs:label "technologyOrMeasure"@en ;
     rdfs:domain [ owl:unionOf ( aiao:Activity aiao:Project ) ] ;
-    rdfs:range indimp:TechnologyOrMeasure ;
+    rdfs:range nias-o:TechnologyOrMeasure ;
     skos:definition "The technology or measures to be implemented or employed by a project or an activity."@en .
 
-indimp:title a owl:DatatypeProperty ;
+nias-o:title a owl:DatatypeProperty ;
     rdfs:label "title"@en ;
     rdfs:domain [ owl:unionOf ( aiao:Activity aiao:Project ) ] ;
     rdfs:range xsd:string ;
     skos:definition "A human-friendly title for an activity or project."@en .
 
-indimp:unitOfMeasure a owl:DatatypeProperty ;
+nias-o:unitOfMeasure a owl:DatatypeProperty ;
     rdfs:label "unitOfMeasure"@en ;
     rdfs:domain impactont:Indicator ;
     rdfs:range xsd:string ;
     skos:definition "A unit of measure."@en .
 
-indimp:userType a owl:ObjectProperty ;
+nias-o:userType a owl:ObjectProperty ;
     rdfs:label "userType"@en ;
-    rdfs:domain indimp:PlatformUser ;
+    rdfs:domain nias-o:PlatformUser ;
     rdfs:range skos:Concept ;
-    skos:definition "The Independent Impact platform user type."@en .
+    skos:definition "The Nova Impact Accounting Standard platform user type."@en .
 
-indimp:workflow a owl:ObjectProperty ;
+nias-o:workflow a owl:ObjectProperty ;
     rdfs:label "workflow"@en ;
-    rdfs:domain [ owl:unionOf ( indimp:WorkflowDocumentSubmission indimp:AgentActivityWorkflowRelation ) ] ;
-    rdfs:range indimp:Workflow ;
+    rdfs:domain [ owl:unionOf ( nias-o:WorkflowDocumentSubmission nias-o:AgentActivityWorkflowRelation ) ] ;
+    rdfs:range nias-o:Workflow ;
     skos:definition "The workflow to which a document was submitted, or in the context of which an agent-activity relation exists."@en .
 
-indimp:workflowDocumentSubmissionHederaMessageId a owl:ObjectProperty ;
+nias-o:workflowDocumentSubmissionHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
-    rdfs:domain indimp:WorkflowDocumentSubmission ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
     rdfs:range hed:HederaMessageId ;
     skos:definition "The ID of the Hedera consensus message that recorded the moment that a document was submitted to a specific workflow."@en .
 
-indimp:workflowDocumentSubmittedBy a owl:ObjectProperty ;
+nias-o:workflowDocumentSubmittedBy a owl:ObjectProperty ;
     rdfs:label "submittedBy"@en ;
-    rdfs:domain indimp:WorkflowDocumentSubmission ;
-    rdfs:range indimp:PlatformUser ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range nias-o:PlatformUser ;
     skos:definition "The platform user who submitted the document."@en .
 
-indimp:workflowStep a owl:ObjectProperty ;
+nias-o:workflowStep a owl:ObjectProperty ;
     rdfs:label "workflowStep"@en ;
-    rdfs:domain indimp:WorkflowDocumentSubmission ;
-    rdfs:range indimp:WorkflowStep ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range nias-o:WorkflowStep ;
     skos:definition "The workflow step to which the document was submitted."@en .
 
-indimp:workflowSubject a owl:ObjectProperty ;
+nias-o:workflowSubject a owl:ObjectProperty ;
     rdfs:label "workflowSubject"@en ;
-    rdfs:domain indimp:WorkflowDocumentSubmission ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
     rdfs:range owl:Thing ;
     skos:definition "The subject of the workflow in respect of which or whom the document was submitted."@en .

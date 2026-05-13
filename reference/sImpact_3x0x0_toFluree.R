@@ -2,39 +2,39 @@ sImpact_3x0x0_toFluree <- function(lsData, projectId) {
   
   res <- list(
     '@context' = list(
-      "indimp" = "https://independentimpact.org/ns/",
+      "nias-o" = "https://nova.org.za/novaimpactaccountingstandard/",
       "schema" = "https://schema.org/",
       "impactont" = "https://w3id.org/impactont/"),
     
     '@type' = "impactont:Impact",
     
-    'indimp:impactIntentionality' = list(
+    'nias-o:impactIntentionality' = list(
       '@id' = switch(
         lsData$intentionality,
-        INTENTIONAL = "indimp:intentional",
-        UNINTENTIONAL = "indimp:unintentional")),
-    'indimp:beneficialOrAdverse' = list(
+        INTENTIONAL = "nias-o:intentional",
+        UNINTENTIONAL = "nias-o:unintentional")),
+    'nias-o:beneficialOrAdverse' = list(
       '@id' = switch(
         lsData$beneficial_or_adverse,
-        BENEFICIAL = "indimp:beneficial",
-        ADVERSE = "indimp:adverse")),
+        BENEFICIAL = "nias-o:beneficial",
+        ADVERSE = "nias-o:adverse")),
     'schema:description' = lsData$description,
-    'indimp:monitored' = list(
+    'nias-o:monitored' = list(
       '@id' = switch(
         lsData$monitored,
-        YES = "indimp:yes",
-        NO = "indimp:no")))
+        YES = "nias-o:yes",
+        NO = "nias-o:no")))
   
   if (length(jellyfi3shR::emptyOrMissingAsNull(lsData$not_monitored_justifcation)) == 1) {
     res <- c(
       res,
-      list('indimp:notMonitoredJustification' = lsData$not_monitored_justification))
+      list('nias-o:notMonitoredJustification' = lsData$not_monitored_justification))
   } else {
     
     res <- c(
       res,
       list(
-        'indimp:additionalityJustification' = lsData$additionality,
+        'nias-o:additionalityJustification' = lsData$additionality,
         'impactont:hasStateA' = state_toFluree(
           dtStart = lsData$crediting_period$datetime_start, 
           dtEnd = lsData$crediting_period$datetime_end, 
@@ -56,21 +56,21 @@ sImpact_3x0x0_toFluree <- function(lsData, projectId) {
           val = lsData$state_project),
         
         'impactont:hasProvenance' = list(
-          '@id' = paste0("indimp:activities/", projectId)),
+          '@id' = paste0("nias-o:activities/", projectId)),
         
-        'indimp:monitoringPeriod' = lapply(X = lsData$monitoring_periods, FUN = function(p) {
+        'nias-o:monitoringPeriod' = lapply(X = lsData$monitoring_periods, FUN = function(p) {
           return(dateTimePeriod_toFluree(
             start = p$datetime_start, 
             end = p$datetime_end))
         }), # < list of lists because it can have multiple monitoring periods 
         # during a single crediting period.
         
-        'indimp:creditingPeriod' = creditingPeriod_toFluree(
+        'nias-o:creditingPeriod' = creditingPeriod_toFluree(
           start = lsData$crediting_period$datetime_start, 
           end = lsData$crediting_period$datetime_end, 
           renewable = lsData$crediting_period_type == "RENEWABLE"),
         
-        'indimp:indicatorMethodology' = lapply(
+        'nias-o:indicatorMethodology' = lapply(
           X = lsData$methodologies, 
           FUN = function(m) {
             return(sMethodology_1x0x0_toFluree(

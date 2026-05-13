@@ -5,7 +5,7 @@
 When a series of forms are interlinked — specifically where a later form
 requires proof that a preceding form was successfully completed (for example, by
 referencing its Hedera message ID or IPFS address) — do we need an explicit
-`indimp:Workflow` / `indimp:WorkflowStep` construct, or can sequencing be
+`nias-o:Workflow` / `nias-o:WorkflowStep` construct, or can sequencing be
 enforced purely through predecessor references?
 
 ---
@@ -38,11 +38,11 @@ The README states this directly:
 
 The ontology currently defines:
 
-- `indimp:Workflow` — a named set of steps that must be executed to achieve an
+- `nias-o:Workflow` — a named set of steps that must be executed to achieve an
   outcome (`rdfs:subClassOf aiao:Control`).
-- `indimp:WorkflowStep` — a single step within a workflow
+- `nias-o:WorkflowStep` — a single step within a workflow
   (`rdfs:subClassOf aiao:Control`).
-- `indimp:WorkflowDocumentSubmission` — records which document was submitted to
+- `nias-o:WorkflowDocumentSubmission` — records which document was submitted to
   which step of which workflow for which subject, and by whom.
 
 ---
@@ -63,7 +63,7 @@ Project and PDD (Project Design Document) workflow as a concrete example:
 
 Each step's SHACL shape can require that the predecessor reference in the
 document headers points to a document of the correct type and with an approved
-status. No named `indimp:Workflow` or `indimp:WorkflowStep` resource is needed
+status. No named `nias-o:Workflow` or `nias-o:WorkflowStep` resource is needed
 to enforce this chain. The predecessor link *is* the workflow, in a distributed
 and content-addressed form.
 
@@ -90,7 +90,7 @@ workflow classes are not without value.
 
 ### Accountability and Audit Trail
 
-`indimp:WorkflowDocumentSubmission` records:
+`nias-o:WorkflowDocumentSubmission` records:
 
 - which document was submitted,
 - to which named workflow and step,
@@ -104,7 +104,7 @@ independent of whether the workflow enforces any sequence.
 
 ### Grouping and Process Visibility
 
-A named `indimp:Workflow` resource can group all the steps of a recognised
+A named `nias-o:Workflow` resource can group all the steps of a recognised
 process (for example, the Project and PDD Workflow, the License Application
 Workflow, or the Verified Impact Certificate Workflow). This grouping is useful:
 
@@ -115,7 +115,7 @@ Workflow, or the Verified Impact Certificate Workflow). This grouping is useful:
 ### Compatibility With Existing Data
 
 The reference R functions and existing JSON-LD payloads already emit
-`indimp:workflow` and `indimp:workflowStep` properties. Removing these classes
+`nias-o:workflow` and `nias-o:workflowStep` properties. Removing these classes
 would require migrating all historical data and changing the existing
 transformation logic.
 
@@ -143,12 +143,12 @@ The recommended approach is therefore:
    reference resolves to an approved step-(N-1) document of the expected type.
    This is sufficient to enforce order without a workflow registry.
 
-2. **Keep `indimp:WorkflowDocumentSubmission` as a lightweight accountability
+2. **Keep `nias-o:WorkflowDocumentSubmission` as a lightweight accountability
    wrapper.** It records the submitter, the subject, and a Hedera message ID for
    the submission event itself. This is distinct from the document content and
    its predecessor chain.
 
-3. **Make `indimp:Workflow` and `indimp:WorkflowStep` optional metadata.**
+3. **Make `nias-o:Workflow` and `nias-o:WorkflowStep` optional metadata.**
    Forms within a standard may carry a workflow and step label for platform
    display and audit purposes, but the presence of these labels should not be
    what enforces order. The predecessor reference does that.
