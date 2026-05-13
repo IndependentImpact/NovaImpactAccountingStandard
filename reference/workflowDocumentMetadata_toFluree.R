@@ -24,36 +24,36 @@ workflowDocumentMetadata_toFluree <- function(docId = NULL, dfDocMd = NULL, dbCo
   res <- list(
     '@context' = list(
       'data' = "http://jellyfiiish.xyz/ns/",
-      'indimp' = "https://independentimpact.org/ns/",
+      'nias-o' = "https://nova.org.za/novaimpactaccountingstandard/",
       'rdfs' = "http://www.w3.org/2000/01/rdf-schema#"),
     
-    '@id' = paste0("indimp:documents/", docId),
+    '@id' = paste0("nias-o:documents/", docId),
     '@type' = "data:Document",
     
-    'indimp:resourceIpfsUri' = dfDocMd$uri_ipfs,
-    'indimp:documentSchema' = list(
-      '@type' = "indimp:DocumentSchema",
-      '@id' = paste0("indimp:document-schema/", dfDocMd$id_schema)),
-    'indimp:isEncrypted' = dfDocMd$encrypted, 
-    'indimp:documentAuthor' = list(
-      '@id' = paste0("indimp:agents/", idAuthor)),
-    'indimp:authProof' = list(
+    'nias-o:resourceIpfsUri' = dfDocMd$uri_ipfs,
+    'nias-o:documentSchema' = list(
+      '@type' = "nias-o:DocumentSchema",
+      '@id' = paste0("nias-o:document-schema/", dfDocMd$id_schema)),
+    'nias-o:isEncrypted' = dfDocMd$encrypted, 
+    'nias-o:documentAuthor' = list(
+      '@id' = paste0("nias-o:agents/", idAuthor)),
+    'nias-o:authProof' = list(
       '@id' = switch(
         dfDocMd$type_doc,
-        REGULAR_UNSIGNED = "indimp:none",
-        REGULAR_SIGNED = "indimp:eddsa-signature",
-        VC = "indimp:vc")),
+        REGULAR_UNSIGNED = "nias-o:none",
+        REGULAR_SIGNED = "nias-o:eddsa-signature",
+        VC = "nias-o:vc")),
     
-    'indimp:hasWorkflowSubmission' = list(
-      '@type' = "indimp:WorkflowDocumentSubmission",
-      'indimp:workflow' = list(
-        '@id' = paste0("indimp:workflows/", dfDocMd$id_workflow)),
-      'indimp:workflowStep' = list(
-        '@type' = "indimp:WorkflowStep",
+    'nias-o:hasWorkflowSubmission' = list(
+      '@type' = "nias-o:WorkflowDocumentSubmission",
+      'nias-o:workflow' = list(
+        '@id' = paste0("nias-o:workflows/", dfDocMd$id_workflow)),
+      'nias-o:workflowStep' = list(
+        '@type' = "nias-o:WorkflowStep",
         'rdfs:label' = dfDocMd$step_workflow),
-      'indimp:workflowSubject' = list(
-        '@id' = paste0("indimp:activities/", dfDocMd$id_entity)),
-      'indimp:workflowDocumentSubmissionHederaMessageId' = dfDocMd$id_message_h))
+      'nias-o:workflowSubject' = list(
+        '@id' = paste0("nias-o:activities/", dfDocMd$id_entity)),
+      'nias-o:workflowDocumentSubmissionHederaMessageId' = dfDocMd$id_message_h))
   
   return(res)
   

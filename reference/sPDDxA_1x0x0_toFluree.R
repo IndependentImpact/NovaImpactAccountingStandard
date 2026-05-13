@@ -2,29 +2,29 @@ sPDDxA_1x0x0_toFluree <- function(lsData) {
   
   res <- list(
     '@context' = list(
-      "indimp" = "https://independentimpact.org/ns/",
+      "nias-o" = "https://nova.org.za/novaimpactaccountingstandard/",
       "schema" = "https://schema.org/",
       "aiao" = "https://w3id.org/aiao/",
       "dcterms" = "http://purl.org/dc/terms/"),
     
-    '@id' = paste0("indimp:activities/", lsData$headers$id_subject),
+    '@id' = paste0("nias-o:activities/", lsData$headers$id_subject),
     
     '@type' = "aiao:Project",
     
-    'indimp:title' = lsData$title_project,
+    'nias-o:title' = lsData$title_project,
     'aiao:hasObjective' = list(
       '@type' = "aiao:Objective",
       'schema:description' = lsData$purpose_project),
-    'indimp:locationShapefile' = lapply(
+    'nias-o:locationShapefile' = lapply(
       X = lsData$location_project, 
       FUN = function(x) {
         list('@type' = "dcterms:Resource",
-             'indimp:resourceIpfsUri' = x)
+             'nias-o:resourceIpfsUri' = x)
       }),
-    'indimp:technologyOrMeasure' = lapply(
+    'nias-o:technologyOrMeasure' = lapply(
       X = lsData$techmeas_project, 
       FUN = sTechnologyOrMeasure_1x0x0_toFluree),
-    'indimp:projectHistory' = lsData$history_project)
+    'nias-o:projectHistory' = lsData$history_project)
   
   return(res)
 }

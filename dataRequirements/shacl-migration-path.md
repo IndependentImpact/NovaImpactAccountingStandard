@@ -2,7 +2,7 @@
 
 This note captures a practical migration path for turning the legacy
 `reference/` JSON-LD-producing R functions into SHACL data requirements that
-use the local Independent Impact ontology, the local concept schemes, and the
+use the local Nova Impact Accounting Standard ontology, the local concept schemes, and the
 AIA ontology suite:
 
 - AIAO: `http://w3id.org/aiao#`
@@ -22,16 +22,16 @@ document requirements that need to become SHACL shapes.
 
 The repository already has three useful semantic layers:
 
-- `glossary/IndependentImpactStandardOntology.ttl`: local ontology terms such
-  as `indimp:PlatformUser`, `indimp:TechnologyOrMeasure`,
-  `indimp:CreditingPeriod`, `indimp:Workflow`,
-  `indimp:WorkflowDocumentSubmission`, document metadata predicates, and
+- `glossary/NovaImpactAccountingStandardOntology.ttl`: local ontology terms such
+  as `nias-o:PlatformUser`, `nias-o:TechnologyOrMeasure`,
+  `nias-o:CreditingPeriod`, `nias-o:Workflow`,
+  `nias-o:WorkflowDocumentSubmission`, document metadata predicates, and
   project or impact predicates.
-- `glossary/IndependentImpactStandardGlossary.ttl`: local SKOS concept schemes
+- `glossary/NovaImpactAccountingStandardGlossary.ttl`: local SKOS concept schemes
   for user types, agent license scopes, authenticity proof mechanisms,
   technology or measure types, impact intentionality, beneficial/adverse
   classification, and monitoring status.
-- `glossary/IndependentImpactStandardShapes.ttl`: early SHACL shapes for local
+- `glossary/NovaImpactAccountingStandardShapes.ttl`: early SHACL shapes for local
   controlled vocabularies, license numbers, and IPFS URI strings.
 
 An external indicator ontology is available at
@@ -129,20 +129,20 @@ partial transformation examples.
 
 ### 1. Controlled Values Should Be SKOS Concept IRIs
 
-The glossary defines values like `indimp:beneficial`, `indimp:intentional`,
-`indimp:yes`, and `indimp:facility` as `skos:Concept`s. The existing SHACL
+The glossary defines values like `nias-o:beneficial`, `nias-o:intentional`,
+`nias-o:yes`, and `nias-o:facility` as `skos:Concept`s. The existing SHACL
 already expects concept IRIs via `sh:class skos:Concept` and `sh:in`.
 
 Several local ontology properties are currently declared as datatype
 properties with `xsd:string` ranges while the shapes expect SKOS concepts:
 
-- `indimp:authProof`
-- `indimp:beneficialOrAdverse`
-- `indimp:impactIntentionality`
-- `indimp:licenseScope`
-- `indimp:monitored`
-- `indimp:techMeasType`
-- `indimp:userType`
+- `nias-o:authProof`
+- `nias-o:beneficialOrAdverse`
+- `nias-o:impactIntentionality`
+- `nias-o:licenseScope`
+- `nias-o:monitored`
+- `nias-o:techMeasType`
+- `nias-o:userType`
 
 Migration target: make these object properties, or create replacement object
 properties, because the semantic representation should point to concept IRIs
@@ -150,10 +150,10 @@ rather than string labels or legacy codes.
 
 Legacy values should be normalized through lookup tables. Examples:
 
-- `REGULAR_UNSIGNED` or `NONE` -> `indimp:none`
-- `REGULAR_SIGNED` or `EDDSA` -> `indimp:eddsa-signature`
-- `VC` -> `indimp:vc`
-- `RENEWABLE` -> `true` for `indimp:creditingPeriodIsRenewable`
+- `REGULAR_UNSIGNED` or `NONE` -> `nias-o:none`
+- `REGULAR_SIGNED` or `EDDSA` -> `nias-o:eddsa-signature`
+- `VC` -> `nias-o:vc`
+- `RENEWABLE` -> `true` for `nias-o:creditingPeriodIsRenewable`
 - `counterfactual` -> the Impact Ontology literal value for state modality
 - `real` -> the Impact Ontology literal value for state modality
 
@@ -192,7 +192,7 @@ are stable.
 
 ### 3. Document Submission Can Later Align With InfoComm
 
-The local ontology already has `indimp:WorkflowDocumentSubmission`, which is
+The local ontology already has `nias-o:WorkflowDocumentSubmission`, which is
 the right immediate anchor for the existing workflow metadata. The InfoComm
 ontology can be added later for richer communication semantics:
 
@@ -207,7 +207,7 @@ ontology can be added later for richer communication semantics:
   medium.
 
 Recommendation: do not force InfoComm into the first SHACL milestone. First
-stabilize `indimp:WorkflowDocumentSubmission`; then add an optional InfoComm
+stabilize `nias-o:WorkflowDocumentSubmission`; then add an optional InfoComm
 profile.
 
 ## Reference Artifact Inventory
@@ -242,13 +242,13 @@ Legacy input fields:
 
 Current RDF output:
 
-- `@id` -> `indimp:activities/{id_subject}`
+- `@id` -> `nias-o:activities/{id_subject}`
 - `@type` -> `aiao:Project`
-- `indimp:title`
+- `nias-o:title`
 - `aiao:hasObjective`
-- `indimp:locationShapefile`
-- `indimp:technologyOrMeasure`
-- `indimp:projectHistory`
+- `nias-o:locationShapefile`
+- `nias-o:technologyOrMeasure`
+- `nias-o:projectHistory`
 
 Additional JSON-only requirements:
 
@@ -274,17 +274,17 @@ Target SHACL shape:
 - Require legal matters, public funding status, project history, and
   debundling text if these remain mandatory in the migrated standard.
 - Require project history if it remains mandatory in the legacy form.
-- If public funding status is `indimp:yes`, require at least one public funding
+- If public funding status is `nias-o:yes`, require at least one public funding
   source. This will need a local concept scheme or property for public funding
   status if it should not reuse the generic yes/no monitoring concept.
 
 Use `aiao:hasObjective` for project purpose, with `aiao:Objective` as the
-value. The local `indimp:purpose` property has been removed in favour of this
+value. The local `nias-o:purpose` property has been removed in favour of this
 AIAO predicate in line with the semantic web principle of reusing existing
 vocabulary rather than duplicating it.
 
 Open modeling question: project parties probably need a local class such as
-`indimp:ProjectParty` or should be represented as `aiao:AgentActivityRelation`
+`nias-o:ProjectParty` or should be represented as `aiao:AgentActivityRelation`
 nodes linking `aiao:Agent`s to the project with role/status controls. Avoid
 leaving them as anonymous strings if they are used for accountability.
 
@@ -306,23 +306,23 @@ Legacy input fields:
 
 Current RDF output:
 
-- `@type` -> `indimp:TechnologyOrMeasure`
-- `indimp:techMeasType`
+- `@type` -> `nias-o:TechnologyOrMeasure`
+- `nias-o:techMeasType`
 - `schema:description`
-- `indimp:currentAgeInYears`
-- `indimp:estimatedLifespanInYears`
+- `nias-o:currentAgeInYears`
+- `nias-o:estimatedLifespanInYears`
 
 Target SHACL shape:
 
-- `TechnologyOrMeasureShape`, target class `indimp:TechnologyOrMeasure`.
-- `indimp:techMeasType` must be an IRI from `indimp:TechMeasType`.
+- `TechnologyOrMeasureShape`, target class `nias-o:TechnologyOrMeasure`.
+- `nias-o:techMeasType` must be an IRI from `nias-o:TechMeasType`.
 - `schema:description` should be a required string unless the ontology gets a
   local description property.
-- `indimp:currentAgeInYears` and `indimp:estimatedLifespanInYears` are
+- `nias-o:currentAgeInYears` and `nias-o:estimatedLifespanInYears` are
   required in the JSON schema and should be decimals with minimum value `0`.
-- `indimp:additionalInfo` can carry `info_additional`.
-- If `indimp:techMeasType` is `indimp:other`, require
-  `type_techmeas_otherexplain` mapped to `indimp:additionalInfo` or a more
+- `nias-o:additionalInfo` can carry `info_additional`.
+- If `nias-o:techMeasType` is `nias-o:other`, require
+  `type_techmeas_otherexplain` mapped to `nias-o:additionalInfo` or a more
   specific local explanation property.
 - If both ages are present, current age should not exceed estimated lifespan.
   That check needs a SHACL-SPARQL constraint.
@@ -372,18 +372,18 @@ Legacy input fields:
 Current RDF output:
 
 - `@type` -> `impactont:Impact`
-- `indimp:impactIntentionality`
-- `indimp:beneficialOrAdverse`
+- `nias-o:impactIntentionality`
+- `nias-o:beneficialOrAdverse`
 - `schema:description`
-- `indimp:monitored`
-- `indimp:notMonitoredJustification`
-- `indimp:additionalityJustification`
+- `nias-o:monitored`
+- `nias-o:notMonitoredJustification`
+- `nias-o:additionalityJustification`
 - `impactont:hasStateA`
 - `impactont:hasStateB`
 - `impactont:hasProvenance`
-- `indimp:monitoringPeriod`
-- `indimp:creditingPeriod`
-- `indimp:indicatorMethodology`
+- `nias-o:monitoringPeriod`
+- `nias-o:creditingPeriod`
+- `nias-o:indicatorMethodology`
 
 Additional JSON-only requirements:
 
@@ -399,11 +399,11 @@ Target SHACL shape:
 - `ImpactRequirementShape`, target class `impactont:Impact`.
 - Require intentionality, beneficial/adverse classification, description, and
   monitoring status.
-- If `indimp:monitored` is `indimp:no`, require
-  `indimp:notMonitoredJustification` and do not require states, monitoring
+- If `nias-o:monitored` is `nias-o:no`, require
+  `nias-o:notMonitoredJustification` and do not require states, monitoring
   periods, crediting period, or methodology.
-- If `indimp:monitored` is `indimp:yes`, require:
-  - `indimp:additionalityJustification`
+- If `nias-o:monitored` is `nias-o:yes`, require:
+  - `nias-o:additionalityJustification`
   - exactly one `impactont:hasStateA`
   - exactly one `impactont:hasStateB`
   - at least one provenance event, normally the project or activity
@@ -414,9 +414,9 @@ Target SHACL shape:
     migrated PDD-B requirements
   - an ex-ante impact estimate if this remains required for project validation
 
-Open modeling issue: `indimp:indicatorMethodology` is used by the R function
+Open modeling issue: `nias-o:indicatorMethodology` is used by the R function
 but is not defined in the local ontology. Add a property such as
-`indimp:usesMethodology`, or use an existing control relation such as
+`nias-o:usesMethodology`, or use an existing control relation such as
 `aiao:isGovernedBy` or `aiao:governs` once the direction is decided.
 
 Open implementation issue: the R function checks
@@ -454,7 +454,7 @@ Legacy input fields:
 Target SHACL shape:
 
 - `DataParameterMonitoringShape`, probably a local class such as
-  `indimp:DataParameterRequirement` unless a suitable external class is chosen.
+  `nias-o:DataParameterRequirement` unless a suitable external class is chosen.
 - Require label, unit of measure, description, purpose, and monitored/fixed
   status.
 - Model `unit_of_measure` as `ind:hasUnit` pointing to a `qudt:Unit` IRI rather
@@ -522,8 +522,8 @@ Current RDF output:
 - `time:hasBeginning`
 - `time:hasEnd`
 - `time:inXSDDateTimeStamp`
-- `indimp:CreditingPeriod`
-- `indimp:creditingPeriodIsRenewable`
+- `nias-o:CreditingPeriod`
+- `nias-o:creditingPeriodIsRenewable`
 
 Target SHACL shapes:
 
@@ -557,7 +557,7 @@ Current RDF output:
 
 - `@type` -> `impactont:Indicator`
 - `rdfs:label`
-- `indimp:unitOfMeasure`
+- `nias-o:unitOfMeasure`
 
 Target model:
 
@@ -568,7 +568,7 @@ Target model:
   `impactont:Indicator` until they gain a canonical definition.
 - If the platform wants indicators selectable in UIs, also type each one as
   `skos:Concept` and place it in an indicator concept scheme.
-- Replace `indimp:unitOfMeasure` (a plain string) with `ind:hasUnit` pointing
+- Replace `nias-o:unitOfMeasure` (a plain string) with `ind:hasUnit` pointing
   to a `qudt:Unit` IRI from the QUDT unit vocabulary. Examples:
   - carbon dioxide equivalent tonnes: `unit:T_CO2e` or the appropriate QUDT IRI
   - kilowatt-hours: `unit:KiloW-HR`
@@ -603,7 +603,7 @@ Source: `reference/sMethodology_1x0x0_toFluree.R`
 
 Current RDF output:
 
-- `@type` -> `indimp:Methodology`
+- `@type` -> `nias-o:Methodology`
 - `dcterms:title`
 - `rdfs:label`
 - `data:versionTag`
@@ -611,7 +611,7 @@ Current RDF output:
 Target model:
 
 - Methodologies should live in `methodologies/` as stable resources.
-- Each methodology can be both `indimp:Methodology` and `skos:Concept` if it
+- Each methodology can be both `nias-o:Methodology` and `skos:Concept` if it
   needs to be selected from a concept scheme.
 - Versioning should be explicit. If `data:versionTag` is retained, normalize
   the `data:` namespace because the local ontology uses
@@ -646,8 +646,8 @@ Legacy input fields:
 
 Current RDF output:
 
-- `@type` -> `aiao:Agent`, `indimp:PlatformUser`
-- `@id` -> `indimp:agents/{agentId}`
+- `@type` -> `aiao:Agent`, `nias-o:PlatformUser`
+- `@id` -> `nias-o:agents/{agentId}`
 - `schema:givenName`
 - `schema:familyName`
 - `schema:birthDate`
@@ -667,7 +667,7 @@ Only `headers`, `id_acc_h`, `initials`, `name_last`, `date_of_birth`,
 
 Target SHACL shape:
 
-- `PlatformUserShape`, target class `indimp:PlatformUser`.
+- `PlatformUserShape`, target class `nias-o:PlatformUser`.
 - Require a stable agent IRI.
 - Require a Hedera account identifier or account-link node if agent onboarding
   still depends on account linkage.
@@ -679,7 +679,7 @@ Target SHACL shape:
   first migration phase.
 - Represent email address and supporting evidence either as document/resource
   links or as claims with substantiation.
-- Add `indimp:userType` as a concept IRI if the user registration flow requires
+- Add `nias-o:userType` as a concept IRI if the user registration flow requires
   it.
 
 ### License Application And Agent License
@@ -710,11 +710,11 @@ Target SHACL shapes:
 - `LicenseApplicationReviewShape` for approval/rejection review records.
 - `AgentLicenseShape` for issued license credentials or license payloads.
 - Map `PROJECT_DEVELOPER`, `PDD_VALIDATOR`, and `MR_VERIFIER` to
-  `indimp:project-developer`, `indimp:pdd-validator`, and
-  `indimp:mr-verifier`.
-- Reuse or extend `indimp:LicenseNumberShape` for `license_number`.
-- Use `indimp:hasAgentLicense`, `indimp:licenseScope`, and
-  `indimp:licenseNumber` for issued license data.
+  `nias-o:project-developer`, `nias-o:pdd-validator`, and
+  `nias-o:mr-verifier`.
+- Reuse or extend `nias-o:LicenseNumberShape` for `license_number`.
+- Use `nias-o:hasAgentLicense`, `nias-o:licenseScope`, and
+  `nias-o:licenseNumber` for issued license data.
 
 Open modeling issue: `#IndependentImpactAgentLicense&1.0.0.json` allows
 `scope` as an array, while the current `licenseScopeShape` has `sh:maxCount 1`.
@@ -794,7 +794,7 @@ Target SHACL shapes:
 - Model predecessor message/IPFS references as document or submission links,
   not just string fields, once Hedera message IDs and IPFS resources have
   canonical shapes.
-- Use `indimp:WorkflowDocumentSubmission` to tie each request to the workflow
+- Use `nias-o:WorkflowDocumentSubmission` to tie each request to the workflow
   step and project subject.
 
 ### PDD Section C Stakeholder Engagement
@@ -936,16 +936,16 @@ Legacy input fields:
 Current RDF output:
 
 - `@type` -> `data:Document`
-- `indimp:resourceIpfsUri`
-- `indimp:documentSchema`
-- `indimp:isEncrypted`
-- `indimp:documentAuthor`
-- `indimp:authProof`
-- `indimp:hasWorkflowSubmission`
-- `indimp:workflow`
-- `indimp:workflowStep`
-- `indimp:workflowSubject`
-- `indimp:workflowDocumentSubmissionHederaMessageId`
+- `nias-o:resourceIpfsUri`
+- `nias-o:documentSchema`
+- `nias-o:isEncrypted`
+- `nias-o:documentAuthor`
+- `nias-o:authProof`
+- `nias-o:hasWorkflowSubmission`
+- `nias-o:workflow`
+- `nias-o:workflowStep`
+- `nias-o:workflowSubject`
+- `nias-o:workflowDocumentSubmissionHederaMessageId`
 
 Additional JSON header fields:
 
@@ -960,7 +960,7 @@ Target SHACL shapes:
 
 - `DocumentShape`, target class `data:Document`.
 - `WorkflowDocumentSubmissionShape`, target class
-  `indimp:WorkflowDocumentSubmission`.
+  `nias-o:WorkflowDocumentSubmission`.
 - Require IPFS URI or another resolvable content location.
 - Require document schema.
 - Require encryption status.
@@ -971,7 +971,7 @@ Target SHACL shapes:
 - Use predecessor and license references to enforce workflow sequence where a
   later document depends on a prior document or a submitter license.
 
-Open modeling issue: `indimp:workflowDocumentSubmissionHederaMessageId` is an
+Open modeling issue: `nias-o:workflowDocumentSubmissionHederaMessageId` is an
 object property in the ontology, but the R function emits a literal string.
 Either model Hedera message IDs as resources consistently, or change this
 property to a datatype property with a strict pattern.
@@ -1025,10 +1025,10 @@ Use this pattern for local vocabularies:
 
 ```turtle
 [
-  sh:path indimp:beneficialOrAdverse ;
+  sh:path nias-o:beneficialOrAdverse ;
   sh:nodeKind sh:IRI ;
   sh:class skos:Concept ;
-  sh:in ( indimp:beneficial indimp:adverse ) ;
+  sh:in ( nias-o:beneficial nias-o:adverse ) ;
   sh:minCount 1 ;
   sh:maxCount 1 ;
 ] .
@@ -1044,18 +1044,18 @@ Represent the monitored/unmonitored branches with `sh:or` first. Add
 SHACL-SPARQL only if the simple branch shape cannot express the needed rule.
 
 ```turtle
-indimp:ImpactRequirementShape
+nias-o:ImpactRequirementShape
   a sh:NodeShape ;
   sh:targetClass impactont:Impact ;
   sh:property [
-    sh:path indimp:monitored ;
-    sh:in ( indimp:yes indimp:no ) ;
+    sh:path nias-o:monitored ;
+    sh:in ( nias-o:yes nias-o:no ) ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
   ] ;
   sh:or (
-    indimp:MonitoredImpactShape
-    indimp:UnmonitoredImpactShape
+    nias-o:MonitoredImpactShape
+    nias-o:UnmonitoredImpactShape
   ) .
 ```
 
@@ -1065,14 +1065,14 @@ Every legacy schema version should become a document schema resource that points
 to its validating shape:
 
 ```turtle
-<https://independentimpact.org/ns/document-schema/PDDxA-1.0.0>
-  a indimp:DocumentSchema ;
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0>
+  a nias-o:DocumentSchema ;
   dcterms:title "Project Design Document A 1.0.0" ;
   sh:targetClass aiao:Project ;
-  indimp:validatingShape indimp:ProjectDesignShape .
+  nias-o:validatingShape nias-o:ProjectDesignShape .
 ```
 
-`indimp:validatingShape` does not exist yet. Add it only if this pattern is
+`nias-o:validatingShape` does not exist yet. Add it only if this pattern is
 accepted. Otherwise use `dcterms:conformsTo` from the document schema resource
 to the shape resource.
 
@@ -1091,7 +1091,7 @@ needed are:
 A minimal shape for a canonical indicator definition:
 
 ```turtle
-indimp:IndicatorDefinitionShape
+nias-o:IndicatorDefinitionShape
   a sh:NodeShape ;
   sh:targetClass ind:IndicatorDefinition ;
   sh:property [
@@ -1124,7 +1124,7 @@ indimp:IndicatorDefinitionShape
 A shape for an indicator observation (reported measured value):
 
 ```turtle
-indimp:IndicatorObservationShape
+nias-o:IndicatorObservationShape
   a sh:NodeShape ;
   sh:targetClass ind:IndicatorObservation ;
   sh:property [
@@ -1241,7 +1241,7 @@ Actions:
 - Replace hard-coded string outputs for controlled values with SKOS IRIs.
 - Emit canonical namespace IRIs.
 - Emit `impactont:hasIndicatorValue` instead of `impactont:hasValue`.
-- Replace `indimp:unitOfMeasure` string literals with `ind:hasUnit` links to
+- Replace `nias-o:unitOfMeasure` string literals with `ind:hasUnit` links to
   `qudt:Unit` IRIs.
 - Replace embedded ad hoc methodologies and indicators with links to stable
   local concept resources where possible.
@@ -1309,7 +1309,7 @@ Actions:
 1. Fix ontology property kinds for controlled values, or create replacement
    object properties.
 2. Add or choose a methodology relation; do not keep undefined
-   `indimp:indicatorMethodology`.
+   `nias-o:indicatorMethodology`.
 3. Replace `impactont:hasValue` with `impactont:hasIndicatorValue` plus
    `rdf:value`.
 4. Create initial methodology and indicator concept scheme files, typing
@@ -1319,7 +1319,7 @@ Actions:
    `impact-declaration-shapes.ttl`, including indicator definition and
    observation shapes that reference the indicator ontology.
 6. Turn the R functions into compatibility adapters that output canonical RDF,
-   replacing `indimp:unitOfMeasure` string literals with `ind:hasUnit` QUDT IRIs.
+   replacing `nias-o:unitOfMeasure` string literals with `ind:hasUnit` QUDT IRIs.
 8. Add claim/report wrappers after the direct domain shapes validate.
 9. Design monitoring report requirements as measured impact reports using
    `ind:IndicatorObservation`.
