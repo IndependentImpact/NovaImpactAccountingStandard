@@ -57,7 +57,7 @@ nias-o:monitoredShape a sh:NodeShape ;
     sh:targetClass impactont:Impact .
 
 nias-o:resourceIpfsUriShape a sh:NodeShape ;
-    sh:property [ sh:datatype xsd:string ;
+    sh:property [ sh:datatype xsd:anyURI ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:path nias-o:resourceIpfsUri ;
