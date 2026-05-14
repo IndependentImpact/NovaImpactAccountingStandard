@@ -357,12 +357,6 @@ nias-o:unitOfMeasure a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A unit of measure."@en .
 
-nias-o:userType a owl:ObjectProperty ;
-    rdfs:label "userType"@en ;
-    rdfs:domain nias-o:PlatformUser ;
-    rdfs:range skos:Concept ;
-    skos:definition "The Nova Impact Accounting Standard platform user type."@en .
-
 nias-o:workflow a owl:ObjectProperty ;
     rdfs:label "workflow"@en ;
     rdfs:domain [ owl:unionOf ( nias-o:WorkflowDocumentSubmission nias-o:AgentActivityWorkflowRelation ) ] ;
