@@ -91,12 +91,6 @@ nias-cs:rsa-signature a skos:Concept ;
     skos:prefLabel "RSA signature" ;
     skos:topConceptOf nias-cs:AuthProof .
 
-nias-cs:standard-registry a skos:Concept ;
-    skos:definition "Platform user that acts as a standard registry." ;
-    skos:inScheme nias-cs:UserType ;
-    skos:prefLabel "Standard registry" ;
-    skos:topConceptOf nias-cs:UserType .
-
 nias-cs:system a skos:Concept ;
     skos:definition "Technology or measure that operates as a system." ;
     skos:inScheme nias-cs:TechMeasType ;
@@ -108,12 +102,6 @@ nias-cs:unintentional a skos:Concept ;
     skos:inScheme nias-cs:ImpactIntentionality ;
     skos:prefLabel "Unintentional" ;
     skos:topConceptOf nias-cs:ImpactIntentionality .
-
-nias-cs:user a skos:Concept ;
-    skos:definition "General platform user." ;
-    skos:inScheme nias-cs:UserType ;
-    skos:prefLabel "User" ;
-    skos:topConceptOf nias-cs:UserType .
 
 nias-cs:vc a skos:Concept ;
     skos:definition "Authenticity proven via a verifiable credential." ;
@@ -145,12 +133,6 @@ nias-cs:MonitoringStatus a skos:ConceptScheme ;
         nias-cs:yes ;
     skos:prefLabel "Impact monitoring status" .
 
-nias-cs:UserType a skos:ConceptScheme ;
-    skos:definition "Controlled vocabulary of Nova Impact Accounting Standard platform user types." ;
-    skos:hasTopConcept nias-cs:standard-registry,
-        nias-cs:user ;
-    skos:prefLabel "Nova Impact Accounting Standard user types" .
-
 nias-cs:LicenseScope a skos:ConceptScheme ;
     skos:definition "Controlled vocabulary of scopes for Nova Impact Accounting Standard Agent Licenses." ;
     skos:hasTopConcept nias-cs:mr-verifier,
@@ -179,4 +161,3 @@ nias-cs:MonitoredOrFixed a skos:ConceptScheme ;
     skos:hasTopConcept nias-cs:fixed-ex-ante,
         nias-cs:monitored ;
     skos:prefLabel "Monitored or fixed ex-ante" .
-

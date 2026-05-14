@@ -71,11 +71,3 @@ nias-o:techMeasTypeShape a sh:NodeShape ;
             sh:minCount 1 ;
             sh:path nias-o:techMeasType ] ;
     sh:targetClass nias-o:TechnologyOrMeasure .
-
-nias-o:userTypeShape a sh:NodeShape ;
-    sh:property [ sh:class skos:Concept ;
-            sh:in ( nias-cs:standard-registry nias-cs:user ) ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:path nias-o:userType ] ;
-    sh:targetClass nias-o:PlatformUser .
