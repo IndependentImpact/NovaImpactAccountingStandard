@@ -257,9 +257,11 @@ nias-o:licenseScope a owl:ObjectProperty ;
 
 nias-o:locationShapefile a owl:ObjectProperty ;
     rdfs:label "locationShapefile"@en ;
+    rdfs:subPropertyOf impactont:hasSpatialLocation ;
     rdfs:domain [ owl:unionOf ( aiao:Activity aiao:Project ) ] ;
-    rdfs:range dcterms:Resource ;
-    skos:definition "The shapefile for a physical location of a project or an activity."@en .
+    rdfs:range impactont:SpatialLocation ;
+    owl:deprecated true ;
+    skos:definition "Deprecated legacy property. Use impactont:hasSpatialLocation with impactont:SpatialLocation instances for spatial objects, and attach NIAS resource metadata to those instances when needed."@en .
 
 nias-o:monitored a owl:ObjectProperty ;
     rdfs:label "monitored"@en ;
@@ -318,7 +320,7 @@ nias-o:resourceHederaMessageId a owl:ObjectProperty ;
 nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:label "ipfsUri"@en ;
     rdfs:comment "If no value is provided for this property, the content of the resource should be provided via the data:resourceContent property, or the location of the content should be provided via the data:resourceContentLocation property." ;
-    rdfs:domain dcterms:Resource ;
+    rdfs:domain [ owl:unionOf ( dcterms:Resource impactont:SpatialLocation ) ] ;
     rdfs:range xsd:anyURI ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
 

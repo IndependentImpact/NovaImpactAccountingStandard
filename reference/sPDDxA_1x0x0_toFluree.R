@@ -5,6 +5,7 @@ sPDDxA_1x0x0_toFluree <- function(lsData) {
       "nias-o" = "https://nova.org.za/novaimpactaccountingstandard/",
       "schema" = "https://schema.org/",
       "aiao" = "https://w3id.org/aiao/",
+      "impactont" = "https://w3id.org/impactont/",
       "dcterms" = "http://purl.org/dc/terms/"),
     
     '@id' = paste0("nias-o:activities/", lsData$headers$id_subject),
@@ -15,10 +16,10 @@ sPDDxA_1x0x0_toFluree <- function(lsData) {
     'aiao:hasObjective' = list(
       '@type' = "aiao:Objective",
       'schema:description' = lsData$purpose_project),
-    'nias-o:locationShapefile' = lapply(
+    'impactont:hasSpatialLocation' = lapply(
       X = lsData$location_project, 
       FUN = function(x) {
-        list('@type' = "dcterms:Resource",
+        list('@type' = c("impactont:SpatialLocation", "dcterms:Resource"),
              'nias-o:resourceIpfsUri' = x)
       }),
     'nias-o:technologyOrMeasure' = lapply(
