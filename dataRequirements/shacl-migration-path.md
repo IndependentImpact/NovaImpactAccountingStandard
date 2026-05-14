@@ -245,7 +245,7 @@ Current RDF output:
 - `@type` -> `aiao:Project`
 - `nias-o:title`
 - `aiao:hasObjective`
-- `nias-o:locationShapefile`
+- `impactont:hasSpatialLocation` (values typed as `impactont:SpatialLocation`)
 - `nias-o:technologyOrMeasure`
 - `nias-o:projectHistory`
 
