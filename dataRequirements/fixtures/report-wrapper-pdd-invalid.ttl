@@ -1,6 +1,7 @@
 @prefix aiao: <http://w3id.org/aiao#> .
 @prefix claimont: <http://w3id.org/claimont#> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -61,6 +62,6 @@
 <https://nova.org.za/novaimpactaccountingstandard/reports/invalid-pdd-typed-as-plan>
     a nias-o:ProjectDesignDocument ;
     # anti-pattern: also typed as prov:Plan — use a separate linked plan resource instead
-    a <http://www.w3.org/ns/prov#Plan> ;
+    a prov:Plan ;
     claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-002> ;
     claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-beta> .

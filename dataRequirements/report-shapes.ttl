@@ -140,7 +140,8 @@ nias-o:MonitoringImpactReportShape a sh:NodeShape ;
     sh:property [
         sh:path dcterms:conformsTo ;
         sh:nodeKind sh:IRI ;
-        sh:maxCount 1
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact report may identify its schema or version via dcterms:conformsTo."@en
     ] .
 
 # ---------------------------------------------------------------------------
