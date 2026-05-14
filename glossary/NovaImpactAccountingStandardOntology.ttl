@@ -5,6 +5,7 @@
 @prefix impactont: <http://w3id.org/impactont#> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -318,7 +319,7 @@ nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:label "ipfsUri"@en ;
     rdfs:comment "If no value is provided for this property, the content of the resource should be provided via the data:resourceContent property, or the location of the content should be provided via the data:resourceContentLocation property." ;
     rdfs:domain dcterms:Resource ;
-    rdfs:range xsd:string ;
+    rdfs:range xsd:anyURI ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
 
 nias-o:techMeasType a owl:ObjectProperty ;
@@ -351,11 +352,11 @@ nias-o:requiresKnowledgeDomain a owl:ObjectProperty ;
     rdfs:range skos:Concept ;
     skos:definition "A knowledge domain that validators or verifiers must possess in order to evaluate a methodology."@en .
 
-nias-o:unitOfMeasure a owl:DatatypeProperty ;
+nias-o:unitOfMeasure a owl:ObjectProperty ;
     rdfs:label "unitOfMeasure"@en ;
     rdfs:domain impactont:Indicator ;
-    rdfs:range xsd:string ;
-    skos:definition "A unit of measure."@en .
+    rdfs:range qudt:Unit ;
+    skos:definition "A unit of measure, referenced as a QUDT unit IRI."@en .
 
 nias-o:workflow a owl:ObjectProperty ;
     rdfs:label "workflow"@en ;
