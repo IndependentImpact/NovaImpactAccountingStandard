@@ -1,0 +1,42 @@
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix ind:    <http://independentimpact.org/indicator-owl/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-ind: <https://nova.org.za/novaimpactaccountingstandard/indicators/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:   <http://qudt.org/schema/qudt/> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix unit:   <http://qudt.org/vocab/unit/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Ontology header
+# ---------------------------------------------------------------------------
+
+nias-ind: a owl:Ontology ;
+    dct:title "Nova Impact Accounting Standard — GHG Indicators"@en ;
+    dct:description "Approved indicator definitions for greenhouse gas (GHG) methodologies registered under the Nova Impact Accounting Standard. Indicators are typed as ind:IndicatorDefinition (Indicator Ontology) and as skos:Concept for catalogue use."@en ;
+    dct:issued "2026-05-14"^^xsd:date ;
+    owl:imports <http://independentimpact.org/indicator-owl/> .
+
+# ---------------------------------------------------------------------------
+# Indicator concept scheme
+# ---------------------------------------------------------------------------
+
+nias-cs:GHGIndicators a skos:ConceptScheme ;
+    skos:prefLabel "GHG Indicators"@en ;
+    skos:definition "Controlled vocabulary of approved indicator definitions for greenhouse gas methodologies under the Nova Impact Accounting Standard."@en ;
+    skos:hasTopConcept nias-ind:ghg-tco2e-per-year .
+
+# ---------------------------------------------------------------------------
+# Indicator definitions
+# ---------------------------------------------------------------------------
+
+nias-ind:ghg-tco2e-per-year a ind:IndicatorDefinition, skos:Concept ;
+    skos:prefLabel "GHG emissions (tonne CO₂ equivalent per year)"@en ;
+    skos:altLabel "tCO₂e/yr"@en ;
+    skos:definition "Net annual greenhouse gas emissions or reductions expressed in tonnes of CO₂ equivalent (tCO₂e). GHG species are converted to CO₂ equivalents using the global warming potentials (GWPs) specified in the applicable methodology version, typically sourced from the IPCC Assessment Reports as adopted by the UNFCCC."@en ;
+    ind:hasUnit unit:TONNE ;
+    dct:description "The standard indicator for all CDM GHG methodologies implemented under the Nova Impact Accounting Standard. A positive value denotes net emissions; a negative value denotes net removals or emission reductions relative to the baseline."@en ;
+    skos:inScheme nias-cs:GHGIndicators ;
+    skos:topConceptOf nias-cs:GHGIndicators .

@@ -1,0 +1,148 @@
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-kd: <https://nova.org.za/novaimpactaccountingstandard/knowledgeDomains/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Ontology header
+# ---------------------------------------------------------------------------
+
+nias-kd: a owl:Ontology ;
+    dct:title "Nova Impact Accounting Standard — GHG Knowledge Domains"@en ;
+    dct:description "Knowledge domains required for the validation and verification of greenhouse gas (GHG) methodologies registered under the Nova Impact Accounting Standard."@en ;
+    dct:issued "2026-05-14"^^xsd:date .
+
+# ---------------------------------------------------------------------------
+# Knowledge-domain concept scheme
+# ---------------------------------------------------------------------------
+
+nias-cs:GHGKnowledgeDomains a skos:ConceptScheme ;
+    skos:prefLabel "GHG Knowledge Domains"@en ;
+    skos:definition "Controlled vocabulary of knowledge domains required for the validation and verification of GHG methodologies under the Nova Impact Accounting Standard. Validators and verifiers must demonstrate competence in the domains associated with each methodology."@en ;
+    skos:hasTopConcept
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:biomass-energy ,
+        nias-kd:energy-efficiency ,
+        nias-kd:electrical-engineering ,
+        nias-kd:combustion-engineering ,
+        nias-kd:waste-management ,
+        nias-kd:landfill-gas ,
+        nias-kd:wastewater-treatment ,
+        nias-kd:agricultural-systems ,
+        nias-kd:anaerobic-digestion ,
+        nias-kd:mining-engineering ,
+        nias-kd:industrial-process-engineering ,
+        nias-kd:atmospheric-chemistry ,
+        nias-kd:soil-science ,
+        nias-kd:recycling-materials .
+
+# ---------------------------------------------------------------------------
+# Knowledge-domain concepts
+# ---------------------------------------------------------------------------
+
+nias-kd:ghg-accounting a skos:Concept ;
+    skos:prefLabel "GHG Accounting and Carbon Markets"@en ;
+    skos:definition "Knowledge of greenhouse gas accounting principles, protocols, and carbon market mechanisms, including CDM rules, additionality assessments, baseline determination, and credit issuance."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:mrv a skos:Concept ;
+    skos:prefLabel "Monitoring, Reporting and Verification (MRV)"@en ;
+    skos:definition "Knowledge of monitoring plan design, data collection, quality assurance and quality control procedures, uncertainty analysis, and the preparation and review of GHG monitoring reports."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:renewable-energy a skos:Concept ;
+    skos:prefLabel "Renewable Energy Engineering"@en ;
+    skos:definition "Knowledge of renewable energy technologies (solar photovoltaic, wind, hydro, small-scale hydropower) and their integration into electricity supply systems, including grid-connected and off-grid configurations."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:biomass-energy a skos:Concept ;
+    skos:prefLabel "Biomass Energy Engineering"@en ;
+    skos:definition "Knowledge of biomass feedstocks, biomass combustion and gasification, combined heat and power systems, and sustainability criteria for biomass use in energy applications."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:energy-efficiency a skos:Concept ;
+    skos:prefLabel "Energy Efficiency Engineering"@en ;
+    skos:definition "Knowledge of energy auditing methods, demand-side energy efficiency measures, fuel switching assessments, and energy performance measurement and verification for industrial, commercial, and residential applications."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:electrical-engineering a skos:Concept ;
+    skos:prefLabel "Electrical Engineering"@en ;
+    skos:definition "Knowledge of electricity generation, transmission, and distribution systems, grid emission factors, metering, and the technical requirements for connecting generation assets to the grid."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:combustion-engineering a skos:Concept ;
+    skos:prefLabel "Combustion and Thermal Engineering"@en ;
+    skos:definition "Knowledge of combustion processes, fuel characterisation, boiler and furnace efficiency, heat transfer, and the calculation of GHG emissions from fossil fuel and biomass combustion."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:waste-management a skos:Concept ;
+    skos:prefLabel "Waste Management Engineering"@en ;
+    skos:definition "Knowledge of solid waste characterisation, waste processing technologies (composting, incineration, mechanical-biological treatment, gasification), and GHG emission estimation from waste operations."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:landfill-gas a skos:Concept ;
+    skos:prefLabel "Landfill Gas Engineering"@en ;
+    skos:definition "Knowledge of landfill gas generation, collection, and utilisation systems, including methane oxidation factors, landfill gas composition analysis, flaring efficiency, and energy recovery from landfill gas."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:wastewater-treatment a skos:Concept ;
+    skos:prefLabel "Wastewater Treatment Engineering"@en ;
+    skos:definition "Knowledge of wastewater treatment processes, including anaerobic and aerobic treatment, chemical oxygen demand (COD) measurement, biogas recovery from wastewater treatment, and GHG emissions from sewage systems."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:agricultural-systems a skos:Concept ;
+    skos:prefLabel "Agricultural Systems and Practices"@en ;
+    skos:definition "Knowledge of agricultural production systems, livestock management, fertiliser application, crop residue management, and the estimation of GHG emissions from agricultural activities."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:anaerobic-digestion a skos:Concept ;
+    skos:prefLabel "Anaerobic Digestion and Methane Recovery"@en ;
+    skos:definition "Knowledge of anaerobic digestion processes for organic waste and manure, biogas composition and yield estimation, methane recovery and utilisation, and the monitoring of digester performance."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:mining-engineering a skos:Concept ;
+    skos:prefLabel "Mining Engineering and Mine Gas Management"@en ;
+    skos:definition "Knowledge of underground and surface coal mining operations, coal seam gas characterisation, methane drainage and ventilation air methane (VAM) systems, and GHG quantification for mining activities."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:industrial-process-engineering a skos:Concept ;
+    skos:prefLabel "Industrial Process Engineering"@en ;
+    skos:definition "Knowledge of industrial manufacturing processes (including chemical production, metals smelting, and mineral processing), process emission estimation, and abatement technology performance for non-CO₂ GHGs."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:atmospheric-chemistry a skos:Concept ;
+    skos:prefLabel "Atmospheric Chemistry and GHG Properties"@en ;
+    skos:definition "Knowledge of the chemical and physical properties of GHGs (CO₂, CH₄, N₂O, HFCs, PFCs, SF₆), global warming potentials, atmospheric lifetimes, and the application of IPCC characterisation factors."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:soil-science a skos:Concept ;
+    skos:prefLabel "Soil Science and Agricultural Emissions"@en ;
+    skos:definition "Knowledge of soil biogeochemistry, nitrogen cycling, N₂O emissions from soils, soil carbon measurement and modelling, and the effects of agricultural management practices on soil GHG fluxes."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .
+
+nias-kd:recycling-materials a skos:Concept ;
+    skos:prefLabel "Recycling and Materials Recovery"@en ;
+    skos:definition "Knowledge of material recovery processes (paper, plastic, metal, glass), recycling system design, life-cycle GHG accounting for recycled materials, and the monitoring of material quality and diversion rates."@en ;
+    skos:inScheme nias-cs:GHGKnowledgeDomains ;
+    skos:topConceptOf nias-cs:GHGKnowledgeDomains .

@@ -161,3 +161,50 @@ nias-cs:MonitoredOrFixed a skos:ConceptScheme ;
     skos:hasTopConcept nias-cs:fixed-ex-ante,
         nias-cs:monitored ;
     skos:prefLabel "Monitored or fixed ex-ante" .
+
+nias-cs:proposed a skos:Concept ;
+    skos:definition "Methodology has been submitted for consideration but has not yet entered formal evaluation." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Proposed" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:under-evaluation a skos:Concept ;
+    skos:definition "Methodology is currently undergoing formal technical evaluation and review." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Under evaluation" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:approved a skos:Concept ;
+    skos:definition "Methodology has passed formal evaluation and is approved for use under the standard." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Approved" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:rejected a skos:Concept ;
+    skos:definition "Methodology was evaluated and rejected; it may not be used under the standard." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Rejected" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:surpassed a skos:Concept ;
+    skos:definition "Methodology has been superseded by a newer or improved version; projects should migrate to the replacement." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Surpassed" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:deprecated a skos:Concept ;
+    skos:definition "Methodology is no longer recommended for new projects; existing registered projects may continue to use it." ;
+    skos:inScheme nias-cs:MethodologyApprovalStatus ;
+    skos:prefLabel "Deprecated" ;
+    skos:topConceptOf nias-cs:MethodologyApprovalStatus .
+
+nias-cs:MethodologyApprovalStatus a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary describing the approval status of a methodology within the Nova Impact Accounting Standard." ;
+    skos:hasTopConcept nias-cs:approved,
+        nias-cs:deprecated,
+        nias-cs:proposed,
+        nias-cs:rejected,
+        nias-cs:surpassed,
+        nias-cs:under-evaluation ;
+    skos:prefLabel "Methodology approval status" .
+

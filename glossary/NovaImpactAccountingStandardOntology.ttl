@@ -340,6 +340,18 @@ nias-o:title a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A human-friendly title for an activity or project."@en .
 
+nias-o:approvalStatus a owl:ObjectProperty ;
+    rdfs:label "approvalStatus"@en ;
+    rdfs:domain nias-o:Methodology ;
+    rdfs:range skos:Concept ;
+    skos:definition "The approval status of a methodology within the Nova Impact Accounting Standard (e.g., proposed, under evaluation, approved, rejected, surpassed, deprecated)."@en .
+
+nias-o:requiresKnowledgeDomain a owl:ObjectProperty ;
+    rdfs:label "requiresKnowledgeDomain"@en ;
+    rdfs:domain nias-o:Methodology ;
+    rdfs:range skos:Concept ;
+    skos:definition "A knowledge domain that validators or verifiers must possess in order to evaluate a methodology."@en .
+
 nias-o:unitOfMeasure a owl:ObjectProperty ;
     rdfs:label "unitOfMeasure"@en ;
     rdfs:domain impactont:Indicator ;
