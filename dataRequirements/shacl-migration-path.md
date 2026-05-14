@@ -43,11 +43,11 @@ the `ind:IndicatorObservation` pattern for reporting observed values. SHACL
 shapes that describe indicators should import or reference this ontology where
 relevant rather than inventing parallel local terms.
 
-The concept scheme directories currently exist but are empty:
+Status update (2026-05-14): concept scheme directories are now populated:
 
-- `methodologies/`
-- `indicators/`
-- `knowledgeDomains/`
+- ✅ `methodologies/GHGMethodologies.ttl`
+- ✅ `indicators/GHGIndicators.ttl`
+- ✅ `knowledgeDomains/GHGKnowledgeDomains.ttl`
 
 The JSON files are schema arrays whose first entry is usually an object with
 `title`, `description`, `properties`, `required`, `additionalProperties`, and
@@ -1179,7 +1179,7 @@ Actions:
 - Keep local ontology, shapes, concept schemes, adapters, and fixtures aligned
   to those prefixes.
 - Decide whether controlled value properties are object properties to
-  `skos:Concept`s. This is the recommended path.
+  `skos:Concept`s. This is the recommended path. ✅ completed
 - Add missing local properties or choose external properties for:
   - methodology used by an impact or impact calculation
   - shape associated with a document schema
@@ -1193,16 +1193,16 @@ Goal: make selectable values resolvable and reusable.
 
 Actions:
 
-- Populate `methodologies/` with methodology resources.
+- Populate `methodologies/` with methodology resources. ✅ completed
 - Populate `indicators/` with indicator resources. Type each indicator as
   `ind:IndicatorDefinition` (a subclass of `impactont:Indicator`) and attach
   `ind:hasUnit` pointing to a `qudt:Unit` IRI from the QUDT unit vocabulary.
   Use `ind:hasIndicatorStage` to classify each indicator using a concept from
-  `ind:IndicatorStageScheme`.
+  `ind:IndicatorStageScheme`. ✅ completed
 - Populate `knowledgeDomains/` with knowledge domain resources for reputation
-  requirements.
+  requirements. ✅ completed
 - For UI-selectable resources, type them as both domain resources and
-  `skos:Concept`s.
+  `skos:Concept`s. ✅ completed
 - Add `skos:inScheme`, `skos:prefLabel`, `skos:definition`, version metadata,
   and deprecation metadata where relevant.
 
@@ -1304,14 +1304,14 @@ Actions:
 ## Priority Backlog
 
 1. Fix ontology property kinds for controlled values, or create replacement
-   object properties.
+   object properties. ✅ completed
 2. Add or choose a methodology relation; do not keep undefined
    `nias-o:indicatorMethodology`.
 3. Replace `impactont:hasValue` with `impactont:hasIndicatorValue` plus
    `rdf:value`.
 4. Create initial methodology and indicator concept scheme files, typing
    indicators as `ind:IndicatorDefinition` and attaching QUDT unit IRIs via
-   `ind:hasUnit`.
+   `ind:hasUnit`. ✅ completed
 5. Create `common-shapes.ttl`, `project-design-shapes.ttl`, and
    `impact-declaration-shapes.ttl`, including indicator definition and
    observation shapes that reference the indicator ontology.
