@@ -1,0 +1,88 @@
+@prefix data: <http://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <https://w3id.org/impactont/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+[
+  a impactont:Impact ;
+  nias-o:impactIntentionality nias-o:intentional ;
+  nias-o:beneficialOrAdverse nias-o:beneficial ;
+  schema:description "Avoided grid emissions from project activity." ;
+  nias-o:monitored nias-o:yes ;
+  nias-o:additionalityJustification "The project is additional to the baseline scenario." ;
+  impactont:hasStateA [
+    a impactont:State ;
+    impactont:hasTemporalLocation [
+      a time:Interval ;
+      time:hasBeginning [
+        a time:Instant ;
+        time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"
+      ] ;
+      time:hasEnd [
+        a time:Instant ;
+        time:inXSDDateTimeStamp "2030-12-31T23:59:59Z"
+      ]
+    ] ;
+    impactont:hasModality "counterfactual" ;
+    impactont:isDefinedByIndicator [
+      a impactont:Indicator ;
+      rdfs:label "tCO2e avoided" ;
+      nias-o:unitOfMeasure "tCO2e"
+    ] ;
+    impactont:hasValue 1000.0
+  ] ;
+  impactont:hasStateB [
+    a impactont:State ;
+    impactont:hasTemporalLocation [
+      a time:Interval ;
+      time:hasBeginning [
+        a time:Instant ;
+        time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"
+      ] ;
+      time:hasEnd [
+        a time:Instant ;
+        time:inXSDDateTimeStamp "2030-12-31T23:59:59Z"
+      ]
+    ] ;
+    impactont:hasModality "real" ;
+    impactont:isDefinedByIndicator [
+      a impactont:Indicator ;
+      rdfs:label "tCO2e avoided" ;
+      nias-o:unitOfMeasure "tCO2e"
+    ] ;
+    impactont:hasValue 250.0
+  ] ;
+  impactont:hasProvenance <https://nova.org.za/novaimpactaccountingstandard/activities/project-001> ;
+  nias-o:monitoringPeriod [
+    a time:Interval ;
+    time:hasBeginning [
+      a time:Instant ;
+      time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"
+    ] ;
+    time:hasEnd [
+      a time:Instant ;
+      time:inXSDDateTimeStamp "2026-12-31T23:59:59Z"
+    ]
+  ] ;
+  nias-o:creditingPeriod [
+    a nias-o:CreditingPeriod ;
+    time:hasBeginning [
+      a time:Instant ;
+      time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"
+    ] ;
+    time:hasEnd [
+      a time:Instant ;
+      time:inXSDDateTimeStamp "2030-12-31T23:59:59Z"
+    ] ;
+    nias-o:creditingPeriodIsRenewable true
+  ] ;
+  nias-o:indicatorMethodology [
+    a nias-o:Methodology ;
+    dcterms:title "GHG Methodology Example" ;
+    rdfs:label "GHG-METHOD-001" ;
+    data:versionTag "1.0.0"
+  ]
+] .

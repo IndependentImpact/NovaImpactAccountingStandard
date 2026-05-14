@@ -1,0 +1,195 @@
+source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,conditional_rule,current_rdf_predicate,current_rdf_value_kind,current_adapter,notes
+#AgentDetails&1.0.0,contact_number,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,country,yes,string,1,always,schema:nationality,literal string,sAgentDetails_1x0x0_toFluree .R,
+#AgentDetails&1.0.0,date_of_birth,yes,string,1,always,schema:birthDate,literal string,sAgentDetails_1x0x0_toFluree .R,
+#AgentDetails&1.0.0,email_address,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Adapter ignores headers.
+#AgentDetails&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Hedera account identifier is not emitted by current adapter.
+#AgentDetails&1.0.0,initials,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Initials are not emitted by current adapter.
+#AgentDetails&1.0.0,name_first,no,string,0..1,always,schema:givenName,literal string,sAgentDetails_1x0x0_toFluree .R,
+#AgentDetails&1.0.0,name_last,yes,string,1,always,schema:familyName,literal string,sAgentDetails_1x0x0_toFluree .R,
+#AgentDetails&1.0.0,supporting_evidence_contact_no,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_email,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_pp1,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_pp2,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#DR-LicenseApplication&1.0.0,commentary_r,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,id_msg_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DR-LicenseApplication&1.0.0,url_ipfs_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DRVICIR&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DRVICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DRVICIR&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DRVICIR&1.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,name_dataset,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_data_final,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_data_raw,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_report_cleaning,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_report_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_rmd_cleaning,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DataLineageReport4.0.0,uri_ipfs_rmd_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Dataset&1.0.0,id_msg_drdlr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Dataset&1.0.0,name_dataset,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Dataset&1.0.0,uri_ipfs_dataset_final,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Dataset&1.0.0,uri_ipfs_drdlr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DateTimePeriod&1.0.0,datetime_end,yes,string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
+#DateTimePeriod&1.0.0,datetime_start,yes,string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
+#DocumentFieldReview&1.0.0,field_key,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentFieldReview&1.0.0,field_prompt,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentFieldReview&1.0.0,field_title,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentFieldReview&1.0.0,original_response,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentFieldReview&1.0.0,reviewer_decision,yes,string enum[APPROVE|FORWARD_ACTION_REQUEST|CORRECTIVE_ACTION_REQUEST|REJECT],1,always,TBD review decision concept property,SKOS concept IRI,,Target should normalize APPROVE/REJECT/etc. to concepts.
+#DocumentFieldReview&1.0.0,reviewer_feedback,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentHeaders&1.0.0,id_msg_lic,no,string,0..1,always,UNMAPPED,,,Submitter license Hedera message reference; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,id_msg_pred,no,string,0..1,always,UNMAPPED,,,Predecessor Hedera message reference; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,id_subject,no,string,0..1,always,@id / nias-o:workflowSubject,IRI seed,sPDDxA_1x0x0_toFluree.R; workflowDocumentMetadata_toFluree.R,Used to mint nias-o:activities/{id_subject} or workflow subject IRIs depending on adapter context.
+#DocumentHeaders&1.0.0,type_subject,no,string enum[PROJECT|AGENT],0..1,always,UNMAPPED,,,Legacy subject discriminator PROJECT/AGENT; not emitted by current R adapters.
+#DocumentHeaders&1.0.0,url_ipfs_lic,no,string,0..1,always,UNMAPPED,,,Submitter license IPFS reference; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,url_ipfs_pred,no,string,0..1,always,UNMAPPED,,,Predecessor IPFS reference; represented only as legacy document header input.
+#GenericDocumentReview&5.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,TBD final review decision property,SKOS concept IRI,,Target should normalize approve/reject values to concepts.
+#GenericDocumentReview&5.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#GenericDocumentReview&5.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,TBD review field relation,array of review nodes,,References DocumentFieldReview.
+#Impact&3.0.0,additionality,no,string,0..1,if not (monitored == NO),nias-o:additionalityJustification,literal string,sImpact_3x0x0_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,beneficial_or_adverse,yes,string enum[BENEFICIAL|ADVERSE],1,always,nias-o:beneficialOrAdverse,SKOS concept IRI,sImpact_3x0x0_toFluree.R,BENEFICIAL/ADVERSE mapped to nias-o concept IDs.
+#Impact&3.0.0,crediting_period,no,ref:#DateTimePeriod&1.0.0,0..1,if not (monitored == NO),nias-o:creditingPeriod,nias-o:CreditingPeriod node,sImpact_3x0x0_toFluree.R; creditingPeriod_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,crediting_period_type,no,string enum[RENEWABLE|NON_RENEWABLE],0..1,if not (monitored == NO),nias-o:creditingPeriod/nias-o:creditingPeriodIsRenewable,boolean literal,sImpact_3x0x0_toFluree.R; creditingPeriod_toFluree.R,RENEWABLE maps to true; all other values map to false. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,data_and_parameters,no,array<ref:#TableRow-DataParameterMonitoring&1.0.0>,0..*,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,JSON-only data requirements; current adapter does not emit them. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,description,yes,string,1,always,schema:description,literal string,sImpact_3x0x0_toFluree.R,
+#Impact&3.0.0,impact_estimation_ex_ante,no,number,0..1,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,JSON-only expected ex-ante impact estimate; current adapter does not emit it. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,indicator,no,string,0..1,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,Legacy free-text indicator description is not emitted; adapter emits indicator_label and indicator_unit_of_measure instead. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,indicator_label,no,string,0..1,if not (monitored == NO),impactont:isDefinedByIndicator/rdfs:label,embedded indicator node literal,sImpact_3x0x0_toFluree.R; indicator_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,indicator_unit_of_measure,no,string,0..1,if not (monitored == NO),impactont:isDefinedByIndicator/nias-o:unitOfMeasure,embedded indicator node literal,sImpact_3x0x0_toFluree.R; indicator_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,intentionality,yes,string enum[INTENTIONAL|UNINTENTIONAL],1,always,nias-o:impactIntentionality,SKOS concept IRI,sImpact_3x0x0_toFluree.R,INTENTIONAL/UNINTENTIONAL mapped to nias-o concept IDs.
+#Impact&3.0.0,methodologies,no,array<ref:#MethodologyApplicability&3.0.0>,0..*,if not (monitored == NO),nias-o:indicatorMethodology,array of methodology nodes,sImpact_3x0x0_toFluree.R; sMethodology_1x0x0_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,monitored,yes,string enum[YES|NO],1,always,nias-o:monitored,SKOS concept IRI,sImpact_3x0x0_toFluree.R,YES/NO mapped to nias-o:yes/nias-o:no.
+#Impact&3.0.0,monitoring_periods,no,array<ref:#DateTimePeriod&1.0.0>,0..*,if not (monitored == NO),nias-o:monitoringPeriod,array of time:Interval nodes,sImpact_3x0x0_toFluree.R; dateTimePeriod_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,not_monitored_justification,no,string,0..1,if monitored == NO,nias-o:notMonitoredJustification,literal string,sImpact_3x0x0_toFluree.R,Adapter branch condition is misspelled as not_monitored_justifcation but reads not_monitored_justification. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,state_baseline,no,number,0..1,if not (monitored == NO),impactont:hasStateA/impactont:hasValue,numeric literal,sImpact_3x0x0_toFluree.R; state_toFluree.R,JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,state_project,no,number,0..1,if not (monitored == NO),impactont:hasStateB/impactont:hasValue,numeric literal,sImpact_3x0x0_toFluree.R; state_toFluree.R,JSON schema branch lists this property but does not require it.
+#ImpactSummary&1.0.0,description_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ImpactSummary&1.0.0,extent_impact,yes,number,1,always,TBD measured impact value / ind:obsValue,numeric literal,,Target should reuse monitoring report measured impact model.
+#ImpactSummary&1.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,TBD measured impact period,time interval node,,Target should reuse monitoring report measured impact model.
+#ImpactSummary&1.0.0,unit_impact,yes,string,1,always,TBD ind:hasUnit,QUDT unit IRI,,Target should reuse monitoring report measured impact model.
+#IndependentImpactAgentLicense&1.0.0,did_licensee,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#IndependentImpactAgentLicense&1.0.0,email_address,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#IndependentImpactAgentLicense&1.0.0,license_number,yes,string,1,always,nias-o:licenseNumber,literal string,,Target mapping described in migration path; no current R adapter.
+#IndependentImpactAgentLicense&1.0.0,scope,yes,array<string>,1..*,always,nias-o:licenseScope,SKOS concept IRI array,,Target mapping described in migration path; no current R adapter.
+#LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Methodology&1.0.0,label,yes,string,1,always,rdfs:label,literal string,sMethodology_1x0x0_toFluree.R,
+#Methodology&1.0.0,title,yes,string,1,always,dcterms:title,literal string,sMethodology_1x0x0_toFluree.R,
+#Methodology&1.0.0,version,yes,string,1,always,data:versionTag,literal string,sMethodology_1x0x0_toFluree.R,
+#MethodologyApplicability&3.0.0,applicability,yes,string,1,always,UNMAPPED,,sImpact_3x0x0_toFluree.R,Applicability rationale is not emitted by current adapter.
+#MethodologyApplicability&3.0.0,methodology,yes,ref:Methodology&1.0.0,1,always,nias-o:indicatorMethodology,embedded methodology node,sImpact_3x0x0_toFluree.R,Nested methodology.title/label/version emitted through sMethodology_1x0x0_toFluree.R.
+#MonitoringReport&6.0.0,datasets,yes,array<ref:#Dataset&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,indicator_label,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,ipfs_uri_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,ipfs_uri_report_calculation,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,ipfs_uri_rmd_calculation,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,TBD ind:timePeriod / nias-o:monitoringPeriod,time interval node,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
+#MonitoringReport&6.0.0,unit_impact,yes,string,1,always,TBD ind:hasUnit,QUDT unit IRI,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
+#MonitoringReport&6.0.0,value_impact,yes,number,1,always,TBD measured impact value / ind:obsValue,numeric literal,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
+#PDDCIR&3.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,id_msg_pred_drxa,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,id_msg_pred_drxb,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,id_msg_pred_drxc,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,url_ipfs_pred_drxa,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,url_ipfs_pred_drxb,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDCIR&3.0.0,url_ipfs_pred_drxc,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,debundling,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,eligibility_project,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,@id seed via headers.id_subject,object ref,sPDDxA_1x0x0_toFluree.R,Current adapter reads headers$id_subject only.
+#PDDxA&1.0.0,history_project,yes,string,1,always,nias-o:projectHistory,literal string,sPDDxA_1x0x0_toFluree.R,
+#PDDxA&1.0.0,legal_matters,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,location_project,yes,array<string>,1..*,always,impactont:hasSpatialLocation/nias-o:resourceIpfsUri,array of resource nodes,sPDDxA_1x0x0_toFluree.R,
+#PDDxA&1.0.0,parties_project,yes,array<ref:#ProjectParty&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,purpose_project,yes,string,1,always,aiao:hasObjective/schema:description,blank objective node with literal,sPDDxA_1x0x0_toFluree.R,
+#PDDxA&1.0.0,source_public_funding,no,array<string>,0..*,if status_public_funding == YES,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#PDDxA&1.0.0,status_public_funding,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,techmeas_project,yes,array<ref:#TechnologiesAndMeasures&1.0.0>,1..*,always,nias-o:technologyOrMeasure,array of nias-o:TechnologyOrMeasure nodes,sPDDxA_1x0x0_toFluree.R,
+#PDDxA&1.0.0,title_project,yes,string,1,always,nias-o:title,literal string,sPDDxA_1x0x0_toFluree.R,
+#PDDxB&9.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,sPDDxB_9x0x0_toFluree.R,Adapter ignores headers and returns only impacts.
+#PDDxB&9.0.0,impacts,yes,array<ref:#Impact&3.0.0>,1..*,always,rdf:type impactont:Impact,array of impact nodes,sPDDxB_9x0x0_toFluree.R; sImpact_3x0x0_toFluree.R,
+#PDDxC&4.0.0,consideration_comments,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxC&4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxC&4.0.0,modalities,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxC&4.0.0,summary_comments,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PLA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter.
+#PLA&1.0.0,location_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA location_project.
+#PLA&1.0.0,purpose_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA purpose_project.
+#PLA&1.0.0,title_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA title_project.
+#ProjectParty&1.0.0,info_additional,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectParty&1.0.0,is_host,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectParty&1.0.0,is_participant,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectParty&1.0.0,name,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectParty&1.0.0,public_private,yes,string enum[PUBLIC|PRIVATE],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectRegistrationRequest&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectRegistrationRequest&1.0.0,id_msg_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectRegistrationRequest&1.0.0,url_ipfs_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,data_source,no,string,0..1,if monitored_or_fixed == FIXED_EXANTE,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,description,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,label,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,measurement_methods_and_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,monitored_or_fixed,yes,string enum[MONITORED|FIXED_EXANTE],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,monitoring_frequency,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,purpose,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,qa_qc_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,sampling_plan,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,unit_of_measure,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TableRow-DataParameterMonitoring&1.0.0,value_applied,no,number,0..1,if monitored_or_fixed == FIXED_EXANTE,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TechnologyOrMeasure&1.0.0,age_current,yes,number,1,always,nias-o:currentAgeInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree.R,Adapter emits only when non-empty even though JSON schema requires it.
+#TechnologyOrMeasure&1.0.0,description,yes,string,1,always,schema:description,literal string,sTechnologyOrMeasure_1x0x0_toFluree.R,
+#TechnologyOrMeasure&1.0.0,info_additional,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TechnologyOrMeasure&1.0.0,lifespan_estimated,yes,number,1,always,nias-o:estimatedLifespanInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree.R,Adapter emits only when non-empty even though JSON schema requires it.
+#TechnologyOrMeasure&1.0.0,type_techmeas,yes,string enum[FACILITY|SYSTEM|EQUIPMENT|OTHER],1,always,nias-o:techMeasType,SKOS concept IRI,sTechnologyOrMeasure_1x0x0_toFluree.R,FACILITY/SYSTEM/EQUIPMENT/OTHER mapped to nias-o concept IDs.
+#TechnologyOrMeasure&1.0.0,type_techmeas_otherexplain,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,certificate_number,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,extent_impact,yes,number,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,id_msg_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,indicator_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,unit_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,uri_ipfs_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VICIR&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VICIR&1.0.0,id_msg_pred_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VICIR&1.0.0,summary_impact,yes,ref:#ImpactSummary&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VICIR&1.0.0,url_ipfs_pred_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+R:creditingPeriod_toFluree,end,yes,ISO 8601 date-time string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,creditingPeriod_toFluree.R,Emits end instant for nias-o:CreditingPeriod.
+R:creditingPeriod_toFluree,renewable,yes,boolean,1,always,nias-o:creditingPeriodIsRenewable,boolean literal,creditingPeriod_toFluree.R,Derived from crediting_period_type == RENEWABLE in sImpact adapter.
+R:creditingPeriod_toFluree,start,yes,ISO 8601 date-time string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,creditingPeriod_toFluree.R,Emits beginning instant for nias-o:CreditingPeriod.
+R:dateTimeInstant_toFluree,x,yes,ISO 8601 date-time string,1,always,time:inXSDDateTimeStamp,literal string,dateTimeInstant_toFluree.R,Emits a time:Instant node.
+R:dateTimePeriod_toFluree,end,yes,ISO 8601 date-time string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,Emits end instant for a time:Interval node.
+R:dateTimePeriod_toFluree,start,yes,ISO 8601 date-time string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,Emits beginning instant for a time:Interval node.
+R:indicator_toFluree,lbl,yes,string,1,always,rdfs:label,literal string,indicator_toFluree.R,Embedded indicator node.
+R:indicator_toFluree,uom,yes,string,1,always,nias-o:unitOfMeasure,literal string,indicator_toFluree.R,Legacy unit string; target should use ind:hasUnit/QUDT.
+R:sAgentDetails_1x0x0_toFluree,agentId,yes,string,1,always,@id,IRI seed,sAgentDetails_1x0x0_toFluree .R,Mints nias-o:agents/{agentId}.
+R:sImpact_3x0x0_toFluree,projectId,yes,string,1,monitored impact branch,impactont:hasProvenance,IRI seed,sImpact_3x0x0_toFluree.R,Mints nias-o:activities/{projectId} provenance IRI.
+R:sMethodology_1x0x0_toFluree,label,yes,string,1,always,rdfs:label,literal string,sMethodology_1x0x0_toFluree.R,
+R:sMethodology_1x0x0_toFluree,title,yes,string,1,always,dcterms:title,literal string,sMethodology_1x0x0_toFluree.R,
+R:sMethodology_1x0x0_toFluree,versionTag,yes,string,1,always,data:versionTag,literal string,sMethodology_1x0x0_toFluree.R,JSON schema field is named version.
+R:state_toFluree,dtEnd,no,ISO 8601 date-time string,0..1,if state spans interval,impactont:hasTemporalLocation/time:hasEnd,time node literal,state_toFluree.R,Absent dtEnd switches temporal location to time:Instant.
+R:state_toFluree,dtStart,yes,ISO 8601 date-time string,1,always,impactont:hasTemporalLocation/time:hasBeginning or time:inXSDDateTimeStamp,time node literal,state_toFluree.R,"If dtEnd is absent, emits time:Instant; otherwise emits time:Interval."
+R:state_toFluree,indic,conditional,JSON-LD-ready list,0..1,if indicId is absent,impactont:isDefinedByIndicator,embedded indicator node,state_toFluree.R,Ignored when indicId is provided.
+R:state_toFluree,indicId,conditional,IRI string,0..1,if known indicator IRI is available,impactont:isDefinedByIndicator,IRI,state_toFluree.R,Overrides embedded indic list.
+R:state_toFluree,mod,yes,string enum[counterfactual|real],1,always,impactont:hasModality,literal string,state_toFluree.R,Adapter lowercases the supplied modality string.
+R:state_toFluree,val,no,number or string,0..1,if indicator value is supplied,impactont:hasValue,literal,state_toFluree.R,Target model should use impactont:hasIndicatorValue/rdf:value.
+R:workflowDocumentMetadata_toFluree,dfDocMd$did_author,yes,DID string,1,always,nias-o:documentAuthor,agent IRI via DB lookup,workflowDocumentMetadata_toFluree.R,Looks up id_agent from tbl_link_agents_x_dids by DID.
+R:workflowDocumentMetadata_toFluree,dfDocMd$encrypted,yes,boolean,1,always,nias-o:isEncrypted,literal,workflowDocumentMetadata_toFluree.R,
+R:workflowDocumentMetadata_toFluree,dfDocMd$id,conditional,string,0..1,required if docId absent,@id,IRI seed,workflowDocumentMetadata_toFluree.R,Mints nias-o:documents/{id}.
+R:workflowDocumentMetadata_toFluree,dfDocMd$id_entity,yes,string,1,always,nias-o:hasWorkflowSubmission/nias-o:workflowSubject,IRI,workflowDocumentMetadata_toFluree.R,Mints nias-o:activities/{id_entity}.
+R:workflowDocumentMetadata_toFluree,dfDocMd$id_message_h,yes,string,1,always,nias-o:hasWorkflowSubmission/nias-o:workflowDocumentSubmissionHederaMessageId,literal string,workflowDocumentMetadata_toFluree.R,Open modeling issue: ontology currently treats this as object property.
+R:workflowDocumentMetadata_toFluree,dfDocMd$id_schema,yes,string,1,always,nias-o:documentSchema,nias-o:DocumentSchema IRI,workflowDocumentMetadata_toFluree.R,Mints nias-o:document-schema/{id_schema}.
+R:workflowDocumentMetadata_toFluree,dfDocMd$id_workflow,yes,string,1,always,nias-o:hasWorkflowSubmission/nias-o:workflow,IRI,workflowDocumentMetadata_toFluree.R,Mints nias-o:workflows/{id_workflow}.
+R:workflowDocumentMetadata_toFluree,dfDocMd$step_workflow,yes,string,1,always,nias-o:hasWorkflowSubmission/nias-o:workflowStep/rdfs:label,literal string,workflowDocumentMetadata_toFluree.R,
+R:workflowDocumentMetadata_toFluree,dfDocMd$type_doc,yes,string enum[REGULAR_UNSIGNED|REGULAR_SIGNED|VC],1,always,nias-o:authProof,SKOS concept IRI,workflowDocumentMetadata_toFluree.R,"Maps to nias-o:none, nias-o:eddsa-signature, or nias-o:vc."
+R:workflowDocumentMetadata_toFluree,dfDocMd$uri_ipfs,yes,IPFS URI string,1,always,nias-o:resourceIpfsUri,literal string,workflowDocumentMetadata_toFluree.R,
+R:workflowDocumentMetadata_toFluree,docId,conditional,string,0..1,required if dfDocMd absent,@id,IRI seed,workflowDocumentMetadata_toFluree.R,Mints nias-o:documents/{docId}; may be loaded from DB.

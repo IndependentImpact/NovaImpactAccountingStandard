@@ -1,0 +1,10 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/agents/agent-001>
+  a aiao:Agent, nias-o:PlatformUser ;
+  schema:givenName "Ada" ;
+  schema:familyName "Mokoena" ;
+  schema:birthDate "1980-01-01" ;
+  schema:nationality "ZA" .

@@ -1,0 +1,6 @@
+@prefix time: <http://www.w3.org/2006/time#> .
+
+[
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2026-05-14T12:00:00Z"
+] .

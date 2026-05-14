@@ -1,0 +1,13 @@
+@prefix impactont: <https://w3id.org/impactont/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+[
+  a impactont:State ;
+  impactont:hasTemporalLocation [
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-05-14T12:00:00Z"
+  ] ;
+  impactont:hasModality "real" ;
+  impactont:isDefinedByIndicator <https://nova.org.za/novaimpactaccountingstandard/indicators/example-indicator>
+] .

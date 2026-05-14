@@ -1,0 +1,13 @@
+@prefix time: <http://www.w3.org/2006/time#> .
+
+[
+  a time:Interval ;
+  time:hasBeginning [
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"
+  ] ;
+  time:hasEnd [
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-12-31T23:59:59Z"
+  ]
+] .

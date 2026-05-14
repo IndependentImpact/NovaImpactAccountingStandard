@@ -1,0 +1,24 @@
+@prefix data: <http://jellyfiiish.xyz/ns/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/doc-001>
+  a data:Document ;
+  nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt3exampledoc" ;
+  nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+  nias-o:isEncrypted false ;
+  nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/agents/agent-001> ;
+  nias-o:authProof nias-o:eddsa-signature ;
+  nias-o:hasWorkflowSubmission [
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+      a nias-o:WorkflowStep ;
+      rdfs:label "PDD-A submitted"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/activities/project-001> ;
+    nias-o:workflowDocumentSubmissionHederaMessageId "0.0.123-1700000000-000000000"
+  ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0>
+  a nias-o:DocumentSchema .

@@ -1,0 +1,12 @@
+@prefix impactont: <https://w3id.org/impactont/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+[
+  a impactont:Impact ;
+  nias-o:impactIntentionality nias-o:intentional ;
+  nias-o:beneficialOrAdverse nias-o:beneficial ;
+  schema:description "Minor landscape co-benefit that will not be quantified." ;
+  nias-o:monitored nias-o:no ;
+  nias-o:notMonitoredJustification "The impact is not material enough to monitor."
+] .

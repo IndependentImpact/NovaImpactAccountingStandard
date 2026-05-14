@@ -1,0 +1,25 @@
+@prefix aiao: <https://w3id.org/aiao/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <https://w3id.org/impactont/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/activities/project-001>
+  a aiao:Project ;
+  nias-o:title "Solar irrigation project" ;
+  aiao:hasObjective [
+    a aiao:Objective ;
+    schema:description "Reduce diesel consumption for irrigation pumping."
+  ] ;
+  impactont:hasSpatialLocation [
+    a impactont:SpatialLocation, dcterms:Resource ;
+    nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt3examplelocation"
+  ] ;
+  nias-o:technologyOrMeasure [
+    a nias-o:TechnologyOrMeasure ;
+    nias-o:techMeasType nias-o:facility ;
+    schema:description "Solar photovoltaic pump system." ;
+    nias-o:currentAgeInYears 1 ;
+    nias-o:estimatedLifespanInYears 20
+  ] ;
+  nias-o:projectHistory "The project replaces existing diesel pumping equipment." .

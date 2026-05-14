@@ -1,0 +1,8 @@
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+[
+  a nias-o:TechnologyOrMeasure ;
+  nias-o:techMeasType nias-o:facility ;
+  schema:description "Solar photovoltaic pump system."
+] .

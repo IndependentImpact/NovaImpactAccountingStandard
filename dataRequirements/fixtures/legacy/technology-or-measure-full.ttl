@@ -1,0 +1,10 @@
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+[
+  a nias-o:TechnologyOrMeasure ;
+  nias-o:techMeasType nias-o:equipment ;
+  schema:description "High-efficiency inverter equipment." ;
+  nias-o:currentAgeInYears 2 ;
+  nias-o:estimatedLifespanInYears 15
+] .

@@ -1,12 +1,15 @@
 # Remaining SHACL Migration Actions (Execution Order)
 
-This checklist is derived from `dataRequirements/shacl-migration-path.md`, excluding actions already marked as completed there.
+This checklist is derived from `dataRequirements/shacl-migration-path.md`,
+excluding actions already marked as completed there. Items completed after this
+checklist was created are retained with artifact pointers.
 
 1. **Phase 0: Freeze and inventory legacy inputs**
-   - Freeze the current `reference/` scripts as legacy adapters.
-   - Extract every legacy input field path, output RDF predicate, expected datatype, cardinality, and conditional rule into a table.
-   - Store the result as `dataRequirements/legacy-field-map.ttl` or a CSV that can later be converted to TTL.
-   - Create minimal JSON-LD fixtures for each reference function branch.
+   - No remaining actions (completed 2026-05-14).
+   - Freeze recorded in `dataRequirements/legacy-reference-freeze.md` and
+     `dataRequirements/legacy-reference-manifest.sha256`.
+   - Field inventory recorded in `dataRequirements/legacy-field-map.csv`.
+   - Minimal legacy RDF fixtures recorded in `dataRequirements/fixtures/legacy/`.
 
 2. **Phase 1: Normalize namespaces and value semantics**
    - Maintain canonical external prefixes (`aiao`, `impactont`, `claimont`, `infocomm`) across ontology, shapes, concept schemes, adapters, and fixtures.

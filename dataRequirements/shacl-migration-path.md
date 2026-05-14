@@ -1156,14 +1156,22 @@ QUDT schema graph alongside the shapes graph.
 
 Goal: make the migration auditable.
 
+Status: completed 2026-05-14.
+
 Actions:
 
-- Freeze the current `reference/` scripts as legacy adapters.
+- Freeze the current `reference/` scripts as legacy adapters. ✅ completed in
+  `dataRequirements/legacy-reference-freeze.md` and
+  `dataRequirements/legacy-reference-manifest.sha256`.
 - Extract every legacy input field path, output RDF predicate, expected
-  datatype, cardinality, and conditional rule into a table.
+  datatype, cardinality, and conditional rule into a table. ✅ completed in
+  `dataRequirements/legacy-field-map.csv`.
 - Store the result as `dataRequirements/legacy-field-map.ttl` or a CSV that can
-  later be converted to TTL.
-- Create minimal JSON-LD fixtures for each reference function branch:
+  later be converted to TTL. ✅ completed as
+  `dataRequirements/legacy-field-map.csv`.
+- Create minimal RDF fixtures, preferably Turtle, for each reference function
+  branch; keep JSON-LD snapshots only where exact legacy adapter output needs
+  regression testing. ✅ completed in `dataRequirements/fixtures/legacy/`:
   monitored impact, unmonitored impact, project design, technology/measure,
   agent details, document metadata, and time periods.
 

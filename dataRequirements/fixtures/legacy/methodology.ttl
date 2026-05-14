@@ -1,0 +1,11 @@
+@prefix data: <http://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[
+  a nias-o:Methodology ;
+  dcterms:title "GHG Methodology Example" ;
+  rdfs:label "GHG-METHOD-001" ;
+  data:versionTag "1.0.0"
+] .

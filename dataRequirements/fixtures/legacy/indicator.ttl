@@ -1,0 +1,9 @@
+@prefix impactont: <https://w3id.org/impactont/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[
+  a impactont:Indicator ;
+  rdfs:label "tCO2e avoided" ;
+  nias-o:unitOfMeasure "tCO2e"
+] .
