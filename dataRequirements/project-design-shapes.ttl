@@ -1,0 +1,162 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ProjectDesignShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Project Design SHACL Shapes"@en ;
+    dcterms:description "PDD-A project design shapes for NIAS SHACL migration Phase 3."@en ;
+    owl:imports nias-o:CommonShapes .
+
+nias-o:ObjectiveShape a sh:NodeShape ;
+    sh:targetClass aiao:Objective ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project objective must have a description."@en
+    ] .
+
+nias-o:SpatialLocationResourceShape a sh:NodeShape ;
+    sh:targetClass impactont:SpatialLocation ;
+    sh:node nias-o:ResourceContentLocationShape ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue impactont:SpatialLocation ;
+        sh:minCount 1 ;
+        sh:message "A project location must be typed as impactont:SpatialLocation."@en
+    ] .
+
+nias-o:ProjectPartyShape a sh:NodeShape ;
+    sh:targetClass nias-o:ProjectParty ;
+    sh:property [
+        sh:path nias-o:partyName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project party must have a name."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:isHostParty ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project party must state whether it is a host party."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:isParticipantParty ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project party must state whether it is a participant."@en
+    ] ;
+    sh:property nias-o:PublicPrivateClassificationPropertyShape ;
+    sh:property [
+        sh:path nias-o:additionalInfo ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+nias-o:ProjectWithPublicFundingShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:publicFundingStatus ;
+        sh:hasValue nias-cs:yes ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:publicFundingSource ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:message "A publicly funded project must list at least one public funding source."@en
+    ] .
+
+nias-o:ProjectWithoutPublicFundingShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:publicFundingStatus ;
+        sh:hasValue nias-cs:no ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] .
+
+nias-o:ProjectDesignShape a sh:NodeShape ;
+    sh:targetClass aiao:Project ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+        sh:path nias-o:title ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project design must have exactly one project title."@en
+    ] ;
+    sh:property [
+        sh:path aiao:hasObjective ;
+        sh:class aiao:Objective ;
+        sh:node nias-o:ObjectiveShape ;
+        sh:minCount 1 ;
+        sh:message "A project design must include at least one project objective."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasSpatialLocation ;
+        sh:class impactont:SpatialLocation ;
+        sh:node nias-o:SpatialLocationResourceShape ;
+        sh:minCount 1 ;
+        sh:message "A project design must include at least one spatial location resource."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:technologyOrMeasure ;
+        sh:class nias-o:TechnologyOrMeasure ;
+        sh:node nias-o:TechnologyOrMeasureShape ;
+        sh:minCount 1 ;
+        sh:message "A project design must include at least one technology or measure."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:projectParty ;
+        sh:class nias-o:ProjectParty ;
+        sh:node nias-o:ProjectPartyShape ;
+        sh:minCount 1 ;
+        sh:message "A project design must include at least one project party."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:legalMatters ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project design must include legal matters."@en
+    ] ;
+    sh:property nias-o:PublicFundingStatusPropertyShape ;
+    sh:property [
+        sh:path nias-o:publicFundingSource ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path nias-o:projectHistory ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project design must include project history."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:debundlingAssessment ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project design must include a debundling assessment."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:eligibilityDescription ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] ;
+    sh:or (
+        nias-o:ProjectWithPublicFundingShape
+        nias-o:ProjectWithoutPublicFundingShape
+    ) .

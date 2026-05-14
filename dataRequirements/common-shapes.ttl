@@ -1,0 +1,410 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:CommonShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Common SHACL Shapes"@en ;
+    dcterms:description "Reusable SHACL shapes for NIAS data requirements during the SHACL migration."@en ;
+    owl:imports nias-o: .
+
+# Numeric literals can arrive from JSON-LD as integer, decimal, or double. The
+# canonical model treats them as numeric values, so these shapes accept all three.
+nias-o:NumericLiteralShape a sh:NodeShape ;
+    sh:or (
+        [ sh:datatype xsd:decimal ]
+        [ sh:datatype xsd:integer ]
+        [ sh:datatype xsd:double ]
+    ) ;
+    sh:message "Value must be a numeric RDF literal."@en .
+
+nias-o:NonNegativeNumericLiteralShape a sh:NodeShape ;
+    sh:node nias-o:NumericLiteralShape ;
+    sh:minInclusive 0 ;
+    sh:message "Value must be a non-negative numeric RDF literal."@en .
+
+nias-o:ResourceContentLocationShape a sh:NodeShape ;
+    sh:or (
+        [
+            sh:property [
+                sh:path nias-o:resourceIpfsUri ;
+                sh:datatype xsd:anyURI ;
+                sh:pattern "^(ipfs|ipns)://.+" ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:message "Use nias-o:resourceIpfsUri for IPFS/IPNS content-addressed resources."@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path nias-o:resourceContentLocation ;
+                sh:datatype xsd:anyURI ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:message "Provide a resolvable content location when no IPFS/IPNS URI is available."@en
+            ]
+        ]
+    ) ;
+    sh:message "A resource must have either an IPFS/IPNS URI or another content location."@en .
+
+nias-o:DateTimeInstantShape a sh:NodeShape ;
+    sh:targetClass time:Instant ;
+    sh:property [
+        sh:path time:inXSDDateTimeStamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each time:Instant must have exactly one xsd:dateTimeStamp value."@en
+    ] .
+
+nias-o:DateTimeIntervalShape a sh:NodeShape ;
+    sh:targetClass time:Interval ;
+    sh:property [
+        sh:path time:hasBeginning ;
+        sh:class time:Instant ;
+        sh:node nias-o:DateTimeInstantShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each time:Interval must have exactly one beginning instant."@en
+    ] ;
+    sh:property [
+        sh:path time:hasEnd ;
+        sh:class time:Instant ;
+        sh:node nias-o:DateTimeInstantShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each time:Interval must have exactly one end instant."@en
+    ] .
+
+nias-o:CreditingPeriodShape a sh:NodeShape ;
+    sh:targetClass nias-o:CreditingPeriod ;
+    sh:node nias-o:DateTimeIntervalShape ;
+    sh:property [
+        sh:path nias-o:creditingPeriodIsRenewable ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A crediting period must state whether it is renewable."@en
+    ] .
+
+nias-o:AuthProofPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:authProof ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:none nias-cs:eddsa-signature nias-cs:rsa-signature nias-cs:vc ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Document authenticity proof must be one of the NIAS AuthProof concepts."@en .
+
+nias-o:BeneficialOrAdversePropertyShape a sh:PropertyShape ;
+    sh:path nias-o:beneficialOrAdverse ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:beneficial nias-cs:adverse ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Impact benefit classification must be beneficial or adverse."@en .
+
+nias-o:ImpactIntentionalityPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:impactIntentionality ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:intentional nias-cs:unintentional ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Impact intentionality must be intentional or unintentional."@en .
+
+nias-o:MonitoringStatusPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:monitored ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:yes nias-cs:no ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Impact monitoring status must be yes or no."@en .
+
+nias-o:MonitoredOrFixedPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:monitoredOrFixed ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:monitored nias-cs:fixed-ex-ante ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Data or parameter status must be monitored or fixed ex-ante."@en .
+
+nias-o:PublicFundingStatusPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:publicFundingStatus ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:yes nias-cs:no ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Public funding status must be yes or no."@en .
+
+nias-o:PublicPrivateClassificationPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:publicPrivateClassification ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:public nias-cs:private ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Project party classification must be public or private."@en .
+
+nias-o:TechMeasTypePropertyShape a sh:PropertyShape ;
+    sh:path nias-o:techMeasType ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:facility nias-cs:system nias-cs:equipment nias-cs:other ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Technology or measure type must be facility, system, equipment, or other."@en .
+
+nias-o:TechnologyOrMeasureShape a sh:NodeShape ;
+    sh:targetClass nias-o:TechnologyOrMeasure ;
+    sh:property nias-o:TechMeasTypePropertyShape ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A technology or measure must have a description."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:currentAgeInYears ;
+        sh:node nias-o:NonNegativeNumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A technology or measure must have a non-negative current age in years."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:estimatedLifespanInYears ;
+        sh:node nias-o:NonNegativeNumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A technology or measure must have a non-negative estimated lifespan in years."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:additionalInfo ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+nias-o:TemporalLocationShape a sh:NodeShape ;
+    sh:or (
+        nias-o:DateTimeInstantShape
+        nias-o:DateTimeIntervalShape
+    ) ;
+    sh:message "A temporal location must be an OWL-Time instant or interval."@en .
+
+nias-o:IndicatorValueShape a sh:NodeShape ;
+    sh:targetClass impactont:IndicatorValue ;
+    sh:property [
+        sh:path rdf:value ;
+        sh:node nias-o:NumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An indicator value must have exactly one numeric rdf:value."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "Use ind:hasUnit with a QUDT unit IRI when the unit is recorded on the value."@en
+    ] .
+
+nias-o:StateShape a sh:NodeShape ;
+    sh:targetClass impactont:State ;
+    sh:property [
+        sh:path impactont:hasTemporalLocation ;
+        sh:node nias-o:TemporalLocationShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A state must have exactly one temporal location."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasModality ;
+        sh:datatype xsd:string ;
+        sh:in ( "counterfactual" "real" ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A state modality must be counterfactual or real."@en
+    ] ;
+    sh:property [
+        sh:path impactont:isDefinedByIndicator ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A state must point to a stable indicator definition IRI."@en
+    ] .
+
+nias-o:StateWithIndicatorValueShape a sh:NodeShape ;
+    sh:node nias-o:StateShape ;
+    sh:property [
+        sh:path impactont:hasIndicatorValue ;
+        sh:class impactont:IndicatorValue ;
+        sh:node nias-o:IndicatorValueShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A measured or projected state must have exactly one indicator value."@en
+    ] .
+
+nias-o:IndicatorDefinitionShape a sh:NodeShape ;
+    sh:targetClass ind:IndicatorDefinition ;
+    sh:property [
+        sh:path skos:prefLabel ;
+        sh:datatype rdf:langString ;
+        sh:minCount 1 ;
+        sh:message "Each indicator definition must have at least one preferred label."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each indicator definition must declare exactly one QUDT unit IRI via ind:hasUnit."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasIndicatorStage ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( ind:ActivityIndicator ind:OutputIndicator ind:OutcomeIndicator ind:ImpactIndicator ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Each indicator definition must declare one indicator stage."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasFormula ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path ind:hasRationale ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+nias-o:IndicatorObservationShape a sh:NodeShape ;
+    sh:targetClass ind:IndicatorObservation ;
+    sh:property [
+        sh:path ind:observesIndicator ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An indicator observation must observe exactly one indicator definition."@en
+    ] ;
+    sh:property [
+        sh:path ind:obsValue ;
+        sh:node nias-o:NumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An indicator observation must have exactly one numeric observed value."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An indicator observation must declare exactly one QUDT unit IRI."@en
+    ] ;
+    sh:property [
+        sh:path ind:timePeriod ;
+        sh:node nias-o:DateTimeIntervalShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An indicator observation must identify exactly one time period."@en
+    ] .
+
+nias-o:DataParameterRequirementShape a sh:NodeShape ;
+    sh:targetClass nias-o:DataParameterRequirement ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data or parameter requirement must have a label."@en
+    ] ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data or parameter requirement must have a description."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:dataParameterPurpose ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data or parameter requirement must explain its purpose."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data or parameter requirement must use ind:hasUnit with a QUDT unit IRI."@en
+    ] ;
+    sh:property nias-o:MonitoredOrFixedPropertyShape ;
+    sh:or (
+        nias-o:MonitoredDataParameterRequirementShape
+        nias-o:FixedExAnteDataParameterRequirementShape
+    ) .
+
+nias-o:MonitoredDataParameterRequirementShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:monitoredOrFixed ;
+        sh:hasValue nias-cs:monitored ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:measurementMethodsAndProcedures ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored data or parameter requirement must include measurement methods and procedures."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:qaQcProcedures ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored data or parameter requirement must include QA/QC procedures."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringFrequency ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored data or parameter requirement must include monitoring frequency."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:samplingPlan ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored data or parameter requirement must include a sampling plan."@en
+    ] .
+
+nias-o:FixedExAnteDataParameterRequirementShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:monitoredOrFixed ;
+        sh:hasValue nias-cs:fixed-ex-ante ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:parameterAppliedValue ;
+        sh:node nias-o:NumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A fixed ex-ante data or parameter requirement must include the applied value."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:dataSource ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A fixed ex-ante data or parameter requirement must include the data source."@en
+    ] .

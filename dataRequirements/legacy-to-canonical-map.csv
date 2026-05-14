@@ -1,0 +1,65 @@
+source_artifact,legacy_field_path,canonical_predicate,canonical_value_model,phase4_adapter,notes
+#DocumentHeaders&1.0.0,id_subject,@id / claimont:hasSubject / nias-o:workflowSubject,nias-o:activities/{id_subject} IRI,phase4_compatibility_toFluree.R,Used as the stable project/activity subject IRI.
+#DateTimePeriod&1.0.0,datetime_start,time:hasBeginning/time:inXSDDateTimeStamp,xsd:dateTimeStamp literal,dateTimePeriod_toFluree,Canonical adapter emits typed xsd:dateTimeStamp values.
+#DateTimePeriod&1.0.0,datetime_end,time:hasEnd/time:inXSDDateTimeStamp,xsd:dateTimeStamp literal,dateTimePeriod_toFluree,Canonical adapter emits typed xsd:dateTimeStamp values.
+#TechnologyOrMeasure&1.0.0,type_techmeas,nias-o:techMeasType,SKOS concept IRI in nias-cs:TechMeasType,sTechnologyOrMeasure_1x0x0_toFluree,FACILITY/SYSTEM/EQUIPMENT/OTHER become nias-cs concept IRIs.
+#TechnologyOrMeasure&1.0.0,description,schema:description,string literal,sTechnologyOrMeasure_1x0x0_toFluree,
+#TechnologyOrMeasure&1.0.0,age_current,nias-o:currentAgeInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree,
+#TechnologyOrMeasure&1.0.0,lifespan_estimated,nias-o:estimatedLifespanInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree,
+#TechnologyOrMeasure&1.0.0,info_additional,nias-o:additionalInfo,string literal,sTechnologyOrMeasure_1x0x0_toFluree,
+#TechnologyOrMeasure&1.0.0,type_techmeas_otherexplain,nias-o:additionalInfo,string literal,sTechnologyOrMeasure_1x0x0_toFluree,Used when info_additional is absent.
+#ProjectParty&1.0.0,name,nias-o:partyName,string literal,projectParty_toFluree,
+#ProjectParty&1.0.0,is_host,nias-o:isHostParty,xsd:boolean literal,projectParty_toFluree,YES/NO is converted to true/false.
+#ProjectParty&1.0.0,is_participant,nias-o:isParticipantParty,xsd:boolean literal,projectParty_toFluree,YES/NO is converted to true/false.
+#ProjectParty&1.0.0,public_private,nias-o:publicPrivateClassification,SKOS concept IRI in nias-cs:PublicPrivateClassification,projectParty_toFluree,PUBLIC/PRIVATE become nias-cs concept IRIs.
+#ProjectParty&1.0.0,info_additional,nias-o:additionalInfo,string literal,projectParty_toFluree,
+#PDDxA&1.0.0,title_project,nias-o:title,string literal,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,purpose_project,aiao:hasObjective/schema:description,aiao:Objective node,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,location_project,impactont:hasSpatialLocation/nias-o:resourceIpfsUri,impactont:SpatialLocation resource with xsd:anyURI IPFS URI,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,techmeas_project,nias-o:technologyOrMeasure,nias-o:TechnologyOrMeasure node,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,parties_project,nias-o:projectParty,nias-o:ProjectParty node,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,legal_matters,nias-o:legalMatters,string literal,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,status_public_funding,nias-o:publicFundingStatus,SKOS concept IRI in nias-cs:YesNo,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,source_public_funding,nias-o:publicFundingSource,string literal list,sPDDxA_1x0x0_toFluree,Emitted when public funding sources are supplied.
+#PDDxA&1.0.0,history_project,nias-o:projectHistory,string literal,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,debundling,nias-o:debundlingAssessment,string literal,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,eligibility_project,nias-o:eligibilityDescription,string literal,sPDDxA_1x0x0_toFluree,
+#Impact&3.0.0,intentionality,nias-o:impactIntentionality,SKOS concept IRI in nias-cs:ImpactIntentionality,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,beneficial_or_adverse,nias-o:beneficialOrAdverse,SKOS concept IRI in nias-cs:BeneficialOrAdverse,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,description,schema:description,string literal,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,monitored,nias-o:monitored,SKOS concept IRI in nias-cs:MonitoringStatus,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,not_monitored_justification,nias-o:notMonitoredJustification,string literal,sImpact_3x0x0_toFluree,Misspelled not_monitored_justifcation is not carried forward.
+#Impact&3.0.0,additionality,nias-o:additionalityJustification,string literal,sImpact_3x0x0_toFluree,Emitted for monitored impacts.
+#Impact&3.0.0,state_baseline,impactont:hasStateA/impactont:hasIndicatorValue/rdf:value,numeric literal,sImpact_3x0x0_toFluree,Replaces legacy impactont:hasValue.
+#Impact&3.0.0,state_project,impactont:hasStateB/impactont:hasIndicatorValue/rdf:value,numeric literal,sImpact_3x0x0_toFluree,Replaces legacy impactont:hasValue.
+#Impact&3.0.0,indicator_label,impactont:isDefinedByIndicator,stable ind:IndicatorDefinition IRI or draft NIAS indicator IRI,indicator_toFluree,GHG/tCO2e indicators map to nias-ind:ghg-tco2e-per-year.
+#Impact&3.0.0,indicator_unit_of_measure,ind:hasUnit,QUDT unit IRI,indicator_toFluree,Known strings such as tCO2e and tonne map to unit:TONNE.
+#Impact&3.0.0,monitoring_periods,nias-o:monitoringPeriod,time:Interval node,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,crediting_period,nias-o:creditingPeriod,nias-o:CreditingPeriod node,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,crediting_period_type,nias-o:creditingPeriod/nias-o:creditingPeriodIsRenewable,xsd:boolean literal,sImpact_3x0x0_toFluree,RENEWABLE becomes true and other values become false.
+#Impact&3.0.0,impact_estimation_ex_ante,nias-o:exAnteImpactEstimate,numeric literal,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,data_and_parameters,nias-o:dataParameterRequirement,nias-o:DataParameterRequirement node,sImpact_3x0x0_toFluree,
+#Methodology&1.0.0,label,nias-o:usesMethodology,stable meth:Methodology IRI,impactClaim_toFluree,Methodology use is emitted on aiao:ImpactClaim instead of as nias-o:indicatorMethodology.
+#Methodology&1.0.0,title,dcterms:title,language-tagged literal,sMethodology_1x0x0_toFluree,Used only when the methodology node is materialized in JSON-LD.
+#Methodology&1.0.0,version,meth:hasVersion,string literal,sMethodology_1x0x0_toFluree,Replaces legacy data:versionTag.
+#PDDxB&9.0.0,impacts,nias-o:hasDeclaredImpact,impactont:Impact nodes inside nias-o:ImpactDeclaration,sPDDxB_9x0x0_toFluree,PDD-B now emits an impact declaration wrapper for canonical validation.
+#TableRow-DataParameterMonitoring&1.0.0,label,rdfs:label,string literal,dataParameterMonitoring_toFluree,
+#TableRow-DataParameterMonitoring&1.0.0,unit_of_measure,ind:hasUnit,QUDT unit IRI,dataParameterMonitoring_toFluree,
+#TableRow-DataParameterMonitoring&1.0.0,description,schema:description,string literal,dataParameterMonitoring_toFluree,
+#TableRow-DataParameterMonitoring&1.0.0,purpose,nias-o:dataParameterPurpose,string literal,dataParameterMonitoring_toFluree,
+#TableRow-DataParameterMonitoring&1.0.0,monitored_or_fixed,nias-o:monitoredOrFixed,SKOS concept IRI in nias-cs:MonitoredOrFixed,dataParameterMonitoring_toFluree,
+#TableRow-DataParameterMonitoring&1.0.0,value_applied,nias-o:parameterAppliedValue,numeric literal,dataParameterMonitoring_toFluree,Required by canonical shape for fixed ex-ante rows.
+#TableRow-DataParameterMonitoring&1.0.0,data_source,nias-o:dataSource,string literal,dataParameterMonitoring_toFluree,Required by canonical shape for fixed ex-ante rows.
+#TableRow-DataParameterMonitoring&1.0.0,measurement_methods_and_procedures,nias-o:measurementMethodsAndProcedures,string literal,dataParameterMonitoring_toFluree,Required by canonical shape for monitored rows.
+#TableRow-DataParameterMonitoring&1.0.0,qa_qc_procedures,nias-o:qaQcProcedures,string literal,dataParameterMonitoring_toFluree,Required by canonical shape for monitored rows.
+#TableRow-DataParameterMonitoring&1.0.0,monitoring_frequency,nias-o:monitoringFrequency,string literal,dataParameterMonitoring_toFluree,Required by canonical shape for monitored rows.
+#TableRow-DataParameterMonitoring&1.0.0,sampling_plan,nias-o:samplingPlan,string literal,dataParameterMonitoring_toFluree,Required by canonical shape for monitored rows.
+workflowDocumentMetadata_toFluree,dfDocMd$uri_ipfs,nias-o:resourceIpfsUri,xsd:anyURI literal,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$id_schema,nias-o:documentSchema,nias-o:DocumentSchema IRI,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$encrypted,nias-o:isEncrypted,xsd:boolean literal,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$did_author,nias-o:documentAuthor / nias-o:workflowDocumentSubmittedBy,nias-o:PlatformUser IRI,workflowDocumentMetadata_toFluree,Uses DB lookup when available and a stable slug fallback otherwise.
+workflowDocumentMetadata_toFluree,dfDocMd$type_doc,nias-o:authProof,SKOS concept IRI in nias-cs:AuthProof,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$id_workflow,nias-o:workflow,nias-o:Workflow IRI,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$step_workflow,nias-o:workflowStep/rdfs:label,nias-o:WorkflowStep node,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$id_entity,nias-o:workflowSubject,project/activity IRI,workflowDocumentMetadata_toFluree,
+workflowDocumentMetadata_toFluree,dfDocMd$id_message_h,nias-o:workflowSubmissionConsensusMessage,hedera:TopicMessage node,workflowDocumentMetadata_toFluree,Legacy topic-timestamp strings are parsed into Hashgraph Ontology topic and consensus timestamp fields where possible.

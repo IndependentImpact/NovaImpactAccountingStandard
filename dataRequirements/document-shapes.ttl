@@ -1,0 +1,195 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:DocumentShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Document SHACL Shapes"@en ;
+    dcterms:description "Document metadata, document schema, workflow submission, and Hedera consensus evidence shapes for NIAS SHACL migration Phase 3."@en ;
+    owl:imports nias-o:CommonShapes .
+
+nias-o:DocumentSchemaShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentSchema ;
+    sh:property [
+        sh:path dcterms:title ;
+        sh:datatype rdf:langString ;
+        sh:minCount 1 ;
+        sh:message "A document schema must have a human-readable title."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:validatingShape ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document schema must point to exactly one validating SHACL node shape."@en
+    ] .
+
+nias-o:WorkflowStepShape a sh:NodeShape ;
+    sh:targetClass nias-o:WorkflowStep ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow step must have a label."@en
+    ] .
+
+nias-o:HederaConsensusTopicShape a sh:NodeShape ;
+    sh:targetClass hedera:ConsensusTopic ;
+    sh:property [
+        sh:path hedera:hasTopicId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A Hedera consensus topic must have a shard.realm.num topic ID."@en
+    ] .
+
+nias-o:HederaTopicMessageShape a sh:NodeShape ;
+    sh:targetClass hedera:TopicMessage ;
+    sh:property [
+        sh:path hedera:inTopic ;
+        sh:class hedera:ConsensusTopic ;
+        sh:node nias-o:HederaConsensusTopicShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A Hedera topic message must identify its consensus topic."@en
+    ] ;
+    sh:property [
+        sh:path hedera:hasSequenceNumber ;
+        sh:datatype xsd:integer ;
+        sh:maxCount 1 ;
+        sh:message "A Hedera topic message may include one sequence number when it is available from the source system."@en
+    ] ;
+    sh:property [
+        sh:path hedera:hasConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A Hedera topic message must have exactly one consensus timestamp."@en
+    ] ;
+    sh:property [
+        sh:path hedera:hasMessageContent ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] .
+
+nias-o:WorkflowDocumentSubmissionShape a sh:NodeShape ;
+    sh:targetClass nias-o:WorkflowDocumentSubmission ;
+    sh:property [
+        sh:path nias-o:submittedDocument ;
+        sh:class data:Document ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the document transmitted."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflow ;
+        sh:class nias-o:Workflow ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the workflow."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowStep ;
+        sh:class nias-o:WorkflowStep ;
+        sh:node nias-o:WorkflowStepShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the workflow step."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubject ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the subject of the workflow."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentSubmittedBy ;
+        sh:class nias-o:PlatformUser ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the sender as a platform user."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentRecipient ;
+        sh:class infocomm:CommunicationParty ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must identify the recipient communication party."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubmissionConsensusMessage ;
+        sh:class hedera:TopicMessage ;
+        sh:node nias-o:HederaTopicMessageShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A workflow submission must link to the Hedera topic message that recorded it."@en
+    ] .
+
+nias-o:DocumentShape a sh:NodeShape ;
+    sh:targetClass data:Document ;
+    sh:node nias-o:ResourceContentLocationShape ;
+    sh:property [
+        sh:path nias-o:documentSchema ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document must identify exactly one document schema."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:isEncrypted ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document must state whether its content is encrypted."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:documentAuthor ;
+        sh:or (
+            [ sh:nodeKind sh:IRI ]
+            [ sh:datatype xsd:string ]
+        ) ;
+        sh:minCount 1 ;
+        sh:message "A document must identify at least one author."@en
+    ] ;
+    sh:property nias-o:AuthProofPropertyShape ;
+    sh:property [
+        sh:path nias-o:resourceConsensusMessage ;
+        sh:class hedera:TopicMessage ;
+        sh:node nias-o:HederaTopicMessageShape ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document must include exactly one workflow submission event."@en
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentMetadata-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Document metadata 1.0.0"@en ;
+    nias-o:validatingShape nias-o:DocumentShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document Section A 1.0.0"@en ;
+    sh:targetClass aiao:Project ;
+    nias-o:validatingShape nias-o:ProjectDesignShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document Section B 9.0.0"@en ;
+    sh:targetClass nias-o:ImpactDeclaration ;
+    nias-o:validatingShape nias-o:ImpactDeclarationShape .

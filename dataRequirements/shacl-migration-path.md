@@ -1272,6 +1272,8 @@ Actions:
 
 Goal: encode the data the user must provide, independent of legacy R code.
 
+Status: completed 2026-05-14.
+
 Actions:
 
 - Create common node shapes for:
@@ -1284,29 +1286,72 @@ Actions:
   - `ind:IndicatorDefinition` with `ind:hasUnit` (QUDT), `ind:hasIndicatorStage`,
     and optional `ind:hasFormula` and `ind:hasRationale`
   - `ind:IndicatorObservation` with `ind:obsValue`, `ind:hasUnit`,
-    `ind:observesIndicator`, and `ind:timePeriod`
-- Create project design shapes from PDD-A.
-- Create impact declaration shapes from PDD-B.
-- Create document metadata and workflow submission shapes.
+    `ind:observesIndicator`, and `ind:timePeriod` ✅ completed in
+    `dataRequirements/common-shapes.ttl`
+- Create project design shapes from PDD-A. ✅ completed in
+  `dataRequirements/project-design-shapes.ttl`
+- Create impact declaration shapes from PDD-B. ✅ completed in
+  `dataRequirements/impact-declaration-shapes.ttl`
+- Create document metadata and workflow submission shapes. ✅ completed in
+  `dataRequirements/document-shapes.ttl`
 - Keep shapes open by default during migration. Use `sh:closed true` only for
-  narrow nested nodes where unknown fields would signal a real data issue.
+  narrow nested nodes where unknown fields would signal a real data issue. ✅
+  completed; Phase 3 shapes do not use `sh:closed true`
+
+Implementation notes:
+
+- PDD-A JSON-only fields now have local NIAS terms in
+  `glossary/NovaImpactAccountingStandardOntology.ttl`: `nias-o:ProjectParty`,
+  `nias-o:projectParty`, `nias-o:legalMatters`,
+  `nias-o:publicFundingStatus`, `nias-o:publicFundingSource`, and
+  `nias-o:debundlingAssessment`.
+- PDD-B methodology use remains claim-centered. `nias-o:ImpactDeclarationShape`
+  requires `aiao:ImpactClaim` nodes that use `nias-o:usesMethodology` to link to
+  `meth:Methodology` resources.
+- Hedera workflow evidence is validated as Hashgraph Ontology
+  `hedera:TopicMessage` and `hedera:ConsensusTopic` resources with topic ID,
+  sequence number, and consensus timestamp.
 
 ### Phase 4: Convert R Functions Into Compatibility Adapters
 
 Goal: keep old inputs working while making SHACL authoritative.
 
+Status: completed 2026-05-14.
+
 Actions:
 
-- Replace hard-coded string outputs for controlled values with SKOS IRIs.
-- Emit canonical namespace IRIs.
-- Emit `impactont:hasIndicatorValue` instead of `impactont:hasValue`.
+- Replace hard-coded string outputs for controlled values with SKOS IRIs. ✅
+  completed in `dataRequirements/adapters/phase4_compatibility_toFluree.R`
+- Emit canonical namespace IRIs. ✅ completed in
+  `dataRequirements/adapters/phase4_compatibility_toFluree.R`
+- Emit `impactont:hasIndicatorValue` instead of `impactont:hasValue`. ✅
+  completed in `state_toFluree`
 - Replace `nias-o:unitOfMeasure` string literals with `ind:hasUnit` links to
-  `qudt:Unit` IRIs.
+  `qudt:Unit` IRIs. ✅ completed in `indicator_toFluree` and
+  `dataParameterMonitoring_toFluree`
 - Replace embedded ad hoc methodologies and indicators with links to stable
-  local concept resources where possible.
+  local concept resources where possible. ✅ completed with
+  `nias-ind:ghg-tco2e-per-year` indicator resolution and `ghg-m:*`
+  methodology IRI resolution
 - Keep a legacy-to-canonical mapping table so old API payloads can still be
-  transformed without leaking old field names into new shapes.
-- Run SHACL validation after adapter output generation.
+  transformed without leaking old field names into new shapes. ✅ completed in
+  `dataRequirements/legacy-to-canonical-map.csv`
+- Run SHACL validation after adapter output generation. ✅ completed with
+  generated PDD-A, PDD-B, document metadata, monitored impact, and unmonitored
+  impact adapter output
+
+Implementation notes:
+
+- The frozen `reference/` scripts were not changed. Phase 4 compatibility logic
+  lives in `dataRequirements/adapters/phase4_compatibility_toFluree.R` so the
+  Phase 0 audit baseline remains intact.
+- Legacy Hedera message strings such as `0.0.123-1700000000-000000000` are
+  represented as `hedera:TopicMessage` resources with parsed
+  `hedera:ConsensusTopic` and consensus timestamp values when possible. Sequence
+  number is emitted when the source payload includes it.
+- PDD-B compatibility output now creates a minimal `nias-o:ImpactDeclaration`
+  wrapper so impact declarations can validate against the Phase 3 dispatch
+  shape while fuller claim/report semantics remain a Phase 5 concern.
 
 ### Phase 5: Add Claim And Report Wrappers
 

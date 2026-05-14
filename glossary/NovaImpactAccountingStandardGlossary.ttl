@@ -56,10 +56,12 @@ nias-cs:mr-verifier a skos:Concept ;
     skos:topConceptOf nias-cs:LicenseScope .
 
 nias-cs:no a skos:Concept ;
-    skos:definition "Impact will not be monitored." ;
-    skos:inScheme nias-cs:MonitoringStatus ;
+    skos:definition "Negative response to a yes/no requirement." ;
+    skos:inScheme nias-cs:MonitoringStatus,
+        nias-cs:YesNo ;
     skos:prefLabel "No" ;
-    skos:topConceptOf nias-cs:MonitoringStatus .
+    skos:topConceptOf nias-cs:MonitoringStatus,
+        nias-cs:YesNo .
 
 nias-cs:none a skos:Concept ;
     skos:definition "No authenticity proof is provided." ;
@@ -110,10 +112,12 @@ nias-cs:vc a skos:Concept ;
     skos:topConceptOf nias-cs:AuthProof .
 
 nias-cs:yes a skos:Concept ;
-    skos:definition "Impact will be monitored." ;
-    skos:inScheme nias-cs:MonitoringStatus ;
+    skos:definition "Affirmative response to a yes/no requirement." ;
+    skos:inScheme nias-cs:MonitoringStatus,
+        nias-cs:YesNo ;
     skos:prefLabel "Yes" ;
-    skos:topConceptOf nias-cs:MonitoringStatus .
+    skos:topConceptOf nias-cs:MonitoringStatus,
+        nias-cs:YesNo .
 
 nias-cs:BeneficialOrAdverse a skos:ConceptScheme ;
     skos:definition "Controlled vocabulary indicating whether an impact is beneficial or adverse." ;
@@ -132,6 +136,12 @@ nias-cs:MonitoringStatus a skos:ConceptScheme ;
     skos:hasTopConcept nias-cs:no,
         nias-cs:yes ;
     skos:prefLabel "Impact monitoring status" .
+
+nias-cs:YesNo a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for generic yes/no requirements." ;
+    skos:hasTopConcept nias-cs:no,
+        nias-cs:yes ;
+    skos:prefLabel "Yes/no values" .
 
 nias-cs:LicenseScope a skos:ConceptScheme ;
     skos:definition "Controlled vocabulary of scopes for Nova Impact Accounting Standard Agent Licenses." ;
@@ -161,6 +171,24 @@ nias-cs:MonitoredOrFixed a skos:ConceptScheme ;
     skos:hasTopConcept nias-cs:fixed-ex-ante,
         nias-cs:monitored ;
     skos:prefLabel "Monitored or fixed ex-ante" .
+
+nias-cs:private a skos:Concept ;
+    skos:definition "Project party that is a private-sector entity." ;
+    skos:inScheme nias-cs:PublicPrivateClassification ;
+    skos:prefLabel "Private" ;
+    skos:topConceptOf nias-cs:PublicPrivateClassification .
+
+nias-cs:public a skos:Concept ;
+    skos:definition "Project party that is a public-sector entity." ;
+    skos:inScheme nias-cs:PublicPrivateClassification ;
+    skos:prefLabel "Public" ;
+    skos:topConceptOf nias-cs:PublicPrivateClassification .
+
+nias-cs:PublicPrivateClassification a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary classifying project parties as public or private." ;
+    skos:hasTopConcept nias-cs:private,
+        nias-cs:public ;
+    skos:prefLabel "Public/private classification" .
 
 nias-cs:proposed a skos:Concept ;
     skos:definition "Methodology has been submitted for consideration but has not yet entered formal evaluation." ;
@@ -207,4 +235,3 @@ nias-cs:MethodologyApprovalStatus a skos:ConceptScheme ;
         nias-cs:surpassed,
         nias-cs:under-evaluation ;
     skos:prefLabel "Methodology approval status" .
-

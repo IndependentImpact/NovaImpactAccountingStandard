@@ -1,0 +1,156 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ImpactDeclarationShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Impact Declaration SHACL Shapes"@en ;
+    dcterms:description "PDD-B impact declaration shapes for NIAS SHACL migration Phase 3."@en ;
+    owl:imports nias-o:CommonShapes .
+
+nias-o:ImpactClaimShape a sh:NodeShape ;
+    sh:targetClass aiao:ImpactClaim ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact claim must be about exactly one project."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:class meth:Methodology ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "An impact claim must link to at least one MethOnt methodology resource."@en
+    ] .
+
+nias-o:ImpactDeclarationShape a sh:NodeShape ;
+    sh:targetClass nias-o:ImpactDeclaration ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact declaration must identify the project it is about."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:hasDeclaredImpact ;
+        sh:class impactont:Impact ;
+        sh:node nias-o:ImpactRequirementShape ;
+        sh:minCount 1 ;
+        sh:message "An impact declaration must include at least one declared impact."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:impactClaim ;
+        sh:class aiao:ImpactClaim ;
+        sh:node nias-o:ImpactClaimShape ;
+        sh:minCount 1 ;
+        sh:message "An impact declaration must include at least one impact claim carrying methodology use."@en
+    ] .
+
+nias-o:ImpactRequirementShape a sh:NodeShape ;
+    sh:targetClass impactont:Impact ;
+    sh:property nias-o:ImpactIntentionalityPropertyShape ;
+    sh:property nias-o:BeneficialOrAdversePropertyShape ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact must have exactly one description."@en
+    ] ;
+    sh:property nias-o:MonitoringStatusPropertyShape ;
+    sh:or (
+        nias-o:MonitoredImpactShape
+        nias-o:UnmonitoredImpactShape
+    ) .
+
+nias-o:MonitoredImpactShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:monitored ;
+        sh:hasValue nias-cs:yes ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:additionalityJustification ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored impact must include an additionality justification."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasStateA ;
+        sh:class impactont:State ;
+        sh:node nias-o:StateWithIndicatorValueShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored impact must include exactly one baseline or counterfactual state."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasStateB ;
+        sh:class impactont:State ;
+        sh:node nias-o:StateWithIndicatorValueShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored impact must include exactly one project or real state."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasProvenance ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "A monitored impact must identify at least one provenance resource, normally the project or activity."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:creditingPeriod ;
+        sh:class nias-o:CreditingPeriod ;
+        sh:node nias-o:CreditingPeriodShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored impact must include exactly one crediting period."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringPeriod ;
+        sh:class time:Interval ;
+        sh:node nias-o:DateTimeIntervalShape ;
+        sh:minCount 1 ;
+        sh:message "A monitored impact must include at least one monitoring period."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:dataParameterRequirement ;
+        sh:class nias-o:DataParameterRequirement ;
+        sh:node nias-o:DataParameterRequirementShape ;
+        sh:minCount 1 ;
+        sh:message "A monitored impact must include at least one data or parameter monitoring requirement."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:exAnteImpactEstimate ;
+        sh:node nias-o:NumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitored impact must include exactly one ex-ante impact estimate."@en
+    ] .
+
+nias-o:UnmonitoredImpactShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:monitored ;
+        sh:hasValue nias-cs:no ;
+        sh:minCount 1 ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:notMonitoredJustification ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An unmonitored impact must include a justification for not monitoring it."@en
+    ] .

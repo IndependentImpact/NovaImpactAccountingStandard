@@ -56,10 +56,20 @@ nias-o:DocumentSchema a owl:Class ;
         aiao:Control ;
     skos:definition "A specification for the structure and data types of a document."@en .
 
+nias-o:DataParameterRequirement a owl:Class ;
+    rdfs:label "DataParameterRequirement"@en ;
+    rdfs:subClassOf infocomm:Information ;
+    skos:definition "A data or parameter requirement used to quantify an impact."@en .
+
 nias-o:EntityXhederaTopicLink a owl:Class ;
     rdfs:label "EntityXhederaTopicLink"@en ;
     rdfs:subClassOf owl:Thing ;
     skos:definition "Links a Nova Impact Accounting Standard entity (user, project, methodology, etc.) to a Hedera topic."@en .
+
+nias-o:ImpactDeclaration a owl:Class ;
+    rdfs:label "ImpactDeclaration"@en ;
+    rdfs:subClassOf claimont:Report ;
+    skos:definition "A report-like declaration of one or more impacts for a project design document section."@en .
 
 nias-o:Methodology a owl:Class ;
     rdfs:label "Methodology"@en ;
@@ -82,6 +92,11 @@ nias-o:PlatformUserXhederaAccountLink a owl:Class ;
     rdfs:label "PlatformUserXhederaAccountLink"@en ;
     rdfs:subClassOf owl:Thing ;
     skos:definition "Links an Nova Impact Accounting Standard platform user to a Hedera account."@en .
+
+nias-o:ProjectParty a owl:Class ;
+    rdfs:label "ProjectParty"@en ;
+    rdfs:subClassOf aiao:AgentActivityRelation ;
+    skos:definition "A party relation for a project, including host, participant, and public/private classification."@en .
 
 nias-o:TechnologyOrMeasure a owl:Class ;
     rdfs:label "TechnologyOrMeasure"@en ;
@@ -163,6 +178,30 @@ nias-o:dateRegistered a owl:DatatypeProperty ;
     rdfs:range xsd:dateTime ;
     skos:definition "The timestamp at which a user account was created on the Nova Impact Accounting Standard platform."@en .
 
+nias-o:dataParameterRequirement a owl:ObjectProperty ;
+    rdfs:label "dataParameterRequirement"@en ;
+    rdfs:domain impactont:Impact ;
+    rdfs:range nias-o:DataParameterRequirement ;
+    skos:definition "A monitored or fixed data or parameter requirement used to quantify an impact."@en .
+
+nias-o:dataParameterPurpose a owl:DatatypeProperty ;
+    rdfs:label "dataParameterPurpose"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Explains why a data or parameter requirement is needed for impact quantification."@en .
+
+nias-o:dataSource a owl:DatatypeProperty ;
+    rdfs:label "dataSource"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Source used for a fixed ex-ante data or parameter value."@en .
+
+nias-o:debundlingAssessment a owl:DatatypeProperty ;
+    rdfs:label "debundlingAssessment"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range xsd:string ;
+    skos:definition "Assessment of whether a project has been debundled from a larger project or activity."@en .
+
 nias-o:didDocument a owl:ObjectProperty ;
     rdfs:label "didDocument"@en ;
     rdfs:domain nias-o:PlatformUser ;
@@ -198,6 +237,18 @@ nias-o:estimatedLifespanInYears a owl:DatatypeProperty ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:decimal ;
     skos:definition "The estimated lifespan of a thing, given in years."@en .
+
+nias-o:eligibilityDescription a owl:DatatypeProperty ;
+    rdfs:label "eligibilityDescription"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range xsd:string ;
+    skos:definition "Narrative description of project eligibility under the applicable standard or methodology."@en .
+
+nias-o:exAnteImpactEstimate a owl:DatatypeProperty ;
+    rdfs:label "exAnteImpactEstimate"@en ;
+    rdfs:domain impactont:Impact ;
+    rdfs:range xsd:decimal ;
+    skos:definition "Expected ex-ante impact quantity for project validation or design-stage declaration."@en .
 
 nias-o:hasAgentLicense a owl:ObjectProperty ;
     rdfs:label "hasAgentLicense"@en ;
@@ -235,12 +286,24 @@ nias-o:hederaTopic a owl:ObjectProperty ;
     rdfs:range hedera:ConsensusTopic ;
     skos:definition "A Hedera Consensus Service topic."@en .
 
+nias-o:hasDeclaredImpact a owl:ObjectProperty ;
+    rdfs:label "hasDeclaredImpact"@en ;
+    rdfs:domain nias-o:ImpactDeclaration ;
+    rdfs:range impactont:Impact ;
+    skos:definition "Links an impact declaration to an impact that it declares."@en .
+
 nias-o:impactIntentionality a owl:ObjectProperty ;
     rdfs:label "intentionality"@en ;
     rdfs:comment "An unintentional impact (whether beneficial or adverse) is typically referred to as 'leakage'." ;
     rdfs:domain impactont:Impact ;
     rdfs:range skos:Concept ;
     skos:definition "Indicates whether an of a project or activity was an intentional or an unintentional impact."@en .
+
+nias-o:impactClaim a owl:ObjectProperty ;
+    rdfs:label "impactClaim"@en ;
+    rdfs:domain nias-o:ImpactDeclaration ;
+    rdfs:range aiao:ImpactClaim ;
+    skos:definition "Links an impact declaration to an impact claim about the project or activity."@en .
 
 nias-o:isEncrypted a owl:DatatypeProperty ;
     rdfs:label "isEncrypted"@en ;
@@ -265,6 +328,24 @@ nias-o:isReviewOf a owl:ObjectProperty ;
     rdfs:comment "Identifies a document as a review of another document." ;
     rdfs:domain data:Document ;
     rdfs:range data:Document .
+
+nias-o:isHostParty a owl:DatatypeProperty ;
+    rdfs:label "isHostParty"@en ;
+    rdfs:domain nias-o:ProjectParty ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Indicates whether a project party is a host party."@en .
+
+nias-o:isParticipantParty a owl:DatatypeProperty ;
+    rdfs:label "isParticipantParty"@en ;
+    rdfs:domain nias-o:ProjectParty ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Indicates whether a project party participates in the project."@en .
+
+nias-o:legalMatters a owl:DatatypeProperty ;
+    rdfs:label "legalMatters"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range xsd:string ;
+    skos:definition "Legal matters relevant to the project design."@en .
 
 nias-o:licenseNumber a owl:DatatypeProperty ;
     rdfs:label "licenseNumber"@en ;
@@ -298,6 +379,12 @@ nias-o:monitoringPeriod a owl:ObjectProperty ;
     rdfs:range time:Interval ;
     skos:definition "A monitoring period for an impact."@en .
 
+nias-o:monitoredOrFixed a owl:ObjectProperty ;
+    rdfs:label "monitoredOrFixed"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range skos:Concept ;
+    skos:definition "Indicates whether a data or parameter value is monitored or fixed ex-ante."@en .
+
 nias-o:alignedWithPDD a owl:ObjectProperty ;
     rdfs:label "alignedWithPDD"@en ;
     rdfs:domain nias-o:MonitoringReport ;
@@ -328,11 +415,65 @@ nias-o:platformUserXhederaAccountLinkDescription a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "A description of the link between a platform user and a Hedera account, e.g., 'PRIMARY_ACCOUNT'."@en .
 
+nias-o:measurementMethodsAndProcedures a owl:DatatypeProperty ;
+    rdfs:label "measurementMethodsAndProcedures"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Measurement methods and procedures used for a monitored data or parameter requirement."@en .
+
+nias-o:monitoringFrequency a owl:DatatypeProperty ;
+    rdfs:label "monitoringFrequency"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Frequency with which a monitored data or parameter requirement is measured."@en .
+
+nias-o:partyName a owl:DatatypeProperty ;
+    rdfs:label "partyName"@en ;
+    rdfs:domain nias-o:ProjectParty ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of a project party."@en .
+
+nias-o:parameterAppliedValue a owl:DatatypeProperty ;
+    rdfs:label "parameterAppliedValue"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:decimal ;
+    skos:definition "Fixed ex-ante value applied for a data or parameter requirement."@en .
+
 nias-o:projectHistory a owl:DatatypeProperty ;
     rdfs:label "projectHistory"@en ;
     rdfs:domain aiao:Project ;
     rdfs:range xsd:string ;
     skos:definition "The history of the project and its activities."@en .
+
+nias-o:projectParty a owl:ObjectProperty ;
+    rdfs:label "projectParty"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range nias-o:ProjectParty ;
+    skos:definition "A party associated with a project."@en .
+
+nias-o:publicFundingSource a owl:DatatypeProperty ;
+    rdfs:label "publicFundingSource"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range xsd:string ;
+    skos:definition "A source of public funding for the project."@en .
+
+nias-o:publicFundingStatus a owl:ObjectProperty ;
+    rdfs:label "publicFundingStatus"@en ;
+    rdfs:domain aiao:Project ;
+    rdfs:range skos:Concept ;
+    skos:definition "Indicates whether the project receives public funding."@en .
+
+nias-o:publicPrivateClassification a owl:ObjectProperty ;
+    rdfs:label "publicPrivateClassification"@en ;
+    rdfs:domain nias-o:ProjectParty ;
+    rdfs:range skos:Concept ;
+    skos:definition "Classifies a project party as public or private."@en .
+
+nias-o:qaQcProcedures a owl:DatatypeProperty ;
+    rdfs:label "qaQcProcedures"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Quality assurance and quality control procedures for a monitored data or parameter requirement."@en .
 
 nias-o:resourceHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
@@ -361,6 +502,12 @@ nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:range xsd:anyURI ;
     rdfs:subPropertyOf nias-o:resourceContentLocation ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
+
+nias-o:samplingPlan a owl:DatatypeProperty ;
+    rdfs:label "samplingPlan"@en ;
+    rdfs:domain nias-o:DataParameterRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "Sampling plan for a monitored data or parameter requirement."@en .
 
 nias-o:techMeasType a owl:ObjectProperty ;
     rdfs:label "techMeasType"@en ;

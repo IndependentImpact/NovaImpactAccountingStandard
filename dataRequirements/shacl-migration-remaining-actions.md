@@ -26,20 +26,23 @@ checklist was created are retained with artifact pointers.
    - No remaining actions (completed).
 
 4. **Phase 3: Author core SHACL shapes**
-   - Create common node shapes (IPFS resources, OWL-Time, crediting period, SKOS value constraints, technology/measure, state/indicator value, indicator definition, indicator observation).
-   - Create project design shapes from PDD-A.
-   - Create impact declaration shapes from PDD-B.
-   - Create document metadata and workflow submission shapes.
-   - Keep shapes open by default during migration, using `sh:closed true` only where needed.
+   - No remaining actions (completed 2026-05-14).
+   - Common node shapes are recorded in `dataRequirements/common-shapes.ttl`.
+   - PDD-A project design shapes are recorded in
+     `dataRequirements/project-design-shapes.ttl`.
+   - PDD-B impact declaration shapes are recorded in
+     `dataRequirements/impact-declaration-shapes.ttl`.
+   - Document metadata and workflow submission shapes are recorded in
+     `dataRequirements/document-shapes.ttl`.
+   - Shapes remain open by default; no Phase 3 shape uses `sh:closed true`.
 
 5. **Phase 4: Convert R functions into compatibility adapters**
-   - Replace hard-coded string outputs for controlled values with SKOS IRIs.
-   - Emit canonical namespace IRIs.
-   - Emit `impactont:hasIndicatorValue` instead of `impactont:hasValue`.
-   - Replace `nias-o:unitOfMeasure` literals with `ind:hasUnit` links to QUDT unit IRIs.
-   - Replace embedded ad hoc methodologies and indicators with links to stable local concept resources where possible.
-   - Keep a legacy-to-canonical mapping table.
-   - Run SHACL validation after adapter output generation.
+   - No remaining actions (completed 2026-05-14).
+   - Compatibility adapters are recorded in
+     `dataRequirements/adapters/phase4_compatibility_toFluree.R`.
+   - Legacy-to-canonical mappings are recorded in
+     `dataRequirements/legacy-to-canonical-map.csv`.
+   - The frozen `reference/` audit baseline remains unchanged.
 
 6. **Phase 5: Add claim and report wrappers**
    - Model PDD and monitoring report content as `claimont:Report` instances.
