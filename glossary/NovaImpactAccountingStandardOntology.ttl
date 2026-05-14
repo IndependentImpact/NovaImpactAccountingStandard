@@ -87,7 +87,7 @@ nias-o:MonitoringReport a owl:Class ;
 nias-o:MonitoringImpactReport a owl:Class ;
     rdfs:label "MonitoringImpactReport"@en ;
     rdfs:subClassOf claimont:Report ;
-    skos:definition "A report representing the content of a monitoring report for a specific monitoring period, asserting measured impacts of a project. Distinct from the document artifact (nias-o:MonitoringReport) and from the submission event."@en .
+    skos:definition "A report representing the content of a monitoring report for a specific monitoring period, asserting measured impacts of a project as impactont:Impact resources that reference measured states and indicator values. Distinct from the document artifact (nias-o:MonitoringReport) and from the submission event."@en .
 
 nias-o:ProjectDesignDocument a owl:Class ;
     rdfs:label "ProjectDesignDocument"@en ;
@@ -528,6 +528,12 @@ nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:range xsd:anyURI ;
     rdfs:subPropertyOf nias-o:resourceContentLocation ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
+
+nias-o:reportStatus a owl:ObjectProperty ;
+    rdfs:label "reportStatus"@en ;
+    rdfs:domain claimont:Report ;
+    rdfs:range skos:Concept ;
+    skos:definition "Status of a report version or estimate lifecycle (e.g., projected, measured, verified, revised)."@en .
 
 nias-o:samplingPlan a owl:DatatypeProperty ;
     rdfs:label "samplingPlan"@en ;

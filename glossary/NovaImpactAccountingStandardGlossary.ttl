@@ -49,6 +49,30 @@ nias-cs:monitored a skos:Concept ;
     skos:prefLabel "Monitored" ;
     skos:topConceptOf nias-cs:MonitoredOrFixed .
 
+nias-cs:projected a skos:Concept ;
+    skos:definition "Report content expresses projected or forecast values that are not yet measured." ;
+    skos:inScheme nias-cs:ReportStatus ;
+    skos:prefLabel "Projected" ;
+    skos:topConceptOf nias-cs:ReportStatus .
+
+nias-cs:measured a skos:Concept ;
+    skos:definition "Report content expresses values measured from real observed states." ;
+    skos:inScheme nias-cs:ReportStatus ;
+    skos:prefLabel "Measured" ;
+    skos:topConceptOf nias-cs:ReportStatus .
+
+nias-cs:verified a skos:Concept ;
+    skos:definition "Report content has been independently verified and attested." ;
+    skos:inScheme nias-cs:ReportStatus ;
+    skos:prefLabel "Verified" ;
+    skos:topConceptOf nias-cs:ReportStatus .
+
+nias-cs:revised a skos:Concept ;
+    skos:definition "Report content has been revised after initial publication." ;
+    skos:inScheme nias-cs:ReportStatus ;
+    skos:prefLabel "Revised" ;
+    skos:topConceptOf nias-cs:ReportStatus .
+
 nias-cs:mr-verifier a skos:Concept ;
     skos:definition "License scope permitting verification of monitoring reports." ;
     skos:inScheme nias-cs:LicenseScope ;
@@ -171,6 +195,14 @@ nias-cs:MonitoredOrFixed a skos:ConceptScheme ;
     skos:hasTopConcept nias-cs:fixed-ex-ante,
         nias-cs:monitored ;
     skos:prefLabel "Monitored or fixed ex-ante" .
+
+nias-cs:ReportStatus a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary describing the lifecycle status of report content and impact estimates (projected, measured, verified, revised)." ;
+    skos:hasTopConcept nias-cs:measured,
+        nias-cs:projected,
+        nias-cs:revised,
+        nias-cs:verified ;
+    skos:prefLabel "Report status" .
 
 nias-cs:private a skos:Concept ;
     skos:definition "Project party that is a private-sector entity." ;
