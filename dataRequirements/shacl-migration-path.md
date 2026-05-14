@@ -142,7 +142,6 @@ properties with `xsd:string` ranges while the shapes expect SKOS concepts:
 - `nias-o:licenseScope`
 - `nias-o:monitored`
 - `nias-o:techMeasType`
-- `nias-o:userType`
 
 Migration target: make these object properties, or create replacement object
 properties, because the semantic representation should point to concept IRIs
@@ -679,8 +678,6 @@ Target SHACL shape:
   first migration phase.
 - Represent email address and supporting evidence either as document/resource
   links or as claims with substantiation.
-- Add `nias-o:userType` as a concept IRI if the user registration flow requires
-  it.
 
 ### License Application And Agent License
 
