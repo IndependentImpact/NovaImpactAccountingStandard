@@ -2,13 +2,16 @@
 @prefix claimont: <http://w3id.org/claimont#> .
 @prefix data: <https://jellyfiiish.xyz/ns/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
 @prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 nias-o:ReportShapes a owl:Ontology ;
@@ -121,27 +124,128 @@ nias-o:MonitoringImpactReportShape a sh:NodeShape ;
         sh:message "A monitoring impact report must identify exactly one project subject via claimont:hasSubject."@en
     ] ;
     sh:property [
+        sh:path nias-o:reportStatus ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( nias-cs:projected nias-cs:measured nias-cs:verified nias-cs:revised ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact report must declare exactly one report status concept (projected, measured, verified, or revised)."@en
+    ] ;
+    sh:property [
         sh:path claimont:isSupportedBy ;
         sh:nodeKind sh:IRI ;
-        sh:message "A monitoring impact report may link to supporting datasets, evidence documents, or prior submissions."@en
+        sh:minCount 1 ;
+        sh:message "A monitoring impact report must link to at least one supporting resource."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [ sh:class dcterms:Resource ] ;
+        sh:message "A monitoring impact report must link to at least one supporting document or dataset resource."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [ sh:class claimont:Attestation ] ;
+        sh:message "A monitoring impact report must link to at least one verification attestation."@en
     ] ;
     sh:property [
         sh:path nias-o:impactClaim ;
         sh:class aiao:ImpactClaim ;
         sh:minCount 1 ;
+        sh:node nias-o:MonitoringImpactClaimShape ;
         sh:message "A monitoring impact report must include at least one impact claim for the measured period."@en
     ] ;
     sh:property [
         sh:path nias-o:usesMethodology ;
         sh:class meth:Methodology ;
         sh:nodeKind sh:IRI ;
-        sh:message "A monitoring impact report may link directly to one or more methodology resources."@en
+        sh:minCount 1 ;
+        sh:message "A monitoring impact report must link to at least one methodology resource."@en
     ] ;
     sh:property [
         sh:path dcterms:conformsTo ;
         sh:nodeKind sh:IRI ;
         sh:maxCount 1 ;
         sh:message "A monitoring impact report may identify its schema or version via dcterms:conformsTo."@en
+    ] .
+
+nias-o:MonitoringImpactClaimShape a sh:NodeShape ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class impactont:Impact ;
+        sh:node nias-o:MeasuredImpactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact claim must reference exactly one measured impact resource."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:class meth:Methodology ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "A monitoring impact claim must link to at least one methodology resource."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "A monitoring impact claim must link to supporting resources."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [ sh:class dcterms:Resource ] ;
+        sh:message "A monitoring impact claim must link to at least one supporting document or dataset resource."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [ sh:class claimont:Attestation ] ;
+        sh:message "A monitoring impact claim must link to at least one verification attestation."@en
+    ] .
+
+nias-o:MeasuredImpactShape a sh:NodeShape ;
+    sh:property [
+        sh:path impactont:hasStateA ;
+        sh:class impactont:State ;
+        sh:node nias-o:MeasuredStateShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A measured impact must include exactly one measured state A with an indicator value."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasStateB ;
+        sh:class impactont:State ;
+        sh:node nias-o:MeasuredStateShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A measured impact must include exactly one measured state B with an indicator value."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasProvenance ;
+        sh:class aiao:Project ;
+        sh:minCount 1 ;
+        sh:message "A measured impact must link back to the project provenance resource."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringPeriod ;
+        sh:class time:Interval ;
+        sh:node nias-o:DateTimeIntervalShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A measured impact must identify exactly one monitoring period interval."@en
+    ] .
+
+nias-o:MeasuredStateShape a sh:NodeShape ;
+    sh:node nias-o:StateWithIndicatorValueShape ;
+    sh:property [
+        sh:path impactont:hasModality ;
+        sh:datatype xsd:string ;
+        sh:hasValue "real" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Measured monitoring states must use impactont:hasModality \"real\" to mark ex-post measured state references."@en
     ] .
 
 # ---------------------------------------------------------------------------

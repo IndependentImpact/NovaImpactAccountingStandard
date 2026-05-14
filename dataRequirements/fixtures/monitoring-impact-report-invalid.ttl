@@ -1,0 +1,78 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Example: INVALID monitoring impact report wrappers (Phase 6)
+# ---------------------------------------------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/projects/project-gamma>
+    a aiao:Project .
+
+<https://nova.org.za/novaimpactaccountingstandard/users/agent-003>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-METH-003>
+    a meth:Methodology .
+
+# INVALID 1:
+# - Missing nias-o:reportStatus
+# - No claimont:isSupportedBy attestation/document link
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/invalid-mr-no-status-or-support>
+    a nias-o:MonitoringImpactReport ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-003> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-gamma> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-METH-003> ;
+    nias-o:impactClaim <https://nova.org.za/novaimpactaccountingstandard/claims/invalid-impact-claim-01> .
+
+# INVALID 2:
+# - Impact state modality is counterfactual instead of real
+# - State A has no impactont:hasIndicatorValue
+
+<https://nova.org.za/novaimpactaccountingstandard/claims/invalid-impact-claim-01>
+    a aiao:ImpactClaim ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/impacts/invalid-measured-impact-01> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-METH-003> .
+
+<https://nova.org.za/novaimpactaccountingstandard/impacts/invalid-measured-impact-01>
+    a impactont:Impact ;
+    impactont:hasStateA <https://nova.org.za/novaimpactaccountingstandard/states/invalid-state-a> ;
+    impactont:hasStateB <https://nova.org.za/novaimpactaccountingstandard/states/invalid-state-b> ;
+    impactont:hasProvenance <https://nova.org.za/novaimpactaccountingstandard/projects/project-gamma> ;
+    nias-o:monitoringPeriod <https://nova.org.za/novaimpactaccountingstandard/periods/monitoring-q2-2026> .
+
+<https://nova.org.za/novaimpactaccountingstandard/states/invalid-state-a>
+    a impactont:State ;
+    impactont:hasModality "counterfactual" ;
+    impactont:isDefinedByIndicator <https://nova.org.za/novaimpactaccountingstandard/indicators/net-co2e-avoided> ;
+    impactont:hasTemporalLocation <https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-04-01> .
+
+<https://nova.org.za/novaimpactaccountingstandard/states/invalid-state-b>
+    a impactont:State ;
+    impactont:hasModality "real" ;
+    impactont:isDefinedByIndicator <https://nova.org.za/novaimpactaccountingstandard/indicators/net-co2e-avoided> ;
+    impactont:hasTemporalLocation <https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-06-30> ;
+    impactont:hasIndicatorValue <https://nova.org.za/novaimpactaccountingstandard/values/invalid-state-b-value> .
+
+<https://nova.org.za/novaimpactaccountingstandard/values/invalid-state-b-value>
+    a impactont:IndicatorValue ;
+    rdf:value "12.5"^^xsd:decimal .
+
+<https://nova.org.za/novaimpactaccountingstandard/periods/monitoring-q2-2026>
+    a time:Interval ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-04-01> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-06-30> .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-04-01>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-04-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/instant-2026-06-30>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-06-30T23:59:59Z"^^xsd:dateTimeStamp .
