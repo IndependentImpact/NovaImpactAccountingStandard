@@ -144,6 +144,7 @@ nias-o:MonitoredImpactShape a sh:NodeShape ;
         sh:select """
             PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
             PREFIX time: <http://www.w3.org/2006/time#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
             SELECT $this WHERE {
                 $this nias-o:creditingPeriod ?creditingPeriod ;
                       nias-o:monitoringPeriod ?monitoringPeriod .
@@ -153,7 +154,11 @@ nias-o:MonitoredImpactShape a sh:NodeShape ;
                 ?monitoringPeriod
                     time:hasBeginning/time:inXSDDateTimeStamp ?monitoringStart ;
                     time:hasEnd/time:inXSDDateTimeStamp ?monitoringEnd .
-                FILTER (STR(?monitoringStart) < STR(?creditingStart) || STR(?monitoringEnd) > STR(?creditingEnd))
+                BIND(STRDT(STR(?monitoringStart), xsd:dateTime) AS ?monitoringStartDateTime)
+                BIND(STRDT(STR(?creditingStart), xsd:dateTime) AS ?creditingStartDateTime)
+                BIND(STRDT(STR(?monitoringEnd), xsd:dateTime) AS ?monitoringEndDateTime)
+                BIND(STRDT(STR(?creditingEnd), xsd:dateTime) AS ?creditingEndDateTime)
+                FILTER (?monitoringStartDateTime < ?creditingStartDateTime || ?monitoringEndDateTime > ?creditingEndDateTime)
             }
         """
     ] .
