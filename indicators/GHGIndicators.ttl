@@ -36,6 +36,7 @@ nias-ind:ghg-tco2e-per-year a ind:IndicatorDefinition, skos:Concept ;
     skos:prefLabel "GHG emissions (tonne CO₂ equivalent per year)"@en ;
     skos:altLabel "tCO₂e/yr"@en ;
     skos:definition "Net annual greenhouse gas emissions or reductions expressed in tonnes of CO₂ equivalent (tCO₂e). GHG species are converted to CO₂ equivalents using the global warming potentials (GWPs) specified in the applicable methodology version, typically sourced from the IPCC Assessment Reports as adopted by the UNFCCC."@en ;
+    ind:hasIndicatorStage ind:ImpactIndicator ;
     ind:hasUnit unit:TONNE ;
     dct:description "The standard indicator for all CDM GHG methodologies implemented under the Nova Impact Accounting Standard. A positive value denotes net emissions; a negative value denotes net removals or emission reductions relative to the baseline."@en ;
     skos:inScheme nias-cs:GHGIndicators ;

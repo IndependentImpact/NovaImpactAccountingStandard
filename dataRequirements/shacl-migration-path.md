@@ -10,6 +10,10 @@ AIA ontology suite:
 - Claim Ontology: `http://w3id.org/claimont#`
 - Information Communication Ontology: `http://w3id.org/infocomm#`
 - Indicator Ontology: `http://independentimpact.org/indicator-owl/`
+- Methodology Ontology: `http://independentimpact.org/methodology/`
+- Hashgraph Ontology core and consensus modules:
+  `https://hashgraphontology.xyz/core/` and
+  `https://hashgraphontology.xyz/consensus`
 - QUDT schema: `http://qudt.org/schema/qudt/`
 - QUDT unit vocabulary: `http://qudt.org/vocab/unit/`
 
@@ -25,8 +29,9 @@ The repository already has three useful semantic layers:
 - `glossary/NovaImpactAccountingStandardOntology.ttl`: local ontology terms such
   as `nias-o:PlatformUser`, `nias-o:TechnologyOrMeasure`,
   `nias-o:CreditingPeriod`, `nias-o:Workflow`,
-  `nias-o:WorkflowDocumentSubmission`, document metadata predicates, and
-  project or impact predicates.
+  `nias-o:WorkflowDocumentSubmission`, document metadata predicates,
+  claim-to-methodology linkage, Hashgraph topic-message linkage, and project or
+  impact predicates.
 - `glossary/NovaImpactAccountingStandardGlossary.ttl`: local SKOS concept schemes
   for user types, agent license scopes, authenticity proof mechanisms,
   technology or measure types, impact intentionality, beneficial/adverse
@@ -48,6 +53,32 @@ Status update (2026-05-14): concept scheme directories are now populated:
 - ✅ `methodologies/GHGMethodologies.ttl`
 - ✅ `indicators/GHGIndicators.ttl`
 - ✅ `knowledgeDomains/GHGKnowledgeDomains.ttl`
+
+Status update (2026-05-14): Phase 2 metadata cleanup is complete:
+
+- All `meth:Methodology` resources in `methodologies/GHGMethodologies.ttl`
+  have `meth:hasVersion "NIAS-2026-05-14"` to identify the NIAS catalogue
+  snapshot, plus `skos:definition` for SKOS concept use. Source CDM method
+  version numbers remain a later curation task when source documents are
+  versioned explicitly.
+- The GHG indicator in `indicators/GHGIndicators.ttl` has
+  `ind:hasIndicatorStage ind:ImpactIndicator`.
+
+Status update (2026-05-14): Phase 1 namespace and value semantics are now
+recorded in `glossary/NovaImpactAccountingStandardOntology.ttl`:
+
+- Methodologies use MethOnt (`meth:Methodology`) as the canonical methodology
+  model. The local `nias-o:Methodology` class is retained only as a deprecated
+  bridge.
+- A methodology is used by a `claimont:Claim`, not directly by an
+  `impactont:Impact`. Impact claims are represented by `aiao:ImpactClaim`, a
+  claim about an `aiao:Project`/`aiao:Activity`, and link to their methodology
+  with `nias-o:usesMethodology`.
+- Versioned `nias-o:DocumentSchema` resources can point to their validating
+  SHACL shape with `nias-o:validatingShape`.
+- Hedera consensus evidence uses Hashgraph Ontology `hedera:TopicMessage` and
+  `hedera:ConsensusTopic` resources rather than local message-ID literals.
+- `nias-o:WorkflowDocumentSubmission` is an `infocomm:CommunicationEvent`.
 
 The JSON files are schema arrays whose first entry is usually an object with
 `title`, `description`, `properties`, `required`, `additionalProperties`, and
@@ -408,15 +439,16 @@ Target SHACL shape:
   - at least one provenance event, normally the project or activity
   - exactly one crediting period
   - one or more monitoring periods
-  - one or more methodologies from the methodology concept scheme
+  - one or more claim/report wrappers that link the claim to a methodology
+    with `nias-o:usesMethodology`
   - one or more data/parameter monitoring rows if these are part of the
     migrated PDD-B requirements
   - an ex-ante impact estimate if this remains required for project validation
 
-Open modeling issue: `nias-o:indicatorMethodology` is used by the R function
-but is not defined in the local ontology. Add a property such as
-`nias-o:usesMethodology`, or use an existing control relation such as
-`aiao:isGovernedBy` or `aiao:governs` once the direction is decided.
+Resolved modeling decision: `nias-o:indicatorMethodology` remains legacy
+adapter output only. Canonical data links `claimont:Claim` instances, including
+`aiao:ImpactClaim`, to `meth:Methodology` resources with
+`nias-o:usesMethodology`.
 
 Open implementation issue: the R function checks
 `not_monitored_justifcation` but then reads `not_monitored_justification`. The
@@ -610,14 +642,17 @@ Current RDF output:
 Target model:
 
 - Methodologies should live in `methodologies/` as stable resources.
-- Each methodology can be both `nias-o:Methodology` and `skos:Concept` if it
-  needs to be selected from a concept scheme.
+- Each methodology should be typed as `meth:Methodology` and can also be typed
+  as `skos:Concept` if it needs to be selected from a concept scheme.
+- `nias-o:Methodology` is a deprecated bridge to `meth:Methodology`; do not use
+  it for new canonical data.
 - Versioning should be explicit. If `data:versionTag` is retained, normalize
   the `data:` namespace because the local ontology uses
   `https://jellyfiiish.xyz/ns/`, while reference functions use
   `http://jellyfiiish.xyz/ns/`.
-- Shapes for impact declarations should point to methodology IRIs rather than
-  embedding methodology title/label/version objects in each submission.
+- Shapes for claim/report wrappers should require methodology IRIs through
+  `nias-o:usesMethodology` rather than embedding methodology title, label, and
+  version objects in each submission.
 
 ### Agent Details
 
@@ -963,15 +998,20 @@ Target SHACL shapes:
 - Require encryption status.
 - Require document author.
 - Require authenticity proof as a SKOS concept IRI.
-- Require workflow, workflow step, workflow subject, and Hedera message ID when
-  the document has entered a workflow.
+- Require workflow, workflow step, workflow subject, and a
+  `hedera:TopicMessage` consensus message when the document has entered a
+  workflow.
 - Use predecessor and license references to enforce workflow sequence where a
   later document depends on a prior document or a submitter license.
 
-Open modeling issue: `nias-o:workflowDocumentSubmissionHederaMessageId` is an
-object property in the ontology, but the R function emits a literal string.
-Either model Hedera message IDs as resources consistently, or change this
-property to a datatype property with a strict pattern.
+Resolved modeling decision: `nias-o:WorkflowDocumentSubmission` is an
+`infocomm:CommunicationEvent`. Canonical submissions link to the transmitted
+document with `nias-o:submittedDocument`/`infocomm:transmits`, to the sender
+with `nias-o:workflowDocumentSubmittedBy`/`infocomm:hasSender`, to the recipient
+with `nias-o:workflowDocumentRecipient`/`infocomm:hasRecipient`, and to Hedera
+consensus evidence with `nias-o:workflowSubmissionConsensusMessage` pointing to
+a Hashgraph Ontology `hedera:TopicMessage`. The legacy
+`nias-o:workflowDocumentSubmissionHederaMessageId` property is deprecated.
 
 ## Proposed SHACL File Structure
 
@@ -1069,9 +1109,9 @@ to its validating shape:
   nias-o:validatingShape nias-o:ProjectDesignShape .
 ```
 
-`nias-o:validatingShape` does not exist yet. Add it only if this pattern is
-accepted. Otherwise use `dcterms:conformsTo` from the document schema resource
-to the shape resource.
+`nias-o:validatingShape` is now the accepted local property for this dispatch
+link. Use `dcterms:conformsTo` only for broader standards conformance that is
+not specifically a SHACL validation target.
 
 ### Indicator Definition With Unit Of Measure
 
@@ -1179,25 +1219,39 @@ Actions:
 
 Goal: prevent parallel vocabularies from entering production data.
 
+Status: completed 2026-05-14.
+
 Actions:
 
 - Maintain the canonical external prefixes already used locally:
   `http://w3id.org/aiao#`, `http://w3id.org/impactont#`,
-  `http://w3id.org/claimont#`, and `http://w3id.org/infocomm#`.
+  `http://w3id.org/claimont#`, and `http://w3id.org/infocomm#`. ✅ completed
+  in the canonical ontology.
 - Keep local ontology, shapes, concept schemes, adapters, and fixtures aligned
-  to those prefixes.
+  to those prefixes. ✅ completed for canonical ontology and concept schemes;
+  frozen legacy adapters and fixtures intentionally preserve legacy output.
 - Decide whether controlled value properties are object properties to
   `skos:Concept`s. This is the recommended path. ✅ completed
 - Add missing local properties or choose external properties for:
-  - methodology used by an impact or impact calculation
-  - shape associated with a document schema
-  - Hedera message ID representation
-  - document format and content location if IPFS is not the only medium
-- Normalize `data:` namespace usage.
+  - methodology used by an impact or impact calculation ✅ completed as
+    `nias-o:usesMethodology` on `claimont:Claim`, with range
+    `meth:Methodology`
+  - shape associated with a document schema ✅ completed as
+    `nias-o:validatingShape`
+  - Hedera message ID representation ✅ completed with Hashgraph Ontology
+    `hedera:TopicMessage` and `hedera:ConsensusTopic`
+  - document format and content location if IPFS is not the only medium ✅
+    completed with `infocomm:hasFormat`, `infocomm:hasMedium`,
+    `dcterms:format`, and `nias-o:resourceContentLocation`
+- Normalize `data:` namespace usage. ✅ completed for canonical ontology and
+  concept schemes; legacy fixtures preserve `http://jellyfiiish.xyz/ns/` where
+  that was the frozen adapter output.
 
 ### Phase 2: Build Concept Schemes
 
 Goal: make selectable values resolvable and reusable.
+
+Status: completed 2026-05-14.
 
 Actions:
 
@@ -1212,7 +1266,7 @@ Actions:
 - For UI-selectable resources, type them as both domain resources and
   `skos:Concept`s. ✅ completed
 - Add `skos:inScheme`, `skos:prefLabel`, `skos:definition`, version metadata,
-  and deprecation metadata where relevant.
+  and deprecation metadata where relevant. ✅ completed
 
 ### Phase 3: Author Core SHACL Shapes
 
@@ -1314,7 +1368,8 @@ Actions:
 1. Fix ontology property kinds for controlled values, or create replacement
    object properties. ✅ completed
 2. Add or choose a methodology relation; do not keep undefined
-   `nias-o:indicatorMethodology`.
+   `nias-o:indicatorMethodology`. ✅ completed as claim-centered
+   `nias-o:usesMethodology`.
 3. Replace `impactont:hasValue` with `impactont:hasIndicatorValue` plus
    `rdf:value`.
 4. Create initial methodology and indicator concept scheme files, typing

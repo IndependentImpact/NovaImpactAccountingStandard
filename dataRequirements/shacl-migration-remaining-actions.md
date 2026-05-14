@@ -12,13 +12,15 @@ checklist was created are retained with artifact pointers.
    - Minimal legacy RDF fixtures recorded in `dataRequirements/fixtures/legacy/`.
 
 2. **Phase 1: Normalize namespaces and value semantics**
-   - Maintain canonical external prefixes (`aiao`, `impactont`, `claimont`, `infocomm`) across ontology, shapes, concept schemes, adapters, and fixtures.
-   - Add missing local properties or choose external properties for:
-     - methodology used by an impact or impact calculation
-     - shape associated with a document schema
-     - Hedera message ID representation
-     - document format and content location if IPFS is not the only medium
-   - Normalize `data:` namespace usage.
+   - No remaining actions (completed 2026-05-14).
+   - Canonical namespace, MethOnt, InfoComm, and Hashgraph choices are recorded
+     in `glossary/NovaImpactAccountingStandardOntology.ttl`.
+   - Methodology use is claim-centered via `nias-o:usesMethodology` on
+     `claimont:Claim`.
+   - Document-schema validation dispatch is recorded with
+     `nias-o:validatingShape`.
+   - Hedera consensus evidence is represented with Hashgraph Ontology
+     `hedera:TopicMessage` resources.
 
 3. **Phase 2: Build concept schemes**
    - No remaining actions (completed).

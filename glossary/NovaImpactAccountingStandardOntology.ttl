@@ -1,8 +1,11 @@
 @prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
 @prefix data: <https://jellyfiiish.xyz/ns/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix hed: <https://nova.org.za/novaimpactaccountingstandard/hedera/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
 @prefix impactont: <http://w3id.org/impactont#> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
@@ -10,6 +13,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix vcdm: <https://www.w3.org/ns/credentials/v2/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -18,7 +22,18 @@ nias-o: a owl:Ontology ;
     rdfs:label "Nova Impact Accounting Standard Ontology"@en ;
     rdfs:comment "Ontology for the Nova Impact Accounting Standard"@en ;
     dcterms:title "Nova Impact Accounting Standard Ontology"@en ;
-    dcterms:description "Ontology for the Nova Impact Accounting Standard"@en .
+    dcterms:description "Ontology for the Nova Impact Accounting Standard"@en ;
+    owl:imports <http://independentimpact.org/methont/methont.ttl/1.1.0> ;
+    owl:imports <http://w3id.org/aiao> ;
+    owl:imports <http://w3id.org/claimont> ;
+    owl:imports <http://w3id.org/impactont> ;
+    owl:imports <http://w3id.org/infocomm> ;
+    owl:imports <https://hashgraphontology.xyz/consensus> ;
+    owl:imports <https://hashgraphontology.xyz/core> .
+
+data:Document rdfs:subClassOf infocomm:Information .
+
+hedera:ConsensusTopic rdfs:subClassOf infocomm:Medium .
 
 nias-o:AgentActivityWorkflowRelation a owl:Class ;
     rdfs:label "AgentActivityWorkflowRelation"@en ;
@@ -48,8 +63,10 @@ nias-o:EntityXhederaTopicLink a owl:Class ;
 
 nias-o:Methodology a owl:Class ;
     rdfs:label "Methodology"@en ;
-    rdfs:subClassOf aiao:Control ;
-    skos:definition "'A system of methods used in a particular area of study or activity.' (Oxford Languages)"@en .
+    rdfs:subClassOf meth:Methodology,
+        aiao:Control ;
+    owl:deprecated true ;
+    skos:definition "Deprecated NIAS-local methodology bridge. Use meth:Methodology from the Methodology Ontology for canonical methodology resources."@en .
 
 nias-o:MonitoringReport a owl:Class ;
     rdfs:label "MonitoringReport"@en ;
@@ -58,7 +75,7 @@ nias-o:MonitoringReport a owl:Class ;
 
 nias-o:PlatformUser a owl:Class ;
     rdfs:label "PlatformUser"@en ;
-    rdfs:subClassOf owl:Thing ;
+    rdfs:subClassOf infocomm:CommunicationParty ;
     skos:definition "An actor on the Nova Impact Accounting Standard platform."@en .
 
 nias-o:PlatformUserXhederaAccountLink a owl:Class ;
@@ -78,8 +95,8 @@ nias-o:Workflow a owl:Class ;
 
 nias-o:WorkflowDocumentSubmission a owl:Class ;
     rdfs:label "WorkflowDocumentSubmission"@en ;
-    rdfs:subClassOf owl:Thing ;
-    skos:definition "Records the submission of a document to a specific step of a specific workflow for a specific workflow subject."@en .
+    rdfs:subClassOf infocomm:CommunicationEvent ;
+    skos:definition "Records the communication event in which a document is submitted to a specific step of a specific workflow for a specific workflow subject."@en .
 
 nias-o:WorkflowStep a owl:Class ;
     rdfs:label "WorkflowStep"@en ;
@@ -164,6 +181,12 @@ nias-o:documentSchema a owl:ObjectProperty ;
     rdfs:range nias-o:DocumentSchema ;
     skos:definition "A schema specifying the format and structure that a document must adhere to."@en .
 
+nias-o:validatingShape a owl:ObjectProperty ;
+    rdfs:label "validatingShape"@en ;
+    rdfs:domain nias-o:DocumentSchema ;
+    rdfs:range sh:NodeShape ;
+    skos:definition "The SHACL node shape that validates data claiming conformance to a document schema."@en .
+
 nias-o:entityXhederaTopicLinkDescription a owl:DatatypeProperty ;
     rdfs:label "description"@en ;
     rdfs:domain nias-o:EntityXhederaTopicLink ;
@@ -203,14 +226,14 @@ nias-o:hasWorkflowSubmission a owl:ObjectProperty ;
 nias-o:hederaAccount a owl:ObjectProperty ;
     rdfs:label "hederaAccount"@en ;
     rdfs:domain nias-o:PlatformUserXhederaAccountLink ;
-    rdfs:range hed:HederaAccount ;
+    rdfs:range hedera:Account ;
     skos:definition "A Hedera account."@en .
 
 nias-o:hederaTopic a owl:ObjectProperty ;
     rdfs:label "hederaTopic"@en ;
     rdfs:domain nias-o:EntityXhederaTopicLink ;
-    rdfs:range hed:HederaTopic ;
-    skos:definition "A Hedera topic."@en .
+    rdfs:range hedera:ConsensusTopic ;
+    skos:definition "A Hedera Consensus Service topic."@en .
 
 nias-o:impactIntentionality a owl:ObjectProperty ;
     rdfs:label "intentionality"@en ;
@@ -314,14 +337,29 @@ nias-o:projectHistory a owl:DatatypeProperty ;
 nias-o:resourceHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
     rdfs:domain dcterms:Resource ;
-    rdfs:range hed:HederaMessageId ;
-    skos:definition "The ID of the Hedera consensus message that recorded the moment of publication, listing or receipt (by the NIAS platform) of the resource in question."@en .
+    rdfs:range hedera:TopicMessage ;
+    rdfs:subPropertyOf nias-o:resourceConsensusMessage ;
+    owl:deprecated true ;
+    skos:definition "Deprecated legacy property name. Use nias-o:resourceConsensusMessage to link the resource to the Hedera Consensus Service topic message that recorded publication, listing, or receipt."@en .
+
+nias-o:resourceConsensusMessage a owl:ObjectProperty ;
+    rdfs:label "resourceConsensusMessage"@en ;
+    rdfs:domain dcterms:Resource ;
+    rdfs:range hedera:TopicMessage ;
+    skos:definition "The Hedera Consensus Service topic message that recorded publication, listing, or receipt of the resource."@en .
+
+nias-o:resourceContentLocation a owl:DatatypeProperty ;
+    rdfs:label "resourceContentLocation"@en ;
+    rdfs:domain dcterms:Resource ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "A resolvable URI where the content of a resource is available when it is not embedded directly in the RDF graph. Use nias-o:resourceIpfsUri for IPFS/IPNS content-addressed locations."@en .
 
 nias-o:resourceIpfsUri a owl:DatatypeProperty ;
     rdfs:label "ipfsUri"@en ;
-    rdfs:comment "If no value is provided for this property, the content of the resource should be provided via the data:resourceContent property, or the location of the content should be provided via the data:resourceContentLocation property." ;
+    rdfs:comment "If no value is provided for this property, the content of the resource should be provided directly or through nias-o:resourceContentLocation." ;
     rdfs:domain [ owl:unionOf ( dcterms:Resource impactont:SpatialLocation ) ] ;
     rdfs:range xsd:anyURI ;
+    rdfs:subPropertyOf nias-o:resourceContentLocation ;
     skos:definition "The IPFS URI, if any, of the resource in question."@en .
 
 nias-o:techMeasType a owl:ObjectProperty ;
@@ -344,15 +382,21 @@ nias-o:title a owl:DatatypeProperty ;
 
 nias-o:approvalStatus a owl:ObjectProperty ;
     rdfs:label "approvalStatus"@en ;
-    rdfs:domain nias-o:Methodology ;
+    rdfs:domain meth:Methodology ;
     rdfs:range skos:Concept ;
     skos:definition "The approval status of a methodology within the Nova Impact Accounting Standard (e.g., proposed, under evaluation, approved, rejected, surpassed, deprecated)."@en .
 
 nias-o:requiresKnowledgeDomain a owl:ObjectProperty ;
     rdfs:label "requiresKnowledgeDomain"@en ;
-    rdfs:domain nias-o:Methodology ;
+    rdfs:domain meth:Methodology ;
     rdfs:range skos:Concept ;
     skos:definition "A knowledge domain that validators or verifiers must possess in order to evaluate a methodology."@en .
+
+nias-o:usesMethodology a owl:ObjectProperty ;
+    rdfs:label "usesMethodology"@en ;
+    rdfs:domain claimont:Claim ;
+    rdfs:range meth:Methodology ;
+    skos:definition "Identifies the methodology used as the basis for a claim, including an aiao:ImpactClaim about an aiao:Project."@en .
 
 nias-o:unitOfMeasure a owl:ObjectProperty ;
     rdfs:label "unitOfMeasure"@en ;
@@ -369,14 +413,38 @@ nias-o:workflow a owl:ObjectProperty ;
 nias-o:workflowDocumentSubmissionHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
     rdfs:domain nias-o:WorkflowDocumentSubmission ;
-    rdfs:range hed:HederaMessageId ;
-    skos:definition "The ID of the Hedera consensus message that recorded the moment that a document was submitted to a specific workflow."@en .
+    rdfs:range hedera:TopicMessage ;
+    rdfs:subPropertyOf nias-o:workflowSubmissionConsensusMessage ;
+    owl:deprecated true ;
+    skos:definition "Deprecated legacy property name. Use nias-o:workflowSubmissionConsensusMessage to link a workflow document submission to the Hedera Consensus Service topic message that recorded it."@en .
+
+nias-o:workflowSubmissionConsensusMessage a owl:ObjectProperty ;
+    rdfs:label "workflowSubmissionConsensusMessage"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range hedera:TopicMessage ;
+    skos:definition "The Hedera Consensus Service topic message that recorded a workflow document submission."@en .
+
+nias-o:submittedDocument a owl:ObjectProperty ;
+    rdfs:label "submittedDocument"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range data:Document ;
+    rdfs:subPropertyOf infocomm:transmits ;
+    owl:inverseOf nias-o:hasWorkflowSubmission ;
+    skos:definition "The document transmitted by a workflow document submission communication event."@en .
 
 nias-o:workflowDocumentSubmittedBy a owl:ObjectProperty ;
     rdfs:label "submittedBy"@en ;
     rdfs:domain nias-o:WorkflowDocumentSubmission ;
     rdfs:range nias-o:PlatformUser ;
+    rdfs:subPropertyOf infocomm:hasSender ;
     skos:definition "The platform user who submitted the document."@en .
+
+nias-o:workflowDocumentRecipient a owl:ObjectProperty ;
+    rdfs:label "workflowDocumentRecipient"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range infocomm:CommunicationParty ;
+    rdfs:subPropertyOf infocomm:hasRecipient ;
+    skos:definition "The platform, registry, workflow endpoint, or agent that receives a workflow document submission."@en .
 
 nias-o:workflowStep a owl:ObjectProperty ;
     rdfs:label "workflowStep"@en ;
