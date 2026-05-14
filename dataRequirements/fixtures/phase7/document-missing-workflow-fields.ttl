@@ -1,0 +1,23 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/phase7-missing-workflow-fields>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentMetadata-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/phase7-agent> ;
+    nias-o:authProof nias-cs:none ;
+    nias-o:hasWorkflowSubmission [
+        a nias-o:WorkflowDocumentSubmission ;
+        nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/phase7-missing-workflow-fields> ;
+        nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/phase7>
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/users/phase7-agent>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/phase7>
+    a nias-o:Workflow .

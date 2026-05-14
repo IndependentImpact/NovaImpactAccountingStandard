@@ -73,8 +73,16 @@ checklist was created are retained with artifact pointers.
    - Link measured impacts to project, monitoring period, methodology, supporting documents, and verification attestation.
 
 8. **Phase 7: Validation and cutover**
-   - Validate fixtures with pySHACL (or equivalent).
-   - Validate with ontology and concept scheme graphs loaded.
-   - Add regression tests for controlled vocabularies, monitored/unmonitored branches, invalid periods, invalid IPFS URI, invalid namespace IRI, and missing workflow submission fields.
-   - Publish versioned SHACL files and document schema resources.
-   - Deprecate old R schema names after canonical shapes/adapters pass validation.
+   - No remaining actions (completed 2026-05-14).
+   - pySHACL regression tests are recorded in
+     `dataRequirements/tests/test_phase7_validation.py`.
+   - Phase 7 fixtures are recorded in `dataRequirements/fixtures/phase7/`.
+   - Validation loads ontology and concept scheme graphs from:
+     - `glossary/NovaImpactAccountingStandardOntology.ttl`
+     - `glossary/NovaImpactAccountingStandardGlossary.ttl`
+   - Versioned SHACL release resources are recorded in:
+     - `dataRequirements/releases/1.0.0/nias-shapes-1.0.0.ttl`
+     - `dataRequirements/releases/1.0.0/document-schema-resources.md`
+   - Legacy R schema names are deprecated in `dataRequirements/document-shapes.ttl`
+     and mapped to canonical schema IRIs in
+     `dataRequirements/adapters/phase4_compatibility_toFluree.R`.

@@ -1,0 +1,45 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/phase7-invalid-ipfs>
+    a data:Document ;
+    nias-o:resourceIpfsUri "https://example.com/not-ipfs"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentMetadata-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/phase7-agent> ;
+    nias-o:authProof nias-cs:none ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/phase7-submission-ipfs> .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/phase7-submission-ipfs>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/phase7-invalid-ipfs> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/phase7> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Phase 7 regression"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/phase7-project> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/phase7-agent> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/phase7-recipient> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.7"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-05-14T15:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/users/phase7-agent>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/phase7>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/registry/phase7-recipient>
+    a infocomm:CommunicationParty .

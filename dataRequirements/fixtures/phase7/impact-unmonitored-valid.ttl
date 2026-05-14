@@ -1,0 +1,12 @@
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/impacts/phase7-unmonitored>
+    a impactont:Impact ;
+    nias-o:impactIntentionality nias-cs:unintentional ;
+    nias-o:beneficialOrAdverse nias-cs:adverse ;
+    schema:description "Minor localized noise increase from maintenance activity." ;
+    nias-o:monitored nias-cs:no ;
+    nias-o:notMonitoredJustification "Impact is immaterial relative to project boundary and risk profile." .

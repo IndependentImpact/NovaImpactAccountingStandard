@@ -152,6 +152,29 @@ nias_document_iri <- function(document_id) {
   nias_iri(document_id, "nias-o:", "documents/")
 }
 
+nias_document_schema_iri <- function(schema_id) {
+  if (!nias_has_value(schema_id)) {
+    return(NULL)
+  }
+  schema_id_chr <- as.character(schema_id)
+  legacy_map <- c(
+    "#DocumentHeaders&1.0.0" = "nias-o:document-schema/DocumentMetadata-1.0.0",
+    "DocumentHeaders&1.0.0" = "nias-o:document-schema/DocumentMetadata-1.0.0",
+    "#PDDxA&1.0.0" = "nias-o:document-schema/PDDxA-1.0.0",
+    "PDDxA&1.0.0" = "nias-o:document-schema/PDDxA-1.0.0",
+    "#PDDxB&9.0.0" = "nias-o:document-schema/PDDxB-9.0.0",
+    "PDDxB&9.0.0" = "nias-o:document-schema/PDDxB-9.0.0"
+  )
+  if (schema_id_chr %in% names(legacy_map)) {
+    mapped <- legacy_map[[schema_id_chr]]
+    warning(sprintf("Deprecated legacy schema id '%s' mapped to '%s'.", schema_id_chr, mapped))
+    return(mapped)
+  }
+  cleaned_schema_id <- gsub("^#", "", schema_id_chr)
+  cleaned_schema_id <- gsub("&", "-", cleaned_schema_id, fixed = TRUE)
+  paste0("nias-o:document-schema/", cleaned_schema_id)
+}
+
 nias_unit_iri <- function(uom) {
   if (!nias_has_value(uom)) {
     warning("Missing unit of measure; falling back to unit:UNITLESS.")
@@ -584,7 +607,7 @@ workflowDocumentMetadata_toFluree <- function(docId = NULL, dfDocMd = NULL, dbCo
     "@id" = doc_iri,
     "@type" = "data:Document",
     "nias-o:resourceIpfsUri" = nias_any_uri_literal(nias_get(dfDocMd, "uri_ipfs")),
-    "nias-o:documentSchema" = nias_ref(paste0("nias-o:document-schema/", nias_get(dfDocMd, "id_schema"))),
+    "nias-o:documentSchema" = nias_ref(nias_document_schema_iri(nias_get(dfDocMd, "id_schema"))),
     "nias-o:isEncrypted" = as.logical(nias_get(dfDocMd, "encrypted")),
     "nias-o:documentAuthor" = author_ref,
     "nias-o:authProof" = nias_ref(nias_map_concept(
