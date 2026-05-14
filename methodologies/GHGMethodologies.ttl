@@ -1,0 +1,585 @@
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix ghg-m:   <https://nova.org.za/novaimpactaccountingstandard/methodologies/ghg/> .
+@prefix meth:    <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-ind: <https://nova.org.za/novaimpactaccountingstandard/indicators/> .
+@prefix nias-kd: <https://nova.org.za/novaimpactaccountingstandard/knowledgeDomains/> .
+@prefix nias-o:  <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Ontology header
+# ---------------------------------------------------------------------------
+
+ghg-m: a owl:Ontology ;
+    dct:title "Nova Impact Accounting Standard — Approved GHG Methodologies"@en ;
+    dct:description "Approved greenhouse gas (GHG) methodologies registered under the Nova Impact Accounting Standard. Each methodology is drawn from the UNFCCC Clean Development Mechanism (CDM) methodology library and is typed as meth:Methodology (Methodology Ontology). Approval statuses use nias-cs:MethodologyApprovalStatus, indicators reference nias-cs:GHGIndicators, and knowledge domains reference nias-cs:GHGKnowledgeDomains."@en ;
+    dct:issued "2026-05-14"^^xsd:date ;
+    owl:imports <http://independentimpact.org/methodology/> ;
+    owl:imports <https://nova.org.za/novaimpactaccountingstandard/indicators/> ;
+    owl:imports <https://nova.org.za/novaimpactaccountingstandard/knowledgeDomains/> .
+
+# ---------------------------------------------------------------------------
+# Methodology concept scheme for NIAS catalogue
+# ---------------------------------------------------------------------------
+
+nias-cs:GHGMethodologies a skos:ConceptScheme ;
+    skos:prefLabel "Approved GHG Methodologies"@en ;
+    skos:definition "Concept scheme listing all greenhouse gas methodologies approved under the Nova Impact Accounting Standard, drawn from the UNFCCC CDM methodology library."@en ;
+    skos:hasTopConcept
+        # Large-scale (ACM)
+        ghg-m:acm0001 ,
+        ghg-m:acm0002 ,
+        ghg-m:acm0006 ,
+        ghg-m:acm0008 ,
+        ghg-m:acm0009 ,
+        ghg-m:acm0010 ,
+        ghg-m:acm0012 ,
+        ghg-m:acm0013 ,
+        ghg-m:acm0018 ,
+        ghg-m:acm0019 ,
+        # Small-scale Type I — Renewable energy
+        ghg-m:ams-ia ,
+        ghg-m:ams-ib ,
+        ghg-m:ams-ic ,
+        ghg-m:ams-id ,
+        ghg-m:ams-ie ,
+        ghg-m:ams-if ,
+        ghg-m:ams-ij ,
+        # Small-scale Type II — Energy efficiency
+        ghg-m:ams-iic ,
+        ghg-m:ams-iid ,
+        ghg-m:ams-iie ,
+        ghg-m:ams-iif ,
+        ghg-m:ams-iig ,
+        ghg-m:ams-iih ,
+        ghg-m:ams-iiq ,
+        # Small-scale Type III — Methane and other activities
+        ghg-m:ams-iiia ,
+        ghg-m:ams-iiid ,
+        ghg-m:ams-iiie ,
+        ghg-m:ams-iiif ,
+        ghg-m:ams-iiig ,
+        ghg-m:ams-iiih ,
+        ghg-m:ams-iiiaj .
+
+# ===========================================================================
+# LARGE-SCALE (ACM) METHODOLOGIES
+# ===========================================================================
+
+ghg-m:acm0001 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0001 — Flaring or use of landfill gas"@en ;
+    meth:methodCode "ACM0001" ;
+    dct:description "Consolidated methodology for the avoidance of methane emissions from landfills through flaring or utilisation of landfill gas for energy generation."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ,
+        nias-kd:landfill-gas ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/JPYB4DYQUXQPZLBDVPHA87479EMY9M> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0002 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0002 — Grid-connected electricity generation from renewable sources"@en ;
+    meth:methodCode "ACM0002" ;
+    dct:description "Consolidated methodology for GHG emission reductions from grid-connected electricity generation using renewable energy sources such as wind, solar, hydro, and geothermal."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/XB1TX7TAZ6SLWM9B7BC67THHVD16JV> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0006 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0006 — Electricity and heat generation from biomass"@en ;
+    meth:methodCode "ACM0006" ;
+    dct:description "Consolidated methodology for GHG emission reductions from electricity and heat generation using biomass, including combined heat and power plants."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:biomass-energy ,
+        nias-kd:combustion-engineering ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/2IE2L3F73E90999CBVWXZ8WL40J819> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0008 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0008 — Abatement of methane from coal mines"@en ;
+    meth:methodCode "ACM0008" ;
+    dct:description "Consolidated methodology for the abatement of methane from underground and surface coal mines, including methane drainage and ventilation air methane (VAM) treatment."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:mining-engineering ,
+        nias-kd:atmospheric-chemistry ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/YSD3FQ5WR3VPC9Q64CDTLXHLFVKKKU> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0009 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0009 — Fuel switching from coal or petroleum fuel to natural gas"@en ;
+    meth:methodCode "ACM0009" ;
+    dct:description "Consolidated methodology for GHG emission reductions from switching from coal or petroleum fuels to natural gas in boilers, furnaces, and other thermal energy applications."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:combustion-engineering ,
+        nias-kd:energy-efficiency ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/CMUDOOMI7G7SYSDFXA75EIITKEVA4P> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0010 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0010 — GHG emission reductions from manure management systems"@en ;
+    meth:methodCode "ACM0010" ;
+    dct:description "Consolidated methodology for GHG emission reductions from the implementation of improved manure management systems, including anaerobic digesters that capture and utilise biogas."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:agricultural-systems ,
+        nias-kd:anaerobic-digestion ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/99QRTE6N5QJEBOV2XP374B25SSIXBB> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0012 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0012 — Waste energy recovery"@en ;
+    meth:methodCode "ACM0012" ;
+    dct:description "Consolidated methodology for GHG emission reductions from waste gas or heat recovery that would otherwise be flared or released, including the displacement of fossil fuel energy generation."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ,
+        nias-kd:combustion-engineering ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/FXBXLVGFF4DLI5WC1PKFW7KBRW62QB> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0013 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0013 — New grid-connected fossil fuel plants using a less GHG-intensive technology"@en ;
+    meth:methodCode "ACM0013" ;
+    dct:description "Consolidated methodology for GHG emission reductions from the construction of new grid-connected fossil fuel power plants that employ a less GHG-intensive technology than the grid average baseline."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:electrical-engineering ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/7E9VKG4RTU85IJ6HYJ3JTNLDHFDT2R> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0018 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0018 — Electricity generation from biomass in power-only plants"@en ;
+    meth:methodCode "ACM0018" ;
+    dct:description "Consolidated methodology for GHG emission reductions from electricity generation using biomass in power-only (non-CHP) plants, displacing grid electricity from fossil fuel sources."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:biomass-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/4HISH6FQZNGKPAHOA6YVN9DJ5J97T3> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:acm0019 a meth:Methodology, skos:Concept ;
+    skos:prefLabel "ACM0019 — N₂O abatement from nitric acid production"@en ;
+    meth:methodCode "ACM0019" ;
+    dct:description "Consolidated methodology for the abatement of nitrous oxide (N₂O) emissions from nitric acid production plants using secondary or tertiary abatement catalysts."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:industrial-process-engineering ,
+        nias-kd:atmospheric-chemistry ;
+    meth:hasScaleClassification meth:LargeScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/HKCO7RKOQO748WNXJNDEW3BJT9XN8L> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+# ===========================================================================
+# SMALL-SCALE METHODOLOGIES — TYPE I (Renewable energy)
+# ===========================================================================
+
+ghg-m:ams-ia a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.A — Electricity generation by the user"@en ;
+    meth:methodCode "AMS-I.A" ;
+    dct:description "Small-scale methodology for GHG emission reductions from renewable electricity generation units installed at the user's premises, displacing grid electricity or fossil fuel generators."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/1TIFADHWTMIW25TAL778RLEFJ6AWBB> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-ib a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.B — Mechanical energy for the user (with/without electricity)"@en ;
+    meth:methodCode "AMS-I.B" ;
+    dct:description "Small-scale methodology for GHG emission reductions from renewable mechanical or electrical energy supplied to users, replacing fossil fuel-based mechanical energy generation."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/MYQX85P3I7D9CLL577COJXPT18AVFL> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-ic a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.C — Thermal energy production with or without electricity"@en ;
+    meth:methodCode "AMS-I.C" ;
+    dct:description "Small-scale methodology for GHG emission reductions from renewable thermal energy production (with or without co-generation of electricity), displacing fossil fuel-based heat generation."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-I.C.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-id a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.D — Grid-connected renewable electricity generation"@en ;
+    meth:methodCode "AMS-I.D" ;
+    dct:description "Small-scale methodology for GHG emission reductions from grid-connected renewable electricity generation, including solar PV, wind, small hydro, and other renewable sources."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-I.D.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-ie a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.E — Switch from non-renewable biomass for thermal applications by the user"@en ;
+    meth:methodCode "AMS-I.E" ;
+    dct:description "Small-scale methodology for GHG emission reductions from switching from non-renewable biomass to renewable energy sources (e.g., improved cookstoves, efficient biomass stoves) for thermal applications."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:biomass-energy ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-I.E.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-if a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.F — Renewable electricity generation for captive use and mini-grid"@en ;
+    meth:methodCode "AMS-I.F" ;
+    dct:description "Small-scale methodology for GHG emission reductions from renewable electricity generation for captive use or supply via mini-grids in off-grid or partially electrified communities."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-I.F.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-ij a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-I.J — Solar water heating systems (SWH)"@en ;
+    meth:methodCode "AMS-I.J" ;
+    dct:description "Small-scale methodology for GHG emission reductions from solar water heating systems that displace fossil fuel or electric water heating."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:renewable-energy ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/GX9DV8QFP9X8BNR5GI1UUJD55EJ03A> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+# ===========================================================================
+# SMALL-SCALE METHODOLOGIES — TYPE II (Energy efficiency)
+# ===========================================================================
+
+ghg-m:ams-iic a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.C — Demand-side energy efficiency activities for specific technologies"@en ;
+    meth:methodCode "AMS-II.C" ;
+    dct:description "Small-scale methodology for GHG emission reductions from demand-side energy efficiency improvements for specific end-use technologies (e.g., efficient lighting, motors, appliances)."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/WIDPJJX05EFJ1VWW8C37D8GG39CEPH> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iid a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.D — Energy efficiency and fuel switching measures for industrial facilities"@en ;
+    meth:methodCode "AMS-II.D" ;
+    dct:description "Small-scale methodology for GHG emission reductions from energy efficiency improvements and fuel switching measures in industrial facilities, covering thermal and electrical end-uses."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:combustion-engineering ,
+        nias-kd:industrial-process-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-II.D.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iie a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.E — Energy efficiency and fuel switching measures for buildings"@en ;
+    meth:methodCode "AMS-II.E" ;
+    dct:description "Small-scale methodology for GHG emission reductions from energy efficiency improvements and fuel switching measures in residential, commercial, or institutional buildings."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/6R5OGZ6R2HF1HN3GDQOJ02TZRXA03R> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iif a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.F — Energy efficiency and fuel switching measures for agricultural facilities and activities"@en ;
+    meth:methodCode "AMS-II.F" ;
+    dct:description "Small-scale methodology for GHG emission reductions from energy efficiency improvements and fuel switching measures at agricultural processing facilities and for agricultural activities."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:agricultural-systems ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/JBIGP7UXNB82DGLWTKENW64LZ5D8HD> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iig a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.G — Energy efficiency in thermal applications of non-renewable biomass"@en ;
+    meth:methodCode "AMS-II.G" ;
+    dct:description "Small-scale methodology for GHG emission reductions from improved efficiency in the use of non-renewable biomass for thermal applications (e.g., efficient cookstoves)."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:biomass-energy ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/view?ref=AMS-II.G.> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iih a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.H — Energy efficiency via centralization of utility provisions (industrial facilities)"@en ;
+    meth:methodCode "AMS-II.H" ;
+    dct:description "Small-scale methodology for GHG emission reductions from centralizing utility provision (steam, hot water, chilled water) to replace decentralized fossil fuel-based systems in industrial facilities."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:combustion-engineering ,
+        nias-kd:industrial-process-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/LM7W0MFKXMP1F31EWWVUQMGZ73MNKN> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiq a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-II.Q — Energy efficiency and/or energy supply projects in commercial buildings"@en ;
+    meth:methodCode "AMS-II.Q" ;
+    dct:description "Small-scale methodology for GHG emission reductions from energy efficiency improvements and on-site renewable energy supply in commercial buildings."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:energy-efficiency ,
+        nias-kd:electrical-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/YCL1T3NURPHKSHBSR8TIHC2T543HTQ> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+# ===========================================================================
+# SMALL-SCALE METHODOLOGIES — TYPE III (Methane, waste, and other activities)
+# ===========================================================================
+
+ghg-m:ams-iiia a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.A — Offsetting of synthetic nitrogen fertilizers by inoculant application"@en ;
+    meth:methodCode "AMS-III.A" ;
+    dct:description "Small-scale methodology for GHG emission reductions from the application of nitrogen-fixing bacterial inoculants to legume crops, reducing the need for synthetic nitrogen fertilizers and associated N₂O emissions."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:agricultural-systems ,
+        nias-kd:soil-science ,
+        nias-kd:atmospheric-chemistry ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/5G3VVUHIXHA0OYIBYJKX7JV02LEUHH> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiid a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.D — Methane recovery in animal manure management systems"@en ;
+    meth:methodCode "AMS-III.D" ;
+    dct:description "Small-scale methodology for GHG emission reductions from recovering methane from animal manure management systems (e.g., covered lagoons, biodigesters) and combusting or utilising the biogas."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:agricultural-systems ,
+        nias-kd:anaerobic-digestion ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/H9DVSB24O7GEZQYLYNWUX23YS6G4RC> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiie a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.E — Avoidance of methane production from decay of biomass through controlled combustion, gasification or mechanical/thermal treatment"@en ;
+    meth:methodCode "AMS-III.E" ;
+    dct:description "Small-scale methodology for GHG emission reductions by avoiding methane from the uncontrolled decay of biomass through controlled combustion, gasification, or mechanical-thermal treatment."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ,
+        nias-kd:biomass-energy ,
+        nias-kd:combustion-engineering ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/AZB89EQ3FIRUIN1Q80MS80RXCLA2TS> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiif a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.F — Avoidance of methane emissions through composting"@en ;
+    meth:methodCode "AMS-III.F" ;
+    dct:description "Small-scale methodology for GHG emission reductions by diverting organic waste from landfill or open dumping to aerobic composting, avoiding methane generation from anaerobic decomposition."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/NZ83KB7YHBIA7HL2U1PCNAOCHPUQYX> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiig a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.G — Landfill methane recovery"@en ;
+    meth:methodCode "AMS-III.G" ;
+    dct:description "Small-scale methodology for GHG emission reductions from installing landfill gas collection systems to capture methane and either flare it or utilise it for energy generation."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ,
+        nias-kd:landfill-gas ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/0KHNES8D09H134V3TZDQ47C3LQL3H2> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiih a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.H — Methane recovery in wastewater treatment"@en ;
+    meth:methodCode "AMS-III.H" ;
+    dct:description "Small-scale methodology for GHG emission reductions from recovering methane generated during anaerobic wastewater treatment processes and combusting or utilising the recovered biogas."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:wastewater-treatment ,
+        nias-kd:anaerobic-digestion ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/K7FDTJ4FL3432I1UKRNKLDCUFAMBX7> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
+
+ghg-m:ams-iiiaj a meth:Methodology, skos:Concept ;
+    skos:prefLabel "AMS-III.AJ — Recovery and recycling of materials from solid wastes"@en ;
+    meth:methodCode "AMS-III.AJ" ;
+    dct:description "Small-scale methodology for GHG emission reductions from recovering and recycling materials (paper, plastic, metal, glass) from solid waste streams, displacing the production of virgin materials."@en ;
+    nias-o:approvalStatus nias-cs:approved ;
+    meth:forIndicator nias-ind:ghg-tco2e-per-year ;
+    nias-o:requiresKnowledgeDomain
+        nias-kd:ghg-accounting ,
+        nias-kd:mrv ,
+        nias-kd:waste-management ,
+        nias-kd:recycling-materials ;
+    meth:hasScaleClassification meth:SmallScale ;
+    dct:source <https://cdm.unfccc.int/methodologies/DB/LOWIXM9S6DVO7DGXB21DPVLE8N3VB9> ;
+    skos:inScheme nias-cs:GHGMethodologies ;
+    skos:topConceptOf nias-cs:GHGMethodologies .
