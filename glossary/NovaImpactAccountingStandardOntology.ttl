@@ -8,6 +8,7 @@
 @prefix meth: <http://independentimpact.org/methodology/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -82,6 +83,31 @@ nias-o:MonitoringReport a owl:Class ;
     rdfs:label "MonitoringReport"@en ;
     rdfs:subClassOf data:Document ;
     skos:definition "A monitoring report documenting the measured impacts of a project activity for a specific crediting period."@en .
+
+nias-o:MonitoringImpactReport a owl:Class ;
+    rdfs:label "MonitoringImpactReport"@en ;
+    rdfs:subClassOf claimont:Report ;
+    skos:definition "A report representing the content of a monitoring report for a specific monitoring period, asserting measured impacts of a project. Distinct from the document artifact (nias-o:MonitoringReport) and from the submission event."@en .
+
+nias-o:ProjectDesignDocument a owl:Class ;
+    rdfs:label "ProjectDesignDocument"@en ;
+    rdfs:subClassOf claimont:Report ;
+    skos:definition "A report representing the content of a Project Design Document, asserted by a submitting agent about a project. Models the PDD as an agent-authored report linked to project domain resources rather than as a prov:Plan. A separate prov:Plan node should be used only where the PDD describes intended future implementation or monitoring procedures."@en .
+
+nias-o:PddSectionAReport a owl:Class ;
+    rdfs:label "PddSectionAReport"@en ;
+    rdfs:subClassOf nias-o:ProjectDesignDocument ;
+    skos:definition "A PDD report covering Section A project design content, including project description, parties, location, technologies, and legal matters."@en .
+
+nias-o:PddSectionBReport a owl:Class ;
+    rdfs:label "PddSectionBReport"@en ;
+    rdfs:subClassOf nias-o:ProjectDesignDocument ;
+    skos:definition "A PDD report covering Section B impact declaration content, including declared impacts, states, and methodology linkage."@en .
+
+nias-o:PddSectionCReport a owl:Class ;
+    rdfs:label "PddSectionCReport"@en ;
+    rdfs:subClassOf nias-o:ProjectDesignDocument ;
+    skos:definition "A PDD report covering Section C monitoring and procedural content. Any planned future monitoring or sampling procedures described here may be modelled as a linked prov:Plan."@en .
 
 nias-o:PlatformUser a owl:Class ;
     rdfs:label "PlatformUser"@en ;
@@ -301,9 +327,9 @@ nias-o:impactIntentionality a owl:ObjectProperty ;
 
 nias-o:impactClaim a owl:ObjectProperty ;
     rdfs:label "impactClaim"@en ;
-    rdfs:domain nias-o:ImpactDeclaration ;
+    rdfs:domain [ owl:unionOf ( nias-o:ImpactDeclaration claimont:Report ) ] ;
     rdfs:range aiao:ImpactClaim ;
-    skos:definition "Links an impact declaration to an impact claim about the project or activity."@en .
+    skos:definition "Links a report or impact declaration to an impact claim about the project or activity."@en .
 
 nias-o:isEncrypted a owl:DatatypeProperty ;
     rdfs:label "isEncrypted"@en ;
@@ -541,9 +567,9 @@ nias-o:requiresKnowledgeDomain a owl:ObjectProperty ;
 
 nias-o:usesMethodology a owl:ObjectProperty ;
     rdfs:label "usesMethodology"@en ;
-    rdfs:domain claimont:Claim ;
+    rdfs:domain [ owl:unionOf ( claimont:Claim claimont:Report ) ] ;
     rdfs:range meth:Methodology ;
-    skos:definition "Identifies the methodology used as the basis for a claim, including an aiao:ImpactClaim about an aiao:Project."@en .
+    skos:definition "Identifies the methodology used as the basis for a claim or report, including an aiao:ImpactClaim about an aiao:Project or a nias-o:ProjectDesignDocument."@en .
 
 nias-o:unitOfMeasure a owl:ObjectProperty ;
     rdfs:label "unitOfMeasure"@en ;
@@ -604,3 +630,33 @@ nias-o:workflowSubject a owl:ObjectProperty ;
     rdfs:domain nias-o:WorkflowDocumentSubmission ;
     rdfs:range owl:Thing ;
     skos:definition "The subject of the workflow in respect of which or whom the document was submitted."@en .
+
+nias-o:implementationPlan a owl:ObjectProperty ;
+    rdfs:label "implementationPlan"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:ProjectDesignDocument aiao:Project ) ] ;
+    rdfs:range prov:Plan ;
+    skos:definition "Links a project design document or project to a plan for future implementation activities. Use only where the PDD describes intended future implementation steps; do not type the PDD itself as prov:Plan."@en .
+
+nias-o:monitoringPlan a owl:ObjectProperty ;
+    rdfs:label "monitoringPlan"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:ProjectDesignDocument aiao:Project ) ] ;
+    rdfs:range prov:Plan ;
+    skos:definition "Links a project design document or project to a monitoring plan for future measurement procedures. Use only where the PDD describes intended future monitoring steps."@en .
+
+nias-o:reportContent a owl:ObjectProperty ;
+    rdfs:label "reportContent"@en ;
+    rdfs:domain data:Document ;
+    rdfs:range claimont:Report ;
+    skos:definition "Links a document artifact to the report content asserted within it, separating the document metadata carrier from the agent-authored claim/report layer."@en .
+
+nias-o:stateClaim a owl:ObjectProperty ;
+    rdfs:label "stateClaim"@en ;
+    rdfs:domain claimont:Report ;
+    rdfs:range aiao:StateClaim ;
+    skos:definition "Links a report to a state claim about the project or activity."@en .
+
+nias-o:stateProvenanceClaim a owl:ObjectProperty ;
+    rdfs:label "stateProvenanceClaim"@en ;
+    rdfs:domain claimont:Report ;
+    rdfs:range aiao:StateProvenanceClaim ;
+    skos:definition "Links a report to a state provenance claim, providing evidential justification for a state value."@en .

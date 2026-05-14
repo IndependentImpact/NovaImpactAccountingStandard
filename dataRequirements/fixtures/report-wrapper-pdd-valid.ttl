@@ -1,0 +1,127 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Example: Minimal valid PDD report wrapper
+#
+# This fixture demonstrates the three-layer distinction for a submitted PDD:
+#   1. data:Document  - the document artifact / metadata carrier
+#   2. nias-o:WorkflowDocumentSubmission  - the submission/communication event
+#   3. nias-o:ProjectDesignDocument (claimont:Report)  - the report content
+#      asserted by the submitting agent
+#
+# The PDD is NOT typed as prov:Plan. A separate prov:Plan node is used only
+# where the PDD describes intended future implementation or monitoring steps.
+# ---------------------------------------------------------------------------
+
+# --- Domain resource: the project -------------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/projects/project-alpha>
+    a aiao:Project ;
+    nias-o:title "Project Alpha Solar Installation" ;
+    nias-o:projectHistory "Established 2025 in the Northern Cape, South Africa." ;
+    nias-o:legalMatters "No outstanding legal encumbrances." ;
+    nias-o:debundlingAssessment "Standalone installation; not debundled from a larger project." ;
+    nias-o:publicFundingStatus nias-cs:no .
+
+# --- Reporting agent (platform user) ----------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/users/agent-001>
+    a nias-o:PlatformUser ;
+    rdfs:label "Project Alpha Submitting Developer" .
+
+# --- Report content: PDD report wrapper (claimont:Report) -------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/pdd-alpha-2026>
+    a nias-o:ProjectDesignDocument ;
+    # Required: reporting agent
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-001> ;
+    # Required: project subject
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-alpha> ;
+    # Optional: methodology support linkage
+    claimont:isSupportedBy <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001> ;
+    # Optional: direct methodology linkage on the report itself
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001> ;
+    # Optional: impact claims embedded in the report
+    nias-o:impactClaim <https://nova.org.za/novaimpactaccountingstandard/claims/impact-claim-alpha-01> ;
+    # Optional: implementation plan (separate prov:Plan for future activity steps)
+    nias-o:implementationPlan <https://nova.org.za/novaimpactaccountingstandard/plans/impl-plan-alpha> ;
+    # Optional: schema / version conformance
+    dcterms:conformsTo <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> .
+
+# --- Impact claim linked from the PDD report --------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/claims/impact-claim-alpha-01>
+    a aiao:ImpactClaim ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-alpha> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001> .
+
+# --- Supporting methodology (domain resource) --------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001>
+    a meth:Methodology ;
+    rdfs:label "NIAS Solar Generation Methodology 1.0" .
+
+# --- Implementation plan (separate prov:Plan — NOT the PDD itself) ----------
+
+<https://nova.org.za/novaimpactaccountingstandard/plans/impl-plan-alpha>
+    a prov:Plan ;
+    dcterms:description "Implementation schedule for Project Alpha solar panel deployment, Q1–Q3 2027." .
+
+# --- Document artifact (metadata carrier) -----------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/doc-pdd-alpha>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/agent-001> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    # Link from document artifact to the report content layer
+    nias-o:reportContent <https://nova.org.za/novaimpactaccountingstandard/reports/pdd-alpha-2026> ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/sub-pdd-alpha> .
+
+# --- Submission event (workflow layer) -------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/sub-pdd-alpha>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/doc-pdd-alpha> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "PDD-A submitted"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-001> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.12345"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-05-14T10:00:00.000000000Z"^^xsd:dateTimeStamp
+    ] .
+
+# --- Workflow and registry placeholders -------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/pdd>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry>
+    a infocomm:CommunicationParty ;
+    rdfs:label "Nova Impact Accounting Standard Registry" .
