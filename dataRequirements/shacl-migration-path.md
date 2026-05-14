@@ -1357,17 +1357,45 @@ Implementation notes:
 
 Goal: distinguish the underlying impact data from a user-submitted assertion.
 
+Status: completed 2026-05-14.
+
 Actions:
 
-- Model PDD and monitoring report content as `claimont:Report` instances.
-- Use `claimont:isMadeBy` for the reporting user/agent.
+- Model PDD and monitoring report content as `claimont:Report` instances. ✅
+  completed; `nias-o:ProjectDesignDocument` and `nias-o:MonitoringImpactReport`
+  added as `claimont:Report` subclasses in
+  `glossary/NovaImpactAccountingStandardOntology.ttl`.
+- Use `claimont:isMadeBy` for the reporting user/agent. ✅ completed; required
+  by `nias-o:ProjectDesignDocumentShape` and `nias-o:MonitoringImpactReportShape`.
 - Use `claimont:hasSubject` to point to the project, impact, state, or document
-  being claimed.
+  being claimed. ✅ completed; required (typed as `aiao:Project`) in both report
+  wrapper shapes.
 - Use `aiao:ImpactClaim`, `aiao:StateClaim`, and
-  `aiao:StateProvenanceClaim` for claim-level decomposition where needed.
-- Link document metadata to report content through a clear property, for
-  example `data:resourceContent`, `dcterms:hasPart`, or a local property if the
-  data ontology already defines one.
+  `aiao:StateProvenanceClaim` for claim-level decomposition where needed. ✅
+  completed; `nias-o:stateClaim` and `nias-o:stateProvenanceClaim` added to
+  ontology; shapes allow all three claim types on report wrappers.
+- Link document metadata to report content through a clear property. ✅
+  completed; `nias-o:reportContent` added to link `data:Document` to
+  `claimont:Report`, with a permissive `nias-o:DocumentReportLinkShape`
+  constraint.
+
+Implementation notes:
+
+- The PDD is modelled as a `claimont:Report` (via `nias-o:ProjectDesignDocument`),
+  not as a `prov:Plan`. Where the PDD describes intended future implementation
+  or monitoring procedures, a separate `prov:Plan` node is introduced and linked
+  via `nias-o:implementationPlan` or `nias-o:monitoringPlan`.
+- Optional PDD section subclasses `nias-o:PddSectionAReport`,
+  `nias-o:PddSectionBReport`, and `nias-o:PddSectionCReport` are defined as
+  subclasses of `nias-o:ProjectDesignDocument` for workflows that submit each
+  PDD section separately.
+- `nias-o:MonitoringImpactReport` is a `claimont:Report` for monitoring period
+  content, kept separate from the existing `nias-o:MonitoringReport` document
+  artifact class.
+- SHACL shapes recorded in `dataRequirements/report-shapes.ttl`.
+- Example fixtures recorded in:
+  - `dataRequirements/fixtures/report-wrapper-pdd-valid.ttl`
+  - `dataRequirements/fixtures/report-wrapper-pdd-invalid.ttl`
 
 ### Phase 6: Design Monitoring Report Shapes
 

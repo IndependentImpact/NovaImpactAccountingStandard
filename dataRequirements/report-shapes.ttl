@@ -1,0 +1,162 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ReportShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Report Wrapper SHACL Shapes"@en ;
+    dcterms:description "Report wrapper shapes for PDD and monitoring report submissions. Implements Phase 5 of the NIAS SHACL migration by distinguishing the submitted document artifact, the workflow submission event, and the agent-authored report content layer."@en ;
+    owl:imports nias-o:CommonShapes .
+
+# ---------------------------------------------------------------------------
+# Project Design Document report wrapper
+# ---------------------------------------------------------------------------
+# A nias-o:ProjectDesignDocument is a claimont:Report asserted by an agent.
+# It is NOT typed as prov:Plan. Any planned future implementation or monitoring
+# procedures described in the PDD should be modelled as separate prov:Plan nodes
+# linked via nias-o:implementationPlan or nias-o:monitoringPlan.
+
+nias-o:ProjectDesignDocumentShape a sh:NodeShape ;
+    sh:targetClass nias-o:ProjectDesignDocument ;
+    sh:property [
+        sh:path claimont:isMadeBy ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD report must identify exactly one reporting agent via claimont:isMadeBy."@en
+    ] ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD report must identify exactly one project subject via claimont:hasSubject."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A PDD report may link to supporting methodologies, evidence documents, datasets, or prior submissions via claimont:isSupportedBy."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:impactClaim ;
+        sh:class aiao:ImpactClaim ;
+        sh:message "A PDD report may link to embedded or referenced impact claims via nias-o:impactClaim."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:stateClaim ;
+        sh:class aiao:StateClaim ;
+        sh:message "A PDD report may link to state claims via nias-o:stateClaim."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:stateProvenanceClaim ;
+        sh:class aiao:StateProvenanceClaim ;
+        sh:message "A PDD report may link to state provenance claims via nias-o:stateProvenanceClaim."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:class meth:Methodology ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A PDD report may link directly to one or more methodology resources."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "A PDD report may identify its schema or version via dcterms:conformsTo."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:implementationPlan ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "A PDD report may link to at most one implementation plan (prov:Plan) for future project activities."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringPlan ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "A PDD report may link to at most one monitoring plan (prov:Plan) for future measurement procedures."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# Document-to-report linking constraint
+# ---------------------------------------------------------------------------
+# data:Document is the document artifact / metadata carrier.
+# nias-o:reportContent links it to the claimont:Report content layer.
+
+nias-o:DocumentReportLinkShape a sh:NodeShape ;
+    sh:targetClass data:Document ;
+    sh:property [
+        sh:path nias-o:reportContent ;
+        sh:class claimont:Report ;
+        sh:maxCount 1 ;
+        sh:message "A document may link to at most one report content resource via nias-o:reportContent."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# Monitoring impact report wrapper
+# ---------------------------------------------------------------------------
+
+nias-o:MonitoringImpactReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:MonitoringImpactReport ;
+    sh:property [
+        sh:path claimont:isMadeBy ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact report must identify exactly one reporting agent via claimont:isMadeBy."@en
+    ] ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact report must identify exactly one project subject via claimont:hasSubject."@en
+    ] ;
+    sh:property [
+        sh:path claimont:isSupportedBy ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A monitoring impact report may link to supporting datasets, evidence documents, or prior submissions."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:impactClaim ;
+        sh:class aiao:ImpactClaim ;
+        sh:minCount 1 ;
+        sh:message "A monitoring impact report must include at least one impact claim for the measured period."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:class meth:Methodology ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A monitoring impact report may link directly to one or more methodology resources."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring impact report may identify its schema or version via dcterms:conformsTo."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# prov:Plan node shape (used only for explicit planning resources)
+# ---------------------------------------------------------------------------
+# The PDD itself must NOT be typed as prov:Plan. A prov:Plan node is only
+# introduced where the PDD or project describes intended future implementation
+# or monitoring steps.
+
+nias-o:PlanShape a sh:NodeShape ;
+    sh:targetClass prov:Plan ;
+    sh:property [
+        sh:path dcterms:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A plan must have exactly one plain-text description."@en
+    ] .

@@ -45,11 +45,25 @@ checklist was created are retained with artifact pointers.
    - The frozen `reference/` audit baseline remains unchanged.
 
 6. **Phase 5: Add claim and report wrappers**
-   - Model PDD and monitoring report content as `claimont:Report` instances.
-   - Use `claimont:isMadeBy` for reporting agent identity.
-   - Use `claimont:hasSubject` for project/impact/state/document subject linkage.
-   - Use `aiao:ImpactClaim`, `aiao:StateClaim`, and `aiao:StateProvenanceClaim` where needed.
-   - Link document metadata to report content via a clear property.
+   - No remaining actions (completed 2026-05-14).
+   - `nias-o:ProjectDesignDocument` added as a `claimont:Report` subclass in
+     `glossary/NovaImpactAccountingStandardOntology.ttl`.
+   - `nias-o:MonitoringImpactReport` added as a `claimont:Report` subclass for
+     monitoring period report content.
+   - Optional PDD section subclasses added: `nias-o:PddSectionAReport`,
+     `nias-o:PddSectionBReport`, `nias-o:PddSectionCReport`.
+   - `nias-o:reportContent` added to link `data:Document` to `claimont:Report`.
+   - `nias-o:stateClaim` and `nias-o:stateProvenanceClaim` added to link reports
+     to `aiao:StateClaim` and `aiao:StateProvenanceClaim`.
+   - `nias-o:implementationPlan` and `nias-o:monitoringPlan` added to link
+     reports and projects to `prov:Plan` nodes (used only for explicit future
+     planning resources; the PDD itself is not typed as `prov:Plan`).
+   - `nias-o:usesMethodology` domain widened to include `claimont:Report`.
+   - `nias-o:impactClaim` domain widened to include `claimont:Report`.
+   - Report wrapper SHACL shapes recorded in `dataRequirements/report-shapes.ttl`.
+   - Example fixtures recorded in:
+     - `dataRequirements/fixtures/report-wrapper-pdd-valid.ttl` (valid PDD wrapper)
+     - `dataRequirements/fixtures/report-wrapper-pdd-invalid.ttl` (invalid cases)
 
 7. **Phase 6: Design monitoring report shapes**
    - Use `impactont:Impact` for measured impact.

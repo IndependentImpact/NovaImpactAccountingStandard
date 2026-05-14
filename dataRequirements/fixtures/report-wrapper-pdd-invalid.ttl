@@ -1,0 +1,67 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Example: INVALID PDD report wrappers
+#
+# These instances violate nias-o:ProjectDesignDocumentShape constraints and
+# should produce SHACL validation failures.
+#
+# Expected violations are annotated with comments.
+# ---------------------------------------------------------------------------
+
+# --- INVALID 1: Missing claimont:isMadeBy -----------------------------------
+# Violation: sh:minCount 1 on claimont:isMadeBy is not satisfied.
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/invalid-pdd-no-agent>
+    a nias-o:ProjectDesignDocument ;
+    # claimont:isMadeBy is intentionally absent
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-beta> .
+
+<https://nova.org.za/novaimpactaccountingstandard/projects/project-beta>
+    a aiao:Project .
+
+# --- INVALID 2: Missing claimont:hasSubject ----------------------------------
+# Violation: sh:minCount 1 on claimont:hasSubject is not satisfied.
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/invalid-pdd-no-subject>
+    a nias-o:ProjectDesignDocument ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-002> .
+    # claimont:hasSubject is intentionally absent
+
+<https://nova.org.za/novaimpactaccountingstandard/users/agent-002>
+    a nias-o:PlatformUser ;
+    rdfs:label "Developer Two" .
+
+# --- INVALID 3: claimont:hasSubject points to wrong type -------------------
+# Violation: sh:class aiao:Project on claimont:hasSubject is not satisfied.
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/invalid-pdd-wrong-subject-type>
+    a nias-o:ProjectDesignDocument ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-002> ;
+    # subject is not an aiao:Project — this is a violation
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/users/agent-002> .
+
+# --- INVALID 4: PDD incorrectly typed as prov:Plan -------------------------
+# The PDD itself must not be typed as prov:Plan. A prov:Plan node should only
+# be used as a LINKED resource for planned future steps, not as the primary
+# type of the PDD report wrapper.
+#
+# Note: this instance satisfies ProjectDesignDocumentShape (it has both
+# isMadeBy and hasSubject), but it ALSO carries the prov:Plan type, which
+# violates the modeling guidance. In a fully closed ontology this would be a
+# typing conflict; in open-world SHACL it is flagged as a design error.
+#
+# This example documents the anti-pattern rather than a SHACL shape violation.
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/invalid-pdd-typed-as-plan>
+    a nias-o:ProjectDesignDocument ;
+    # anti-pattern: also typed as prov:Plan — use a separate linked plan resource instead
+    a prov:Plan ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/agent-002> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/project-beta> .
