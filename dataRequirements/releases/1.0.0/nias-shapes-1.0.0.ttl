@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/shapes/1.0.0>
+    a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard SHACL bundle 1.0.0"@en ;
+    dcterms:description "Versioned SHACL release bundle for Phase 7 validation and cutover."@en ;
+    owl:versionInfo "1.0.0" ;
+    dcterms:hasPart <https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentMetadata-1.0.0>,
+        <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0>,
+        <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
+    owl:imports nias-o:CommonShapes,
+        nias-o:ProjectDesignShapes,
+        nias-o:ImpactDeclarationShapes,
+        nias-o:DocumentShapes,
+        nias-o:ReportShapes .

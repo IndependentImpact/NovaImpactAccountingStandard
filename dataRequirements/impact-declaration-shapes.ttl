@@ -138,6 +138,29 @@ nias-o:MonitoredImpactShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:message "A monitored impact must include exactly one ex-ante impact estimate."@en
+    ] ;
+    sh:sparql [
+        sh:message "Each monitoring period must fall within the crediting period."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            PREFIX time: <http://www.w3.org/2006/time#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE {
+                $this nias-o:creditingPeriod ?creditingPeriod ;
+                      nias-o:monitoringPeriod ?monitoringPeriod .
+                ?creditingPeriod
+                    time:hasBeginning/time:inXSDDateTimeStamp ?creditingStart ;
+                    time:hasEnd/time:inXSDDateTimeStamp ?creditingEnd .
+                ?monitoringPeriod
+                    time:hasBeginning/time:inXSDDateTimeStamp ?monitoringStart ;
+                    time:hasEnd/time:inXSDDateTimeStamp ?monitoringEnd .
+                BIND(STRDT(STR(?monitoringStart), xsd:dateTime) AS ?monitoringStartDateTime)
+                BIND(STRDT(STR(?creditingStart), xsd:dateTime) AS ?creditingStartDateTime)
+                BIND(STRDT(STR(?monitoringEnd), xsd:dateTime) AS ?monitoringEndDateTime)
+                BIND(STRDT(STR(?creditingEnd), xsd:dateTime) AS ?creditingEndDateTime)
+                FILTER (?monitoringStartDateTime < ?creditingStartDateTime || ?monitoringEndDateTime > ?creditingEndDateTime)
+            }
+        """
     ] .
 
 nias-o:UnmonitoredImpactShape a sh:NodeShape ;

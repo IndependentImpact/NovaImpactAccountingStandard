@@ -1,0 +1,83 @@
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/impacts/phase7-invalid-period>
+    a impactont:Impact ;
+    nias-o:impactIntentionality nias-cs:intentional ;
+    nias-o:beneficialOrAdverse nias-cs:beneficial ;
+    schema:description "Monitoring period intentionally outside crediting period." ;
+    nias-o:monitored nias-cs:yes ;
+    nias-o:additionalityJustification "Used only for regression test." ;
+    impactont:hasStateA <https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-a> ;
+    impactont:hasStateB <https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-b> ;
+    impactont:hasProvenance <https://nova.org.za/novaimpactaccountingstandard/projects/phase7-project> ;
+    nias-o:creditingPeriod <https://nova.org.za/novaimpactaccountingstandard/periods/phase7-invalid-crediting> ;
+    nias-o:monitoringPeriod <https://nova.org.za/novaimpactaccountingstandard/periods/phase7-invalid-monitoring> ;
+    nias-o:dataParameterRequirement <https://nova.org.za/novaimpactaccountingstandard/data-parameters/phase7-invalid-parameter> ;
+    nias-o:exAnteImpactEstimate "80.5"^^xsd:decimal .
+
+<https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-a>
+    a impactont:State ;
+    impactont:hasTemporalLocation <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-crediting-start> ;
+    impactont:hasModality "counterfactual" ;
+    impactont:isDefinedByIndicator <https://nova.org.za/novaimpactaccountingstandard/indicators/phase7-indicator> ;
+    impactont:hasIndicatorValue <https://nova.org.za/novaimpactaccountingstandard/values/phase7-invalid-value-a> .
+
+<https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-b>
+    a impactont:State ;
+    impactont:hasTemporalLocation <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-monitoring-end> ;
+    impactont:hasModality "real" ;
+    impactont:isDefinedByIndicator <https://nova.org.za/novaimpactaccountingstandard/indicators/phase7-indicator> ;
+    impactont:hasIndicatorValue <https://nova.org.za/novaimpactaccountingstandard/values/phase7-invalid-value-b> .
+
+<https://nova.org.za/novaimpactaccountingstandard/values/phase7-invalid-value-a>
+    a impactont:IndicatorValue ;
+    rdf:value "100.0"^^xsd:decimal .
+
+<https://nova.org.za/novaimpactaccountingstandard/values/phase7-invalid-value-b>
+    a impactont:IndicatorValue ;
+    rdf:value "55.0"^^xsd:decimal .
+
+<https://nova.org.za/novaimpactaccountingstandard/periods/phase7-invalid-crediting>
+    a nias-o:CreditingPeriod ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-crediting-start> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-crediting-end> ;
+    nias-o:creditingPeriodIsRenewable false .
+
+<https://nova.org.za/novaimpactaccountingstandard/periods/phase7-invalid-monitoring>
+    a time:Interval ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-monitoring-start> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-monitoring-end> .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-crediting-start>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-crediting-end>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-12-31T23:59:59Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-monitoring-start>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2027-01-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/time/phase7-invalid-monitoring-end>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2027-02-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/data-parameters/phase7-invalid-parameter>
+    a nias-o:DataParameterRequirement ;
+    rdfs:label "Metered electricity output" ;
+    schema:description "Measured electricity output for regression test." ;
+    nias-o:dataParameterPurpose "Compute annual net avoided emissions." ;
+    ind:hasUnit <http://qudt.org/vocab/unit/KiloW-HR> ;
+    nias-o:monitoredOrFixed nias-cs:fixed-ex-ante ;
+    nias-o:parameterAppliedValue "17.0"^^xsd:decimal ;
+    nias-o:dataSource "Published grid intensity factor" .

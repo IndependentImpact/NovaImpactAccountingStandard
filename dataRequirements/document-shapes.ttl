@@ -141,9 +141,10 @@ nias-o:DocumentShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:documentSchema ;
         sh:nodeKind sh:IRI ;
+        sh:pattern "^https://nova\\.org\\.za/novaimpactaccountingstandard/document-schema/.+" ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A document must identify exactly one document schema."@en
+        sh:message "A document must identify exactly one NIAS document schema IRI in the NIAS document-schema namespace."@en
     ] ;
     sh:property [
         sh:path nias-o:isEncrypted ;
@@ -192,4 +193,25 @@ nias-o:DocumentShape a sh:NodeShape ;
     a nias-o:DocumentSchema ;
     dcterms:title "Project Design Document Section B 9.0.0"@en ;
     sh:targetClass nias-o:ImpactDeclaration ;
+    nias-o:validatingShape nias-o:ImpactDeclarationShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentHeaders&1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Document headers 1.0.0 (legacy name)"@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentMetadata-1.0.0> ;
+    nias-o:validatingShape nias-o:DocumentShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA&1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document Section A 1.0.0 (legacy name)"@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+    nias-o:validatingShape nias-o:ProjectDesignShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB&9.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document Section B 9.0.0 (legacy name)"@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
     nias-o:validatingShape nias-o:ImpactDeclarationShape .

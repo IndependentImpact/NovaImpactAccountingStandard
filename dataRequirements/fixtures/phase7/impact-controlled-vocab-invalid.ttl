@@ -1,0 +1,12 @@
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/impacts/phase7-invalid-controlled-vocab>
+    a impactont:Impact ;
+    nias-o:impactIntentionality nias-cs:unsupported-value ;
+    nias-o:beneficialOrAdverse nias-cs:beneficial ;
+    schema:description "Fixture with an invalid controlled vocabulary value." ;
+    nias-o:monitored nias-cs:no ;
+    nias-o:notMonitoredJustification "This fixture intentionally tests controlled vocabulary rejection." .
