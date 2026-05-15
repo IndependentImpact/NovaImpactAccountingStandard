@@ -1,0 +1,62 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-1>
+    a data:Document,
+        nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DRVICIR-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/verifier-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafydrvicir"^^xsd:anyURI ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-submission-1> ;
+    nias-o:fieldReview <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-field-review-1> ;
+    nias-o:finalReviewDecision nias-cs:review-approve ;
+    nias-o:requestedIssuanceAccountId "0.0.3003" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-field-review-1>
+    a nias-o:DocumentFieldReview ;
+    nias-o:fieldKey "summary_impact" ;
+    nias-o:fieldTitle "Impact Summary" ;
+    nias-o:fieldPrompt "The impact, as per the verified monitoring report:" ;
+    nias-o:originalResponse "123.45 tCO2e avoided during Q1 2026." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Impact summary is consistent with the approved monitoring report review." .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-submission-1>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-1> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/test/verification-workflow> ;
+    nias-o:workflowStep <https://nova.org.za/novaimpactaccountingstandard/test/review-vicir-step> ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/test/verifier-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/test/registry-1> ;
+    nias-o:workflowSubmissionConsensusMessage <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-message-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/verification-workflow>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/review-vicir-step>
+    a nias-o:WorkflowStep ;
+    rdfs:label "Review VIC issuance request" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/verifier-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/registry-1>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/topic-1>
+    a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.1001" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-message-1>
+    a hedera:TopicMessage ;
+    hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
+    hedera:hasSequenceNumber 6 ;
+    hedera:hasConsensusTimestamp "2026-04-03T00:00:00Z"^^xsd:dateTimeStamp .

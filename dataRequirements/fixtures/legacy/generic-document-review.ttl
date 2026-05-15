@@ -1,0 +1,61 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-review-1>
+    a data:Document,
+        nias-o:GenericDocumentReview ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/reviewer-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafygenericreview"^^xsd:anyURI ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/generic-review-submission-1> ;
+    nias-o:fieldReview <https://nova.org.za/novaimpactaccountingstandard/test/generic-field-review-1> ;
+    nias-o:finalReviewDecision nias-cs:review-approve .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-field-review-1>
+    a nias-o:DocumentFieldReview ;
+    nias-o:fieldKey "title_project" ;
+    nias-o:fieldTitle "Project Title" ;
+    nias-o:fieldPrompt "Title of the project:" ;
+    nias-o:originalResponse "Example clean cooking programme" ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "The project title is clear." .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-review-submission-1>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/test/generic-review-1> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/test/review-workflow> ;
+    nias-o:workflowStep <https://nova.org.za/novaimpactaccountingstandard/test/generic-review-step> ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/test/reviewer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/test/registry-1> ;
+    nias-o:workflowSubmissionConsensusMessage <https://nova.org.za/novaimpactaccountingstandard/test/generic-review-message-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/review-workflow>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-review-step>
+    a nias-o:WorkflowStep ;
+    rdfs:label "Review document" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/reviewer-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/registry-1>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/topic-1>
+    a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.1001" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-review-message-1>
+    a hedera:TopicMessage ;
+    hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
+    hedera:hasSequenceNumber 5 ;
+    hedera:hasConsensusTimestamp "2026-04-02T00:00:00Z"^^xsd:dateTimeStamp .

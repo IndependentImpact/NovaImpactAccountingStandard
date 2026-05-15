@@ -793,6 +793,16 @@ responses as copied strings. The semantic target should preferably point to the
 reviewed document, field path, and reviewed value, with copied strings retained
 only for audit snapshots.
 
+Initial shape coverage added 2026-05-15:
+
+- `dataRequirements/review-shapes.ttl` covers `#GenericDocumentReview&5.0.0`,
+  `#DocumentFieldReview&1.0.0`, and `#DRVICIR&1.0.0`.
+- Final review decisions and field-level reviewer decisions are represented as
+  `nias-cs:ReviewDecision` SKOS concepts, preserving the legacy approve/reject
+  and action-request enum values.
+- Field review prompts and original responses are retained as audit snapshot
+  literals on `nias-o:DocumentFieldReview`.
+
 ### Project Listing, PDD Certificate, And Project Registration
 
 Sources:
@@ -932,9 +942,10 @@ Initial shape coverage added 2026-05-15:
   `nias-o:reportedIndicatorLabel` while also requiring a canonical
   `ind:IndicatorObservation` for `value_impact`, `unit_impact`, and
   `monitoring_period`.
-- `DataLineageReportShape` remains pending; the current dataset shape only
-  references the approved data lineage review document and final dataset
-  artifact needed by monitoring reports.
+- `dataRequirements/data-lineage-shapes.ttl` covers
+  `#DataLineageReport4.0.0` with raw data, transfer report/code, final data,
+  and cleaning report/code artifacts plus the monitoring period and workflow
+  headers.
 
 ### Verified Impact Certificate And Issuance Request
 
@@ -968,6 +979,16 @@ Target SHACL shapes:
   impact period, unit, extent, certificate number, and issuance account.
 - Reuse the same measured impact model used by monitoring reports to avoid
   certificate-specific duplicate impact semantics.
+
+Initial shape coverage added 2026-05-15:
+
+- `dataRequirements/certificate-shapes.ttl` covers `#VICIR&1.0.0`,
+  `#VIC&2.0.0`, and nested `#ImpactSummary&1.0.0` fields.
+- VIC issuance requests and issued certificates both point to the approved
+  monitoring report review via `nias-o:monitoringReportReview`.
+- Impact summary values reuse `ind:timePeriod`, `ind:hasUnit`, and
+  `ind:obsValue`, with `nias-o:impactDescription` retaining the legacy
+  description text.
 
 ### Workflow Document Metadata
 

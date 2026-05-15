@@ -68,10 +68,27 @@ nias-o:Dataset a owl:Class ;
     rdfs:subClassOf dcterms:Resource ;
     skos:definition "A dataset used as evidence or input data in a monitoring report calculation."@en .
 
+nias-o:DataLineageReport a owl:Class ;
+    rdfs:label "DataLineageReport"@en ;
+    rdfs:subClassOf data:Document,
+        claimont:Report ;
+    skos:definition "A workflow document reporting provenance for raw, transferred, cleaned, and final dataset artifacts used in monitoring report calculations."@en .
+
+nias-o:DocumentFieldReview a owl:Class ;
+    rdfs:label "DocumentFieldReview"@en ;
+    rdfs:subClassOf infocomm:Information ;
+    skos:definition "A field-level review finding that records the reviewed field, copied source response, reviewer decision, and reviewer feedback."@en .
+
 nias-o:DocumentReference a owl:Class ;
     rdfs:label "DocumentReference"@en ;
     rdfs:subClassOf dcterms:Resource ;
     skos:definition "A compact reference to a document using its workflow message identifier and content-addressed resource location."@en .
+
+nias-o:DocumentReview a owl:Class ;
+    rdfs:label "DocumentReview"@en ;
+    rdfs:subClassOf data:Document,
+        claimont:Attestation ;
+    skos:definition "A workflow document that attests to a review decision over another document using one or more field-level review findings."@en .
 
 nias-o:EntityXhederaTopicLink a owl:Class ;
     rdfs:label "EntityXhederaTopicLink"@en ;
@@ -82,6 +99,11 @@ nias-o:ImpactDeclaration a owl:Class ;
     rdfs:label "ImpactDeclaration"@en ;
     rdfs:subClassOf claimont:Report ;
     skos:definition "A report-like declaration of one or more impacts for a project design document section."@en .
+
+nias-o:ImpactSummary a owl:Class ;
+    rdfs:label "ImpactSummary"@en ;
+    rdfs:subClassOf infocomm:Information ;
+    skos:definition "A compact summary of a verified impact, including description, period, unit, and measured extent."@en .
 
 nias-o:Methodology a owl:Class ;
     rdfs:label "Methodology"@en ;
@@ -94,6 +116,11 @@ nias-o:MonitoringReport a owl:Class ;
     rdfs:label "MonitoringReport"@en ;
     rdfs:subClassOf data:Document ;
     skos:definition "A monitoring report documenting the measured impacts of a project activity for a specific crediting period."@en .
+
+nias-o:GenericDocumentReview a owl:Class ;
+    rdfs:label "GenericDocumentReview"@en ;
+    rdfs:subClassOf nias-o:DocumentReview ;
+    skos:definition "A generic document review workflow document that can review any submitted document."@en .
 
 nias-o:MonitoringImpactReport a owl:Class ;
     rdfs:label "MonitoringImpactReport"@en ;
@@ -157,6 +184,23 @@ nias-o:ResourceArtifact a owl:Class ;
     rdfs:label "ResourceArtifact"@en ;
     rdfs:subClassOf dcterms:Resource ;
     skos:definition "A resource artifact referenced by a workflow document, such as a calculation script, calculation report, impact result, or dataset file."@en .
+
+nias-o:VerifiedImpactCertificate a owl:Class ;
+    rdfs:label "VerifiedImpactCertificate"@en ;
+    rdfs:subClassOf vcdm:VerifiableCredential,
+        dcterms:Resource ;
+    skos:definition "A verified impact certificate issued for a measured and approved impact over a defined impact period."@en .
+
+nias-o:VerifiedImpactCertificateIssuanceRequest a owl:Class ;
+    rdfs:label "VerifiedImpactCertificateIssuanceRequest"@en ;
+    rdfs:subClassOf data:Document,
+        claimont:Report ;
+    skos:definition "A workflow request for issuing a verified impact certificate based on an approved monitoring report review and impact summary."@en .
+
+nias-o:VerifiedImpactCertificateIssuanceRequestReview a owl:Class ;
+    rdfs:label "VerifiedImpactCertificateIssuanceRequestReview"@en ;
+    rdfs:subClassOf nias-o:DocumentReview ;
+    skos:definition "A document review workflow document for a verified impact certificate issuance request."@en .
 
 nias-o:TechnologyOrMeasure a owl:Class ;
     rdfs:label "TechnologyOrMeasure"@en ;
@@ -453,7 +497,7 @@ nias-o:alignedWithPDD a owl:ObjectProperty ;
 
 nias-o:forPeriod a owl:ObjectProperty ;
     rdfs:label "forPeriod"@en ;
-    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:domain [ owl:unionOf ( nias-o:MonitoringReport nias-o:DataLineageReport ) ] ;
     rdfs:range time:Interval ;
     skos:definition "The monitoring period (falling within the crediting period) for which a monitoring report is valid."@en .
 
@@ -462,6 +506,12 @@ nias-o:hasMonitoringReport a owl:ObjectProperty ;
     rdfs:domain aiao:Project ;
     rdfs:range nias-o:MonitoringReport ;
     skos:definition "A monitoring report associated with a project."@en .
+
+nias-o:certificateNumber a owl:DatatypeProperty ;
+    rdfs:label "certificateNumber"@en ;
+    rdfs:domain nias-o:VerifiedImpactCertificate ;
+    rdfs:range xsd:string ;
+    skos:definition "Human- or registry-readable identifier for an issued verified impact certificate."@en .
 
 nias-o:calculationCode a owl:ObjectProperty ;
     rdfs:label "calculationCode"@en ;
@@ -481,17 +531,89 @@ nias-o:dataLineageReview a owl:ObjectProperty ;
     rdfs:range nias-o:DocumentReference ;
     skos:definition "Approved document review for the data lineage report governing a dataset."@en .
 
+nias-o:dataCleaningCode a owl:ObjectProperty ;
+    rdfs:label "dataCleaningCode"@en ;
+    rdfs:domain nias-o:DataLineageReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "RMD, script, or executable artifact that produced the final cleaned dataset."@en .
+
+nias-o:dataCleaningReport a owl:ObjectProperty ;
+    rdfs:label "dataCleaningReport"@en ;
+    rdfs:domain nias-o:DataLineageReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Report produced by the data cleaning process for a data lineage report."@en .
+
+nias-o:dataTransferCode a owl:ObjectProperty ;
+    rdfs:label "dataTransferCode"@en ;
+    rdfs:domain nias-o:DataLineageReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "RMD, script, or executable artifact that transferred or anonymized raw data into the data lineage process."@en .
+
+nias-o:dataTransferReport a owl:ObjectProperty ;
+    rdfs:label "dataTransferReport"@en ;
+    rdfs:domain nias-o:DataLineageReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Report produced by the data transfer and anonymization process for a data lineage report."@en .
+
 nias-o:documentMessageId a owl:DatatypeProperty ;
     rdfs:label "documentMessageId"@en ;
     rdfs:domain nias-o:DocumentReference ;
     rdfs:range xsd:string ;
     skos:definition "Legacy workflow message identifier for a referenced document."@en .
 
+nias-o:fieldKey a owl:DatatypeProperty ;
+    rdfs:label "fieldKey"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy key of the reviewed document field."@en .
+
+nias-o:fieldPrompt a owl:DatatypeProperty ;
+    rdfs:label "fieldPrompt"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Original prompt shown for the reviewed document field."@en .
+
+nias-o:fieldReview a owl:ObjectProperty ;
+    rdfs:label "fieldReview"@en ;
+    rdfs:domain nias-o:DocumentReview ;
+    rdfs:range nias-o:DocumentFieldReview ;
+    skos:definition "A field-level review finding included in a document review."@en .
+
+nias-o:fieldTitle a owl:DatatypeProperty ;
+    rdfs:label "fieldTitle"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Human-readable title of the reviewed document field."@en .
+
 nias-o:finalDatasetArtifact a owl:ObjectProperty ;
     rdfs:label "finalDatasetArtifact"@en ;
-    rdfs:domain nias-o:Dataset ;
+    rdfs:domain [ owl:unionOf ( nias-o:Dataset nias-o:DataLineageReport ) ] ;
     rdfs:range nias-o:ResourceArtifact ;
     skos:definition "The final approved dataset artifact used in a monitoring report calculation."@en .
+
+nias-o:finalReviewDecision a owl:ObjectProperty ;
+    rdfs:label "finalReviewDecision"@en ;
+    rdfs:domain nias-o:DocumentReview ;
+    rdfs:range skos:Concept ;
+    skos:definition "Final approve/reject decision for a document review."@en .
+
+nias-o:impactDescription a owl:DatatypeProperty ;
+    rdfs:label "impactDescription"@en ;
+    rdfs:domain nias-o:ImpactSummary ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy impact summary description."@en .
+
+nias-o:impactIndicatorLabel a owl:DatatypeProperty ;
+    rdfs:label "impactIndicatorLabel"@en ;
+    rdfs:domain nias-o:VerifiedImpactCertificate ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy impact indicator label shown on a verified impact certificate."@en .
+
+nias-o:impactSummary a owl:ObjectProperty ;
+    rdfs:label "impactSummary"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:VerifiedImpactCertificate nias-o:VerifiedImpactCertificateIssuanceRequest ) ] ;
+    rdfs:range nias-o:ImpactSummary ;
+    skos:definition "Summarized impact values used in a verified impact certificate or issuance request."@en .
 
 nias-o:impactResultResource a owl:ObjectProperty ;
     rdfs:label "impactResultResource"@en ;
@@ -531,9 +653,39 @@ nias-o:reportedObservation a owl:ObjectProperty ;
 
 nias-o:requestedIssuanceAccountId a owl:DatatypeProperty ;
     rdfs:label "requestedIssuanceAccountId"@en ;
-    rdfs:domain [ owl:unionOf ( nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport ) ] ;
+    rdfs:domain [ owl:unionOf ( nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport nias-o:VerifiedImpactCertificateIssuanceRequest nias-o:VerifiedImpactCertificateIssuanceRequestReview ) ] ;
     rdfs:range xsd:string ;
     skos:definition "Legacy Hedera shard.realm.num account identifier to which a requested certificate or token issuance should be made."@en .
+
+nias-o:monitoringReportReview a owl:ObjectProperty ;
+    rdfs:label "monitoringReportReview"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:VerifiedImpactCertificate nias-o:VerifiedImpactCertificateIssuanceRequest ) ] ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Approved document review of the monitoring report that supports a verified impact certificate or issuance request."@en .
+
+nias-o:originalResponse a owl:DatatypeProperty ;
+    rdfs:label "originalResponse"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Copied original response supplied by the document author for the reviewed field."@en .
+
+nias-o:rawDatasetArtifact a owl:ObjectProperty ;
+    rdfs:label "rawDatasetArtifact"@en ;
+    rdfs:domain nias-o:DataLineageReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Raw or anonymized dataset artifact used as the input to a data lineage process."@en .
+
+nias-o:reviewerDecision a owl:ObjectProperty ;
+    rdfs:label "reviewerDecision"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range skos:Concept ;
+    skos:definition "Reviewer decision for one field-level review finding."@en .
+
+nias-o:reviewerFeedback a owl:DatatypeProperty ;
+    rdfs:label "reviewerFeedback"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Reviewer feedback for one field-level review finding."@en .
 
 nias-o:stakeholderCommentConsideration a owl:DatatypeProperty ;
     rdfs:label "stakeholderCommentConsideration"@en ;

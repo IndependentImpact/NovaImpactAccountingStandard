@@ -1,0 +1,97 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-1>
+    a data:Document,
+        nias-o:DataLineageReport ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DataLineageReport-4.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/data-manager-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafydlr"^^xsd:anyURI ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/dlr-submission-1> ;
+    dcterms:title "Approved monitoring dataset Q1 2026" ;
+    nias-o:forPeriod <https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-1> ;
+    nias-o:rawDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/test/raw-dataset-artifact-1> ;
+    nias-o:dataTransferReport <https://nova.org.za/novaimpactaccountingstandard/test/data-transfer-report-1> ;
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/test/data-transfer-code-1> ;
+    nias-o:finalDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/test/dlr-final-dataset-artifact-1> ;
+    nias-o:dataCleaningCode <https://nova.org.za/novaimpactaccountingstandard/test/data-cleaning-code-1> ;
+    nias-o:dataCleaningReport <https://nova.org.za/novaimpactaccountingstandard/test/data-cleaning-report-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-1>
+    a time:Interval ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-start-1> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-end-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-start-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-period-end-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-03-31T23:59:59Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/raw-dataset-artifact-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyrawdata"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-transfer-report-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafytransferreport"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-transfer-code-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafytransferrmd"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-final-dataset-artifact-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyfinaldata"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-cleaning-code-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafycleaningrmd"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-cleaning-report-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafycleaningreport"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-submission-1>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/test/dlr-1> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/test/data-lineage-workflow> ;
+    nias-o:workflowStep <https://nova.org.za/novaimpactaccountingstandard/test/submit-dlr-step> ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/test/data-manager-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/test/registry-1> ;
+    nias-o:workflowSubmissionConsensusMessage <https://nova.org.za/novaimpactaccountingstandard/test/dlr-message-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-lineage-workflow>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/submit-dlr-step>
+    a nias-o:WorkflowStep ;
+    rdfs:label "Submit data lineage report" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/data-manager-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/registry-1>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/topic-1>
+    a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.1001" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dlr-message-1>
+    a hedera:TopicMessage ;
+    hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
+    hedera:hasSequenceNumber 8 ;
+    hedera:hasConsensusTimestamp "2026-04-05T00:00:00Z"^^xsd:dateTimeStamp .
+

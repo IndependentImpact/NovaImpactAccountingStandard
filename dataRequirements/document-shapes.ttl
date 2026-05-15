@@ -239,3 +239,33 @@ nias-o:DocumentShape a sh:NodeShape ;
     dcterms:title "Monitoring Report 6.0.0"@en ;
     sh:targetClass nias-o:MonitoringReport ;
     nias-o:validatingShape nias-o:MonitoringReportShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Generic Document Review 5.0.0"@en ;
+    sh:targetClass nias-o:GenericDocumentReview ;
+    nias-o:validatingShape nias-o:GenericDocumentReviewShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/DRVICIR-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Verified Impact Certificate Issuance Request Review 1.0.0"@en ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    nias-o:validatingShape nias-o:VerifiedImpactCertificateIssuanceRequestReviewShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/VICIR-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Verified Impact Certificate Issuance Request 1.0.0"@en ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequest ;
+    nias-o:validatingShape nias-o:VerifiedImpactCertificateIssuanceRequestShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/DataLineageReport-4.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Data Lineage Report 4.0.0"@en ;
+    sh:targetClass nias-o:DataLineageReport ;
+    nias-o:validatingShape nias-o:DataLineageReportShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/VIC-2.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Verified Impact Certificate 2.0.0"@en ;
+    sh:targetClass nias-o:VerifiedImpactCertificate ;
+    nias-o:validatingShape nias-o:VerifiedImpactCertificateShape .

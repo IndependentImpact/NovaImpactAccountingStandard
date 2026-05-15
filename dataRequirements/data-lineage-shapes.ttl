@@ -1,0 +1,88 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:DataLineageShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Data Lineage SHACL Shapes"@en ;
+    dcterms:description "Data lineage report shapes for raw, transferred, cleaned, and final dataset provenance."@en ;
+    owl:imports nias-o:DocumentReferenceShapes,
+        nias-o:DocumentShapes .
+
+nias-o:DataLineageReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:DataLineageReport ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include its workflow submission headers."@en ;
+    ] ;
+    sh:property [
+        sh:path dcterms:title ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the dataset name."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:forPeriod ;
+        sh:class time:Interval ;
+        sh:node nias-o:DateTimeIntervalShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include its monitoring period."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:rawDatasetArtifact ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the raw data artifact."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataTransferReport ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the data transfer report artifact."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataTransferCode ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the data transfer code artifact."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalDatasetArtifact ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the final dataset artifact."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataCleaningCode ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the data cleaning code artifact."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataCleaningReport ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A data lineage report must include the data cleaning report artifact."@en ;
+    ] .
+

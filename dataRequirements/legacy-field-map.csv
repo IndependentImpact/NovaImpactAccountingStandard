@@ -19,40 +19,40 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #DR-LicenseApplication&1.0.0,id_msg_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #DR-LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #DR-LicenseApplication&1.0.0,url_ipfs_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DRVICIR&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DRVICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DRVICIR&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DRVICIR&1.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,name_dataset,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_data_final,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_data_raw,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_report_cleaning,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_report_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_rmd_cleaning,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DataLineageReport4.0.0,uri_ipfs_rmd_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DRVICIR&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,nias-o:finalReviewDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
+#DRVICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/review-shapes.ttl.
+#DRVICIR&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/review-shapes.ttl.
+#DRVICIR&1.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,nias-o:fieldReview,array of nias-o:DocumentFieldReview nodes,,Covered by dataRequirements/review-shapes.ttl.
+#DataLineageReport4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,nias-o:forPeriod,time:Interval node,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,name_dataset,yes,string,1,always,dcterms:title,literal string,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_data_final,yes,string,1,always,nias-o:finalDatasetArtifact/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_data_raw,yes,string,1,always,nias-o:rawDatasetArtifact/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_report_cleaning,yes,string,1,always,nias-o:dataCleaningReport/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_report_transfer,yes,string,1,always,nias-o:dataTransferReport/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_rmd_cleaning,yes,string,1,always,nias-o:dataCleaningCode/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
+#DataLineageReport4.0.0,uri_ipfs_rmd_transfer,yes,string,1,always,nias-o:dataTransferCode/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/data-lineage-shapes.ttl.
 #Dataset&1.0.0,id_msg_drdlr,yes,string,1,always,nias-o:dataLineageReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #Dataset&1.0.0,name_dataset,yes,string,1,always,dcterms:title,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #Dataset&1.0.0,uri_ipfs_dataset_final,yes,string,1,always,nias-o:finalDatasetArtifact/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #Dataset&1.0.0,uri_ipfs_drdlr,yes,string,1,always,nias-o:dataLineageReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #DateTimePeriod&1.0.0,datetime_end,yes,string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
 #DateTimePeriod&1.0.0,datetime_start,yes,string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
-#DocumentFieldReview&1.0.0,field_key,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DocumentFieldReview&1.0.0,field_prompt,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DocumentFieldReview&1.0.0,field_title,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DocumentFieldReview&1.0.0,original_response,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DocumentFieldReview&1.0.0,reviewer_decision,yes,string enum[APPROVE|FORWARD_ACTION_REQUEST|CORRECTIVE_ACTION_REQUEST|REJECT],1,always,TBD review decision concept property,SKOS concept IRI,,Target should normalize APPROVE/REJECT/etc. to concepts.
-#DocumentFieldReview&1.0.0,reviewer_feedback,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#DocumentFieldReview&1.0.0,field_key,yes,string,1,always,nias-o:fieldKey,literal string,,Covered by dataRequirements/review-shapes.ttl.
+#DocumentFieldReview&1.0.0,field_prompt,yes,string,1,always,nias-o:fieldPrompt,literal string,,Covered by dataRequirements/review-shapes.ttl.
+#DocumentFieldReview&1.0.0,field_title,yes,string,1,always,nias-o:fieldTitle,literal string,,Covered by dataRequirements/review-shapes.ttl.
+#DocumentFieldReview&1.0.0,original_response,yes,string,1,always,nias-o:originalResponse,literal string,,Covered by dataRequirements/review-shapes.ttl.
+#DocumentFieldReview&1.0.0,reviewer_decision,yes,string enum[APPROVE|FORWARD_ACTION_REQUEST|CORRECTIVE_ACTION_REQUEST|REJECT],1,always,nias-o:reviewerDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
+#DocumentFieldReview&1.0.0,reviewer_feedback,yes,string,1,always,nias-o:reviewerFeedback,literal string,,Covered by dataRequirements/review-shapes.ttl.
 #DocumentHeaders&1.0.0,id_msg_lic,no,string,0..1,always,UNMAPPED,,,Submitter license Hedera message reference; represented only as legacy document header input.
 #DocumentHeaders&1.0.0,id_msg_pred,no,string,0..1,always,UNMAPPED,,,Predecessor Hedera message reference; represented only as legacy document header input.
 #DocumentHeaders&1.0.0,id_subject,no,string,0..1,always,@id / nias-o:workflowSubject,IRI seed,sPDDxA_1x0x0_toFluree.R; workflowDocumentMetadata_toFluree.R,Used to mint nias-o:activities/{id_subject} or workflow subject IRIs depending on adapter context.
 #DocumentHeaders&1.0.0,type_subject,no,string enum[PROJECT|AGENT],0..1,always,UNMAPPED,,,Legacy subject discriminator PROJECT/AGENT; not emitted by current R adapters.
 #DocumentHeaders&1.0.0,url_ipfs_lic,no,string,0..1,always,UNMAPPED,,,Submitter license IPFS reference; represented only as legacy document header input.
 #DocumentHeaders&1.0.0,url_ipfs_pred,no,string,0..1,always,UNMAPPED,,,Predecessor IPFS reference; represented only as legacy document header input.
-#GenericDocumentReview&5.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,TBD final review decision property,SKOS concept IRI,,Target should normalize approve/reject values to concepts.
-#GenericDocumentReview&5.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#GenericDocumentReview&5.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,TBD review field relation,array of review nodes,,References DocumentFieldReview.
+#GenericDocumentReview&5.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,nias-o:finalReviewDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
+#GenericDocumentReview&5.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/review-shapes.ttl.
+#GenericDocumentReview&5.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,nias-o:fieldReview,array of nias-o:DocumentFieldReview nodes,,Covered by dataRequirements/review-shapes.ttl.
 #Impact&3.0.0,additionality,no,string,0..1,if not (monitored == NO),nias-o:additionalityJustification,literal string,sImpact_3x0x0_toFluree.R,JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,beneficial_or_adverse,yes,string enum[BENEFICIAL|ADVERSE],1,always,nias-o:beneficialOrAdverse,SKOS concept IRI,sImpact_3x0x0_toFluree.R,BENEFICIAL/ADVERSE mapped to nias-o concept IDs.
 #Impact&3.0.0,crediting_period,no,ref:#DateTimePeriod&1.0.0,0..1,if not (monitored == NO),nias-o:creditingPeriod,nias-o:CreditingPeriod node,sImpact_3x0x0_toFluree.R; creditingPeriod_toFluree.R,JSON schema branch lists this property but does not require it.
@@ -70,10 +70,10 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #Impact&3.0.0,not_monitored_justification,no,string,0..1,if monitored == NO,nias-o:notMonitoredJustification,literal string,sImpact_3x0x0_toFluree.R,Adapter branch condition is misspelled as not_monitored_justifcation but reads not_monitored_justification. JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,state_baseline,no,number,0..1,if not (monitored == NO),impactont:hasStateA/impactont:hasValue,numeric literal,sImpact_3x0x0_toFluree.R; state_toFluree.R,JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,state_project,no,number,0..1,if not (monitored == NO),impactont:hasStateB/impactont:hasValue,numeric literal,sImpact_3x0x0_toFluree.R; state_toFluree.R,JSON schema branch lists this property but does not require it.
-#ImpactSummary&1.0.0,description_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ImpactSummary&1.0.0,extent_impact,yes,number,1,always,TBD measured impact value / ind:obsValue,numeric literal,,Target should reuse monitoring report measured impact model.
-#ImpactSummary&1.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,TBD measured impact period,time interval node,,Target should reuse monitoring report measured impact model.
-#ImpactSummary&1.0.0,unit_impact,yes,string,1,always,TBD ind:hasUnit,QUDT unit IRI,,Target should reuse monitoring report measured impact model.
+#ImpactSummary&1.0.0,description_impact,yes,string,1,always,nias-o:impactDescription,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#ImpactSummary&1.0.0,extent_impact,yes,number,1,always,ind:obsValue,numeric literal,,Covered by dataRequirements/certificate-shapes.ttl.
+#ImpactSummary&1.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,ind:timePeriod,time:Interval node,,Covered by dataRequirements/certificate-shapes.ttl.
+#ImpactSummary&1.0.0,unit_impact,yes,string,1,always,ind:hasUnit,QUDT unit IRI,,Covered by dataRequirements/certificate-shapes.ttl.
 #IndependentImpactAgentLicense&1.0.0,did_licensee,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #IndependentImpactAgentLicense&1.0.0,email_address,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #IndependentImpactAgentLicense&1.0.0,license_number,yes,string,1,always,nias-o:licenseNumber,literal string,,Target mapping described in migration path; no current R adapter.
@@ -151,18 +151,18 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #TechnologyOrMeasure&1.0.0,lifespan_estimated,yes,number,1,always,nias-o:estimatedLifespanInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree.R,Adapter emits only when non-empty even though JSON schema requires it.
 #TechnologyOrMeasure&1.0.0,type_techmeas,yes,string enum[FACILITY|SYSTEM|EQUIPMENT|OTHER],1,always,nias-o:techMeasType,SKOS concept IRI,sTechnologyOrMeasure_1x0x0_toFluree.R,FACILITY/SYSTEM/EQUIPMENT/OTHER mapped to nias-o concept IDs.
 #TechnologyOrMeasure&1.0.0,type_techmeas_otherexplain,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,certificate_number,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,extent_impact,yes,number,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,id_msg_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,indicator_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,unit_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VIC&2.0.0,uri_ipfs_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VICIR&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VICIR&1.0.0,id_msg_pred_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VICIR&1.0.0,summary_impact,yes,ref:#ImpactSummary&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#VICIR&1.0.0,url_ipfs_pred_drmr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#VIC&2.0.0,certificate_number,yes,string,1,always,nias-o:certificateNumber,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,extent_impact,yes,number,1,always,nias-o:impactSummary/ind:obsValue,numeric literal,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,id_msg_drmr,yes,string,1,always,nias-o:monitoringReportReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,indicator_impact,yes,string,1,always,nias-o:impactIndicatorLabel,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,nias-o:impactSummary/ind:timePeriod,time:Interval node,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,unit_impact,yes,string,1,always,nias-o:impactSummary/ind:hasUnit,QUDT unit IRI,,Covered by dataRequirements/certificate-shapes.ttl.
+#VIC&2.0.0,uri_ipfs_drmr,yes,string,1,always,nias-o:monitoringReportReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/certificate-shapes.ttl.
+#VICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/certificate-shapes.ttl.
+#VICIR&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#VICIR&1.0.0,id_msg_pred_drmr,yes,string,1,always,nias-o:monitoringReportReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
+#VICIR&1.0.0,summary_impact,yes,ref:#ImpactSummary&1.0.0,1,always,nias-o:impactSummary,nias-o:ImpactSummary node,,Covered by dataRequirements/certificate-shapes.ttl.
+#VICIR&1.0.0,url_ipfs_pred_drmr,yes,string,1,always,nias-o:monitoringReportReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/certificate-shapes.ttl.
 R:creditingPeriod_toFluree,end,yes,ISO 8601 date-time string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,creditingPeriod_toFluree.R,Emits end instant for nias-o:CreditingPeriod.
 R:creditingPeriod_toFluree,renewable,yes,boolean,1,always,nias-o:creditingPeriodIsRenewable,boolean literal,creditingPeriod_toFluree.R,Derived from crediting_period_type == RENEWABLE in sImpact adapter.
 R:creditingPeriod_toFluree,start,yes,ISO 8601 date-time string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,creditingPeriod_toFluree.R,Emits beginning instant for nias-o:CreditingPeriod.

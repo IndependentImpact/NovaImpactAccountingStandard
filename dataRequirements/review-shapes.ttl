@@ -1,0 +1,106 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ReviewShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Review SHACL Shapes"@en ;
+    dcterms:description "Generic and specialized document review shapes for validation and verification workflow screens."@en ;
+    owl:imports nias-o:DocumentShapes .
+
+nias-o:FinalReviewDecisionPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:finalReviewDecision ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "A document review must have a final approve/reject decision."@en .
+
+nias-o:FieldReviewDecisionPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:reviewerDecision ;
+    sh:nodeKind sh:IRI ;
+    sh:in (
+        nias-cs:review-approve
+        nias-cs:review-forward-action-request
+        nias-cs:review-corrective-action-request
+        nias-cs:review-reject
+    ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "A field review decision must be one of the legacy review decision concepts."@en .
+
+nias-o:DocumentFieldReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentFieldReview ;
+    sh:property [
+        sh:path nias-o:fieldKey ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A field review must include the reviewed field key."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldTitle ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A field review must include the reviewed field title."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldPrompt ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A field review must include the original field prompt."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:originalResponse ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A field review must include the original response."@en ;
+    ] ;
+    sh:property nias-o:FieldReviewDecisionPropertyShape ;
+    sh:property [
+        sh:path nias-o:reviewerFeedback ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A field review must include reviewer feedback."@en ;
+    ] .
+
+nias-o:DocumentReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document review must include its workflow submission headers."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:class nias-o:DocumentFieldReview ;
+        sh:node nias-o:DocumentFieldReviewShape ;
+        sh:minCount 1 ;
+        sh:message "A document review must include at least one field review."@en ;
+    ] ;
+    sh:property nias-o:FinalReviewDecisionPropertyShape .
+
+nias-o:GenericDocumentReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:GenericDocumentReview ;
+    sh:node nias-o:DocumentReviewShape .
+
+nias-o:VerifiedImpactCertificateIssuanceRequestReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    sh:node nias-o:DocumentReviewShape ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC issuance request review must include the Hedera account ID to issue to when approved."@en ;
+    ] .

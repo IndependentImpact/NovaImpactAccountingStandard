@@ -1,0 +1,114 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:CertificateShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Verified Impact Certificate SHACL Shapes"@en ;
+    dcterms:description "Verified impact certificate issuance request, impact summary, and issued certificate shapes."@en ;
+    owl:imports nias-o:DocumentReferenceShapes,
+        nias-o:DocumentShapes .
+
+nias-o:ImpactSummaryShape a sh:NodeShape ;
+    sh:targetClass nias-o:ImpactSummary ;
+    sh:property [
+        sh:path nias-o:impactDescription ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact summary must include an impact description."@en ;
+    ] ;
+    sh:property [
+        sh:path ind:timePeriod ;
+        sh:class time:Interval ;
+        sh:node nias-o:DateTimeIntervalShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact summary must include the impact period."@en ;
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact summary must use ind:hasUnit with a QUDT unit IRI."@en ;
+    ] ;
+    sh:property [
+        sh:path ind:obsValue ;
+        sh:node nias-o:NumericLiteralShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An impact summary must include the measured impact extent."@en ;
+    ] .
+
+nias-o:VerifiedImpactCertificateIssuanceRequestShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequest ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC-IR must include its workflow submission headers."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringReportReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC-IR must reference the approved monitoring report review."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:impactSummary ;
+        sh:class nias-o:ImpactSummary ;
+        sh:node nias-o:ImpactSummaryShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC-IR must include exactly one impact summary."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC-IR must include the Hedera account ID to issue the certificate to."@en ;
+    ] .
+
+nias-o:VerifiedImpactCertificateShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificate ;
+    sh:property [
+        sh:path nias-o:impactIndicatorLabel ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC must include the legacy impact indicator label."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:impactSummary ;
+        sh:class nias-o:ImpactSummary ;
+        sh:node nias-o:ImpactSummaryShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC must include exactly one impact summary."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringReportReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC must reference the approved monitoring report review."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:certificateNumber ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A VIC must include exactly one certificate number."@en ;
+    ] .

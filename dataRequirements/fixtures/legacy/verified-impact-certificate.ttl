@@ -1,0 +1,38 @@
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-1>
+    a nias-o:VerifiedImpactCertificate ;
+    nias-o:impactIndicatorLabel "Tonnes of CO2e avoided" ;
+    nias-o:impactSummary <https://nova.org.za/novaimpactaccountingstandard/test/vic-impact-summary-1> ;
+    nias-o:monitoringReportReview <https://nova.org.za/novaimpactaccountingstandard/test/vic-dr-mr-reference-1> ;
+    nias-o:certificateNumber "VIC-2026-0001" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-impact-summary-1>
+    a nias-o:ImpactSummary ;
+    nias-o:impactDescription "Measured impact verified for the Q1 2026 monitoring period." ;
+    ind:timePeriod <https://nova.org.za/novaimpactaccountingstandard/test/vic-period-1> ;
+    ind:hasUnit qudt-unit:TONNE ;
+    ind:obsValue 123.45 .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-dr-mr-reference-1>
+    a nias-o:DocumentReference ;
+    nias-o:documentMessageId "0.0.1001-1704067200-000000007" ;
+    nias-o:resourceIpfsUri "ipfs://bafydrmr"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-period-1>
+    a time:Interval ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/test/vic-period-start-1> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/test/vic-period-end-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-period-start-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/vic-period-end-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-03-31T23:59:59Z"^^xsd:dateTimeStamp .
+

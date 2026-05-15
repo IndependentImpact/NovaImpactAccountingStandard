@@ -73,6 +73,30 @@ nias-cs:revised a skos:Concept ;
     skos:prefLabel "Revised" ;
     skos:topConceptOf nias-cs:ReportStatus .
 
+nias-cs:review-approve a skos:Concept ;
+    skos:definition "Reviewer approves the reviewed document or field." ;
+    skos:inScheme nias-cs:ReviewDecision ;
+    skos:prefLabel "Approve" ;
+    skos:topConceptOf nias-cs:ReviewDecision .
+
+nias-cs:review-reject a skos:Concept ;
+    skos:definition "Reviewer rejects the reviewed document or field." ;
+    skos:inScheme nias-cs:ReviewDecision ;
+    skos:prefLabel "Reject" ;
+    skos:topConceptOf nias-cs:ReviewDecision .
+
+nias-cs:review-forward-action-request a skos:Concept ;
+    skos:definition "Reviewer forwards an action request arising from a field-level review." ;
+    skos:inScheme nias-cs:ReviewDecision ;
+    skos:prefLabel "Forward action request" ;
+    skos:topConceptOf nias-cs:ReviewDecision .
+
+nias-cs:review-corrective-action-request a skos:Concept ;
+    skos:definition "Reviewer requests corrective action arising from a field-level review." ;
+    skos:inScheme nias-cs:ReviewDecision ;
+    skos:prefLabel "Corrective action request" ;
+    skos:topConceptOf nias-cs:ReviewDecision .
+
 nias-cs:mr-verifier a skos:Concept ;
     skos:definition "License scope permitting verification of monitoring reports." ;
     skos:inScheme nias-cs:LicenseScope ;
@@ -203,6 +227,14 @@ nias-cs:ReportStatus a skos:ConceptScheme ;
         nias-cs:revised,
         nias-cs:verified ;
     skos:prefLabel "Report status" .
+
+nias-cs:ReviewDecision a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for document and field review decisions migrated from legacy review enum values." ;
+    skos:hasTopConcept nias-cs:review-approve,
+        nias-cs:review-corrective-action-request,
+        nias-cs:review-forward-action-request,
+        nias-cs:review-reject ;
+    skos:prefLabel "Review decision" .
 
 nias-cs:private a skos:Concept ;
     skos:definition "Project party that is a private-sector entity." ;
