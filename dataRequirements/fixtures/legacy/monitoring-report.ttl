@@ -1,0 +1,108 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-1>
+    a data:Document,
+        nias-o:MonitoringReport ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafymr"^^xsd:anyURI ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/mr-submission-1> ;
+    nias-o:reportedIndicatorLabel "Tonnes of CO2e avoided" ;
+    nias-o:forPeriod <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-1> ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/test/mr-observation-1> ;
+    nias-o:usesDataset <https://nova.org.za/novaimpactaccountingstandard/test/dataset-1> ;
+    nias-o:calculationCode <https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-code-1> ;
+    nias-o:impactResultResource <https://nova.org.za/novaimpactaccountingstandard/test/mr-impact-result-1> ;
+    nias-o:calculationReport <https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-report-1> ;
+    nias-o:requestedIssuanceAccountId "0.0.3003" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-period-1>
+    a time:Interval ;
+    time:hasBeginning <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-start-1> ;
+    time:hasEnd <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-end-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-period-start-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-01-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-period-end-1>
+    a time:Instant ;
+    time:inXSDDateTimeStamp "2026-03-31T23:59:59Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-observation-1>
+    a ind:IndicatorObservation ;
+    ind:observesIndicator <https://nova.org.za/novaimpactaccountingstandard/test/indicator-co2e-avoided> ;
+    ind:obsValue 123.45 ;
+    ind:hasUnit qudt-unit:TONNE ;
+    ind:timePeriod <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dataset-1>
+    a nias-o:Dataset ;
+    dcterms:title "Approved monitoring dataset Q1 2026" ;
+    nias-o:dataLineageReview <https://nova.org.za/novaimpactaccountingstandard/test/dr-dlr-reference> ;
+    nias-o:finalDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/test/final-dataset-artifact-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/dr-dlr-reference>
+    a nias-o:DocumentReference ;
+    nias-o:documentMessageId "0.0.1001-1704067200-000000004" ;
+    nias-o:resourceIpfsUri "ipfs://bafydrdlr"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/final-dataset-artifact-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafydatasetfinal"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-code-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyrmdcalculation"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-impact-result-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyimpactresult"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-report-1>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafycalculationreport"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-submission-1>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/test/mr-1> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/test/monitoring-workflow> ;
+    nias-o:workflowStep <https://nova.org.za/novaimpactaccountingstandard/test/submit-mr-step> ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/test/registry-1> ;
+    nias-o:workflowSubmissionConsensusMessage <https://nova.org.za/novaimpactaccountingstandard/test/mr-message-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/monitoring-workflow>
+    a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/submit-mr-step>
+    a nias-o:WorkflowStep ;
+    rdfs:label "Submit monitoring report" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/registry-1>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/topic-1>
+    a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.1001" .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/mr-message-1>
+    a hedera:TopicMessage ;
+    hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
+    hedera:hasSequenceNumber 4 ;
+    hedera:hasConsensusTimestamp "2026-04-01T00:00:00Z"^^xsd:dateTimeStamp .

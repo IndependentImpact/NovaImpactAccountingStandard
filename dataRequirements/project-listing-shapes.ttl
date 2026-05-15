@@ -1,0 +1,87 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ProjectListingShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Project Listing SHACL Shapes"@en ;
+    dcterms:description "Project listing application shapes for the legacy PLA workflow document."@en ;
+    owl:imports nias-o:DocumentShapes .
+
+nias-o:ProjectListingSpatialLocationShape a sh:NodeShape ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue impactont:SpatialLocation ;
+        sh:minCount 1 ;
+        sh:message "A PLA project location must be typed as impactont:SpatialLocation."@en
+    ] ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA project location must include the country, state/province, and city/town/village text."@en
+    ] .
+
+nias-o:ProjectListingObjectiveShape a sh:NodeShape ;
+    sh:property [
+        sh:path schema:description ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA project purpose must have a description."@en
+    ] .
+
+nias-o:ProjectListingProjectShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:title ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA project must have exactly one project title."@en
+    ] ;
+    sh:property [
+        sh:path aiao:hasObjective ;
+        sh:class aiao:Objective ;
+        sh:node nias-o:ProjectListingObjectiveShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA project must include one project purpose/objective."@en
+    ] ;
+    sh:property [
+        sh:path impactont:hasSpatialLocation ;
+        sh:class impactont:SpatialLocation ;
+        sh:node nias-o:ProjectListingSpatialLocationShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA project must include one text spatial location."@en
+    ] .
+
+nias-o:ProjectListingApplicationShape a sh:NodeShape ;
+    sh:targetClass nias-o:ProjectListingApplication ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA must include its workflow submission headers."@en
+    ] ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:node nias-o:ProjectListingProjectShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PLA must identify the project being listed."@en
+    ] .

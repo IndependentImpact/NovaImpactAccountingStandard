@@ -5,6 +5,7 @@
 @prefix hedera: <https://hashgraphontology.xyz/core/> .
 @prefix impactont: <http://w3id.org/impactont#> .
 @prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
 @prefix meth: <http://independentimpact.org/methodology/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -62,6 +63,16 @@ nias-o:DataParameterRequirement a owl:Class ;
     rdfs:subClassOf infocomm:Information ;
     skos:definition "A data or parameter requirement used to quantify an impact."@en .
 
+nias-o:Dataset a owl:Class ;
+    rdfs:label "Dataset"@en ;
+    rdfs:subClassOf dcterms:Resource ;
+    skos:definition "A dataset used as evidence or input data in a monitoring report calculation."@en .
+
+nias-o:DocumentReference a owl:Class ;
+    rdfs:label "DocumentReference"@en ;
+    rdfs:subClassOf dcterms:Resource ;
+    skos:definition "A compact reference to a document using its workflow message identifier and content-addressed resource location."@en .
+
 nias-o:EntityXhederaTopicLink a owl:Class ;
     rdfs:label "EntityXhederaTopicLink"@en ;
     rdfs:subClassOf owl:Thing ;
@@ -109,6 +120,18 @@ nias-o:PddSectionCReport a owl:Class ;
     rdfs:subClassOf nias-o:ProjectDesignDocument ;
     skos:definition "A PDD report covering Section C monitoring and procedural content. Any planned future monitoring or sampling procedures described here may be modelled as a linked prov:Plan."@en .
 
+nias-o:PddCertificateIssuanceRequest a owl:Class ;
+    rdfs:label "PddCertificateIssuanceRequest"@en ;
+    rdfs:subClassOf data:Document,
+        claimont:Report ;
+    skos:definition "A workflow request for issuing a PDD certificate after the PDD section validation reports have been approved."@en .
+
+nias-o:PddSectionCStakeholderEngagement a owl:Class ;
+    rdfs:label "PddSectionCStakeholderEngagement"@en ;
+    rdfs:subClassOf data:Document,
+        nias-o:PddSectionCReport ;
+    skos:definition "A PDD section C report describing local stakeholder consultation modalities and comments."@en .
+
 nias-o:PlatformUser a owl:Class ;
     rdfs:label "PlatformUser"@en ;
     rdfs:subClassOf infocomm:CommunicationParty ;
@@ -119,10 +142,21 @@ nias-o:PlatformUserXhederaAccountLink a owl:Class ;
     rdfs:subClassOf owl:Thing ;
     skos:definition "Links an Nova Impact Accounting Standard platform user to a Hedera account."@en .
 
+nias-o:ProjectListingApplication a owl:Class ;
+    rdfs:label "ProjectListingApplication"@en ;
+    rdfs:subClassOf data:Document,
+        claimont:Report ;
+    skos:definition "An early workflow request by a project developer to list a project in the registry."@en .
+
 nias-o:ProjectParty a owl:Class ;
     rdfs:label "ProjectParty"@en ;
     rdfs:subClassOf aiao:AgentActivityRelation ;
     skos:definition "A party relation for a project, including host, participant, and public/private classification."@en .
+
+nias-o:ResourceArtifact a owl:Class ;
+    rdfs:label "ResourceArtifact"@en ;
+    rdfs:subClassOf dcterms:Resource ;
+    skos:definition "A resource artifact referenced by a workflow document, such as a calculation script, calculation report, impact result, or dataset file."@en .
 
 nias-o:TechnologyOrMeasure a owl:Class ;
     rdfs:label "TechnologyOrMeasure"@en ;
@@ -428,6 +462,102 @@ nias-o:hasMonitoringReport a owl:ObjectProperty ;
     rdfs:domain aiao:Project ;
     rdfs:range nias-o:MonitoringReport ;
     skos:definition "A monitoring report associated with a project."@en .
+
+nias-o:calculationCode a owl:ObjectProperty ;
+    rdfs:label "calculationCode"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Calculation code or executable notebook used to calculate the measured impact reported by a monitoring report."@en .
+
+nias-o:calculationReport a owl:ObjectProperty ;
+    rdfs:label "calculationReport"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Report produced by the calculation process used for a monitoring report."@en .
+
+nias-o:dataLineageReview a owl:ObjectProperty ;
+    rdfs:label "dataLineageReview"@en ;
+    rdfs:domain nias-o:Dataset ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Approved document review for the data lineage report governing a dataset."@en .
+
+nias-o:documentMessageId a owl:DatatypeProperty ;
+    rdfs:label "documentMessageId"@en ;
+    rdfs:domain nias-o:DocumentReference ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy workflow message identifier for a referenced document."@en .
+
+nias-o:finalDatasetArtifact a owl:ObjectProperty ;
+    rdfs:label "finalDatasetArtifact"@en ;
+    rdfs:domain nias-o:Dataset ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "The final approved dataset artifact used in a monitoring report calculation."@en .
+
+nias-o:impactResultResource a owl:ObjectProperty ;
+    rdfs:label "impactResultResource"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "Machine-readable resource containing the impact calculation result reported by a monitoring report."@en .
+
+nias-o:pddSectionAValidationReview a owl:ObjectProperty ;
+    rdfs:label "pddSectionAValidationReview"@en ;
+    rdfs:domain nias-o:PddCertificateIssuanceRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved validation review for PDD section A."@en .
+
+nias-o:pddSectionBValidationReview a owl:ObjectProperty ;
+    rdfs:label "pddSectionBValidationReview"@en ;
+    rdfs:domain nias-o:PddCertificateIssuanceRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved validation review for PDD section B."@en .
+
+nias-o:pddSectionCValidationReview a owl:ObjectProperty ;
+    rdfs:label "pddSectionCValidationReview"@en ;
+    rdfs:domain nias-o:PddCertificateIssuanceRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved validation review for PDD section C."@en .
+
+nias-o:reportedIndicatorLabel a owl:DatatypeProperty ;
+    rdfs:label "reportedIndicatorLabel"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy indicator label captured on a monitoring report before or alongside normalization to a stable indicator definition IRI."@en .
+
+nias-o:reportedObservation a owl:ObjectProperty ;
+    rdfs:label "reportedObservation"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range ind:IndicatorObservation ;
+    skos:definition "Indicator observation carrying the measured impact value, unit, period, and observed indicator for a monitoring report."@en .
+
+nias-o:requestedIssuanceAccountId a owl:DatatypeProperty ;
+    rdfs:label "requestedIssuanceAccountId"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport ) ] ;
+    rdfs:range xsd:string ;
+    skos:definition "Legacy Hedera shard.realm.num account identifier to which a requested certificate or token issuance should be made."@en .
+
+nias-o:stakeholderCommentConsideration a owl:DatatypeProperty ;
+    rdfs:label "stakeholderCommentConsideration"@en ;
+    rdfs:domain nias-o:PddSectionCStakeholderEngagement ;
+    rdfs:range xsd:string ;
+    skos:definition "Description of how stakeholder comments were considered in PDD section C."@en .
+
+nias-o:stakeholderCommentSummary a owl:DatatypeProperty ;
+    rdfs:label "stakeholderCommentSummary"@en ;
+    rdfs:domain nias-o:PddSectionCStakeholderEngagement ;
+    rdfs:range xsd:string ;
+    skos:definition "Summary of stakeholder comments received for PDD section C."@en .
+
+nias-o:stakeholderEngagementModalities a owl:DatatypeProperty ;
+    rdfs:label "stakeholderEngagementModalities"@en ;
+    rdfs:domain nias-o:PddSectionCStakeholderEngagement ;
+    rdfs:range xsd:string ;
+    skos:definition "Modalities used for local stakeholder consultation in PDD section C."@en .
+
+nias-o:usesDataset a owl:ObjectProperty ;
+    rdfs:label "usesDataset"@en ;
+    rdfs:domain nias-o:MonitoringReport ;
+    rdfs:range nias-o:Dataset ;
+    skos:definition "Dataset used in calculating the measured impact reported by a monitoring report."@en .
 
 nias-o:notMonitoredJustification a owl:DatatypeProperty ;
     rdfs:label "notMonitoredJustification"@en ;

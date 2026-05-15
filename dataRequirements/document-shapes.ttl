@@ -215,3 +215,27 @@ nias-o:DocumentShape a sh:NodeShape ;
     owl:deprecated true ;
     dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
     nias-o:validatingShape nias-o:ImpactDeclarationShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PLA-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Listing Application 1.0.0"@en ;
+    sh:targetClass nias-o:ProjectListingApplication ;
+    nias-o:validatingShape nias-o:ProjectListingApplicationShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document Section C 4.0.0"@en ;
+    sh:targetClass nias-o:PddSectionCStakeholderEngagement ;
+    nias-o:validatingShape nias-o:PddSectionCShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDCIR-3.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "PDD Certificate Issuance Request 3.0.0"@en ;
+    sh:targetClass nias-o:PddCertificateIssuanceRequest ;
+    nias-o:validatingShape nias-o:PddCertificateIssuanceRequestShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Monitoring Report 6.0.0"@en ;
+    sh:targetClass nias-o:MonitoringReport ;
+    nias-o:validatingShape nias-o:MonitoringReportShape .

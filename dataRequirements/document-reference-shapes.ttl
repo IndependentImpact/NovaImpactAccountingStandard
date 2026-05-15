@@ -1,0 +1,33 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:DocumentReferenceShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Document Reference SHACL Shapes"@en ;
+    dcterms:description "Reusable shapes for legacy message/IPFS document references and resource artifacts."@en ;
+    owl:imports nias-o:CommonShapes .
+
+nias-o:DocumentReferenceShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentReference ;
+    sh:node nias-o:ResourceContentLocationShape ;
+    sh:property [
+        sh:path nias-o:documentMessageId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A legacy document reference must include exactly one workflow message ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:datatype xsd:anyURI ;
+        sh:pattern "^(ipfs|ipns)://.+" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A legacy document reference must include exactly one IPFS/IPNS URI."@en
+    ] .
+
+nias-o:ResourceArtifactShape a sh:NodeShape ;
+    sh:targetClass nias-o:ResourceArtifact ;
+    sh:node nias-o:ResourceContentLocationShape .

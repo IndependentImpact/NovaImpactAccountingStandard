@@ -32,10 +32,10 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #DataLineageReport4.0.0,uri_ipfs_report_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #DataLineageReport4.0.0,uri_ipfs_rmd_cleaning,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #DataLineageReport4.0.0,uri_ipfs_rmd_transfer,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#Dataset&1.0.0,id_msg_drdlr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#Dataset&1.0.0,name_dataset,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#Dataset&1.0.0,uri_ipfs_dataset_final,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#Dataset&1.0.0,uri_ipfs_drdlr,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#Dataset&1.0.0,id_msg_drdlr,yes,string,1,always,nias-o:dataLineageReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#Dataset&1.0.0,name_dataset,yes,string,1,always,dcterms:title,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#Dataset&1.0.0,uri_ipfs_dataset_final,yes,string,1,always,nias-o:finalDatasetArtifact/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#Dataset&1.0.0,uri_ipfs_drdlr,yes,string,1,always,nias-o:dataLineageReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #DateTimePeriod&1.0.0,datetime_end,yes,string,1,always,time:hasEnd/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
 #DateTimePeriod&1.0.0,datetime_start,yes,string,1,always,time:hasBeginning/time:inXSDDateTimeStamp,literal string,dateTimePeriod_toFluree.R,
 #DocumentFieldReview&1.0.0,field_key,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
@@ -86,24 +86,24 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #Methodology&1.0.0,version,yes,string,1,always,data:versionTag,literal string,sMethodology_1x0x0_toFluree.R,
 #MethodologyApplicability&3.0.0,applicability,yes,string,1,always,UNMAPPED,,sImpact_3x0x0_toFluree.R,Applicability rationale is not emitted by current adapter.
 #MethodologyApplicability&3.0.0,methodology,yes,ref:Methodology&1.0.0,1,always,nias-o:indicatorMethodology,embedded methodology node,sImpact_3x0x0_toFluree.R,Nested methodology.title/label/version emitted through sMethodology_1x0x0_toFluree.R.
-#MonitoringReport&6.0.0,datasets,yes,array<ref:#Dataset&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,indicator_label,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,ipfs_uri_impact,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,ipfs_uri_report_calculation,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,ipfs_uri_rmd_calculation,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#MonitoringReport&6.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,TBD ind:timePeriod / nias-o:monitoringPeriod,time interval node,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
-#MonitoringReport&6.0.0,unit_impact,yes,string,1,always,TBD ind:hasUnit,QUDT unit IRI,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
-#MonitoringReport&6.0.0,value_impact,yes,number,1,always,TBD measured impact value / ind:obsValue,numeric literal,sMonitoringReport_6x0x0_toFluree.R,Current R adapter is TODO-only; target described in migration path.
-#PDDCIR&3.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,id_msg_pred_drxa,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,id_msg_pred_drxb,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,id_msg_pred_drxc,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,url_ipfs_pred_drxa,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,url_ipfs_pred_drxb,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDCIR&3.0.0,url_ipfs_pred_drxc,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#MonitoringReport&6.0.0,datasets,yes,array<ref:#Dataset&1.0.0>,1..*,always,nias-o:usesDataset,array of nias-o:Dataset nodes,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,indicator_label,yes,string,1,always,nias-o:reportedIndicatorLabel,literal string,,Covered by dataRequirements/monitoring-report-shapes.ttl with normalized indicator observation alongside it.
+#MonitoringReport&6.0.0,ipfs_uri_impact,yes,string,1,always,nias-o:impactResultResource/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,ipfs_uri_report_calculation,yes,string,1,always,nias-o:calculationReport/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,ipfs_uri_rmd_calculation,yes,string,1,always,nias-o:calculationCode/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,monitoring_period,yes,ref:#DateTimePeriod&1.0.0,1,always,nias-o:forPeriod and nias-o:reportedObservation/ind:timePeriod,time:Interval node,sMonitoringReport_6x0x0_toFluree.R,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,unit_impact,yes,string,1,always,nias-o:reportedObservation/ind:hasUnit,QUDT unit IRI,sMonitoringReport_6x0x0_toFluree.R,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#MonitoringReport&6.0.0,value_impact,yes,number,1,always,nias-o:reportedObservation/ind:obsValue,numeric literal,sMonitoringReport_6x0x0_toFluree.R,Covered by dataRequirements/monitoring-report-shapes.ttl.
+#PDDCIR&3.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,id_msg_pred_drxa,yes,string,1,always,nias-o:pddSectionAValidationReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,id_msg_pred_drxb,yes,string,1,always,nias-o:pddSectionBValidationReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,id_msg_pred_drxc,yes,string,1,always,nias-o:pddSectionCValidationReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,url_ipfs_pred_drxa,yes,string,1,always,nias-o:pddSectionAValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,url_ipfs_pred_drxb,yes,string,1,always,nias-o:pddSectionBValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
+#PDDCIR&3.0.0,url_ipfs_pred_drxc,yes,string,1,always,nias-o:pddSectionCValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
 #PDDxA&1.0.0,debundling,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #PDDxA&1.0.0,eligibility_project,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #PDDxA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,@id seed via headers.id_subject,object ref,sPDDxA_1x0x0_toFluree.R,Current adapter reads headers$id_subject only.
@@ -118,14 +118,14 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #PDDxA&1.0.0,title_project,yes,string,1,always,nias-o:title,literal string,sPDDxA_1x0x0_toFluree.R,
 #PDDxB&9.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,sPDDxB_9x0x0_toFluree.R,Adapter ignores headers and returns only impacts.
 #PDDxB&9.0.0,impacts,yes,array<ref:#Impact&3.0.0>,1..*,always,rdf:type impactont:Impact,array of impact nodes,sPDDxB_9x0x0_toFluree.R; sImpact_3x0x0_toFluree.R,
-#PDDxC&4.0.0,consideration_comments,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDxC&4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDxC&4.0.0,modalities,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDxC&4.0.0,summary_comments,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PLA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter.
-#PLA&1.0.0,location_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA location_project.
-#PLA&1.0.0,purpose_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA purpose_project.
-#PLA&1.0.0,title_project,yes,string,1,always,UNMAPPED,,,No current R adapter; analogous to PDDxA title_project.
+#PDDxC&4.0.0,consideration_comments,no,string,0..1,always,nias-o:stakeholderCommentConsideration,literal string,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
+#PDDxC&4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
+#PDDxC&4.0.0,modalities,yes,string,1,always,nias-o:stakeholderEngagementModalities,literal string,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
+#PDDxC&4.0.0,summary_comments,no,string,0..1,always,nias-o:stakeholderCommentSummary,literal string,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
+#PLA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/project-listing-shapes.ttl.
+#PLA&1.0.0,location_project,yes,string,1,always,claimont:hasSubject/impactont:hasSpatialLocation/schema:description,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
+#PLA&1.0.0,purpose_project,yes,string,1,always,claimont:hasSubject/aiao:hasObjective/schema:description,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
+#PLA&1.0.0,title_project,yes,string,1,always,claimont:hasSubject/nias-o:title,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
 #ProjectParty&1.0.0,info_additional,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #ProjectParty&1.0.0,is_host,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #ProjectParty&1.0.0,is_participant,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.

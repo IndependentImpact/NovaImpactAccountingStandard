@@ -829,6 +829,16 @@ Target SHACL shapes:
 - Use `nias-o:WorkflowDocumentSubmission` to tie each request to the workflow
   step and project subject.
 
+Initial shape coverage added 2026-05-15:
+
+- `dataRequirements/project-listing-shapes.ttl` covers `#PLA&1.0.0` fields by
+  linking the PLA document to its listed `aiao:Project` subject and validating
+  title, purpose, location, and workflow headers.
+- `dataRequirements/pdd-certificate-shapes.ttl` covers `#PDDCIR&3.0.0` fields
+  with three typed `nias-o:DocumentReference` nodes for approved PDD-A, PDD-B,
+  and PDD-C validation reviews plus the requested issuance account.
+- `ProjectRegistrationRequestShape` remains pending.
+
 ### PDD Section C Stakeholder Engagement
 
 Source: `reference/#PDDxC&4.0.0.json`
@@ -842,12 +852,19 @@ Legacy input fields:
 
 Target SHACL shape:
 
-- `StakeholderEngagementShape` or `PddSectionCShape`.
+- `PddSectionCShape`.
 - Require consultation modalities.
 - Optionally require comment summary and consideration of comments if the
   standard treats these as mandatory after consultation has occurred.
 - Consider whether stakeholder engagement is best modeled as an
   `aiao:Control`, `claimont:Report`, or both.
+
+Initial shape coverage added 2026-05-15:
+
+- `dataRequirements/stakeholder-engagement-shapes.ttl` covers the legacy
+  `headers`, `modalities`, `summary_comments`, and `consideration_comments`
+  fields. Modalities are required; comment summary and consideration remain
+  optional to match the legacy schema.
 
 ### Monitoring Report, Dataset, And Data Lineage
 
@@ -897,7 +914,7 @@ Target SHACL shapes:
   the indicator definition via `ind:observesIndicator`, record the decimal value
   via `ind:obsValue`, and record the unit via `ind:hasUnit`. Attach it to the
   monitoring period via `ind:timePeriod` and to the monitoring report via
-  `ind:reportsObservation`.
+  `nias-o:reportedObservation`.
 - Link the measured impact to `impactont:Impact`, `impactont:State`, and
   `impactont:IndicatorValue` rather than treating `value_impact` as a detached
   number.
@@ -905,6 +922,19 @@ Target SHACL shapes:
   lineage reports, datasets, RMD calculation files, and calculation reports.
 - Consider using InfoComm later for publication/transmission events involving
   IPFS and Hedera.
+
+Initial shape coverage added 2026-05-15:
+
+- `dataRequirements/monitoring-report-shapes.ttl` covers all
+  `#MonitoringReport&6.0.0` legacy fields and the nested `#Dataset&1.0.0`
+  fields required by `datasets[]`.
+- The monitoring report preserves `indicator_label` as
+  `nias-o:reportedIndicatorLabel` while also requiring a canonical
+  `ind:IndicatorObservation` for `value_impact`, `unit_impact`, and
+  `monitoring_period`.
+- `DataLineageReportShape` remains pending; the current dataset shape only
+  references the approved data lineage review document and final dataset
+  artifact needed by monitoring reports.
 
 ### Verified Impact Certificate And Issuance Request
 

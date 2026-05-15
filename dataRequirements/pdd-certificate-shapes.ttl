@@ -1,0 +1,55 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:PddCertificateShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - PDD Certificate SHACL Shapes"@en ;
+    dcterms:description "PDD certificate issuance request shapes for the legacy PDD-CIR workflow document."@en ;
+    owl:imports nias-o:DocumentReferenceShapes,
+        nias-o:DocumentShapes .
+
+nias-o:PddCertificateIssuanceRequestShape a sh:NodeShape ;
+    sh:targetClass nias-o:PddCertificateIssuanceRequest ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must include its workflow submission headers."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:pddSectionAValidationReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must reference the approved PDD-A validation review."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:pddSectionBValidationReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must reference the approved PDD-B validation review."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:pddSectionCValidationReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must reference the approved PDD-C validation review."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must include the Hedera account ID to issue the certificate to."@en
+    ] .

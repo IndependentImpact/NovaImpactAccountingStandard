@@ -64,13 +64,17 @@ checklist was created are retained with artifact pointers.
    - Example fixtures recorded in:
      - `dataRequirements/fixtures/report-wrapper-pdd-valid.ttl` (valid PDD wrapper)
      - `dataRequirements/fixtures/report-wrapper-pdd-invalid.ttl` (invalid cases)
+   - Additional legacy workflow document shapes added 2026-05-15 for PLA,
+     PDD-C, PDD-CIR, and MR field coverage.
 
 7. **Phase 6: Design monitoring report shapes**
+   - Initial `MonitoringReportShape` and nested `DatasetShape` added 2026-05-15 for the legacy MR fields.
    - Use `impactont:Impact` for measured impact.
    - Use claim/report context to distinguish ex-ante vs ex-post.
    - Add a local status concept scheme if needed (`projected`, `measured`, `verified`, `revised`).
    - Require measured states and indicator values in monitoring report shapes.
    - Link measured impacts to project, monitoring period, methodology, supporting documents, and verification attestation.
+   - Add `DataLineageReportShape` for raw, transferred, cleaned, and final dataset provenance.
 
 8. **Phase 7: Validation and cutover**
    - No remaining actions (completed 2026-05-14).
