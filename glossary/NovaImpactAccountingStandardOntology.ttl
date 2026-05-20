@@ -459,9 +459,11 @@ nias-o:licenseNumber a owl:DatatypeProperty ;
 
 nias-o:licenseScope a owl:ObjectProperty ;
     rdfs:label "licenseScope"@en ;
-    rdfs:domain nias-o:AgentLicense ;
+    # Domain includes both the issued license class and the application/review
+    # classes which are defined later in this file (ordering is irrelevant in OWL).
+    rdfs:domain [ owl:unionOf ( nias-o:AgentLicense nias-o:LicenseApplication nias-o:LicenseApplicationReview ) ] ;
     rdfs:range skos:Concept ;
-    skos:definition "The set of actions that the holder of the license is allowed to perform on the Nova Impact Accounting Standard platform."@en .
+    skos:definition "The set of actions that the holder of the license is allowed to perform on the Nova Impact Accounting Standard platform. Also used on license applications and reviews to record the scope applied for."@en .
 
 nias-o:locationShapefile a owl:ObjectProperty ;
     rdfs:label "locationShapefile"@en ;
@@ -653,9 +655,14 @@ nias-o:reportedObservation a owl:ObjectProperty ;
 
 nias-o:requestedIssuanceAccountId a owl:DatatypeProperty ;
     rdfs:label "requestedIssuanceAccountId"@en ;
-    rdfs:domain [ owl:unionOf ( nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport nias-o:VerifiedImpactCertificateIssuanceRequest nias-o:VerifiedImpactCertificateIssuanceRequestReview ) ] ;
+    # Domain includes all document types that carry a Hedera shard.realm.num account
+    # reference: issuance request documents (PddCIR, MR, VICIR, DRVICIR) identify
+    # the account to receive the certificate or token; LicenseApplication and
+    # LicenseApplicationReview identify the account to receive the issued license;
+    # AgentDetails records the agent's own registered Hedera account.
+    rdfs:domain [ owl:unionOf ( nias-o:AgentDetails nias-o:LicenseApplication nias-o:LicenseApplicationReview nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport nias-o:VerifiedImpactCertificateIssuanceRequest nias-o:VerifiedImpactCertificateIssuanceRequestReview ) ] ;
     rdfs:range xsd:string ;
-    skos:definition "Legacy Hedera shard.realm.num account identifier to which a requested certificate or token issuance should be made."@en .
+    skos:definition "Legacy Hedera shard.realm.num account identifier to which a requested certificate or token issuance should be made, or the agent's registered Hedera account identifier in an agent details submission."@en .
 
 nias-o:monitoringReportReview a owl:ObjectProperty ;
     rdfs:label "monitoringReportReview"@en ;
@@ -948,3 +955,115 @@ nias-o:stateProvenanceClaim a owl:ObjectProperty ;
     rdfs:domain claimont:Report ;
     rdfs:range aiao:StateProvenanceClaim ;
     skos:definition "Links a report to a state provenance claim, providing evidential justification for a state value."@en .
+
+# Agent details and license classes
+
+nias-o:AgentDetails a owl:Class ;
+    rdfs:label "AgentDetails"@en ;
+    rdfs:subClassOf nias-o:PlatformUser ;
+    skos:definition "A platform user record created from a submitted agent details form, carrying identity and Hedera account registration data alongside the workflow submission."@en .
+
+nias-o:LicenseApplication a owl:Class ;
+    rdfs:label "LicenseApplication"@en ;
+    skos:definition "A submitted application by a platform user to be granted an Independent Impact agent license for a specific role."@en .
+
+nias-o:LicenseApplicationReview a owl:Class ;
+    rdfs:label "LicenseApplicationReview"@en ;
+    rdfs:subClassOf nias-o:DocumentReview ;
+    skos:definition "A review document recording the approval or rejection of a license application, referencing the prior agent details review."@en .
+
+nias-o:ProjectRegistrationRequest a owl:Class ;
+    rdfs:label "ProjectRegistrationRequest"@en ;
+    skos:definition "A request submitted by a project developer to formally register a project after the associated PDD certificate issuance request has been approved."@en .
+
+nias-o:MethodologyApplicability a owl:Class ;
+    rdfs:label "MethodologyApplicability"@en ;
+    skos:definition "A node recording that a specific methodology is applicable to a use case and stating the rationale for that applicability."@en .
+
+# Agent details properties
+
+nias-o:initials a owl:DatatypeProperty ;
+    rdfs:label "initials"@en ;
+    rdfs:domain nias-o:AgentDetails ;
+    rdfs:range xsd:string ;
+    skos:definition "The initials of the agent as provided in the agent details registration form."@en .
+
+nias-o:supportingEvidencePersonalParticulars a owl:ObjectProperty ;
+    rdfs:label "supportingEvidencePersonalParticulars"@en ;
+    rdfs:domain nias-o:AgentDetails ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "A supporting evidence artifact for the agent's personal particulars (initials, name, date of birth, country of residence). Up to two evidence artifacts may be provided."@en .
+
+nias-o:supportingEvidenceEmail a owl:ObjectProperty ;
+    rdfs:label "supportingEvidenceEmail"@en ;
+    rdfs:domain nias-o:AgentDetails ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "A supporting evidence artifact proving ownership of the agent's registered email address."@en .
+
+nias-o:supportingEvidenceContactNumber a owl:ObjectProperty ;
+    rdfs:label "supportingEvidenceContactNumber"@en ;
+    rdfs:domain nias-o:AgentDetails ;
+    rdfs:range nias-o:ResourceArtifact ;
+    skos:definition "A supporting evidence artifact proving ownership of the agent's registered contact number."@en .
+
+# License application and review properties
+
+nias-o:reviewerCommentary a owl:DatatypeProperty ;
+    rdfs:label "reviewerCommentary"@en ;
+    rdfs:domain nias-o:LicenseApplicationReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text commentary provided by the reviewer in a license application review."@en .
+
+nias-o:agentDetailsReview a owl:ObjectProperty ;
+    rdfs:label "agentDetailsReview"@en ;
+    rdfs:domain nias-o:LicenseApplicationReview ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved agent details review document that preceded this license application review."@en .
+
+# Issued agent license properties
+
+nias-o:licenseeDid a owl:DatatypeProperty ;
+    rdfs:label "licenseeDid"@en ;
+    rdfs:domain nias-o:AgentLicense ;
+    rdfs:range xsd:string ;
+    skos:definition "The decentralized identifier (DID) of the holder of the issued agent license."@en .
+
+# Project registration request properties
+
+nias-o:approvedPddCertificateIssuanceRequest a owl:ObjectProperty ;
+    rdfs:label "approvedPddCertificateIssuanceRequest"@en ;
+    rdfs:domain nias-o:ProjectRegistrationRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved PDD certificate issuance request review that authorises project registration."@en .
+
+# Methodology applicability properties
+
+nias-o:applicabilityRationale a owl:DatatypeProperty ;
+    rdfs:label "applicabilityRationale"@en ;
+    rdfs:domain nias-o:MethodologyApplicability ;
+    rdfs:range xsd:string ;
+    skos:definition "Textual rationale explaining why the referenced methodology is applicable to the quantification use case."@en .
+
+nias-o:indicatorMethodologyApplicability a owl:ObjectProperty ;
+    rdfs:label "indicatorMethodologyApplicability"@en ;
+    rdfs:range nias-o:MethodologyApplicability ;
+    skos:definition "Links an impact or impact declaration to a methodology applicability node that carries both the methodology reference and the applicability rationale."@en .
+
+# Legacy workflow document header properties
+
+nias-o:submitterLicense a owl:ObjectProperty ;
+    rdfs:label "submitterLicense"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Optional reference to the relevant agent license of the person who submitted the workflow document. Legacy document header field."@en .
+
+nias-o:predecessorDocument a owl:ObjectProperty ;
+    rdfs:label "predecessorDocument"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Optional reference to the document that logically preceded this workflow document submission. Legacy document header field."@en .
+
+nias-o:workflowSubjectType a owl:ObjectProperty ;
+    rdfs:label "workflowSubjectType"@en ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
+    skos:definition "Optional legacy discriminator indicating whether the workflow subject is a project or an agent. In the canonical model this is implicit from the workflowSubject IRI."@en .

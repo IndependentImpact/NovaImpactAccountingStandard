@@ -1,0 +1,13 @@
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Methodology applicability node – links a methodology to its applicability rationale
+
+<https://nova.org.za/novaimpactaccountingstandard/methodology-applicability/ma-001>
+    a nias-o:MethodologyApplicability ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001> ;
+    nias-o:applicabilityRationale "The NIAS-SOLAR-001 methodology is applicable because the project replaces fossil-fuel combustion with solar PV generation, matching the eligible technology category and geographic scope defined in the methodology." .
+
+<https://nova.org.za/novaimpactaccountingstandard/methodologies/NIAS-SOLAR-001>
+    a meth:Methodology .

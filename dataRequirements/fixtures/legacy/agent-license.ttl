@@ -1,0 +1,13 @@
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Issued independent impact agent license
+
+<https://nova.org.za/novaimpactaccountingstandard/agent-licenses/ial-001>
+    a nias-o:AgentLicense ;
+    nias-o:licenseeDid "did:hedera:mainnet:7Prd74ry1Uct87nZqL3ny7aR7Zfjkbd2sfvFF27oS3vc_0.0.12345" ;
+    schema:email "thabo.dlamini@example.com" ;
+    nias-o:licenseScope nias-cs:project-developer ;
+    nias-o:licenseNumber "NIAS-LA-2026-001" .

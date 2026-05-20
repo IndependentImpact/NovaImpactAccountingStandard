@@ -1,0 +1,58 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Agent – the nias-o:AgentDetails node carries personal identity fields.
+
+<https://nova.org.za/novaimpactaccountingstandard/agents/agent-lic-001>
+    a aiao:Agent, nias-o:PlatformUser, nias-o:AgentDetails ;
+    schema:givenName "Thabo" ;
+    schema:familyName "Dlamini" ;
+    schema:birthDate "1990-06-15" ;
+    schema:nationality "ZA" ;
+    schema:email "thabo.dlamini@example.com" ;
+    nias-o:initials "TD" ;
+    nias-o:requestedIssuanceAccountId "0.0.12345" .
+
+# Agent details document – the data:Document node carries the submission metadata.
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/ad-doc-001>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://QmAgentDetailsDocHash001"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/AgentDetails-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/agents/agent-lic-001> ;
+    nias-o:authProof nias-cs:none ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/ad-sub-001> .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/ad-sub-001>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/ad-doc-001> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/agent-license-workflow> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Submit agent details"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/agents/agent-lic-001> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/agents/agent-lic-001> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/platform/nova> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.9000"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-10T09:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/platform/nova>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/agent-license-workflow>
+    a nias-o:Workflow .

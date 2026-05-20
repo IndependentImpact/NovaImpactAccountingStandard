@@ -299,3 +299,21 @@ nias-cs:MethodologyApprovalStatus a skos:ConceptScheme ;
         nias-cs:surpassed,
         nias-cs:under-evaluation ;
     skos:prefLabel "Methodology approval status" .
+
+nias-cs:project-subject a skos:Concept ;
+    skos:definition "Legacy discriminator value indicating that the subject of a workflow document is a project." ;
+    skos:inScheme nias-cs:WorkflowSubjectType ;
+    skos:prefLabel "Project subject" ;
+    skos:topConceptOf nias-cs:WorkflowSubjectType .
+
+nias-cs:agent-subject a skos:Concept ;
+    skos:definition "Legacy discriminator value indicating that the subject of a workflow document is an agent." ;
+    skos:inScheme nias-cs:WorkflowSubjectType ;
+    skos:prefLabel "Agent subject" ;
+    skos:topConceptOf nias-cs:WorkflowSubjectType .
+
+nias-cs:WorkflowSubjectType a skos:ConceptScheme ;
+    skos:definition "Legacy controlled vocabulary distinguishing project subjects from agent subjects in workflow document headers. In the canonical model this distinction is implicit from the workflowSubject IRI." ;
+    skos:hasTopConcept nias-cs:agent-subject,
+        nias-cs:project-subject ;
+    skos:prefLabel "Workflow subject type" .
