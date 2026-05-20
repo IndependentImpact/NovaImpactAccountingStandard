@@ -1,0 +1,514 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-ui: <https://nova.org.za/novaimpactaccountingstandard/shape2flutter/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix ui: <https://shape2flutter.dev/vocab/ui#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-ui:ValidationVerificationUiShapes a owl:Ontology ;
+    dcterms:title "NIAS validation and verification shape2flutter UI shapes"@en ;
+    dcterms:description "Flattened UI-facing SHACL views for shape2flutter generation. Canonical validation constraints remain in dataRequirements/*.ttl."@en .
+
+nias-ui:TimeInstantUiShape a sh:NodeShape ;
+    sh:targetClass time:Instant ;
+    sh:property [
+        sh:path time:inXSDDateTimeStamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Date and time" ;
+        ui:widget ui:dateTime ;
+        ui:order 1 ;
+    ] .
+
+nias-ui:DateTimeIntervalUiShape a sh:NodeShape ;
+    sh:targetClass time:Interval ;
+    sh:property [
+        sh:path time:hasBeginning ;
+        sh:node nias-ui:TimeInstantUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Start" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path time:hasEnd ;
+        sh:node nias-ui:TimeInstantUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "End" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] .
+
+nias-ui:HederaTopicMessageUiShape a sh:NodeShape ;
+    sh:targetClass hedera:TopicMessage ;
+    sh:property [
+        sh:path hedera:inTopic ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus topic" ;
+        ui:help "IRI for the Hedera consensus topic." ;
+        ui:widget ui:text ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasSequenceNumber ;
+        sh:datatype xsd:integer ;
+        sh:maxCount 1 ;
+        ui:label "Sequence number" ;
+        ui:widget ui:number ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus timestamp" ;
+        ui:widget ui:dateTime ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasMessageContent ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        ui:label "Message content" ;
+        ui:widget ui:textarea ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:WorkflowDocumentSubmissionUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:WorkflowDocumentSubmission ;
+    sh:property [
+        sh:path nias-o:submittedDocument ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Submitted document" ;
+        ui:widget ui:text ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflow ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowStep ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow step" ;
+        ui:widget ui:text ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubject ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow subject" ;
+        ui:widget ui:text ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentSubmittedBy ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Submitted by" ;
+        ui:widget ui:text ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentRecipient ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Recipient" ;
+        ui:widget ui:text ;
+        ui:order 6 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubmissionConsensusMessage ;
+        sh:node nias-ui:HederaTopicMessageUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus message" ;
+        ui:widget ui:subform ;
+        ui:order 7 ;
+    ] .
+
+nias-ui:DocumentReferenceUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentReference ;
+    sh:property [
+        sh:path nias-o:documentMessageId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Message ID" ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "IPFS URI" ;
+        ui:widget ui:ipfs ;
+        ui:order 2 ;
+    ] .
+
+nias-ui:ResourceArtifactUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ResourceArtifact ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "IPFS URI" ;
+        ui:widget ui:ipfs ;
+        ui:order 1 ;
+    ] .
+
+nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentFieldReview ;
+    sh:property [
+        sh:path nias-o:fieldKey ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Field key" ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldTitle ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Field title" ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldPrompt ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Field prompt" ;
+        ui:widget ui:textarea ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:originalResponse ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Original response" ;
+        ui:widget ui:textarea ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewerDecision ;
+        sh:in (
+            nias-cs:review-approve
+            nias-cs:review-forward-action-request
+            nias-cs:review-corrective-action-request
+            nias-cs:review-reject
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewer decision" ;
+        ui:widget ui:radio ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewerFeedback ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewer feedback" ;
+        ui:widget ui:textarea ;
+        ui:order 6 ;
+    ] .
+
+nias-ui:GenericDocumentReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:GenericDocumentReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:node nias-ui:DocumentFieldReviewUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 99 ;
+        ui:label "Field reviews" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Final review decision" ;
+        ui:widget ui:radio ;
+        ui:order 3 ;
+    ] .
+
+nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:node nias-ui:DocumentFieldReviewUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 99 ;
+        ui:label "Field reviews" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Final review decision" ;
+        ui:widget ui:radio ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Issuance account ID" ;
+        ui:help "Hedera account in shard.realm.num format." ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:ImpactSummaryUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ImpactSummary ;
+    sh:property [
+        sh:path nias-o:impactDescription ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact description" ;
+        ui:widget ui:textarea ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path ind:timePeriod ;
+        sh:node nias-ui:DateTimeIntervalUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact period" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact unit" ;
+        ui:help "Use a QUDT unit IRI." ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path ind:obsValue ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact extent" ;
+        ui:widget ui:number ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:VerifiedImpactCertificateIssuanceRequestUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequest ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringReportReview ;
+        sh:node nias-ui:DocumentReferenceUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Monitoring report review" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:impactSummary ;
+        sh:node nias-ui:ImpactSummaryUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact summary" ;
+        ui:widget ui:subform ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Issuance account ID" ;
+        ui:help "Hedera account in shard.realm.num format." ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:VerifiedImpactCertificateUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificate ;
+    sh:property [
+        sh:path nias-o:impactIndicatorLabel ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact indicator" ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:impactSummary ;
+        sh:node nias-ui:ImpactSummaryUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Impact summary" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:monitoringReportReview ;
+        sh:node nias-ui:DocumentReferenceUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Monitoring report review" ;
+        ui:widget ui:subform ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:certificateNumber ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Certificate number" ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:DataLineageReportUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:DataLineageReport ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path dcterms:title ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Dataset name" ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:forPeriod ;
+        sh:node nias-ui:DateTimeIntervalUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Monitoring period" ;
+        ui:widget ui:subform ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:rawDatasetArtifact ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Raw dataset" ;
+        ui:widget ui:subform ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataTransferReport ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Transfer report" ;
+        ui:widget ui:subform ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataTransferCode ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Transfer code" ;
+        ui:widget ui:subform ;
+        ui:order 6 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalDatasetArtifact ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Final dataset" ;
+        ui:widget ui:subform ;
+        ui:order 7 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataCleaningCode ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Cleaning code" ;
+        ui:widget ui:subform ;
+        ui:order 8 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:dataCleaningReport ;
+        sh:node nias-ui:ResourceArtifactUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Cleaning report" ;
+        ui:widget ui:subform ;
+        ui:order 9 ;
+    ] .
+

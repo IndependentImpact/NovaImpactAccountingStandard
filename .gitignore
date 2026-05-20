@@ -54,3 +54,8 @@ rsconnect/
 # Python test artifacts
 __pycache__/
 *.pyc
+
+reference/reference_indicator_report.pdf
+reference/protocol.pdf
+
+html/*.*
