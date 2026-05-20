@@ -305,7 +305,6 @@ nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:requestedIssuanceAccountId ;
         sh:datatype xsd:string ;
-        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Issuance account ID" ;
@@ -384,7 +383,6 @@ nias-ui:VerifiedImpactCertificateIssuanceRequestUiShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:requestedIssuanceAccountId ;
         sh:datatype xsd:string ;
-        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Issuance account ID" ;
@@ -511,4 +509,3 @@ nias-ui:DataLineageReportUiShape a sh:NodeShape ;
         ui:widget ui:subform ;
         ui:order 9 ;
     ] .
-
