@@ -392,7 +392,7 @@ nias-o:hederaTopic a owl:ObjectProperty ;
 
 nias-o:hasDeclaredImpact a owl:ObjectProperty ;
     rdfs:label "hasDeclaredImpact"@en ;
-    rdfs:domain nias-o:ImpactDeclaration ;
+    rdfs:domain [ owl:unionOf ( nias-o:ImpactDeclaration nias-o:PddSectionBReport ) ] ;
     rdfs:range impactont:Impact ;
     skos:definition "Links an impact declaration to an impact that it declares."@en .
 

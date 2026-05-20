@@ -186,14 +186,14 @@ nias-o:DocumentShape a sh:NodeShape ;
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0>
     a nias-o:DocumentSchema ;
     dcterms:title "Project Design Document Section A 1.0.0"@en ;
-    sh:targetClass aiao:Project ;
-    nias-o:validatingShape nias-o:ProjectDesignShape .
+    sh:targetClass nias-o:PddSectionAReport ;
+    nias-o:validatingShape nias-o:PddSectionAReportShape .
 
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0>
     a nias-o:DocumentSchema ;
     dcterms:title "Project Design Document Section B 9.0.0"@en ;
-    sh:targetClass nias-o:ImpactDeclaration ;
-    nias-o:validatingShape nias-o:ImpactDeclarationShape .
+    sh:targetClass nias-o:PddSectionBReport ;
+    nias-o:validatingShape nias-o:PddSectionBReportShape .
 
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/DocumentHeaders&1.0.0>
     a nias-o:DocumentSchema ;
@@ -207,14 +207,14 @@ nias-o:DocumentShape a sh:NodeShape ;
     dcterms:title "Project Design Document Section A 1.0.0 (legacy name)"@en ;
     owl:deprecated true ;
     dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
-    nias-o:validatingShape nias-o:ProjectDesignShape .
+    nias-o:validatingShape nias-o:PddSectionAReportShape .
 
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB&9.0.0>
     a nias-o:DocumentSchema ;
     dcterms:title "Project Design Document Section B 9.0.0 (legacy name)"@en ;
     owl:deprecated true ;
     dcterms:isReplacedBy <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
-    nias-o:validatingShape nias-o:ImpactDeclarationShape .
+    nias-o:validatingShape nias-o:PddSectionBReportShape .
 
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/PLA-1.0.0>
     a nias-o:DocumentSchema ;

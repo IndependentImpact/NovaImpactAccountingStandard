@@ -1,0 +1,56 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-a-review>
+    a data:Document,
+        nias-o:GenericDocumentReview ;
+    nias-o:resourceIpfsUri "ipfs://bafypddsectionareview"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a-review> ;
+    nias-o:fieldReview [
+        a nias-o:DocumentFieldReview ;
+        nias-o:fieldKey "title_project" ;
+        nias-o:fieldTitle "Project title" ;
+        nias-o:fieldPrompt "Provide the project title." ;
+        nias-o:originalResponse "PDD Alpha Solar Irrigation Project" ;
+        nias-o:reviewerDecision nias-cs:review-approve ;
+        nias-o:reviewerFeedback "The title is clear and consistent with the submitted project."
+    ] ;
+    nias-o:finalReviewDecision nias-cs:review-approve .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a-review>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-a-review> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Validate PDD section A"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-04T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/pdd>
+    a nias-o:Workflow .

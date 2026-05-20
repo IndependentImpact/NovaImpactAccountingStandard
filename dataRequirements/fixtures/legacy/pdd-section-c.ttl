@@ -1,17 +1,56 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
 @prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix impactont: <http://w3id.org/impactont#> .
 @prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/project-1>
+    a aiao:Project ;
+    nias-o:title "Legacy PDD-C project" ;
+    aiao:hasObjective [
+        a aiao:Objective ;
+        schema:description "Demonstrate stakeholder engagement fixture compatibility."
+    ] ;
+    impactont:hasSpatialLocation [
+        a impactont:SpatialLocation ;
+        nias-o:resourceIpfsUri "ipfs://bafypddxc-location"^^xsd:anyURI
+    ] ;
+    nias-o:technologyOrMeasure [
+        a nias-o:TechnologyOrMeasure ;
+        nias-o:techMeasType nias-cs:facility ;
+        schema:description "Community-scale renewable energy equipment." ;
+        nias-o:currentAgeInYears 1 ;
+        nias-o:estimatedLifespanInYears 15
+    ] ;
+    nias-o:projectParty [
+        a nias-o:ProjectParty ;
+        nias-o:partyName "Legacy project developer" ;
+        nias-o:isHostParty true ;
+        nias-o:isParticipantParty true ;
+        nias-o:publicPrivateClassification nias-cs:private
+    ] ;
+    nias-o:legalMatters "No outstanding legal encumbrances." ;
+    nias-o:publicFundingStatus nias-cs:no ;
+    nias-o:projectHistory "Legacy fixture project history." ;
+    nias-o:debundlingAssessment "Standalone project fixture." .
 
 <https://nova.org.za/novaimpactaccountingstandard/test/pdd-xc-1>
     a data:Document,
         nias-o:PddSectionCStakeholderEngagement ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    dcterms:conformsTo <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0> ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0> ;
     nias-o:isEncrypted false ;
     nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:resourceIpfsUri "ipfs://bafypddxc"^^xsd:anyURI ;
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/pdd-xc-submission-1> ;
     nias-o:stakeholderEngagementModalities "In-person meetings and public notice periods in affected communities." ;

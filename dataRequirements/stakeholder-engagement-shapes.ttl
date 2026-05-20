@@ -7,10 +7,12 @@
 nias-o:StakeholderEngagementShapes a owl:Ontology ;
     dcterms:title "Nova Impact Accounting Standard - Stakeholder Engagement SHACL Shapes"@en ;
     dcterms:description "PDD section C stakeholder engagement shapes for the legacy PDD-XC workflow document."@en ;
-    owl:imports nias-o:DocumentShapes .
+    owl:imports nias-o:DocumentShapes,
+        nias-o:ReportShapes .
 
 nias-o:PddSectionCShape a sh:NodeShape ;
     sh:targetClass nias-o:PddSectionCStakeholderEngagement ;
+    sh:node nias-o:PddSectionCReportShape ;
     sh:property [
         sh:path nias-o:hasWorkflowSubmission ;
         sh:class nias-o:WorkflowDocumentSubmission ;

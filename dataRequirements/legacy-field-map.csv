@@ -57,10 +57,10 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #Impact&3.0.0,beneficial_or_adverse,yes,string enum[BENEFICIAL|ADVERSE],1,always,nias-o:beneficialOrAdverse,SKOS concept IRI,sImpact_3x0x0_toFluree.R,BENEFICIAL/ADVERSE mapped to nias-o concept IDs.
 #Impact&3.0.0,crediting_period,no,ref:#DateTimePeriod&1.0.0,0..1,if not (monitored == NO),nias-o:creditingPeriod,nias-o:CreditingPeriod node,sImpact_3x0x0_toFluree.R; creditingPeriod_toFluree.R,JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,crediting_period_type,no,string enum[RENEWABLE|NON_RENEWABLE],0..1,if not (monitored == NO),nias-o:creditingPeriod/nias-o:creditingPeriodIsRenewable,boolean literal,sImpact_3x0x0_toFluree.R; creditingPeriod_toFluree.R,RENEWABLE maps to true; all other values map to false. JSON schema branch lists this property but does not require it.
-#Impact&3.0.0,data_and_parameters,no,array<ref:#TableRow-DataParameterMonitoring&1.0.0>,0..*,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,JSON-only data requirements; current adapter does not emit them. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,data_and_parameters,no,array<ref:#TableRow-DataParameterMonitoring&1.0.0>,0..*,if not (monitored == NO),nias-o:dataParameterRequirement,nias-o:DataParameterRequirement node,sImpact_3x0x0_toFluree.R,Covered by dataRequirements/common-shapes.ttl as nias-o:DataParameterRequirementShape.
 #Impact&3.0.0,description,yes,string,1,always,schema:description,literal string,sImpact_3x0x0_toFluree.R,
-#Impact&3.0.0,impact_estimation_ex_ante,no,number,0..1,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,JSON-only expected ex-ante impact estimate; current adapter does not emit it. JSON schema branch lists this property but does not require it.
-#Impact&3.0.0,indicator,no,string,0..1,if not (monitored == NO),UNMAPPED,,sImpact_3x0x0_toFluree.R,Legacy free-text indicator description is not emitted; adapter emits indicator_label and indicator_unit_of_measure instead. JSON schema branch lists this property but does not require it.
+#Impact&3.0.0,impact_estimation_ex_ante,no,number,0..1,if not (monitored == NO),nias-o:exAnteImpactEstimate,numeric literal,sImpact_3x0x0_toFluree.R,Covered by dataRequirements/impact-declaration-shapes.ttl for monitored impacts.
+#Impact&3.0.0,indicator,no,string,0..1,if not (monitored == NO),impactont:isDefinedByIndicator,stable indicator definition IRI,sImpact_3x0x0_toFluree.R,Canonical UI should resolve the legacy indicator text to a stable indicator IRI; labels and units are handled by indicator_label and indicator_unit_of_measure.
 #Impact&3.0.0,indicator_label,no,string,0..1,if not (monitored == NO),impactont:isDefinedByIndicator/rdfs:label,embedded indicator node literal,sImpact_3x0x0_toFluree.R; indicator_toFluree.R,JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,indicator_unit_of_measure,no,string,0..1,if not (monitored == NO),impactont:isDefinedByIndicator/nias-o:unitOfMeasure,embedded indicator node literal,sImpact_3x0x0_toFluree.R; indicator_toFluree.R,JSON schema branch lists this property but does not require it.
 #Impact&3.0.0,intentionality,yes,string enum[INTENTIONAL|UNINTENTIONAL],1,always,nias-o:impactIntentionality,SKOS concept IRI,sImpact_3x0x0_toFluree.R,INTENTIONAL/UNINTENTIONAL mapped to nias-o concept IDs.
@@ -104,19 +104,19 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #PDDCIR&3.0.0,url_ipfs_pred_drxa,yes,string,1,always,nias-o:pddSectionAValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
 #PDDCIR&3.0.0,url_ipfs_pred_drxb,yes,string,1,always,nias-o:pddSectionBValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
 #PDDCIR&3.0.0,url_ipfs_pred_drxc,yes,string,1,always,nias-o:pddSectionCValidationReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/pdd-certificate-shapes.ttl.
-#PDDxA&1.0.0,debundling,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#PDDxA&1.0.0,eligibility_project,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,debundling,yes,string,1,always,nias-o:debundlingAssessment,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
+#PDDxA&1.0.0,eligibility_project,no,string,0..1,always,nias-o:eligibilityDescription,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
 #PDDxA&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,@id seed via headers.id_subject,object ref,sPDDxA_1x0x0_toFluree.R,Current adapter reads headers$id_subject only.
 #PDDxA&1.0.0,history_project,yes,string,1,always,nias-o:projectHistory,literal string,sPDDxA_1x0x0_toFluree.R,
-#PDDxA&1.0.0,legal_matters,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,legal_matters,yes,string,1,always,nias-o:legalMatters,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
 #PDDxA&1.0.0,location_project,yes,array<string>,1..*,always,impactont:hasSpatialLocation/nias-o:resourceIpfsUri,array of resource nodes,sPDDxA_1x0x0_toFluree.R,
-#PDDxA&1.0.0,parties_project,yes,array<ref:#ProjectParty&1.0.0>,1..*,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,parties_project,yes,array<ref:#ProjectParty&1.0.0>,1..*,always,nias-o:projectParty,nias-o:ProjectParty node,,Covered by dataRequirements/project-design-shapes.ttl.
 #PDDxA&1.0.0,purpose_project,yes,string,1,always,aiao:hasObjective/schema:description,blank objective node with literal,sPDDxA_1x0x0_toFluree.R,
-#PDDxA&1.0.0,source_public_funding,no,array<string>,0..*,if status_public_funding == YES,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#PDDxA&1.0.0,status_public_funding,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#PDDxA&1.0.0,source_public_funding,no,array<string>,0..*,if status_public_funding == YES,nias-o:publicFundingSource,literal string list,,Covered by dataRequirements/project-design-shapes.ttl; required when nias-o:publicFundingStatus is nias-cs:yes.
+#PDDxA&1.0.0,status_public_funding,yes,string enum[YES|NO],1,always,nias-o:publicFundingStatus,SKOS concept IRI in nias-cs:YesNo,,Covered by dataRequirements/project-design-shapes.ttl.
 #PDDxA&1.0.0,techmeas_project,yes,array<ref:#TechnologiesAndMeasures&1.0.0>,1..*,always,nias-o:technologyOrMeasure,array of nias-o:TechnologyOrMeasure nodes,sPDDxA_1x0x0_toFluree.R,
 #PDDxA&1.0.0,title_project,yes,string,1,always,nias-o:title,literal string,sPDDxA_1x0x0_toFluree.R,
-#PDDxB&9.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,sPDDxB_9x0x0_toFluree.R,Adapter ignores headers and returns only impacts.
+#PDDxB&9.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,sPDDxB_9x0x0_toFluree.R,Canonical PDD-B report/document coverage added in dataRequirements/report-shapes.ttl and dataRequirements/document-shapes.ttl; legacy adapter ignores headers.
 #PDDxB&9.0.0,impacts,yes,array<ref:#Impact&3.0.0>,1..*,always,rdf:type impactont:Impact,array of impact nodes,sPDDxB_9x0x0_toFluree.R; sImpact_3x0x0_toFluree.R,
 #PDDxC&4.0.0,consideration_comments,no,string,0..1,always,nias-o:stakeholderCommentConsideration,literal string,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
 #PDDxC&4.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/stakeholder-engagement-shapes.ttl.
@@ -126,31 +126,31 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #PLA&1.0.0,location_project,yes,string,1,always,claimont:hasSubject/impactont:hasSpatialLocation/schema:description,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
 #PLA&1.0.0,purpose_project,yes,string,1,always,claimont:hasSubject/aiao:hasObjective/schema:description,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
 #PLA&1.0.0,title_project,yes,string,1,always,claimont:hasSubject/nias-o:title,literal string,,Covered by dataRequirements/project-listing-shapes.ttl.
-#ProjectParty&1.0.0,info_additional,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectParty&1.0.0,is_host,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectParty&1.0.0,is_participant,yes,string enum[YES|NO],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectParty&1.0.0,name,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectParty&1.0.0,public_private,yes,string enum[PUBLIC|PRIVATE],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectParty&1.0.0,info_additional,no,string,0..1,always,nias-o:additionalInfo,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
+#ProjectParty&1.0.0,is_host,yes,string enum[YES|NO],1,always,nias-o:isHostParty,xsd:boolean literal,,Covered by dataRequirements/project-design-shapes.ttl.
+#ProjectParty&1.0.0,is_participant,yes,string enum[YES|NO],1,always,nias-o:isParticipantParty,xsd:boolean literal,,Covered by dataRequirements/project-design-shapes.ttl.
+#ProjectParty&1.0.0,name,yes,string,1,always,nias-o:partyName,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
+#ProjectParty&1.0.0,public_private,yes,string enum[PUBLIC|PRIVATE],1,always,nias-o:publicPrivateClassification,SKOS concept IRI in nias-cs:PublicPrivateClassification,,Covered by dataRequirements/project-design-shapes.ttl.
 #ProjectRegistrationRequest&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #ProjectRegistrationRequest&1.0.0,id_msg_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
 #ProjectRegistrationRequest&1.0.0,url_ipfs_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,data_source,no,string,0..1,if monitored_or_fixed == FIXED_EXANTE,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#TableRow-DataParameterMonitoring&1.0.0,description,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,label,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,measurement_methods_and_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#TableRow-DataParameterMonitoring&1.0.0,monitored_or_fixed,yes,string enum[MONITORED|FIXED_EXANTE],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,monitoring_frequency,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#TableRow-DataParameterMonitoring&1.0.0,purpose,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,qa_qc_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#TableRow-DataParameterMonitoring&1.0.0,sampling_plan,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
-#TableRow-DataParameterMonitoring&1.0.0,unit_of_measure,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#TableRow-DataParameterMonitoring&1.0.0,value_applied,no,number,0..1,if monitored_or_fixed == FIXED_EXANTE,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory. JSON schema branch lists this property but does not require it.
+#TableRow-DataParameterMonitoring&1.0.0,data_source,no,string,0..1,if monitored_or_fixed == FIXED_EXANTE,nias-o:dataSource,literal string,,Covered by dataRequirements/common-shapes.ttl for fixed ex-ante data parameter requirements.
+#TableRow-DataParameterMonitoring&1.0.0,description,yes,string,1,always,schema:description,literal string,,Covered by dataRequirements/common-shapes.ttl.
+#TableRow-DataParameterMonitoring&1.0.0,label,yes,string,1,always,rdfs:label,literal string,,Covered by dataRequirements/common-shapes.ttl.
+#TableRow-DataParameterMonitoring&1.0.0,measurement_methods_and_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),nias-o:measurementMethodsAndProcedures,literal string,,Covered by dataRequirements/common-shapes.ttl for monitored data parameter requirements.
+#TableRow-DataParameterMonitoring&1.0.0,monitored_or_fixed,yes,string enum[MONITORED|FIXED_EXANTE],1,always,nias-o:monitoredOrFixed,SKOS concept IRI in nias-cs:MonitoredOrFixed,,Covered by dataRequirements/common-shapes.ttl.
+#TableRow-DataParameterMonitoring&1.0.0,monitoring_frequency,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),nias-o:monitoringFrequency,literal string,,Covered by dataRequirements/common-shapes.ttl for monitored data parameter requirements.
+#TableRow-DataParameterMonitoring&1.0.0,purpose,yes,string,1,always,nias-o:dataParameterPurpose,literal string,,Covered by dataRequirements/common-shapes.ttl.
+#TableRow-DataParameterMonitoring&1.0.0,qa_qc_procedures,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),nias-o:qaQcProcedures,literal string,,Covered by dataRequirements/common-shapes.ttl for monitored data parameter requirements.
+#TableRow-DataParameterMonitoring&1.0.0,sampling_plan,no,string,0..1,if not (monitored_or_fixed == FIXED_EXANTE),nias-o:samplingPlan,literal string,,Covered by dataRequirements/common-shapes.ttl for monitored data parameter requirements.
+#TableRow-DataParameterMonitoring&1.0.0,unit_of_measure,yes,string,1,always,ind:hasUnit,QUDT unit IRI,,Covered by dataRequirements/common-shapes.ttl.
+#TableRow-DataParameterMonitoring&1.0.0,value_applied,no,number,0..1,if monitored_or_fixed == FIXED_EXANTE,nias-o:parameterAppliedValue,numeric literal,,Covered by dataRequirements/common-shapes.ttl for fixed ex-ante data parameter requirements.
 #TechnologyOrMeasure&1.0.0,age_current,yes,number,1,always,nias-o:currentAgeInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree.R,Adapter emits only when non-empty even though JSON schema requires it.
 #TechnologyOrMeasure&1.0.0,description,yes,string,1,always,schema:description,literal string,sTechnologyOrMeasure_1x0x0_toFluree.R,
-#TechnologyOrMeasure&1.0.0,info_additional,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TechnologyOrMeasure&1.0.0,info_additional,no,string,0..1,always,nias-o:additionalInfo,literal string,,Covered by dataRequirements/common-shapes.ttl.
 #TechnologyOrMeasure&1.0.0,lifespan_estimated,yes,number,1,always,nias-o:estimatedLifespanInYears,numeric literal,sTechnologyOrMeasure_1x0x0_toFluree.R,Adapter emits only when non-empty even though JSON schema requires it.
 #TechnologyOrMeasure&1.0.0,type_techmeas,yes,string enum[FACILITY|SYSTEM|EQUIPMENT|OTHER],1,always,nias-o:techMeasType,SKOS concept IRI,sTechnologyOrMeasure_1x0x0_toFluree.R,FACILITY/SYSTEM/EQUIPMENT/OTHER mapped to nias-o concept IDs.
-#TechnologyOrMeasure&1.0.0,type_techmeas_otherexplain,no,string,0..1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#TechnologyOrMeasure&1.0.0,type_techmeas_otherexplain,no,string,0..1,always,nias-o:additionalInfo,literal string,sTechnologyOrMeasure_1x0x0_toFluree.R,Covered by dataRequirements/common-shapes.ttl; used as additional information when the type is OTHER.
 #VIC&2.0.0,certificate_number,yes,string,1,always,nias-o:certificateNumber,literal string,,Covered by dataRequirements/certificate-shapes.ttl.
 #VIC&2.0.0,extent_impact,yes,number,1,always,nias-o:impactSummary/ind:obsValue,numeric literal,,Covered by dataRequirements/certificate-shapes.ttl.
 #VIC&2.0.0,id_msg_drmr,yes,string,1,always,nias-o:monitoringReportReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/certificate-shapes.ttl.

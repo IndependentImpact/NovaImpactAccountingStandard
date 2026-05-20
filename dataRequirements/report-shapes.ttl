@@ -17,7 +17,9 @@
 nias-o:ReportShapes a owl:Ontology ;
     dcterms:title "Nova Impact Accounting Standard - Report Wrapper SHACL Shapes"@en ;
     dcterms:description "Report wrapper shapes for PDD and monitoring report submissions. Implements Phase 5 of the NIAS SHACL migration by distinguishing the submitted document artifact, the workflow submission event, and the agent-authored report content layer."@en ;
-    owl:imports nias-o:CommonShapes .
+    owl:imports nias-o:CommonShapes,
+        nias-o:ImpactDeclarationShapes,
+        nias-o:ProjectDesignShapes .
 
 # ---------------------------------------------------------------------------
 # Project Design Document report wrapper
@@ -86,6 +88,61 @@ nias-o:ProjectDesignDocumentShape a sh:NodeShape ;
         sh:nodeKind sh:IRI ;
         sh:maxCount 1 ;
         sh:message "A PDD report may link to at most one monitoring plan (prov:Plan) for future measurement procedures."@en
+    ] .
+
+nias-o:PddSectionAReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:PddSectionAReport ;
+    sh:node nias-o:ProjectDesignDocumentShape ;
+    sh:property [
+        sh:path claimont:hasSubject ;
+        sh:class aiao:Project ;
+        sh:node nias-o:ProjectDesignShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-A report must identify exactly one project subject that satisfies the PDD-A project design requirements."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-A report must conform to the canonical PDDxA-1.0.0 document schema."@en
+    ] .
+
+nias-o:PddSectionBReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:PddSectionBReport ;
+    sh:node nias-o:ProjectDesignDocumentShape ;
+    sh:property [
+        sh:path nias-o:hasDeclaredImpact ;
+        sh:class impactont:Impact ;
+        sh:node nias-o:ImpactRequirementShape ;
+        sh:minCount 1 ;
+        sh:message "A PDD-B report must include at least one declared impact."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:impactClaim ;
+        sh:class aiao:ImpactClaim ;
+        sh:node nias-o:ImpactClaimShape ;
+        sh:minCount 1 ;
+        sh:message "A PDD-B report must include at least one impact claim linking the project and methodology."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-B report must conform to the canonical PDDxB-9.0.0 document schema."@en
+    ] .
+
+nias-o:PddSectionCReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:PddSectionCReport ;
+    sh:node nias-o:ProjectDesignDocumentShape ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-C report must conform to the canonical PDDxC-4.0.0 document schema."@en
     ] .
 
 # ---------------------------------------------------------------------------

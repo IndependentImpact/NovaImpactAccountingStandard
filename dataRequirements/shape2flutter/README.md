@@ -7,6 +7,9 @@ The canonical SHACL constraints remain in `dataRequirements/*.ttl`. The
 `validation-verification-ui-shapes.ttl` file flattens inherited/composed shapes
 and adds `ui:` hints so `shape2flutter` can generate usable first-pass forms.
 
+For the planned PDD creation and validation workflow, see
+[`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
+
 ## Build
 
 ```bash

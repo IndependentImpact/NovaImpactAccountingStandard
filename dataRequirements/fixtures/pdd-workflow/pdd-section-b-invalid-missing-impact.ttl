@@ -1,0 +1,25 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha>
+    a aiao:Project .
+
+<https://nova.org.za/novaimpactaccountingstandard/claims/pdd-alpha-impact-claim>
+    a aiao:ImpactClaim ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/nias-solar-001> .
+
+<https://nova.org.za/novaimpactaccountingstandard/methodologies/nias-solar-001>
+    a meth:Methodology ;
+    rdfs:label "NIAS Solar Generation Methodology 1.0" .
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/pdd-alpha-invalid-section-b>
+    a nias-o:PddSectionBReport ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:impactClaim <https://nova.org.za/novaimpactaccountingstandard/claims/pdd-alpha-impact-claim> ;
+    dcterms:conformsTo <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> .

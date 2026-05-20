@@ -1,0 +1,108 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha>
+    a aiao:Project ;
+    nias-o:title "PDD Alpha Solar Irrigation Project" ;
+    aiao:hasObjective [
+        a aiao:Objective ;
+        schema:description "Reduce diesel consumption for irrigation pumping."
+    ] ;
+    impactont:hasSpatialLocation [
+        a impactont:SpatialLocation ;
+        nias-o:resourceIpfsUri "ipfs://bafypddalphalocation"^^xsd:anyURI
+    ] ;
+    nias-o:technologyOrMeasure [
+        a nias-o:TechnologyOrMeasure ;
+        nias-o:techMeasType nias-cs:facility ;
+        schema:description "Solar photovoltaic pump and inverter equipment." ;
+        nias-o:currentAgeInYears 1 ;
+        nias-o:estimatedLifespanInYears 20
+    ] ;
+    nias-o:projectParty [
+        a nias-o:ProjectParty ;
+        nias-o:partyName "PDD Alpha Project Developer" ;
+        nias-o:isHostParty true ;
+        nias-o:isParticipantParty true ;
+        nias-o:publicPrivateClassification nias-cs:private
+    ] ;
+    nias-o:legalMatters "No outstanding legal encumbrances." ;
+    nias-o:publicFundingStatus nias-cs:no ;
+    nias-o:projectHistory "The project replaces diesel pumping equipment used before 2026." ;
+    nias-o:debundlingAssessment "The project is a standalone installation and is not debundled from a larger activity." .
+
+<https://nova.org.za/novaimpactaccountingstandard/impacts/pdd-alpha-landscape>
+    a impactont:Impact ;
+    nias-o:impactIntentionality nias-cs:unintentional ;
+    nias-o:beneficialOrAdverse nias-cs:beneficial ;
+    schema:description "Minor positive local air-quality co-benefit that will not be quantified." ;
+    nias-o:monitored nias-cs:no ;
+    nias-o:notMonitoredJustification "The co-benefit is expected to be immaterial relative to the primary monitored impact." .
+
+<https://nova.org.za/novaimpactaccountingstandard/claims/pdd-alpha-impact-claim>
+    a aiao:ImpactClaim ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/nias-solar-001> .
+
+<https://nova.org.za/novaimpactaccountingstandard/methodologies/nias-solar-001>
+    a meth:Methodology ;
+    rdfs:label "NIAS Solar Generation Methodology 1.0" .
+
+<https://nova.org.za/novaimpactaccountingstandard/reports/pdd-alpha-section-b>
+    a nias-o:PddSectionBReport ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:hasDeclaredImpact <https://nova.org.za/novaimpactaccountingstandard/impacts/pdd-alpha-landscape> ;
+    nias-o:impactClaim <https://nova.org.za/novaimpactaccountingstandard/claims/pdd-alpha-impact-claim> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/methodologies/nias-solar-001> ;
+    dcterms:conformsTo <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafypddsectionb"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxB-9.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:reportContent <https://nova.org.za/novaimpactaccountingstandard/reports/pdd-alpha-section-b> ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-b> .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-b>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Submit PDD section B"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-02T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/pdd>
+    a nias-o:Workflow .

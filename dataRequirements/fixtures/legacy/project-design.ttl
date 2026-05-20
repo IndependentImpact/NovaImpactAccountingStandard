@@ -1,8 +1,10 @@
-@prefix aiao: <https://w3id.org/aiao/> .
+@prefix aiao: <http://w3id.org/aiao#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix impactont: <https://w3id.org/impactont/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://nova.org.za/novaimpactaccountingstandard/activities/project-001>
   a aiao:Project ;
@@ -13,13 +15,23 @@
   ] ;
   impactont:hasSpatialLocation [
     a impactont:SpatialLocation, dcterms:Resource ;
-    nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt3examplelocation"
+    nias-o:resourceIpfsUri "ipfs://bafybeigdyrzt3examplelocation"^^xsd:anyURI
   ] ;
   nias-o:technologyOrMeasure [
     a nias-o:TechnologyOrMeasure ;
-    nias-o:techMeasType nias-o:facility ;
+    nias-o:techMeasType nias-cs:facility ;
     schema:description "Solar photovoltaic pump system." ;
     nias-o:currentAgeInYears 1 ;
     nias-o:estimatedLifespanInYears 20
   ] ;
-  nias-o:projectHistory "The project replaces existing diesel pumping equipment." .
+  nias-o:projectParty [
+    a nias-o:ProjectParty ;
+    nias-o:partyName "Solar Irrigation Project Developer" ;
+    nias-o:isHostParty true ;
+    nias-o:isParticipantParty true ;
+    nias-o:publicPrivateClassification nias-cs:private
+  ] ;
+  nias-o:legalMatters "No outstanding legal encumbrances." ;
+  nias-o:publicFundingStatus nias-cs:no ;
+  nias-o:projectHistory "The project replaces existing diesel pumping equipment." ;
+  nias-o:debundlingAssessment "The project is a standalone activity and is not debundled from a larger project." .
