@@ -98,7 +98,7 @@ nias-o:LicenseScopePropertyShape a sh:PropertyShape ;
     sh:in ( nias-cs:project-developer nias-cs:pdd-validator nias-cs:mr-verifier ) ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
-    sh:message "A license application or review must specify exactly one license scope: project-developer, pdd-validator, or mr-verifier."@en .
+    sh:message "The license scope must be exactly one of project-developer, pdd-validator, or mr-verifier."@en .
 
 nias-o:LicenseApplicationShape a sh:NodeShape ;
     sh:targetClass nias-o:LicenseApplication ;
@@ -183,6 +183,10 @@ nias-o:AgentLicenseShape a sh:NodeShape ;
         sh:maxCount 1 ;
         sh:message "An issued agent license must include the email address of the licensee."@en
     ] ;
+    # Issued licenses allow multiple scope values because the legacy
+    # #IndependentImpactAgentLicense&1.0.0 schema defines scope as an array.
+    # License *applications* and *reviews* use LicenseScopePropertyShape (maxCount 1)
+    # because each application targets exactly one scope at a time.
     sh:property [
         sh:path nias-o:licenseScope ;
         sh:nodeKind sh:IRI ;

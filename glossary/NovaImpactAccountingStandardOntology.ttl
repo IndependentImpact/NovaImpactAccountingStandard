@@ -459,6 +459,8 @@ nias-o:licenseNumber a owl:DatatypeProperty ;
 
 nias-o:licenseScope a owl:ObjectProperty ;
     rdfs:label "licenseScope"@en ;
+    # Domain includes both the issued license class and the application/review
+    # classes which are defined later in this file (ordering is irrelevant in OWL).
     rdfs:domain [ owl:unionOf ( nias-o:AgentLicense nias-o:LicenseApplication nias-o:LicenseApplicationReview ) ] ;
     rdfs:range skos:Concept ;
     skos:definition "The set of actions that the holder of the license is allowed to perform on the Nova Impact Accounting Standard platform. Also used on license applications and reviews to record the scope applied for."@en .
@@ -653,6 +655,11 @@ nias-o:reportedObservation a owl:ObjectProperty ;
 
 nias-o:requestedIssuanceAccountId a owl:DatatypeProperty ;
     rdfs:label "requestedIssuanceAccountId"@en ;
+    # Domain includes all document types that carry a Hedera shard.realm.num account
+    # reference: issuance request documents (PddCIR, MR, VICIR, DRVICIR) identify
+    # the account to receive the certificate or token; LicenseApplication and
+    # LicenseApplicationReview identify the account to receive the issued license;
+    # AgentDetails records the agent's own registered Hedera account.
     rdfs:domain [ owl:unionOf ( nias-o:AgentDetails nias-o:LicenseApplication nias-o:LicenseApplicationReview nias-o:PddCertificateIssuanceRequest nias-o:MonitoringReport nias-o:VerifiedImpactCertificateIssuanceRequest nias-o:VerifiedImpactCertificateIssuanceRequestReview ) ] ;
     rdfs:range xsd:string ;
     skos:definition "Legacy Hedera shard.realm.num account identifier to which a requested certificate or token issuance should be made, or the agent's registered Hedera account identifier in an agent details submission."@en .
