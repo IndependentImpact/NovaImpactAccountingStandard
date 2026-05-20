@@ -1,24 +1,24 @@
 source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,conditional_rule,current_rdf_predicate,current_rdf_value_kind,current_adapter,notes
-#AgentDetails&1.0.0,contact_number,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
+#AgentDetails&1.0.0,contact_number,no,string,0..1,always,schema:telephone,literal string,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as optional property on nias-o:AgentDetailsShape.
 #AgentDetails&1.0.0,country,yes,string,1,always,schema:nationality,literal string,sAgentDetails_1x0x0_toFluree .R,
 #AgentDetails&1.0.0,date_of_birth,yes,string,1,always,schema:birthDate,literal string,sAgentDetails_1x0x0_toFluree .R,
-#AgentDetails&1.0.0,email_address,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
-#AgentDetails&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Adapter ignores headers.
-#AgentDetails&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Hedera account identifier is not emitted by current adapter.
-#AgentDetails&1.0.0,initials,yes,string,1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Initials are not emitted by current adapter.
+#AgentDetails&1.0.0,email_address,yes,string,1,always,schema:email,literal string,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:AgentDetailsShape.
+#AgentDetails&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/document-shapes.ttl on the agent details data:Document node; adapter ignores headers.
+#AgentDetails&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:AgentDetailsShape. Hedera account identifier is not emitted by current adapter.
+#AgentDetails&1.0.0,initials,yes,string,1,always,nias-o:initials,literal string,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:AgentDetailsShape. Initials are not emitted by current adapter.
 #AgentDetails&1.0.0,name_first,no,string,0..1,always,schema:givenName,literal string,sAgentDetails_1x0x0_toFluree .R,
 #AgentDetails&1.0.0,name_last,yes,string,1,always,schema:familyName,literal string,sAgentDetails_1x0x0_toFluree .R,
-#AgentDetails&1.0.0,supporting_evidence_contact_no,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
-#AgentDetails&1.0.0,supporting_evidence_email,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
-#AgentDetails&1.0.0,supporting_evidence_pp1,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
-#AgentDetails&1.0.0,supporting_evidence_pp2,no,string,0..1,always,UNMAPPED,,sAgentDetails_1x0x0_toFluree .R,Not emitted by current adapter.
-#DR-LicenseApplication&1.0.0,commentary_r,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,id_msg_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#DR-LicenseApplication&1.0.0,url_ipfs_drad,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#AgentDetails&1.0.0,supporting_evidence_contact_no,no,string,0..1,always,nias-o:supportingEvidenceContactNumber,nias-o:ResourceArtifact node,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as optional property on nias-o:AgentDetailsShape. Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_email,no,string,0..1,always,nias-o:supportingEvidenceEmail,nias-o:ResourceArtifact node,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as optional property on nias-o:AgentDetailsShape. Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_pp1,no,string,0..1,always,nias-o:supportingEvidencePersonalParticulars,nias-o:ResourceArtifact node,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as optional property on nias-o:AgentDetailsShape (up to 2 values with pp2). Not emitted by current adapter.
+#AgentDetails&1.0.0,supporting_evidence_pp2,no,string,0..1,always,nias-o:supportingEvidencePersonalParticulars,nias-o:ResourceArtifact node,sAgentDetails_1x0x0_toFluree .R,Covered by dataRequirements/license-shapes.ttl as optional property on nias-o:AgentDetailsShape (same predicate as pp1; up to 2 values allowed). Not emitted by current adapter.
+#DR-LicenseApplication&1.0.0,commentary_r,yes,string,1,always,nias-o:reviewerCommentary,literal string,,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,nias-o:finalReviewDecision,SKOS concept IRI,,Covered by dataRequirements/license-shapes.ttl as nias-cs:review-approve or nias-cs:review-reject on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/license-shapes.ttl on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,id_msg_drad,yes,string,1,always,nias-o:agentDetailsReview/nias-o:documentMessageId,literal string,,Covered by dataRequirements/license-shapes.ttl via nias-o:DocumentReferenceShape on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,nias-o:licenseScope,SKOS concept IRI,,Covered by dataRequirements/license-shapes.ttl; PROJECT_DEVELOPER/PDD_VALIDATOR/MR_VERIFIER map to nias-cs:project-developer/pdd-validator/mr-verifier on nias-o:LicenseApplicationReviewShape.
+#DR-LicenseApplication&1.0.0,url_ipfs_drad,yes,string,1,always,nias-o:agentDetailsReview/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/license-shapes.ttl via nias-o:DocumentReferenceShape on nias-o:LicenseApplicationReviewShape.
 #DRVICIR&1.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,nias-o:finalReviewDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
 #DRVICIR&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/review-shapes.ttl.
 #DRVICIR&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/review-shapes.ttl.
@@ -44,12 +44,12 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #DocumentFieldReview&1.0.0,original_response,yes,string,1,always,nias-o:originalResponse,literal string,,Covered by dataRequirements/review-shapes.ttl.
 #DocumentFieldReview&1.0.0,reviewer_decision,yes,string enum[APPROVE|FORWARD_ACTION_REQUEST|CORRECTIVE_ACTION_REQUEST|REJECT],1,always,nias-o:reviewerDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
 #DocumentFieldReview&1.0.0,reviewer_feedback,yes,string,1,always,nias-o:reviewerFeedback,literal string,,Covered by dataRequirements/review-shapes.ttl.
-#DocumentHeaders&1.0.0,id_msg_lic,no,string,0..1,always,UNMAPPED,,,Submitter license Hedera message reference; represented only as legacy document header input.
-#DocumentHeaders&1.0.0,id_msg_pred,no,string,0..1,always,UNMAPPED,,,Predecessor Hedera message reference; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,id_msg_lic,no,string,0..1,always,nias-o:submitterLicense/nias-o:documentMessageId,literal string,,Covered by dataRequirements/document-shapes.ttl as optional nias-o:submitterLicense on nias-o:WorkflowDocumentSubmissionShape; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,id_msg_pred,no,string,0..1,always,nias-o:predecessorDocument/nias-o:documentMessageId,literal string,,Covered by dataRequirements/document-shapes.ttl as optional nias-o:predecessorDocument on nias-o:WorkflowDocumentSubmissionShape; represented only as legacy document header input.
 #DocumentHeaders&1.0.0,id_subject,no,string,0..1,always,@id / nias-o:workflowSubject,IRI seed,sPDDxA_1x0x0_toFluree.R; workflowDocumentMetadata_toFluree.R,Used to mint nias-o:activities/{id_subject} or workflow subject IRIs depending on adapter context.
-#DocumentHeaders&1.0.0,type_subject,no,string enum[PROJECT|AGENT],0..1,always,UNMAPPED,,,Legacy subject discriminator PROJECT/AGENT; not emitted by current R adapters.
-#DocumentHeaders&1.0.0,url_ipfs_lic,no,string,0..1,always,UNMAPPED,,,Submitter license IPFS reference; represented only as legacy document header input.
-#DocumentHeaders&1.0.0,url_ipfs_pred,no,string,0..1,always,UNMAPPED,,,Predecessor IPFS reference; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,type_subject,no,string enum[PROJECT|AGENT],0..1,always,nias-o:workflowSubjectType,SKOS concept IRI,,Covered by dataRequirements/document-shapes.ttl as optional nias-o:workflowSubjectType on nias-o:WorkflowDocumentSubmissionShape; PROJECT maps to nias-cs:project-subject and AGENT maps to nias-cs:agent-subject. Legacy discriminator not emitted by current R adapters.
+#DocumentHeaders&1.0.0,url_ipfs_lic,no,string,0..1,always,nias-o:submitterLicense/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/document-shapes.ttl as optional nias-o:submitterLicense on nias-o:WorkflowDocumentSubmissionShape; represented only as legacy document header input.
+#DocumentHeaders&1.0.0,url_ipfs_pred,no,string,0..1,always,nias-o:predecessorDocument/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/document-shapes.ttl as optional nias-o:predecessorDocument on nias-o:WorkflowDocumentSubmissionShape; represented only as legacy document header input.
 #GenericDocumentReview&5.0.0,final_rd,yes,string enum[APPROVE|REJECT],1,always,nias-o:finalReviewDecision,SKOS concept IRI,,Covered by dataRequirements/review-shapes.ttl.
 #GenericDocumentReview&5.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/review-shapes.ttl.
 #GenericDocumentReview&5.0.0,review,yes,array<ref:#DocumentFieldReview&1.0.0>,1..*,always,nias-o:fieldReview,array of nias-o:DocumentFieldReview nodes,,Covered by dataRequirements/review-shapes.ttl.
@@ -74,17 +74,17 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #ImpactSummary&1.0.0,extent_impact,yes,number,1,always,ind:obsValue,numeric literal,,Covered by dataRequirements/certificate-shapes.ttl.
 #ImpactSummary&1.0.0,period_impact,yes,ref:#DateTimePeriod&1.0.0,1,always,ind:timePeriod,time:Interval node,,Covered by dataRequirements/certificate-shapes.ttl.
 #ImpactSummary&1.0.0,unit_impact,yes,string,1,always,ind:hasUnit,QUDT unit IRI,,Covered by dataRequirements/certificate-shapes.ttl.
-#IndependentImpactAgentLicense&1.0.0,did_licensee,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#IndependentImpactAgentLicense&1.0.0,email_address,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#IndependentImpactAgentLicense&1.0.0,did_licensee,yes,string,1,always,nias-o:licenseeDid,literal string,,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:AgentLicenseShape.
+#IndependentImpactAgentLicense&1.0.0,email_address,yes,string,1,always,schema:email,literal string,,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:AgentLicenseShape.
 #IndependentImpactAgentLicense&1.0.0,license_number,yes,string,1,always,nias-o:licenseNumber,literal string,,Target mapping described in migration path; no current R adapter.
 #IndependentImpactAgentLicense&1.0.0,scope,yes,array<string>,1..*,always,nias-o:licenseScope,SKOS concept IRI array,,Target mapping described in migration path; no current R adapter.
-#LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#LicenseApplication&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/license-shapes.ttl on nias-o:LicenseApplicationShape.
+#LicenseApplication&1.0.0,id_acc_h,yes,string,1,always,nias-o:requestedIssuanceAccountId,literal string,,Covered by dataRequirements/license-shapes.ttl as required property on nias-o:LicenseApplicationShape.
+#LicenseApplication&1.0.0,license,yes,string enum[PROJECT_DEVELOPER|PDD_VALIDATOR|MR_VERIFIER],1,always,nias-o:licenseScope,SKOS concept IRI,,Covered by dataRequirements/license-shapes.ttl; PROJECT_DEVELOPER/PDD_VALIDATOR/MR_VERIFIER map to nias-cs:project-developer/pdd-validator/mr-verifier on nias-o:LicenseApplicationShape.
 #Methodology&1.0.0,label,yes,string,1,always,rdfs:label,literal string,sMethodology_1x0x0_toFluree.R,
 #Methodology&1.0.0,title,yes,string,1,always,dcterms:title,literal string,sMethodology_1x0x0_toFluree.R,
 #Methodology&1.0.0,version,yes,string,1,always,data:versionTag,literal string,sMethodology_1x0x0_toFluree.R,
-#MethodologyApplicability&3.0.0,applicability,yes,string,1,always,UNMAPPED,,sImpact_3x0x0_toFluree.R,Applicability rationale is not emitted by current adapter.
+#MethodologyApplicability&3.0.0,applicability,yes,string,1,always,nias-o:applicabilityRationale,literal string,sImpact_3x0x0_toFluree.R,Covered by dataRequirements/impact-declaration-shapes.ttl as required property on nias-o:MethodologyApplicabilityShape. Applicability rationale is not emitted by current adapter.
 #MethodologyApplicability&3.0.0,methodology,yes,ref:Methodology&1.0.0,1,always,nias-o:indicatorMethodology,embedded methodology node,sImpact_3x0x0_toFluree.R,Nested methodology.title/label/version emitted through sMethodology_1x0x0_toFluree.R.
 #MonitoringReport&6.0.0,datasets,yes,array<ref:#Dataset&1.0.0>,1..*,always,nias-o:usesDataset,array of nias-o:Dataset nodes,,Covered by dataRequirements/monitoring-report-shapes.ttl.
 #MonitoringReport&6.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/monitoring-report-shapes.ttl.
@@ -131,9 +131,9 @@ source_artifact,legacy_field_path,legacy_required,expected_datatype,cardinality,
 #ProjectParty&1.0.0,is_participant,yes,string enum[YES|NO],1,always,nias-o:isParticipantParty,xsd:boolean literal,,Covered by dataRequirements/project-design-shapes.ttl.
 #ProjectParty&1.0.0,name,yes,string,1,always,nias-o:partyName,literal string,,Covered by dataRequirements/project-design-shapes.ttl.
 #ProjectParty&1.0.0,public_private,yes,string enum[PUBLIC|PRIVATE],1,always,nias-o:publicPrivateClassification,SKOS concept IRI in nias-cs:PublicPrivateClassification,,Covered by dataRequirements/project-design-shapes.ttl.
-#ProjectRegistrationRequest&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectRegistrationRequest&1.0.0,id_msg_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
-#ProjectRegistrationRequest&1.0.0,url_ipfs_pred_drcir,yes,string,1,always,UNMAPPED,,,No current R adapter output identified in Phase 0 inventory.
+#ProjectRegistrationRequest&1.0.0,headers,yes,ref:#DocumentHeaders&1.0.0,1,always,nias-o:hasWorkflowSubmission,nias-o:WorkflowDocumentSubmission node,,Covered by dataRequirements/license-shapes.ttl on nias-o:ProjectRegistrationRequestShape.
+#ProjectRegistrationRequest&1.0.0,id_msg_pred_drcir,yes,string,1,always,nias-o:approvedPddCertificateIssuanceRequest/nias-o:documentMessageId,literal string,,Covered by dataRequirements/license-shapes.ttl via nias-o:DocumentReferenceShape on nias-o:ProjectRegistrationRequestShape.
+#ProjectRegistrationRequest&1.0.0,url_ipfs_pred_drcir,yes,string,1,always,nias-o:approvedPddCertificateIssuanceRequest/nias-o:resourceIpfsUri,IPFS URI literal,,Covered by dataRequirements/license-shapes.ttl via nias-o:DocumentReferenceShape on nias-o:ProjectRegistrationRequestShape.
 #TableRow-DataParameterMonitoring&1.0.0,data_source,no,string,0..1,if monitored_or_fixed == FIXED_EXANTE,nias-o:dataSource,literal string,,Covered by dataRequirements/common-shapes.ttl for fixed ex-ante data parameter requirements.
 #TableRow-DataParameterMonitoring&1.0.0,description,yes,string,1,always,schema:description,literal string,,Covered by dataRequirements/common-shapes.ttl.
 #TableRow-DataParameterMonitoring&1.0.0,label,yes,string,1,always,rdfs:label,literal string,,Covered by dataRequirements/common-shapes.ttl.

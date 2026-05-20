@@ -1,0 +1,53 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Project registration request – typed as data:Document and nias-o:ProjectRegistrationRequest.
+
+<https://nova.org.za/novaimpactaccountingstandard/project-registration-requests/prr-001>
+    a data:Document, nias-o:ProjectRegistrationRequest ;
+    nias-o:approvedPddCertificateIssuanceRequest [
+        a nias-o:DocumentReference ;
+        nias-o:documentMessageId "0.0.9000@99999" ;
+        nias-o:resourceIpfsUri "ipfs://QmDrCirApprovedHash001"^^xsd:anyURI
+    ] ;
+    nias-o:resourceIpfsUri "ipfs://QmProjectRegistrationRequestHash001"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/ProjectRegistrationRequest-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/agents/developer-001> ;
+    nias-o:authProof nias-cs:none ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/prr-sub-001> .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/prr-sub-001>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/project-registration-requests/prr-001> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/project-registration-workflow> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Submit project registration request"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/activities/project-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/agents/developer-001> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/platform/nova> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.8000"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-03-01T08:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/agents/developer-001>
+    a aiao:Agent, nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/platform/nova>
+    a infocomm:CommunicationParty .
+
+<https://nova.org.za/novaimpactaccountingstandard/workflows/project-registration-workflow>
+    a nias-o:Workflow .

@@ -177,3 +177,21 @@ nias-o:UnmonitoredImpactShape a sh:NodeShape ;
         sh:maxCount 1 ;
         sh:message "An unmonitored impact must include a justification for not monitoring it."@en
     ] .
+
+nias-o:MethodologyApplicabilityShape a sh:NodeShape ;
+    sh:targetClass nias-o:MethodologyApplicability ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:class meth:Methodology ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A methodology applicability node must reference exactly one methodology."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:applicabilityRationale ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A methodology applicability node must include a rationale explaining why the methodology is applicable."@en
+    ] .

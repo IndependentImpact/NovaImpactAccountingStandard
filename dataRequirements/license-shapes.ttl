@@ -1,0 +1,247 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:LicenseShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - License SHACL Shapes"@en ;
+    dcterms:description "Agent details, license application, license application review, issued agent license, and project registration request shapes."@en ;
+    owl:imports nias-o:DocumentReferenceShapes,
+        nias-o:DocumentShapes .
+
+# ── Agent Details ────────────────────────────────────────────────────────────
+
+nias-o:AgentDetailsShape a sh:NodeShape ;
+    sh:targetClass nias-o:AgentDetails ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's Hedera account ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:initials ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's initials."@en
+    ] ;
+    sh:property [
+        sh:path schema:familyName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's last name."@en
+    ] ;
+    sh:property [
+        sh:path schema:birthDate ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's date of birth."@en
+    ] ;
+    sh:property [
+        sh:path schema:nationality ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's country of residence."@en
+    ] ;
+    sh:property [
+        sh:path schema:email ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An agent details submission must include the agent's email address."@en
+    ] ;
+    sh:property [
+        sh:path schema:givenName ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path schema:telephone ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:supportingEvidencePersonalParticulars ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:maxCount 2
+    ] ;
+    sh:property [
+        sh:path nias-o:supportingEvidenceEmail ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path nias-o:supportingEvidenceContactNumber ;
+        sh:class nias-o:ResourceArtifact ;
+        sh:node nias-o:ResourceArtifactShape ;
+        sh:maxCount 1
+    ] .
+
+# ── License Application ──────────────────────────────────────────────────────
+
+nias-o:LicenseScopePropertyShape a sh:PropertyShape ;
+    sh:path nias-o:licenseScope ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( nias-cs:project-developer nias-cs:pdd-validator nias-cs:mr-verifier ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "A license application or review must specify exactly one license scope: project-developer, pdd-validator, or mr-verifier."@en .
+
+nias-o:LicenseApplicationShape a sh:NodeShape ;
+    sh:targetClass nias-o:LicenseApplication ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application must include its workflow submission headers."@en
+    ] ;
+    sh:property nias-o:LicenseScopePropertyShape ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application must include the applicant's Hedera account ID."@en
+    ] .
+
+# ── License Application Review (DR-LicenseApplication) ──────────────────────
+
+nias-o:LicenseApplicationReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:LicenseApplicationReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application review must include its workflow submission headers."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application review must record an approve or reject decision."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewerCommentary ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application review must include reviewer commentary."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:agentDetailsReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application review must reference the approved agent details review."@en
+    ] ;
+    sh:property nias-o:LicenseScopePropertyShape ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A license application review must include the Hedera account ID to issue the license to if approved."@en
+    ] .
+
+# ── Issued Agent License (IndependentImpactAgentLicense) ─────────────────────
+
+nias-o:AgentLicenseShape a sh:NodeShape ;
+    sh:targetClass nias-o:AgentLicense ;
+    sh:property [
+        sh:path nias-o:licenseeDid ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An issued agent license must include the DID of the licensee."@en
+    ] ;
+    sh:property [
+        sh:path schema:email ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An issued agent license must include the email address of the licensee."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:licenseScope ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( nias-cs:project-developer nias-cs:pdd-validator nias-cs:mr-verifier ) ;
+        sh:minCount 1 ;
+        sh:message "An issued agent license must declare at least one license scope."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:licenseNumber ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An issued agent license must include a license number."@en
+    ] .
+
+# ── Project Registration Request ─────────────────────────────────────────────
+
+nias-o:ProjectRegistrationRequestShape a sh:NodeShape ;
+    sh:targetClass nias-o:ProjectRegistrationRequest ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:class nias-o:WorkflowDocumentSubmission ;
+        sh:node nias-o:WorkflowDocumentSubmissionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project registration request must include its workflow submission headers."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:approvedPddCertificateIssuanceRequest ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A project registration request must reference the approved PDD certificate issuance request review."@en
+    ] .
+
+# ── Document Schema Registrations ────────────────────────────────────────────
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/AgentDetails-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Agent Details 1.0.0"@en ;
+    nias-o:validatingShape nias-o:AgentDetailsShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/LicenseApplication-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "License Application 1.0.0"@en ;
+    nias-o:validatingShape nias-o:LicenseApplicationShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/DR-LicenseApplication-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Document Review: License Application 1.0.0"@en ;
+    nias-o:validatingShape nias-o:LicenseApplicationReviewShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/IndependentImpactAgentLicense-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Independent Impact Agent License 1.0.0"@en ;
+    nias-o:validatingShape nias-o:AgentLicenseShape .
+
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/ProjectRegistrationRequest-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Registration Request 1.0.0"@en ;
+    nias-o:validatingShape nias-o:ProjectRegistrationRequestShape .
