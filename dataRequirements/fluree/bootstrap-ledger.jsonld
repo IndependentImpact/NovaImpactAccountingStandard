@@ -1,0 +1,107 @@
+{
+  "@context": "context.jsonld",
+  "@id": "nias:deployment/fluree/bootstrap/pdd-workflow-phase6",
+  "@type": "schema:ItemList",
+  "schema:name": "NIAS Fluree ledger bootstrap manifest",
+  "dcterms:description": "Deterministic source-artifact manifest for bootstrapping a Fluree ledger with the NIAS ontology, concept schemes, document schema resources, SHACL shapes, and PDD workflow deployment contracts.",
+  "dcterms:references": [
+    {
+      "@id": "https://developers.flur.ee/docs/learn/foundations/json-ld/"
+    },
+    {
+      "@id": "https://next.developers.flur.ee/docs/reference/http-api/transactions/"
+    },
+    {
+      "@id": "https://next.developers.flur.ee/docs/reference/shacl-validation/"
+    },
+    {
+      "@id": "https://developers.flur.ee/docs/reference/policy-syntax/"
+    }
+  ],
+  "schema:itemListElement": [
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 1,
+      "schema:name": "Context aliases",
+      "schema:url": "dataRequirements/fluree/context.jsonld",
+      "schema:encodingFormat": "application/ld+json"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 2,
+      "schema:name": "NIAS ontology",
+      "schema:url": "glossary/NovaImpactAccountingStandardOntology.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 3,
+      "schema:name": "NIAS glossary and concept schemes",
+      "schema:url": "glossary/NovaImpactAccountingStandardGlossary.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 4,
+      "schema:name": "GHG indicators",
+      "schema:url": "indicators/GHGIndicators.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 5,
+      "schema:name": "GHG knowledge domains",
+      "schema:url": "knowledgeDomains/GHGKnowledgeDomains.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 6,
+      "schema:name": "GHG methodologies",
+      "schema:url": "methodologies/GHGMethodologies.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 7,
+      "schema:name": "Document schema resources and release metadata",
+      "schema:url": "dataRequirements/releases/1.0.0/nias-shapes-1.0.0.ttl",
+      "schema:encodingFormat": "text/turtle"
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 8,
+      "schema:name": "Shared and document SHACL shapes",
+      "schema:itemListElement": [
+        "dataRequirements/common-shapes.ttl",
+        "dataRequirements/document-reference-shapes.ttl",
+        "dataRequirements/document-shapes.ttl",
+        "dataRequirements/report-shapes.ttl"
+      ]
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 9,
+      "schema:name": "PDD workflow SHACL shapes",
+      "schema:itemListElement": [
+        "dataRequirements/project-design-shapes.ttl",
+        "dataRequirements/impact-declaration-shapes.ttl",
+        "dataRequirements/stakeholder-engagement-shapes.ttl",
+        "dataRequirements/review-shapes.ttl",
+        "dataRequirements/pdd-certificate-shapes.ttl"
+      ]
+    },
+    {
+      "@type": "schema:ListItem",
+      "schema:position": 10,
+      "schema:name": "Remaining workflow SHACL shapes",
+      "schema:itemListElement": [
+        "dataRequirements/project-listing-shapes.ttl",
+        "dataRequirements/license-shapes.ttl",
+        "dataRequirements/monitoring-report-shapes.ttl",
+        "dataRequirements/certificate-shapes.ttl",
+        "dataRequirements/data-lineage-shapes.ttl"
+      ]
+    }
+  ]
+}

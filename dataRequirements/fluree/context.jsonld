@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "aiao": "http://w3id.org/aiao#",
+    "claimont": "http://w3id.org/claimont#",
+    "data": "https://jellyfiiish.xyz/ns/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "f": "https://ns.flur.ee/ledger#",
+    "hedera": "https://hashgraphontology.xyz/core/",
+    "impactont": "http://w3id.org/impactont#",
+    "ind": "http://independentimpact.org/indicator-owl/",
+    "infocomm": "http://w3id.org/infocomm#",
+    "meth": "http://independentimpact.org/methodology/",
+    "nias": "https://nova.org.za/novaimpactaccountingstandard/",
+    "nias-cs": "https://nova.org.za/novaimpactaccountingstandard/",
+    "nias-ind": "https://nova.org.za/novaimpactaccountingstandard/indicators/",
+    "nias-o": "https://nova.org.za/novaimpactaccountingstandard/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "time": "http://www.w3.org/2006/time#",
+    "unit": "http://qudt.org/vocab/unit/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  }
+}

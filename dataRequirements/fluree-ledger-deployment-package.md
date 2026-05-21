@@ -1,6 +1,10 @@
 # Fluree Ledger Deployment Package
 
-Status: deferred until the canonical SHACL work is complete.
+Status: Phase 6 package created on 2026-05-21.
+
+The implementation files live in `dataRequirements/fluree/`. This document
+remains the higher-level specification and extraction path for a future
+`web32fluree` tool.
 
 This document specifies the future Fluree deployment layer for the Nova Impact
 Accounting Standard. It should be implemented only after the ontology, concept
@@ -361,4 +365,3 @@ The package is complete when:
 - it provides workflow transaction templates;
 - it provides artifact lookup queries for UI dropdowns and workflow gates;
 - it avoids becoming a second source of truth.
-

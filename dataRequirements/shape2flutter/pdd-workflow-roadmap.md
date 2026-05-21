@@ -304,31 +304,33 @@ Exit criteria:
 
 ### Phase 6: Define The Fluree Deployment Projection
 
+Status: completed on 2026-05-21.
+
 Do this only after the canonical and UI-facing SHACL work is complete enough to
 generate and validate the PDD forms.
 
 Tasks:
 
-- Create `dataRequirements/fluree/README.md` and define the Fluree layer as a
+- Created `dataRequirements/fluree/README.md` and defined the Fluree layer as a
   deployment and operational projection of the semantic standard.
-- Create a NIAS JSON-LD context for Fluree transactions.
-- Define a bootstrap transaction package that loads:
+- Created a NIAS JSON-LD context for Fluree transactions.
+- Defined a bootstrap manifest and deterministic order that loads:
   - the NIAS ontology.
   - NIAS concept schemes.
   - indicator concept schemes.
   - knowledge-domain and methodology concept schemes.
   - document schema resources.
   - canonical SHACL shapes.
-- Create a SHACL compatibility matrix that classifies each canonical shape as:
+- Created a SHACL compatibility matrix that classifies canonical constraints as:
   - directly enforceable in Fluree.
   - enforceable after minor rewrite.
   - enforced by the application or service layer.
   - advisory or documentation only.
-- Define PDD workflow transaction templates for PDD-A, PDD-B, PDD-C,
+- Defined PDD workflow transaction templates for PDD-A, PDD-B, PDD-C,
   validation reviews, and PDD-CIR.
-- Define access-policy requirements for project developers, PDD validators,
+- Defined access-policy requirements for project developers, PDD validators,
   document authorship, review submission, and downstream workflow gates.
-- Translate the `pdd-workflow-gate.md` approval contract into Fluree artifact
+- Translated the `pdd-workflow-gate.md` approval contract into Fluree artifact
   lookup queries or transaction policy requirements.
 
 Exit criteria:
