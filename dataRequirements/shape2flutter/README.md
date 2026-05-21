@@ -159,6 +159,25 @@ Use a different port if `8080` is already occupied:
   --no-browser
 ```
 
+## PDD Workflow Shell
+
+The Phase 7 workflow shell lives in `pdd_workflow_shell/`. It hosts the
+generated forms behind workflow routing, role gates, in-memory state, and the
+PDD-CIR approval gate.
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/prepare_pdd_workflow_shell.sh
+flutter run -d chrome
+```
+
+Run the shell checks with:
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/check_pdd_workflow_shell.sh
+```
+
 ## Covered Screens
 
 Validation and verification:
