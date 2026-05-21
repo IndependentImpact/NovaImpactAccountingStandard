@@ -1185,13 +1185,22 @@ nias-ui:PddSectionAValidationReviewUiShape a sh:NodeShape ;
         ui:order 1 ;
     ] ;
     sh:property [
+        sh:path nias-o:isReviewOf ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed PDD-A document" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
         sh:path nias-o:fieldReview ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
         ui:label "PDD-A field reviews" ;
         ui:widget ui:subform ;
-        ui:order 2 ;
+        ui:order 3 ;
     ] ;
     sh:property [
         sh:path nias-o:finalReviewDecision ;
@@ -1200,7 +1209,7 @@ nias-ui:PddSectionAValidationReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Final PDD-A review decision" ;
         ui:widget ui:radio ;
-        ui:order 3 ;
+        ui:order 4 ;
     ] .
 
 nias-ui:PddSectionBValidationReviewUiShape a sh:NodeShape ;
@@ -1215,13 +1224,22 @@ nias-ui:PddSectionBValidationReviewUiShape a sh:NodeShape ;
         ui:order 1 ;
     ] ;
     sh:property [
+        sh:path nias-o:isReviewOf ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed PDD-B document" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
         sh:path nias-o:fieldReview ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
         ui:label "PDD-B field reviews" ;
         ui:widget ui:subform ;
-        ui:order 2 ;
+        ui:order 3 ;
     ] ;
     sh:property [
         sh:path nias-o:finalReviewDecision ;
@@ -1230,7 +1248,7 @@ nias-ui:PddSectionBValidationReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Final PDD-B review decision" ;
         ui:widget ui:radio ;
-        ui:order 3 ;
+        ui:order 4 ;
     ] .
 
 nias-ui:PddSectionCValidationReviewUiShape a sh:NodeShape ;
@@ -1245,13 +1263,22 @@ nias-ui:PddSectionCValidationReviewUiShape a sh:NodeShape ;
         ui:order 1 ;
     ] ;
     sh:property [
+        sh:path nias-o:isReviewOf ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed PDD-C document" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
         sh:path nias-o:fieldReview ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
         ui:label "PDD-C field reviews" ;
         ui:widget ui:subform ;
-        ui:order 2 ;
+        ui:order 3 ;
     ] ;
     sh:property [
         sh:path nias-o:finalReviewDecision ;
@@ -1260,5 +1287,5 @@ nias-ui:PddSectionCValidationReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Final PDD-C review decision" ;
         ui:widget ui:radio ;
-        ui:order 3 ;
+        ui:order 4 ;
     ] .

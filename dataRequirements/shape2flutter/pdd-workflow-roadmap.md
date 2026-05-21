@@ -119,6 +119,7 @@ Add these files during implementation:
 
 - `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`
 - `dataRequirements/shape2flutter/build-pdd-workflow.sh`
+- `dataRequirements/shape2flutter/pdd-workflow-gate.md`
 - `dataRequirements/fixtures/shape2flutter/pdd-section-a-valid.ttl`
 - `dataRequirements/fixtures/shape2flutter/pdd-section-b-valid.ttl`
 - `dataRequirements/fixtures/shape2flutter/pdd-section-c-valid.ttl`
@@ -261,12 +262,14 @@ Exit criteria:
 
 ### Phase 4: Add PDD Build And Preview Script
 
+Status: completed on 2026-05-20.
+
 Tasks:
 
-- Add `build-pdd-workflow.sh`.
-- Use `SHAPE2FLUTTER_BIN` and `OUT_ROOT` environment overrides.
-- Write generated output to `/tmp/nias-shape2flutter/pdd-workflow` by default.
-- Document preview commands in `README.md`.
+- Added `build-pdd-workflow.sh`.
+- Used `SHAPE2FLUTTER_BIN` and `OUT_ROOT` environment overrides.
+- Wrote generated output to `/tmp/nias-shape2flutter/pdd-workflow` by default.
+- Documented preview commands in `README.md`.
 
 Exit criteria:
 
@@ -276,16 +279,21 @@ Exit criteria:
 
 ### Phase 5: Add PDD Validation Review Forms
 
-Status: UI aliases created in Phase 3; workflow gate behavior remains for the
-Flutter workflow shell.
+Status: completed on 2026-05-20.
 
 Tasks:
 
 - Created PDD-specific UI aliases around `GenericDocumentReview`.
+- Added `nias-o:isReviewOf` to the PDD-specific review adapter shapes so each
+  review payload identifies the submitted PDD document it reviewed.
 - Used repeatable `DocumentFieldReview` subforms.
 - Added labels that identify the reviewed section.
 - Ensured final review decisions are compatible with the canonical SKOS concept
   values.
+- Documented the cross-document approval gate in
+  `pdd-workflow-gate.md`.
+- Added a gate fixture and unit tests proving that rejected, unresolved, or
+  wrong-section reviews cannot unlock PDD-CIR.
 
 Exit criteria:
 
@@ -320,6 +328,8 @@ Tasks:
   validation reviews, and PDD-CIR.
 - Define access-policy requirements for project developers, PDD validators,
   document authorship, review submission, and downstream workflow gates.
+- Translate the `pdd-workflow-gate.md` approval contract into Fluree artifact
+  lookup queries or transaction policy requirements.
 
 Exit criteria:
 
@@ -338,6 +348,7 @@ Tasks:
 - Persist generated RDF or JSON-LD payloads between steps.
 - Capture document message IDs and resource/IPFS URIs after submission.
 - Carry approved validation review references into PDD-CIR.
+- Implement the PDD-CIR approval gate from `pdd-workflow-gate.md`.
 - Separate project developer and PDD validator roles.
 - Block downstream steps until prerequisites are complete.
 

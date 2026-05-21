@@ -76,6 +76,9 @@ class PddWorkflowShapeTests(unittest.TestCase):
     def test_pdd_cir_valid(self):
         self._assert_fixture("pdd-cir-valid.ttl", expected=True)
 
+    def test_pdd_cir_gate_approved_valid(self):
+        self._assert_fixture("pdd-cir-gate-approved.ttl", expected=True)
+
     def test_pdd_section_a_missing_party_invalid(self):
         self._assert_fixture("pdd-section-a-invalid-missing-party.ttl", expected=False)
 
