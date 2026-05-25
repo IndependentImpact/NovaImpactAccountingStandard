@@ -500,6 +500,6 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Begin Phase 3 by implementing a command that projects the Phase 2 rendering
-profile into a blank Markdown PDD template with deterministic headings,
-placeholders, and a golden fixture.
+Begin Phase 4 by implementing filled-data Markdown rendering from fixture
+JSON-LD using canonical predicate resolution, deterministic output, and a
+golden rendered document test.
