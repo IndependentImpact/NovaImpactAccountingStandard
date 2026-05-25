@@ -178,6 +178,24 @@ cd dataRequirements/shape2flutter/pdd_workflow_shell
 tool/check_pdd_workflow_shell.sh
 ```
 
+## PDD Workflow Regression
+
+Run the complete local PDD workflow regression suite from the repository root:
+
+```bash
+dataRequirements/shape2flutter/check-pdd-workflow.sh
+```
+
+This validates Turtle artifacts, runs the SHACL and workflow gate tests, builds
+the PDD shape2flutter forms, compiles the no-server preview, and checks the
+workflow shell. To skip the Flutter workflow shell check when Flutter is not
+available:
+
+```bash
+RUN_WORKFLOW_SHELL_CHECK=false \
+dataRequirements/shape2flutter/check-pdd-workflow.sh
+```
+
 ## Covered Screens
 
 Validation and verification:

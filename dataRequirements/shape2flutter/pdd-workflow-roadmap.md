@@ -367,16 +367,22 @@ Exit criteria:
 
 ### Phase 8: Add Regression Checks
 
+Status: completed on 2026-05-25.
+
 Tasks:
 
-- Add repeatable commands for:
+- Added `check-pdd-workflow.sh` as the repeatable local regression command for:
   - Turtle syntax validation.
   - SHACL fixture validation.
   - `shape2flutter lint`.
   - `shape2flutter emit-jsonld`.
   - `shape2flutter build`.
   - `shape2flutter preview --serve=false --no-browser`.
-- Consider adding these checks to CI once the local workflow is stable.
+  - PDD workflow shell tests, analyzer, and web build.
+- Documented the local regression command in `README.md`.
+- Left Fluree/IPFS/Hedera persistence as platform integration outside this
+  local shape2flutter workflow completion.
+- CI integration remains a future repository automation task.
 
 Exit criteria:
 
