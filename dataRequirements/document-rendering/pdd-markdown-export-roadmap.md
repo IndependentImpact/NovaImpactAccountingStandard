@@ -358,14 +358,21 @@ End-of-phase criteria:
 
 ### Phase 3: Generate A Blank Markdown Template
 
+Status: completed on 2026-05-25.
+
 Tasks:
 
-- Implement a command that projects `SHACL + rendering profile` into a blank PDD
+- Added `dataRequirements/document-rendering/tool/render_pdd_markdown.py` as a
+  local command that projects `SHACL + rendering profile` into a blank PDD
   Markdown template.
-- Use SHACL/UI labels and rendering-profile overrides to produce headings and
-  placeholders.
-- Render required/optional status visibly in template mode.
-- Add a fixture for the expected blank PDD template.
+- Added deterministic placeholder rendering using SHACL/UI labels and
+  rendering-profile heading overrides from `{{ render: ... }}` directives.
+- Added visible required/optional markers in template mode based on
+  `sh:minCount`.
+- Added `dataRequirements/document-rendering/fixtures/pdd-blank-template.md` as
+  the golden blank template fixture.
+- Added `dataRequirements/tests/test_pdd_blank_template.py` to validate command
+  output and protect against template drift.
 
 End-of-phase criteria:
 
