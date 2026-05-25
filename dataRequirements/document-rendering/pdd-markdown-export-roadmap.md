@@ -19,12 +19,18 @@ profile, and filled-in PDD data.
 
 Related implementation inputs are currently:
 
-- `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`
-- `dataRequirements/pdd-shapes.ttl`
 - `dataRequirements/report-shapes.ttl`
+- `dataRequirements/project-design-shapes.ttl`
+- `dataRequirements/impact-declaration-shapes.ttl`
 - `dataRequirements/stakeholder-engagement-shapes.ttl`
+- `dataRequirements/pdd-certificate-shapes.ttl`
+- `dataRequirements/review-shapes.ttl`
+- `dataRequirements/document-shapes.ttl`
+- `dataRequirements/common-shapes.ttl`
+- `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`
 - `dataRequirements/fixtures/pdd-workflow/*.ttl`
 - `dataRequirements/shape2flutter/pdd_workflow_shell/`
+- `dataRequirements/document-rendering/pdd-markdown-export-phase1-assessment.md`
 
 ## Conceptual Model
 
@@ -297,22 +303,30 @@ run locally and easy to add to regression checks.
 
 ### Phase 1: Confirm Document Rendering Boundary
 
+Status: completed on 2026-05-25.
+
 Tasks:
 
-- Confirm that Markdown/PDF/website export is a document-rendering projection,
+- Confirmed that Markdown/PDF/website export is a document-rendering projection,
   not a SHACL extension and not a Flutter-only feature.
-- Confirm that `dataRequirements/document-rendering/` is the correct home.
-- Identify the PDD source shapes that define PDD-A, PDD-B, PDD-C, reviews, and
+- Confirmed that `dataRequirements/document-rendering/` is the correct home.
+- Identified the PDD source shapes that define PDD-A, PDD-B, PDD-C, reviews, and
   PDD-CIR references.
-- Record any fields that are required for human document rendering but are not
+- Recorded fields that are required for human document rendering but are not
   yet explicit in the semantic model.
+- Added the Phase 1 assessment in
+  `dataRequirements/document-rendering/pdd-markdown-export-phase1-assessment.md`.
 
 End-of-phase criteria:
 
 - A reviewed design document exists in `dataRequirements/document-rendering/`.
 - The three-layer model is documented.
 - No new data requirements have been introduced in the rendering layer.
-- Open questions are listed explicitly, if any.
+- Open questions are listed explicitly.
+- The assessment confirms there is no standalone `dataRequirements/pdd-shapes.ttl`;
+  PDD rendering source shapes are split across report, project design, impact
+  declaration, stakeholder engagement, review, certificate, document, and common
+  shape files.
 
 ### Phase 2: Define The PDD Rendering Profile
 
