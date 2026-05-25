@@ -1,0 +1,479 @@
+# PDD Markdown Export Design And Roadmap
+
+## Purpose
+
+This document specifies how NIAS PDD workflow data should be projected into a
+single human-readable Project Design Document (PDD) in Markdown, with later
+compilation to PDF or a website.
+
+The export is a document-rendering projection of the semantic standard. It does
+not create a second data model and does not add independent data requirements.
+The canonical data requirements remain the SHACL shapes in `dataRequirements/`.
+
+## Location
+
+This document lives in `dataRequirements/document-rendering/` because PDD
+Markdown/PDF/website generation is not specific to `shape2flutter`, Fluree,
+IPFS, Hedera, or any single UI. It consumes the semantic standard, a rendering
+profile, and filled-in PDD data.
+
+Related implementation inputs are currently:
+
+- `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`
+- `dataRequirements/pdd-shapes.ttl`
+- `dataRequirements/report-shapes.ttl`
+- `dataRequirements/stakeholder-engagement-shapes.ttl`
+- `dataRequirements/fixtures/pdd-workflow/*.ttl`
+- `dataRequirements/shape2flutter/pdd_workflow_shell/`
+
+## Conceptual Model
+
+The PDD export has three layers:
+
+1. SHACL
+   - Defines the canonical data contract.
+   - Specifies field paths, cardinality, datatypes, nested structures, and
+     controlled value sets.
+   - Remains the authority for whether a PDD payload is complete and valid.
+
+2. Rendering Profile
+   - Defines how canonical content is presented as a document.
+   - Specifies document title, heading order, heading levels, labels, table/list
+     formatting, standard boilerplate, draft/final behavior, and version
+     metadata.
+   - Must not define new required fields or conflict with SHACL.
+
+3. Filled-In Data
+   - Contains the project-specific RDF/JSON-LD payload produced by the PDD
+     workflow.
+   - Is rendered through the profile into Markdown after validation or in an
+     explicitly marked draft mode.
+
+The projection rules are:
+
+- `SHACL + rendering profile` produces a blank Markdown PDD template.
+- `SHACL + rendering profile + filled-in data` produces a complete Markdown PDD.
+- Markdown can then be compiled to PDF, HTML, or a static website.
+
+## Design Principles
+
+- Canonical predicates and SHACL shapes remain the source of truth.
+- The rendering profile is presentation metadata, not a data model.
+- Exported documents must be deterministic for the same inputs.
+- Draft output must be visibly marked as draft.
+- Final output must include the standard version, document schema version,
+  rendering profile version, renderer version, source artifact identifiers, and
+  generation timestamp.
+- Human-readable labels should be used where available, while canonical IRIs
+  remain available in metadata or footnotes when needed.
+- Missing required data must not be hidden. Draft exports may show placeholders;
+  final exports must require successful validation.
+- The renderer should support Markdown first. PDF and website output should be
+  compilation targets of Markdown, not separate hand-authored renderers.
+
+## Resolved Design Decisions
+
+### Rendering Profile Format
+
+The PDD rendering profile should be a Markdown document with YAML front matter.
+This is the most natural format for human-maintained document templates and for
+Pandoc-based PDF, HTML, and website generation.
+
+The Markdown body should define the human-readable document structure. The YAML
+front matter should define profile metadata and rendering options.
+
+Example:
+
+```markdown
+---
+profile: nias-pdd-rendering-profile
+profileVersion: 0.1.0
+standard: NIAS
+documentType: Project Design Document
+defaultOutputTargets:
+  - markdown
+  - pdf
+  - html
+---
+
+# {{ project.title }}
+
+{{ render: keyProjectInformation }}
+
+## Section A. Description Of Project
+
+{{ render: pdd.sectionA }}
+
+## Section B. Impact Claims And Monitoring
+
+{{ render: pdd.sectionB }}
+
+## Section C. Stakeholder Engagement
+
+{{ render: pdd.sectionC }}
+
+## Appendix A. Document Metadata
+
+{{ render: metadataAppendix }}
+```
+
+The render directives are profile instructions. They must resolve only to
+canonical SHACL-backed data paths or to standard rendering metadata.
+
+### Renderer Input
+
+The primary renderer input should be JSON-LD payloads from the PDD workflow
+shell. JSON-LD is the natural exchange boundary because the workflow shell
+already works with JSON-like maps and JSON-LD preserves canonical semantic
+predicates.
+
+Internally, the renderer should normalize input to an RDF/JSON-LD graph model
+before rendering. This keeps the renderer compatible with future Turtle,
+N-Quads, Fluree export, or other graph inputs without changing the document
+profile.
+
+The interface policy is:
+
+- primary local input: JSON-LD from the workflow shell;
+- internal model: canonical expanded JSON-LD or RDF graph;
+- future-compatible inputs: Turtle, N-Quads, and Fluree ledger exports.
+
+### PDF Compiler
+
+Pandoc should be the default Markdown compiler for PDF and HTML output. Pandoc
+supports YAML front matter, document templates, headers, footers, PDF output,
+HTML output, and future DOCX export if needed.
+
+### Title Page And Front Matter
+
+The visible title page and key project information section should contain
+human-facing fields, following the pattern used by conventional PDD templates:
+
+- PDD/document title;
+- project title;
+- project ID;
+- PDD version number;
+- completion or publication date;
+- project developer;
+- project representative;
+- project participants and involved communities;
+- host country or countries;
+- activity type or requirements applied;
+- methodology and methodology version;
+- product or impact claim type;
+- project cycle or status.
+
+YAML front matter should hold machine-facing provenance and rendering metadata:
+
+- standard version;
+- document schema IRI;
+- rendering profile version;
+- renderer version;
+- generated timestamp;
+- validation status;
+- source workflow message IDs;
+- source IPFS URIs where available;
+- source data hash;
+- output document hash where available;
+- canonical context and graph identifiers.
+
+Some fields may appear in both places when they are useful to both people and
+systems, such as project title, project ID, document version, and date.
+
+### Repeated Impact And Parameter Sections
+
+Large repeated impact, data, and monitoring parameter sections should remain
+under the same subsection. Each parameter should render as its own table, one
+below the other.
+
+Example:
+
+```markdown
+### Data And Parameters To Be Monitored
+
+#### Parameter: Electricity generated
+
+| Field | Value |
+| --- | --- |
+| Unit | kWh |
+| Source of data | Meter records |
+| Monitoring frequency | Monthly |
+| QA/QC procedures | Monthly reconciliation against meter logs |
+
+#### Parameter: Operating hours
+
+| Field | Value |
+| --- | --- |
+| Unit | hours |
+| Source of data | Controller logs |
+| Monitoring frequency | Monthly |
+| QA/QC procedures | Automated log validation |
+```
+
+### Metadata, Predicate IRIs, And Hashes
+
+Final rendered PDDs should keep the human document readable. Canonical predicate
+IRIs should not be injected as footnotes throughout the main body by default.
+
+Instead:
+
+- include a short document ID, source hash, or version reference in the PDF
+  footer;
+- include a full metadata appendix at the end of the Markdown/PDF;
+- emit a machine-readable sidecar file alongside the human-readable outputs.
+
+The appendix should include:
+
+- document metadata;
+- rendering metadata;
+- validation report summary;
+- source artifact references;
+- IPFS and Hedera references where available;
+- field-to-predicate mapping;
+- concept scheme versions;
+- hash and signature details.
+
+The expected output set for a final export is:
+
+```text
+pdd.md
+pdd.pdf
+pdd.html
+pdd.metadata.jsonld
+pdd.validation.json
+```
+
+## Rendering Profile Scope
+
+The rendering profile should define:
+
+- PDD document title pattern.
+- Front matter fields.
+- Standard boilerplate and format/version statement.
+- Top-level section order.
+- Field label overrides where SHACL/UI labels are not publication quality.
+- Heading depth rules.
+- Whether repeated nested structures render as repeated subsections, tables, or
+  bullet lists.
+- How optional missing values render in draft mode.
+- How concept IRIs are converted to labels.
+- How IPFS URIs, Hedera message IDs, document references, and account IDs render.
+- Appendix and references rules.
+- Output target options for Markdown, PDF, and website.
+
+The rendering profile should not define:
+
+- new required fields;
+- validation rules that conflict with SHACL;
+- project-specific values;
+- workflow approval rules;
+- storage or platform integration behavior.
+
+## Proposed File Layout
+
+Implementation should use a layout similar to:
+
+```text
+dataRequirements/document-rendering/
+  pdd-markdown-export-roadmap.md
+  pdd-rendering-profile.md
+  templates/
+    pdd-boilerplate.md
+  fixtures/
+    pdd-alpha-input.jsonld
+    pdd-alpha-template.md
+    pdd-alpha-rendered.md
+  tool/
+    render_pdd_markdown.py
+    compile_pdd_pdf.sh
+  tests/
+    test_pdd_markdown_rendering.py
+```
+
+The exact implementation language can change, but the renderer should be easy to
+run locally and easy to add to regression checks.
+
+## Implementation Phases
+
+### Phase 1: Confirm Document Rendering Boundary
+
+Tasks:
+
+- Confirm that Markdown/PDF/website export is a document-rendering projection,
+  not a SHACL extension and not a Flutter-only feature.
+- Confirm that `dataRequirements/document-rendering/` is the correct home.
+- Identify the PDD source shapes that define PDD-A, PDD-B, PDD-C, reviews, and
+  PDD-CIR references.
+- Record any fields that are required for human document rendering but are not
+  yet explicit in the semantic model.
+
+End-of-phase criteria:
+
+- A reviewed design document exists in `dataRequirements/document-rendering/`.
+- The three-layer model is documented.
+- No new data requirements have been introduced in the rendering layer.
+- Open questions are listed explicitly, if any.
+
+### Phase 2: Define The PDD Rendering Profile
+
+Tasks:
+
+- Create `pdd-rendering-profile.md` with YAML front matter.
+- Define PDD title, front matter, standard/version statement, section order, and
+  heading-depth rules.
+- Map each top-level PDD workflow section to publication headings.
+- Define default rendering behavior for scalars, nested objects, repeated
+  objects, controlled vocabularies, document references, and links.
+- Define draft and final rendering modes.
+- Define footer metadata rules, metadata appendix rules, and sidecar output
+  rules.
+
+End-of-phase criteria:
+
+- The profile front matter parses successfully.
+- Every PDD workflow section has a rendering entry.
+- Every top-level PDD-A/B/C content shape has a deterministic heading location.
+- The profile contains only rendering metadata and no independent validation
+  constraints.
+- A short human review of the blank structure confirms it resembles a
+  conventional PDD document.
+
+### Phase 3: Generate A Blank Markdown Template
+
+Tasks:
+
+- Implement a command that projects `SHACL + rendering profile` into a blank PDD
+  Markdown template.
+- Use SHACL/UI labels and rendering-profile overrides to produce headings and
+  placeholders.
+- Render required/optional status visibly in template mode.
+- Add a fixture for the expected blank PDD template.
+
+End-of-phase criteria:
+
+- A local command produces a deterministic blank Markdown PDD template.
+- The generated template includes PDD-A, PDD-B, and PDD-C.
+- Required fields appear in the template.
+- Nested structures render at the expected heading depth.
+- A golden test proves the generated template has not drifted unexpectedly.
+
+### Phase 4: Render Filled-In PDD Data To Markdown
+
+Tasks:
+
+- Implement Markdown rendering from filled-in RDF/JSON-LD payloads.
+- Treat JSON-LD payloads from the PDD workflow shell as the primary local input.
+- Normalize JSON-LD into an expanded JSON-LD or RDF graph model before
+  rendering.
+- Resolve values using canonical predicates.
+- Render repeated structures as repeated subsections, tables, or lists according
+  to the rendering profile.
+- Render repeated impact, data, and monitoring parameters as one table per
+  parameter under the relevant subsection.
+- Resolve concept IRIs to labels where available.
+- Include source artifact metadata and rendering metadata in Markdown front
+  matter.
+- Include a metadata appendix in the rendered Markdown.
+- Add fixture data and expected rendered Markdown output.
+
+End-of-phase criteria:
+
+- A local command renders a complete Markdown PDD from a fixture payload.
+- No raw JSON is emitted in the document body.
+- Required PDD-A/B/C content appears under the expected headings.
+- Concept IRIs render as labels where labels are available.
+- The rendered output is deterministic and covered by a golden test.
+
+### Phase 5: Add Validation-Aware Export Modes
+
+Tasks:
+
+- Add draft mode for incomplete working data.
+- Add final mode that requires SHACL-valid input before rendering.
+- Define placeholder and warning behavior for missing draft values.
+- Include validation status in generated front matter.
+
+End-of-phase criteria:
+
+- Draft mode renders incomplete data with visible placeholders or warnings.
+- Final mode fails when required SHACL constraints are not met.
+- Final mode succeeds for a valid PDD fixture.
+- Tests cover valid, invalid, and draft inputs.
+
+### Phase 6: Compile Markdown To PDF And Website Output
+
+Tasks:
+
+- Add a PDF compilation command using Pandoc as the default compiler.
+- Add an HTML/static-site output path.
+- Define deterministic output filenames.
+- Include generated artifact metadata for Markdown, PDF, and website outputs.
+- Emit `pdd.metadata.jsonld` and `pdd.validation.json` sidecar files for final
+  exports.
+- Include a short document ID, source hash, or version reference in the PDF
+  footer.
+
+End-of-phase criteria:
+
+- A local command produces Markdown and PDF from the same valid fixture.
+- A local command produces HTML or static website output from the same Markdown.
+- Generated PDF and HTML include the same PDD content as the Markdown source.
+- Compilation failures are surfaced clearly.
+- The PDF footer includes the expected document ID/hash/version reference.
+- Sidecar metadata and validation files are produced for final exports.
+- PDF/HTML build outputs are ignored unless an explicit release workflow stores
+  them.
+
+### Phase 7: Integrate With The PDD Workflow Shell
+
+Tasks:
+
+- Add a local shell action or command that exports the current PDD workflow
+  payload to Markdown.
+- Keep export logic outside generated shape2flutter Dart files.
+- Allow the user to export draft Markdown before final validation.
+- Allow final export only after the workflow gates and SHACL validation pass.
+
+End-of-phase criteria:
+
+- The workflow shell can produce a draft Markdown PDD from entered PDD data.
+- The export includes PDD-A, PDD-B, and PDD-C content, not only document wrapper
+  metadata.
+- The shell does not duplicate rendering rules that belong in the rendering
+  profile.
+- Shell tests cover the export trigger or export payload handoff.
+
+### Phase 8: Add Regression And Release Checks
+
+Tasks:
+
+- Add the Markdown export checks to the local regression command.
+- Add tests for profile parsing, blank template generation, filled rendering,
+  validation-aware modes, and PDF/HTML compilation where available.
+- Document the full local workflow in a README.
+- Decide whether CI should run Markdown-only checks or full PDF/HTML checks.
+
+End-of-phase criteria:
+
+- One local command proves the PDD rendering workflow is healthy.
+- Regression tests cover both template projection and filled-data projection.
+- Documentation explains how to generate blank templates, draft PDD Markdown,
+  final PDD Markdown, PDF, and website output.
+- The implementation remains independent of Fluree/IPFS/Hedera platform
+  deployment.
+
+## Open Questions
+
+- What exact render directive syntax should be used in the Markdown profile?
+- Which Pandoc PDF engine should be the default in local development and CI?
+- Which visual style template should be used for NIAS PDFs?
+- Which concept schemes must be loaded for label resolution in the first
+  implementation?
+- Which title-page fields are mandatory for the first NIAS PDD profile versus
+  optional later additions?
+
+## Immediate Next Step
+
+Before implementation, finish and commit the current PDD workflow shell fix that
+pre-populates PDD section content subforms. Then begin Phase 1 by reviewing the
+PDD-A/B/C shape coverage against a conventional PDD document outline.
