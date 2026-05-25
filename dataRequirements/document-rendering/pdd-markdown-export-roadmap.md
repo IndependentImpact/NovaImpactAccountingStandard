@@ -330,17 +330,21 @@ End-of-phase criteria:
 
 ### Phase 2: Define The PDD Rendering Profile
 
+Status: completed on 2026-05-25.
+
 Tasks:
 
-- Create `pdd-rendering-profile.md` with YAML front matter.
-- Define PDD title, front matter, standard/version statement, section order, and
+- Created `pdd-rendering-profile.md` with YAML front matter.
+- Defined PDD title, front matter, standard/version statement, section order, and
   heading-depth rules.
-- Map each top-level PDD workflow section to publication headings.
-- Define default rendering behavior for scalars, nested objects, repeated
+- Mapped each top-level PDD workflow section to publication headings.
+- Defined default rendering behavior for scalars, nested objects, repeated
   objects, controlled vocabularies, document references, and links.
-- Define draft and final rendering modes.
-- Define footer metadata rules, metadata appendix rules, and sidecar output
+- Defined draft and final rendering modes.
+- Defined footer metadata rules, metadata appendix rules, and sidecar output
   rules.
+- Added `dataRequirements/tests/test_pdd_rendering_profile.py` to prove the
+  profile parses and stays presentation-only.
 
 End-of-phase criteria:
 
@@ -478,16 +482,17 @@ End-of-phase criteria:
 
 ## Open Questions
 
-- What exact render directive syntax should be used in the Markdown profile?
 - Which Pandoc PDF engine should be the default in local development and CI?
 - Which visual style template should be used for NIAS PDFs?
 - Which concept schemes must be loaded for label resolution in the first
   implementation?
 - Which title-page fields are mandatory for the first NIAS PDD profile versus
   optional later additions?
+- Should later render directives support filters or formatting options beyond
+  the Phase 2 `{{ render: ... }}` syntax?
 
 ## Immediate Next Step
 
-Before implementation, finish and commit the current PDD workflow shell fix that
-pre-populates PDD section content subforms. Then begin Phase 1 by reviewing the
-PDD-A/B/C shape coverage against a conventional PDD document outline.
+Begin Phase 3 by implementing a command that projects the Phase 2 rendering
+profile into a blank Markdown PDD template with deterministic headings,
+placeholders, and a golden fixture.
