@@ -384,6 +384,8 @@ End-of-phase criteria:
 
 ### Phase 4: Render Filled-In PDD Data To Markdown
 
+Status: in progress as of 2026-05-25.
+
 Tasks:
 
 - Implement Markdown rendering from filled-in RDF/JSON-LD payloads.
