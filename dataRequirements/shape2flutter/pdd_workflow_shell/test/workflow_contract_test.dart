@@ -2,6 +2,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nias_pdd_workflow_shell/src/workflow_contract.dart';
 
 void main() {
+  test('PDD section seeds open required content subforms', () {
+    final workflow = PddWorkflowState();
+
+    final pddA = workflow.documentSeed(PddWorkflowStep.pddA);
+    final pddAContent = _singleMap(pddA[NiasTerm.reportContent]);
+    final projectDesign = _singleMap(pddAContent[NiasTerm.hasSubject]);
+    expect(projectDesign[NiasTerm.hasObjective], isA<List>());
+    expect(projectDesign[NiasTerm.hasSpatialLocation], isA<List>());
+    expect(projectDesign[NiasTerm.technologyOrMeasure], isA<List>());
+    expect(projectDesign[NiasTerm.projectParty], isA<List>());
+
+    final pddB = workflow.documentSeed(PddWorkflowStep.pddB);
+    final pddBContent = _singleMap(pddB[NiasTerm.reportContent]);
+    expect(pddBContent[NiasTerm.hasDeclaredImpact], isA<List>());
+    expect(pddBContent[NiasTerm.impactClaim], isA<List>());
+
+    final pddC = workflow.documentSeed(PddWorkflowStep.pddC);
+    expect(pddC[NiasTerm.stakeholderEngagementModalities], isNotNull);
+    expect(pddC[NiasTerm.hasSubject], NiasTerm.project);
+  });
+
   test('PDD-CIR gate opens only after approved A, B, and C reviews', () {
     final workflow = PddWorkflowState();
 
@@ -97,4 +118,10 @@ void main() {
       contains('PDD-B review does not point to the submitted document.'),
     );
   });
+}
+
+Map<String, dynamic> _singleMap(dynamic value) {
+  final list = value as List<dynamic>;
+  expect(list, hasLength(1));
+  return list.single as Map<String, dynamic>;
 }

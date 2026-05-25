@@ -7,32 +7,77 @@ enum ReviewSection { a, b, c }
 enum PddWorkflowStep { pddA, pddB, pddC, reviewA, reviewB, reviewC, pddCir }
 
 class NiasTerm {
+  static const aiaoBase = 'http://w3id.org/aiao#';
   static const base = 'https://nova.org.za/novaimpactaccountingstandard/';
+  static const claimBase = 'http://w3id.org/claimont#';
   static const dataDocument = 'https://jellyfiiish.xyz/ns/Document';
+  static const dctermsBase = 'http://purl.org/dc/terms/';
+  static const impactBase = 'http://w3id.org/impactont#';
+  static const schemaBase = 'https://schema.org/';
 
+  static const additionalInfo = '${base}additionalInfo';
   static const authProof = '${base}authProof';
+  static const beneficialOrAdverse = '${base}beneficialOrAdverse';
+  static const conformsTo = '${dctermsBase}conformsTo';
+  static const currentAgeInYears = '${base}currentAgeInYears';
+  static const debundlingAssessment = '${base}debundlingAssessment';
+  static const description = '${schemaBase}description';
   static const documentAuthor = '${base}documentAuthor';
   static const documentMessageId = '${base}documentMessageId';
   static const documentSchema = '${base}documentSchema';
+  static const estimatedLifespanInYears = '${base}estimatedLifespanInYears';
   static const finalReviewDecision = '${base}finalReviewDecision';
+  static const hasDeclaredImpact = '${base}hasDeclaredImpact';
+  static const hasObjective = '${aiaoBase}hasObjective';
+  static const hasSpatialLocation = '${impactBase}hasSpatialLocation';
+  static const hasSubject = '${claimBase}hasSubject';
   static const hasWorkflowSubmission = '${base}hasWorkflowSubmission';
+  static const impactClaim = '${base}impactClaim';
+  static const impactIntentionality = '${base}impactIntentionality';
+  static const isHostParty = '${base}isHostParty';
   static const isEncrypted = '${base}isEncrypted';
+  static const isMadeBy = '${claimBase}isMadeBy';
+  static const isParticipantParty = '${base}isParticipantParty';
   static const isReviewOf = '${base}isReviewOf';
+  static const legalMatters = '${base}legalMatters';
+  static const monitored = '${base}monitored';
+  static const partyName = '${base}partyName';
   static const pddSectionAValidationReview =
       '${base}pddSectionAValidationReview';
   static const pddSectionBValidationReview =
       '${base}pddSectionBValidationReview';
   static const pddSectionCValidationReview =
       '${base}pddSectionCValidationReview';
+  static const projectHistory = '${base}projectHistory';
+  static const projectParty = '${base}projectParty';
+  static const publicFundingStatus = '${base}publicFundingStatus';
+  static const publicPrivateClassification =
+      '${base}publicPrivateClassification';
   static const requestedIssuanceAccountId = '${base}requestedIssuanceAccountId';
+  static const reportContent = '${base}reportContent';
   static const resourceIpfsUri = '${base}resourceIpfsUri';
+  static const stakeholderCommentConsideration =
+      '${base}stakeholderCommentConsideration';
+  static const stakeholderCommentSummary = '${base}stakeholderCommentSummary';
+  static const stakeholderEngagementModalities =
+      '${base}stakeholderEngagementModalities';
+  static const techMeasType = '${base}techMeasType';
+  static const technologyOrMeasure = '${base}technologyOrMeasure';
+  static const title = '${base}title';
+  static const usesMethodology = '${base}usesMethodology';
   static const workflowSubject = '${base}workflowSubject';
   static const workflowSubmissionConsensusMessage =
       '${base}workflowSubmissionConsensusMessage';
 
+  static const beneficial = '${base}beneficial';
   static const reviewApprove = '${base}review-approve';
   static const reviewReject = '${base}review-reject';
   static const eddsaSignature = '${base}eddsa-signature';
+  static const facility = '${base}facility';
+  static const intentional = '${base}intentional';
+  static const no = '${base}no';
+  static const private = '${base}private';
+  static const yes = '${base}yes';
 
   static const pddASchema = '${base}document-schema/PDDxA-1.0.0';
   static const pddBSchema = '${base}document-schema/PDDxB-9.0.0';
@@ -43,6 +88,7 @@ class NiasTerm {
 
   static const project = '${base}projects/pdd-alpha';
   static const developer = '${base}users/project-developer-1';
+  static const methodology = '${base}methodologies/default-pdd-methodology';
   static const validator = '${base}users/pdd-validator-1';
   static const registry = '${base}registry/nova-registry';
   static const workflow = '${base}workflows/pdd';
@@ -351,7 +397,7 @@ class PddWorkflowState {
     final submitter = step.requiredRole == WorkflowRole.validator
         ? NiasTerm.validator
         : NiasTerm.developer;
-    return {
+    final seed = <String, dynamic>{
       NiasTerm.resourceIpfsUri: 'ipfs://draft-${step.name.toLowerCase()}',
       NiasTerm.documentSchema: step.documentSchema,
       NiasTerm.isEncrypted: false,
@@ -377,6 +423,103 @@ class PddWorkflowState {
           ],
         },
       ],
+    };
+
+    switch (step) {
+      case PddWorkflowStep.pddA:
+        seed[NiasTerm.reportContent] = [_pddAReportContentSeed()];
+        break;
+      case PddWorkflowStep.pddB:
+        seed[NiasTerm.reportContent] = [_pddBReportContentSeed()];
+        break;
+      case PddWorkflowStep.pddC:
+        seed.addAll(_pddCContentSeed());
+        break;
+      case PddWorkflowStep.reviewA:
+      case PddWorkflowStep.reviewB:
+      case PddWorkflowStep.reviewC:
+      case PddWorkflowStep.pddCir:
+        break;
+    }
+
+    return seed;
+  }
+
+  Map<String, dynamic> _pddAReportContentSeed() {
+    return {
+      NiasTerm.isMadeBy: NiasTerm.developer,
+      NiasTerm.hasSubject: [_projectDesignSeed()],
+      NiasTerm.conformsTo: NiasTerm.pddASchema,
+    };
+  }
+
+  Map<String, dynamic> _projectDesignSeed() {
+    return {
+      NiasTerm.title: '',
+      NiasTerm.hasObjective: [
+        {NiasTerm.description: ''},
+      ],
+      NiasTerm.hasSpatialLocation: [
+        {NiasTerm.resourceIpfsUri: 'ipfs://draft-pdd-location'},
+      ],
+      NiasTerm.technologyOrMeasure: [
+        {
+          NiasTerm.techMeasType: NiasTerm.facility,
+          NiasTerm.description: '',
+          NiasTerm.currentAgeInYears: 0,
+          NiasTerm.estimatedLifespanInYears: 0,
+        },
+      ],
+      NiasTerm.projectParty: [
+        {
+          NiasTerm.partyName: '',
+          NiasTerm.isHostParty: true,
+          NiasTerm.isParticipantParty: true,
+          NiasTerm.publicPrivateClassification: NiasTerm.private,
+        },
+      ],
+      NiasTerm.legalMatters: '',
+      NiasTerm.publicFundingStatus: NiasTerm.no,
+      NiasTerm.projectHistory: '',
+      NiasTerm.debundlingAssessment: '',
+    };
+  }
+
+  Map<String, dynamic> _pddBReportContentSeed() {
+    return {
+      NiasTerm.isMadeBy: NiasTerm.developer,
+      NiasTerm.hasSubject: NiasTerm.project,
+      NiasTerm.hasDeclaredImpact: [_impactRequirementSeed()],
+      NiasTerm.impactClaim: [_impactClaimSeed()],
+      NiasTerm.usesMethodology: [NiasTerm.methodology],
+      NiasTerm.conformsTo: NiasTerm.pddBSchema,
+    };
+  }
+
+  Map<String, dynamic> _impactRequirementSeed() {
+    return {
+      NiasTerm.impactIntentionality: NiasTerm.intentional,
+      NiasTerm.beneficialOrAdverse: NiasTerm.beneficial,
+      NiasTerm.description: '',
+      NiasTerm.monitored: NiasTerm.yes,
+    };
+  }
+
+  Map<String, dynamic> _impactClaimSeed() {
+    return {
+      NiasTerm.hasSubject: NiasTerm.project,
+      NiasTerm.usesMethodology: [NiasTerm.methodology],
+    };
+  }
+
+  Map<String, dynamic> _pddCContentSeed() {
+    return {
+      NiasTerm.isMadeBy: NiasTerm.developer,
+      NiasTerm.hasSubject: NiasTerm.project,
+      NiasTerm.conformsTo: NiasTerm.pddCSchema,
+      NiasTerm.stakeholderEngagementModalities: '',
+      NiasTerm.stakeholderCommentSummary: '',
+      NiasTerm.stakeholderCommentConsideration: '',
     };
   }
 
