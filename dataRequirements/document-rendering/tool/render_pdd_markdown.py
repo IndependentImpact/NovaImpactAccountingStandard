@@ -2,7 +2,7 @@ import argparse
 import re
 from pathlib import Path
 
-from rdflib import BNode, Graph, URIRef
+from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, Namespace
 
 
