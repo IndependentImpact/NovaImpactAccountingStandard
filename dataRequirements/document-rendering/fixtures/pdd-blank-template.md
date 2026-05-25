@@ -20,7 +20,6 @@ sidecarOutputs:
   - pdd.validation.json
 ---
 
-
 # {{ project.title }}
 
 - **[optional]** titlePage.keyProjectInformation: _[to be populated]_
