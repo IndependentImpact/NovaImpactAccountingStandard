@@ -143,7 +143,7 @@ def render_blank_template(profile_path: Path, ui_shapes_path: Path):
         lines.append("")
 
     rendered_body = "\n".join(lines).rstrip() + "\n"
-    return f"{front_matter}\n{rendered_body}"
+    return f"{front_matter}{rendered_body}"
 
 
 def main():
