@@ -298,7 +298,13 @@ class _WorkflowPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _PanelHeader(step: step, role: role, gate: gate, blockers: blockers),
+        _PanelHeader(
+          step: step,
+          role: role,
+          gate: gate,
+          blockers: blockers,
+          payload: payload,
+        ),
         const Divider(height: 1),
         Expanded(
           child: canOpen
@@ -307,13 +313,8 @@ class _WorkflowPanel extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(20),
-                        child: form,
-                      ),
+                      child: _FormSurface(child: form!),
                     ),
-                    const VerticalDivider(width: 1),
-                    Expanded(flex: 2, child: _PayloadPreview(payload: payload)),
                   ],
                 )
               : _BlockedPanel(blockers: blockers),
@@ -341,17 +342,43 @@ class _WorkflowPanel extends StatelessWidget {
   }
 }
 
+class _FormSurface extends StatelessWidget {
+  final Widget child;
+
+  const _FormSurface({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final contentWidth =
+            constraints.maxWidth < 1160 ? 1160.0 : constraints.maxWidth;
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(width: contentWidth - 40, child: child),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _PanelHeader extends StatelessWidget {
   final PddWorkflowStep step;
   final WorkflowRole role;
   final GateResult gate;
   final List<String> blockers;
+  final Map<String, dynamic> payload;
 
   const _PanelHeader({
     required this.step,
     required this.role,
     required this.gate,
     required this.blockers,
+    required this.payload,
   });
 
   @override
@@ -389,6 +416,17 @@ class _PanelHeader extends StatelessWidget {
                 : Icons.pending_actions_outlined,
             label: gate.allowed ? 'CIR gate ready' : 'CIR gate pending',
             color: gate.allowed ? Colors.green : Colors.blueGrey,
+          ),
+          const SizedBox(width: 8),
+          IconButton.filledTonal(
+            tooltip: 'Open payload',
+            icon: const Icon(Icons.data_object_outlined),
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (context) => _PayloadDialog(payload: payload),
+              );
+            },
           ),
         ],
       ),
@@ -468,32 +506,51 @@ class _BlockedPanel extends StatelessWidget {
   }
 }
 
-class _PayloadPreview extends StatelessWidget {
+class _PayloadDialog extends StatelessWidget {
   final Map<String, dynamic> payload;
 
-  const _PayloadPreview({required this.payload});
+  const _PayloadDialog({required this.payload});
 
   @override
   Widget build(BuildContext context) {
     const encoder = JsonEncoder.withIndent('  ');
-    return ColoredBox(
-      color: Theme.of(
-        context,
-      ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 900, maxHeight: 720),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Payload', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 12, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Payload',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Close payload',
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
             Expanded(
-              child: SingleChildScrollView(
-                child: SelectableText(
-                  encoder.convert(payload),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+              child: ColoredBox(
+                color: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: SelectableText(
+                    encoder.convert(payload),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+                  ),
                 ),
               ),
             ),
