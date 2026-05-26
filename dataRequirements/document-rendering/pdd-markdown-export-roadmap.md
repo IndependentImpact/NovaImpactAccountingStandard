@@ -482,6 +482,8 @@ End-of-phase criteria:
 
 ### Phase 7: Integrate With The PDD Workflow Shell
 
+Status: completed on 2026-05-26.
+
 Tasks:
 
 - Add a local shell action or command that exports the current PDD workflow
@@ -489,6 +491,16 @@ Tasks:
 - Keep export logic outside generated shape2flutter Dart files.
 - Allow the user to export draft Markdown before final validation.
 - Allow final export only after the workflow gates and SHACL validation pass.
+- Confirmed Phase 6 output compilation remains complete via
+  `dataRequirements/tests/test_pdd_output_compilation.py`.
+- Added
+  `dataRequirements/shape2flutter/pdd_workflow_shell/tool/export_pdd_workflow_markdown.py`
+  to map shell PDD-A/B/C payload handoff into renderer JSON-LD input and invoke
+  `render_pdd_markdown.py`.
+- Added final-mode workflow gate checks in the shell export tool for approved
+  PDD-A/B/C validation reviews before invoking renderer final mode.
+- Added `dataRequirements/tests/test_pdd_workflow_shell_export.py` to cover
+  draft export payload handoff and final export gate enforcement.
 
 End-of-phase criteria:
 
@@ -531,5 +543,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Proceed to Phase 7 by integrating this export command into the PDD workflow
-shell trigger path.
+Proceed to Phase 8 by adding this workflow-shell export command to local
+regression and release checks.
