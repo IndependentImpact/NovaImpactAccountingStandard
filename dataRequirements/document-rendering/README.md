@@ -20,6 +20,9 @@ It consumes canonical data and produces deterministic document artifacts.
   - `pyshacl` for `--render-mode final`
 - `pandoc` for preferred PDF and HTML compilation targets
   - set `PANDOC_BIN=/usr/local/bin/pandoc` if Pandoc is installed outside PATH
+  - PDF compilation defaults to `xelatex`; set `PANDOC_PDF_ENGINE=lualatex`
+    or another Pandoc-supported engine only when a local or release workflow
+    deliberately needs it
   - PDF output has a built-in fallback renderer when Pandoc is unavailable or
     cannot compile the Markdown
   - generated PDF files are checked for a valid PDF header and EOF marker; if
@@ -102,6 +105,21 @@ Blank-template and filled-data PDF outputs are still actual PDF files. The
 renderer prefers Pandoc, but falls back to a minimal valid PDF renderer if
 Pandoc cannot produce a PDF.
 
+Pandoc PDF compilation uses `xelatex` by default because NIAS PDD content may
+include Unicode labels, names, units, and concept-scheme terms. Override it only
+for explicit local or release checks:
+
+```bash
+PANDOC_PDF_ENGINE=lualatex \
+python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+  --input-jsonld /tmp/pdd-final.jsonld \
+  --source-artifact-id pdd-final.jsonld \
+  --generated-at 2026-05-26T00:00:00Z \
+  --render-mode final \
+  --output-dir /tmp/pdd-export \
+  --output-target pdf
+```
+
 ## Export From The PDD Workflow Shell
 
 The workflow-shell bridge converts submitted PDD-A, PDD-B, and PDD-C payloads to
@@ -160,6 +178,7 @@ required default check. That keeps CI Markdown-first and avoids making system
 Pandoc installation a hard requirement.
 
 PDF and HTML compilation should remain part of local and release verification
-when Pandoc is available. The automated Python suite still covers the PDF/HTML
-code paths deterministically by using a fake Pandoc binary in
-`test_pdd_output_compilation.py`.
+when Pandoc is available. Release PDF checks should use the default `xelatex`
+engine unless a documented release profile overrides `PANDOC_PDF_ENGINE`. The
+automated Python suite still covers the PDF/HTML code paths deterministically by
+using a fake Pandoc binary in `test_pdd_output_compilation.py`.

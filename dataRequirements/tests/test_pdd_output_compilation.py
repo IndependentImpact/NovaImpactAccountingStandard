@@ -23,9 +23,14 @@ class PddOutputCompilationTests(unittest.TestCase):
             "\n".join(
                 [
                     "#!/usr/bin/env python3",
+                    "import json",
+                    "import os",
                     "import pathlib",
                     "import sys",
                     "args = sys.argv[1:]",
+                    "args_path = os.environ.get('FAKE_PANDOC_ARGS_PATH')",
+                    "if args_path:",
+                    "    pathlib.Path(args_path).write_text(json.dumps(args), encoding='utf-8')",
                     "source = pathlib.Path(args[0])",
                     "output = pathlib.Path(args[args.index('--output') + 1])",
                     "header = None",
@@ -120,6 +125,81 @@ class PddOutputCompilationTests(unittest.TestCase):
             validation_payload = json.loads(validation.read_text(encoding="utf-8"))
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
+
+    def test_pdf_compilation_defaults_to_xelatex(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            fake_pandoc = tmp_path / "pandoc"
+            fake_args = tmp_path / "pandoc-args.json"
+            self._write_fake_pandoc(fake_pandoc)
+
+            output_dir = tmp_path / "exported"
+            env = os.environ.copy()
+            env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(INVALID_INPUT),
+                    "--render-mode",
+                    "draft",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env=env,
+            )
+
+            args = json.loads(fake_args.read_text(encoding="utf-8"))
+            self.assertIn("--pdf-engine", args)
+            self.assertEqual(args[args.index("--pdf-engine") + 1], "xelatex")
+
+    def test_pdf_compilation_allows_engine_override(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            fake_pandoc = tmp_path / "pandoc"
+            fake_args = tmp_path / "pandoc-args.json"
+            self._write_fake_pandoc(fake_pandoc)
+
+            output_dir = tmp_path / "exported"
+            env = os.environ.copy()
+            env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
+            env["PANDOC_PDF_ENGINE"] = "lualatex"
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(INVALID_INPUT),
+                    "--render-mode",
+                    "draft",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env=env,
+            )
+
+            args = json.loads(fake_args.read_text(encoding="utf-8"))
+            self.assertIn("--pdf-engine", args)
+            self.assertEqual(args[args.index("--pdf-engine") + 1], "lualatex")
 
     def test_blank_template_pdf_output_is_valid_pdf(self):
         with tempfile.TemporaryDirectory() as tmpdir:

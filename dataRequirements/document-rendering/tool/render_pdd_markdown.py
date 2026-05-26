@@ -34,6 +34,7 @@ DEFAULT_VALIDATION_ONTOLOGIES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
 ]
+DEFAULT_PANDOC_PDF_ENGINE = "xelatex"
 
 SH = Namespace("http://www.w3.org/ns/shacl#")
 UI = Namespace("https://shape2flutter.dev/vocab/ui#")
@@ -537,6 +538,10 @@ def _resolve_pandoc_bin():
     return None
 
 
+def _resolve_pandoc_pdf_engine():
+    return os.environ.get("PANDOC_PDF_ENGINE") or DEFAULT_PANDOC_PDF_ENGINE
+
+
 def _compile_pandoc_output(
     markdown_path: Path,
     output_path: Path,
@@ -562,7 +567,7 @@ def _compile_pandoc_output(
         command.extend(["--to", "html5", "--standalone"])
         header_path = None
     elif output_format == "pdf":
-        command.extend(["--to", "pdf"])
+        command.extend(["--to", "pdf", "--pdf-engine", _resolve_pandoc_pdf_engine()])
         with tempfile.NamedTemporaryFile(
             "w", encoding="utf-8", suffix=".tex", delete=False
         ) as header_file:

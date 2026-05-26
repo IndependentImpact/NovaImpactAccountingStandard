@@ -467,6 +467,8 @@ Tasks:
 - Added PDF footer injection with a short deterministic document ID reference.
 - Added Pandoc discovery via `PANDOC_BIN`, PATH, `/usr/local/bin/pandoc`, and
   `/opt/homebrew/bin/pandoc`.
+- Added `xelatex` as the default Pandoc PDF engine for local and release PDF
+  compilation, with `PANDOC_PDF_ENGINE` as the explicit override.
 - Added validated PDF fallback output when Pandoc is unavailable or cannot
   compile the Markdown.
 - Added `dataRequirements/tests/test_pdd_output_compilation.py` to cover
@@ -485,6 +487,7 @@ End-of-phase criteria:
 - Sidecar metadata and validation files are produced for final exports.
 - PDF/HTML build outputs are ignored unless an explicit release workflow stores
   them.
+- The default Pandoc PDF engine is documented and test-covered.
 
 ### Phase 7: Integrate With The PDD Workflow Shell
 
@@ -545,9 +548,18 @@ End-of-phase criteria:
 - The implementation remains independent of Fluree/IPFS/Hedera platform
   deployment.
 
+## Resolved Decisions
+
+- Pandoc PDF output defaults to `xelatex` for local development and release
+  checks because NIAS PDD content may include Unicode labels, names, units, and
+  concept-scheme terms.
+- Routine CI remains Markdown-first and does not require a system Pandoc or TeX
+  installation. PDF/HTML compilation stays in local and release verification.
+- `PANDOC_PDF_ENGINE` is the explicit override for local or release workflows
+  that need another Pandoc-supported engine.
+
 ## Open Questions
 
-- Which Pandoc PDF engine should be the default in local development and CI?
 - Which visual style template should be used for NIAS PDFs?
 - Which concept schemes must be loaded for label resolution in the first
   implementation?
@@ -558,5 +570,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Choose the default Pandoc PDF engine and NIAS release styling so the documented
-PDF/HTML release checks can be standardized further.
+Choose the NIAS release styling so the documented PDF/HTML release checks can
+be standardized further.
