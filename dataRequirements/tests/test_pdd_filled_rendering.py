@@ -1,13 +1,17 @@
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+
+from rdflib import Graph
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
 INPUT = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld"
 FIXTURE = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-rendered.md"
+VALID_TTL_INPUT = REPO_ROOT / "dataRequirements/fixtures/phase7/impact-monitored-valid.ttl"
 
 
 class PddFilledRenderingTests(unittest.TestCase):
@@ -22,6 +26,8 @@ class PddFilledRenderingTests(unittest.TestCase):
                 "pdd-alpha-input.jsonld",
                 "--generated-at",
                 "2026-05-25T00:00:00Z",
+                "--render-mode",
+                "draft",
             ],
             check=True,
             capture_output=True,
@@ -48,6 +54,60 @@ class PddFilledRenderingTests(unittest.TestCase):
         body = rendered.split("\n---\n", 1)[1]
         self.assertNotIn('{"', body)
         self.assertNotIn('["', body)
+
+    def test_final_rendering_rejects_non_conformant_input(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--input-jsonld",
+                str(INPUT),
+                "--render-mode",
+                "final",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            cwd=REPO_ROOT,
+        )
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn(
+            "Final render mode requires SHACL-conformant input.",
+            completed.stderr,
+        )
+
+    def test_final_rendering_accepts_conformant_input(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            final_input = Path(tmpdir) / "impact-monitored-valid.jsonld"
+            graph = Graph()
+            graph.parse(VALID_TTL_INPUT, format="turtle")
+            graph.serialize(destination=final_input, format="json-ld")
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(final_input),
+                    "--render-mode",
+                    "final",
+                    "--source-artifact-id",
+                    "impact-monitored-valid.jsonld",
+                    "--generated-at",
+                    "2026-05-26T00:00:00Z",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertIn("renderMode: final", completed.stdout)
+            self.assertIn(
+                "- Validation status: final (SHACL validation passed)",
+                completed.stdout,
+            )
 
 
 if __name__ == "__main__":

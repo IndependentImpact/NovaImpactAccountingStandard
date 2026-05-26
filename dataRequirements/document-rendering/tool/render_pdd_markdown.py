@@ -14,6 +14,18 @@ DEFAULT_PROFILE = (
 DEFAULT_UI_SHAPES = (
     REPO_ROOT / "dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl"
 )
+DEFAULT_VALIDATION_SHAPES = [
+    REPO_ROOT / "dataRequirements/common-shapes.ttl",
+    REPO_ROOT / "dataRequirements/project-design-shapes.ttl",
+    REPO_ROOT / "dataRequirements/impact-declaration-shapes.ttl",
+    REPO_ROOT / "dataRequirements/stakeholder-engagement-shapes.ttl",
+    REPO_ROOT / "dataRequirements/document-shapes.ttl",
+    REPO_ROOT / "dataRequirements/report-shapes.ttl",
+]
+DEFAULT_VALIDATION_ONTOLOGIES = [
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
+]
 
 SH = Namespace("http://www.w3.org/ns/shacl#")
 UI = Namespace("https://shape2flutter.dev/vocab/ui#")
@@ -222,7 +234,13 @@ def _render_data_parameter_tables(graph: Graph, section_b):
     return rows or ["- No parameter tables available.", ""]
 
 
-def _render_filled_directive(directive: str, graph: Graph, source_artifact: str):
+def _render_filled_directive(
+    directive: str,
+    graph: Graph,
+    source_artifact: str,
+    validation_status: str,
+    render_mode: str,
+):
     section_a = _first_subject_of_type(graph, NIAS.PddSectionAReport)
     section_b = _first_subject_of_type(graph, NIAS.PddSectionBReport)
     section_c = _first_subject_of_type(graph, NIAS.PddSectionCStakeholderEngagement)
@@ -243,7 +261,7 @@ def _render_filled_directive(directive: str, graph: Graph, source_artifact: str)
         return [f"- Section A schema: {_as_markdown_value(graph, schema) if schema is not None else 'Unavailable'}"]
 
     if directive == "documentControl.validationStatus":
-        return ["- Validation status: draft (rendered from fixture payload)"]
+        return [f"- Validation status: {validation_status}"]
 
     if directive == "pdd.sectionA":
         made_by = _first_value(graph, section_a, CLAIMONT.isMadeBy)
@@ -379,7 +397,7 @@ def _render_filled_directive(directive: str, graph: Graph, source_artifact: str)
         return [
             f"- Source artifact: {source_artifact}",
             "- Rendering profile: nias-pdd-rendering-profile",
-            "- Rendering mode: filled",
+            f"- Rendering mode: {render_mode}",
         ]
 
     if directive == "predicateMapAppendix":
@@ -401,16 +419,49 @@ def render_filled_markdown(
     data_path: Path,
     source_artifact: str,
     generated_at: str,
+    render_mode: str = "draft",
 ):
     front_matter, body = _read_front_matter_and_body(profile_path)
     graph = Graph()
     graph.parse(str(data_path), format="json-ld")
+    validation_status = "draft (validation not enforced)"
+
+    if render_mode == "final":
+        try:
+            from pyshacl import validate
+        except ModuleNotFoundError as exc:
+            raise RuntimeError(
+                "Final render mode requires pySHACL. Install dependency `pyshacl`."
+            ) from exc
+
+        shape_graph = Graph()
+        for shape_path in DEFAULT_VALIDATION_SHAPES:
+            shape_graph.parse(str(shape_path), format="turtle")
+        ontology_graph = Graph()
+        for ontology_path in DEFAULT_VALIDATION_ONTOLOGIES:
+            ontology_graph.parse(str(ontology_path), format="turtle")
+        conforms, _, validation_text = validate(
+            data_graph=graph,
+            shacl_graph=shape_graph,
+            ont_graph=ontology_graph,
+            inference="rdfs",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        if not conforms:
+            raise ValueError(
+                "Final render mode requires SHACL-conformant input.\n"
+                f"{validation_text}"
+            )
+        validation_status = "final (SHACL validation passed)"
 
     front_matter = _insert_front_matter_metadata(
         front_matter,
         {
-            "renderMode": "filled",
-            "rendererVersion": "0.4.0",
+            "renderMode": render_mode,
+            "rendererVersion": "0.5.0",
             "sourceArtifact": source_artifact,
             "generatedAt": generated_at,
         },
@@ -435,7 +486,15 @@ def render_filled_markdown(
             continue
 
         directive = directive_match.group(1)
-        lines.extend(_render_filled_directive(directive, graph, source_artifact))
+        lines.extend(
+            _render_filled_directive(
+                directive,
+                graph,
+                source_artifact,
+                validation_status,
+                render_mode,
+            )
+        )
         lines.append("")
 
     rendered_body = "\n".join(lines).rstrip() + "\n"
@@ -451,19 +510,29 @@ def main():
     parser.add_argument("--input-jsonld", type=Path)
     parser.add_argument("--source-artifact-id")
     parser.add_argument("--generated-at")
+    parser.add_argument(
+        "--render-mode",
+        choices=["draft", "final"],
+        default="draft",
+        help="Filled rendering mode: draft allows placeholders, final enforces SHACL validation.",
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
     if args.input_jsonld:
         source_artifact = args.source_artifact_id or args.input_jsonld.name
         generated_at = args.generated_at or datetime.now(timezone.utc).isoformat()
-        rendered = render_filled_markdown(
-            args.profile,
-            args.ui_shapes,
-            args.input_jsonld,
-            source_artifact=source_artifact,
-            generated_at=generated_at,
-        )
+        try:
+            rendered = render_filled_markdown(
+                args.profile,
+                args.ui_shapes,
+                args.input_jsonld,
+                source_artifact=source_artifact,
+                generated_at=generated_at,
+                render_mode=args.render_mode,
+            )
+        except (RuntimeError, ValueError) as exc:
+            parser.exit(1, f"{exc}\n")
     else:
         rendered = render_blank_template(args.profile, args.ui_shapes)
     if args.output:
