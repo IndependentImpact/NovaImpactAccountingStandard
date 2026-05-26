@@ -419,12 +419,23 @@ End-of-phase criteria:
 
 ### Phase 5: Add Validation-Aware Export Modes
 
+Status: completed on 2026-05-26.
+
 Tasks:
 
 - Add draft mode for incomplete working data.
 - Add final mode that requires SHACL-valid input before rendering.
 - Define placeholder and warning behavior for missing draft values.
 - Include validation status in generated front matter.
+- Added `--render-mode {draft,final}` to
+  `dataRequirements/document-rendering/tool/render_pdd_markdown.py`.
+- Added final-mode SHACL validation against NIAS shapes and ontology graphs,
+  with explicit export failure on non-conformant input.
+- Added draft/final validation status rendering in document control and metadata
+  appendix output.
+- Extended `dataRequirements/tests/test_pdd_filled_rendering.py` to cover draft
+  rendering, final-mode failure for non-conformant input, and final-mode success
+  for conformant input.
 
 End-of-phase criteria:
 
@@ -508,5 +519,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Begin Phase 5 by adding validation-aware draft/final export modes and enforcing
-final-mode SHACL validation before Markdown rendering.
+Begin Phase 6 by adding deterministic Markdown-to-PDF and Markdown-to-HTML
+compilation paths, with sidecar metadata output for final exports.

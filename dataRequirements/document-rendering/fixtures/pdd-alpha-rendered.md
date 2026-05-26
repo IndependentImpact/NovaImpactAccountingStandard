@@ -18,8 +18,8 @@ defaultOutputTargets:
 sidecarOutputs:
   - pdd.metadata.jsonld
   - pdd.validation.json
-renderMode: filled
-rendererVersion: 0.4.0
+renderMode: draft
+rendererVersion: 0.5.0
 sourceArtifact: pdd-alpha-input.jsonld
 generatedAt: 2026-05-25T00:00:00Z
 ---
@@ -35,7 +35,7 @@ generatedAt: 2026-05-25T00:00:00Z
 - Section A schema: PDDxA-1.0.0
 
 
-- Validation status: draft (rendered from fixture payload)
+- Validation status: draft (validation not enforced)
 
 
 This Project Design Document is generated from NIAS semantic workflow data. The
@@ -167,7 +167,7 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 - Source artifact: pdd-alpha-input.jsonld
 - Rendering profile: nias-pdd-rendering-profile
-- Rendering mode: filled
+- Rendering mode: draft
 
 
 ## Appendix B. Field-To-Predicate Map
