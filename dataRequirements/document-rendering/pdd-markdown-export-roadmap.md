@@ -384,7 +384,7 @@ End-of-phase criteria:
 
 ### Phase 4: Render Filled-In PDD Data To Markdown
 
-Status: in progress as of 2026-05-25.
+Status: completed on 2026-05-25.
 
 Tasks:
 
@@ -402,6 +402,12 @@ Tasks:
   matter.
 - Include a metadata appendix in the rendered Markdown.
 - Add fixture data and expected rendered Markdown output.
+- Added `dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld`
+  as a filled fixture payload.
+- Added `dataRequirements/document-rendering/fixtures/pdd-alpha-rendered.md` as
+  the deterministic golden filled output.
+- Added `dataRequirements/tests/test_pdd_filled_rendering.py` to validate
+  deterministic rendering, required PDD-A/B/C placement, and label rendering.
 
 End-of-phase criteria:
 
@@ -502,6 +508,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Begin Phase 4 by implementing filled-data Markdown rendering from fixture
-JSON-LD using canonical predicate resolution, deterministic output, and a
-golden rendered document test.
+Begin Phase 5 by adding validation-aware draft/final export modes and enforcing
+final-mode SHACL validation before Markdown rendering.

@@ -1,0 +1,165 @@
+{
+  "@context": {
+    "aiao": "http://w3id.org/aiao#",
+    "claim": "http://w3id.org/claimont#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "impactont": "http://w3id.org/impactont#",
+    "ind": "http://independentimpact.org/indicator-owl/",
+    "nias": "https://nova.org.za/novaimpactaccountingstandard/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/beneficial",
+      "rdfs:label": "Beneficial"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/facility",
+      "rdfs:label": "Facility"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/fixed-ex-ante",
+      "rdfs:label": "Fixed ex ante"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/intentional",
+      "rdfs:label": "Intentional"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/methodologies/default-pdd-methodology",
+      "rdfs:label": "Default PDD Methodology"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/units/kwh",
+      "rdfs:label": "kWh"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha",
+      "@type": "aiao:Project",
+      "nias:debundlingAssessment": "No overlapping registries identified.",
+      "impactont:hasSpatialLocation": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/locations/coastal-site"
+      },
+      "nias:legalMatters": "All permits are in place.",
+      "nias:projectHistory": "Pilot restoration started in 2024.",
+      "nias:projectParty": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/parties/coastal-community-coop"
+      },
+      "nias:publicFundingStatus": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/no"
+      },
+      "nias:technologyOrMeasure": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/technologies/mangrove-replanting"
+      },
+      "nias:title": "PDD Alpha Mangrove Restoration",
+      "aiao:hasObjective": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/objectives/mangrove-objective"
+      }
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/objectives/mangrove-objective",
+      "schema:description": "Restore degraded mangrove habitat and increase shoreline resilience."
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/locations/coastal-site",
+      "nias:resourceIpfsUri": "ipfs://pdd-alpha-location-coastal-site"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/technologies/mangrove-replanting",
+      "nias:techMeasType": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/facility"
+      },
+      "schema:description": "Community-led mangrove nursery and replanting measures."
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/parties/coastal-community-coop",
+      "nias:isHostParty": true,
+      "nias:isParticipantParty": true,
+      "nias:partyName": "Coastal Community Cooperative"
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/reports/pdd-section-a",
+      "@type": "nias:PddSectionAReport",
+      "claim:hasSubject": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha"
+      },
+      "claim:isMadeBy": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1"
+      },
+      "dcterms:conformsTo": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0"
+      }
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/impact/impact-1",
+      "@type": "impactont:Impact",
+      "nias:beneficialOrAdverse": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/beneficial"
+      },
+      "nias:dataParameterRequirement": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/data-parameters/electricity-generated"
+      },
+      "nias:exAnteImpactEstimate": {
+        "@type": "xsd:decimal",
+        "@value": "2450.50"
+      },
+      "nias:impactIntentionality": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/intentional"
+      },
+      "nias:monitored": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/yes"
+      },
+      "schema:description": "Increase net carbon sequestration in restored mangroves."
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/data-parameters/electricity-generated",
+      "rdfs:label": "Electricity generated",
+      "nias:dataParameterPurpose": "Measure renewable electricity generated by on-site systems.",
+      "nias:dataSource": "Smart meter records",
+      "nias:monitoredOrFixed": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/fixed-ex-ante"
+      },
+      "nias:monitoringFrequency": "Monthly",
+      "nias:qaQcProcedures": "Monthly reconciliation with utility bill and meter snapshots.",
+      "schema:description": "Total electricity generated by the project systems.",
+      "ind:hasUnit": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/units/kwh"
+      }
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/claims/impact-claim-1",
+      "@type": "aiao:ImpactClaim",
+      "claim:hasSubject": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha"
+      },
+      "nias:usesMethodology": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/methodologies/default-pdd-methodology"
+      }
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/reports/pdd-section-b",
+      "@type": "nias:PddSectionBReport",
+      "claim:isMadeBy": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1"
+      },
+      "nias:hasDeclaredImpact": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/impact/impact-1"
+      },
+      "nias:impactClaim": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/claims/impact-claim-1"
+      },
+      "nias:usesMethodology": {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/methodologies/default-pdd-methodology"
+      }
+    },
+    {
+      "@id": "https://nova.org.za/novaimpactaccountingstandard/reports/pdd-section-c",
+      "@type": "nias:PddSectionCStakeholderEngagement",
+      "nias:stakeholderCommentConsideration": "Integrated comments into the revised monitoring plan.",
+      "nias:stakeholderCommentSummary": "Community feedback requested stronger local monitoring visibility.",
+      "nias:stakeholderEngagementModalities": "Public workshops, shoreline focus groups, and household surveys."
+    }
+  ]
+}
