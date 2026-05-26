@@ -178,6 +178,18 @@ cd dataRequirements/shape2flutter/pdd_workflow_shell
 tool/check_pdd_workflow_shell.sh
 ```
 
+To export submitted shell payloads to PDD Markdown artifacts:
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/export_pdd_workflow_markdown.py \
+  --pdd-a-json /tmp/pdd-a.json \
+  --pdd-b-json /tmp/pdd-b.json \
+  --pdd-c-json /tmp/pdd-c.json \
+  --render-mode draft \
+  --output /tmp/pdd.md
+```
+
 ## PDD Workflow Regression
 
 Run the complete local PDD workflow regression suite from the repository root:
