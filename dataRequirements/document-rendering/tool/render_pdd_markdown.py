@@ -1,8 +1,12 @@
 import argparse
 import hashlib
 import json
+import os
+import shutil
 import subprocess
 import tempfile
+import textwrap
+import unicodedata
 from datetime import datetime, timezone
 import re
 from pathlib import Path
@@ -513,14 +517,41 @@ def _sha256_file(path: Path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _resolve_pandoc_bin():
+    configured = os.environ.get("PANDOC_BIN")
+    if configured:
+        candidate = Path(configured)
+        return str(candidate) if candidate.exists() else None
+
+    discovered = shutil.which("pandoc")
+    if discovered:
+        return discovered
+
+    for candidate in (
+        Path("/usr/local/bin/pandoc"),
+        Path("/opt/homebrew/bin/pandoc"),
+    ):
+        if candidate.exists():
+            return str(candidate)
+
+    return None
+
+
 def _compile_pandoc_output(
     markdown_path: Path,
     output_path: Path,
     output_format: str,
     document_reference: str,
 ):
+    pandoc_bin = _resolve_pandoc_bin()
+    if pandoc_bin is None:
+        raise RuntimeError(
+            "Pandoc command `pandoc` was not found. Install Pandoc, add it to PATH, "
+            "or set PANDOC_BIN to compile Pandoc outputs."
+        )
+
     command = [
-        "pandoc",
+        pandoc_bin,
         str(markdown_path),
         "--from",
         "markdown",
@@ -555,10 +586,6 @@ def _compile_pandoc_output(
             text=True,
             encoding="utf-8",
         )
-    except FileNotFoundError as exc:
-        raise RuntimeError(
-            "Pandoc command `pandoc` was not found. Install Pandoc to compile PDF/HTML outputs."
-        ) from exc
     except subprocess.CalledProcessError as exc:
         details = (exc.stderr or exc.stdout or "").strip()
         raise RuntimeError(
@@ -567,6 +594,168 @@ def _compile_pandoc_output(
     finally:
         if output_format == "pdf" and header_path is not None and header_path.exists():
             header_path.unlink()
+
+
+def _pdf_safe_text(value: str):
+    normalized = unicodedata.normalize("NFKD", value)
+    latin_text = normalized.encode("latin-1", errors="replace").decode("latin-1")
+    return (
+        latin_text.replace("\\", "\\\\")
+        .replace("(", "\\(")
+        .replace(")", "\\)")
+    )
+
+
+def _markdown_to_pdf_lines(markdown: str):
+    if markdown.startswith("---\n"):
+        end = markdown.find("\n---\n", 4)
+        if end != -1:
+            markdown = markdown[end + len("\n---\n") :]
+
+    lines = []
+    in_fenced_block = False
+    for raw_line in markdown.splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("```"):
+            in_fenced_block = not in_fenced_block
+            continue
+        if not in_fenced_block:
+            stripped = re.sub(r"^#{1,6}\s+", "", stripped)
+            stripped = stripped.replace("**", "").replace("`", "")
+            stripped = re.sub(r"\{\{ render: ([^}]+) \}\}", r"[to be populated: \1]", stripped)
+        if not stripped:
+            lines.append("")
+            continue
+        wrapped = textwrap.wrap(stripped, width=92) or [stripped]
+        lines.extend(wrapped)
+    return lines or ["Project Design Document"]
+
+
+def _paginate_lines(lines: list[str], lines_per_page: int):
+    pages = []
+    for index in range(0, len(lines), lines_per_page):
+        pages.append(lines[index : index + lines_per_page])
+    return pages or [[]]
+
+
+def _content_stream_for_page(lines: list[str], document_reference: str, page_number: int):
+    commands = ["BT", "/F1 10 Tf", "54 790 Td", "14 TL"]
+    for line in lines:
+        commands.append(f"({_pdf_safe_text(line)}) Tj")
+        commands.append("T*")
+    commands.extend(
+        [
+            "ET",
+            "BT",
+            "/F1 8 Tf",
+            f"54 36 Td (Document ID: {_pdf_safe_text(document_reference)} | Page {page_number}) Tj",
+            "ET",
+        ]
+    )
+    return "\n".join(commands).encode("latin-1", errors="replace")
+
+
+def _write_minimal_pdf(markdown_path: Path, output_path: Path, document_reference: str):
+    markdown = markdown_path.read_text(encoding="utf-8")
+    pages = _paginate_lines(_markdown_to_pdf_lines(markdown), lines_per_page=52)
+
+    objects: list[bytes] = [
+        b"<< /Type /Catalog /Pages 2 0 R >>",
+        b"",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+    ]
+    page_object_numbers = []
+
+    for page_number, page_lines in enumerate(pages, start=1):
+        page_object_number = len(objects) + 1
+        content_object_number = page_object_number + 1
+        page_object_numbers.append(page_object_number)
+        content = _content_stream_for_page(
+            page_lines,
+            document_reference=document_reference,
+            page_number=page_number,
+        )
+        objects.append(
+            (
+                f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] "
+                f"/Resources << /Font << /F1 3 0 R >> >> "
+                f"/Contents {content_object_number} 0 R >>"
+            ).encode("ascii")
+        )
+        objects.append(
+            b"<< /Length " + str(len(content)).encode("ascii") + b" >>\n"
+            b"stream\n" + content + b"\nendstream"
+        )
+
+    kids = " ".join(f"{obj_number} 0 R" for obj_number in page_object_numbers)
+    objects[1] = f"<< /Type /Pages /Kids [{kids}] /Count {len(pages)} >>".encode(
+        "ascii"
+    )
+
+    output = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
+    offsets = [0]
+    for obj_number, obj in enumerate(objects, start=1):
+        offsets.append(len(output))
+        output.extend(f"{obj_number} 0 obj\n".encode("ascii"))
+        output.extend(obj)
+        output.extend(b"\nendobj\n")
+
+    xref_offset = len(output)
+    output.extend(f"xref\n0 {len(objects) + 1}\n".encode("ascii"))
+    output.extend(b"0000000000 65535 f \n")
+    for offset in offsets[1:]:
+        output.extend(f"{offset:010d} 00000 n \n".encode("ascii"))
+    output.extend(
+        (
+            f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\n"
+            f"startxref\n{xref_offset}\n%%EOF\n"
+        ).encode("ascii")
+    )
+    output_path.write_bytes(output)
+
+
+def _validate_pdf(path: Path):
+    payload = path.read_bytes()
+    if not payload.startswith(b"%PDF-"):
+        raise RuntimeError(f"{path} is not a PDF file.")
+    if b"%%EOF" not in payload[-1024:]:
+        raise RuntimeError(f"{path} is missing the PDF EOF marker.")
+
+    try:
+        subprocess.run(
+            ["qpdf", "--check", str(path)],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+    except FileNotFoundError:
+        return
+    except subprocess.CalledProcessError as exc:
+        details = (exc.stderr or exc.stdout or "").strip()
+        raise RuntimeError(f"{path} failed qpdf validation: {details}") from exc
+
+
+def _compile_pdf_output(markdown_path: Path, output_path: Path, document_reference: str):
+    try:
+        _compile_pandoc_output(
+            markdown_path,
+            output_path,
+            output_format="pdf",
+            document_reference=document_reference,
+        )
+        _validate_pdf(output_path)
+        return
+    except RuntimeError:
+        if output_path.exists():
+            output_path.unlink()
+
+    _write_minimal_pdf(
+        markdown_path,
+        output_path,
+        document_reference=document_reference,
+    )
+    _validate_pdf(output_path)
 
 
 def export_rendered_outputs(
@@ -610,10 +799,9 @@ def export_rendered_outputs(
 
     if "pdf" in output_targets:
         pdf_path = output_dir / "pdd.pdf"
-        _compile_pandoc_output(
+        _compile_pdf_output(
             markdown_path,
             pdf_path,
-            output_format="pdf",
             document_reference=document_id,
         )
         artifacts.append(

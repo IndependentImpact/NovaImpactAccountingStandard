@@ -18,7 +18,12 @@ It consumes canonical data and produces deterministic document artifacts.
 - Python packages:
   - `rdflib`
   - `pyshacl` for `--render-mode final`
-- `pandoc` for PDF and HTML compilation targets
+- `pandoc` for preferred PDF and HTML compilation targets
+  - set `PANDOC_BIN=/usr/local/bin/pandoc` if Pandoc is installed outside PATH
+  - PDF output has a built-in fallback renderer when Pandoc is unavailable or
+    cannot compile the Markdown
+  - generated PDF files are checked for a valid PDF header and EOF marker; if
+    `qpdf` is available they are also checked with `qpdf --check`
 
 ## Generate A Blank Markdown PDD
 
@@ -92,6 +97,10 @@ Final exports also emit:
 
 - `pdd.metadata.jsonld`
 - `pdd.validation.json`
+
+Blank-template and filled-data PDF outputs are still actual PDF files. The
+renderer prefers Pandoc, but falls back to a minimal valid PDF renderer if
+Pandoc cannot produce a PDF.
 
 ## Export From The PDD Workflow Shell
 

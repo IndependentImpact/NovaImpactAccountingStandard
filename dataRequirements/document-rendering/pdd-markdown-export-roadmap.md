@@ -465,15 +465,21 @@ Tasks:
 - Added final-export sidecars (`pdd.metadata.jsonld`, `pdd.validation.json`)
   with generated artifact metadata.
 - Added PDF footer injection with a short deterministic document ID reference.
+- Added Pandoc discovery via `PANDOC_BIN`, PATH, `/usr/local/bin/pandoc`, and
+  `/opt/homebrew/bin/pandoc`.
+- Added validated PDF fallback output when Pandoc is unavailable or cannot
+  compile the Markdown.
 - Added `dataRequirements/tests/test_pdd_output_compilation.py` to cover
-  deterministic artifact names, sidecar generation, and clear compilation
-  failures.
+  deterministic artifact names, sidecar generation, actual PDF output, and clear
+  compilation failures.
 
 End-of-phase criteria:
 
 - A local command produces Markdown and PDF from the same valid fixture.
 - A local command produces HTML or static website output from the same Markdown.
 - Generated PDF and HTML include the same PDD content as the Markdown source.
+- Blank-template and draft filled-data PDF outputs are real displayable PDF
+  files, not text files with a `.pdf` extension.
 - Compilation failures are surfaced clearly.
 - The PDF footer includes the expected document ID/hash/version reference.
 - Sidecar metadata and validation files are produced for final exports.
