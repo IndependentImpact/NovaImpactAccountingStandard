@@ -1,4 +1,8 @@
 import argparse
+import hashlib
+import json
+import subprocess
+import tempfile
 from datetime import datetime, timezone
 import re
 from pathlib import Path
@@ -501,6 +505,160 @@ def render_filled_markdown(
     return f"{front_matter}{rendered_body}"
 
 
+def _sha256_text(text: str):
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _sha256_file(path: Path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _compile_pandoc_output(
+    markdown_path: Path,
+    output_path: Path,
+    output_format: str,
+    document_reference: str,
+):
+    command = [
+        "pandoc",
+        str(markdown_path),
+        "--from",
+        "markdown",
+        "--output",
+        str(output_path),
+    ]
+    if output_format == "html":
+        command.extend(["--to", "html5", "--standalone"])
+        header_path = None
+    elif output_format == "pdf":
+        command.extend(["--to", "pdf"])
+        with tempfile.NamedTemporaryFile(
+            "w", encoding="utf-8", suffix=".tex", delete=False
+        ) as header_file:
+            header_file.write("\\usepackage{fancyhdr}\n")
+            header_file.write("\\pagestyle{fancy}\n")
+            header_file.write("\\fancyhf{}\n")
+            header_file.write(f"\\lfoot{{Document ID: {document_reference}}}\n")
+            header_file.write("\\rfoot{\\thepage}\n")
+            header_file.write("\\renewcommand{\\headrulewidth}{0pt}\n")
+            header_file.write("\\renewcommand{\\footrulewidth}{0.4pt}\n")
+            header_path = Path(header_file.name)
+        command.extend(["--include-in-header", str(header_path)])
+    else:
+        raise ValueError(f"Unsupported output format: {output_format}")
+
+    try:
+        subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+    except FileNotFoundError as exc:
+        raise RuntimeError(
+            "Pandoc command `pandoc` was not found. Install Pandoc to compile PDF/HTML outputs."
+        ) from exc
+    except subprocess.CalledProcessError as exc:
+        details = (exc.stderr or exc.stdout or "").strip()
+        raise RuntimeError(
+            f"Pandoc failed while compiling {output_format.upper()}: {details}"
+        ) from exc
+    finally:
+        if output_format == "pdf" and header_path is not None and header_path.exists():
+            header_path.unlink()
+
+
+def export_rendered_outputs(
+    rendered_markdown: str,
+    output_dir: Path,
+    output_targets: list[str],
+    source_artifact: str,
+    generated_at: str,
+    render_mode: str,
+):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    document_hash = _sha256_text(rendered_markdown)
+    document_id = f"pdd-{document_hash[:12]}"
+
+    markdown_path = output_dir / "pdd.md"
+    markdown_path.write_text(rendered_markdown, encoding="utf-8")
+
+    artifacts = [
+        {
+            "artifact": "markdown",
+            "path": markdown_path.name,
+            "sha256": _sha256_file(markdown_path),
+        }
+    ]
+
+    if "html" in output_targets:
+        html_path = output_dir / "pdd.html"
+        _compile_pandoc_output(
+            markdown_path,
+            html_path,
+            output_format="html",
+            document_reference=document_id,
+        )
+        artifacts.append(
+            {
+                "artifact": "website",
+                "path": html_path.name,
+                "sha256": _sha256_file(html_path),
+            }
+        )
+
+    if "pdf" in output_targets:
+        pdf_path = output_dir / "pdd.pdf"
+        _compile_pandoc_output(
+            markdown_path,
+            pdf_path,
+            output_format="pdf",
+            document_reference=document_id,
+        )
+        artifacts.append(
+            {
+                "artifact": "pdf",
+                "path": pdf_path.name,
+                "sha256": _sha256_file(pdf_path),
+            }
+        )
+
+    if render_mode == "final":
+        metadata_path = output_dir / "pdd.metadata.jsonld"
+        metadata_payload = {
+            "@context": {
+                "dcterms": "http://purl.org/dc/terms/",
+                "nias": "https://nova.org.za/novaimpactaccountingstandard/",
+            },
+            "@id": f"urn:nias:{document_id}",
+            "@type": "dcterms:BibliographicResource",
+            "dcterms:identifier": document_id,
+            "dcterms:source": source_artifact,
+            "dcterms:created": generated_at,
+            "nias:renderMode": render_mode,
+            "nias:artifacts": artifacts,
+        }
+        metadata_path.write_text(
+            json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        validation_path = output_dir / "pdd.validation.json"
+        validation_payload = {
+            "documentId": document_id,
+            "renderMode": render_mode,
+            "status": "passed",
+            "sourceArtifact": source_artifact,
+            "generatedAt": generated_at,
+            "artifacts": artifacts,
+        }
+        validation_path.write_text(
+            json.dumps(validation_payload, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Render NIAS PDD Markdown from the rendering profile and optional JSON-LD payload."
@@ -516,12 +674,25 @@ def main():
         default="draft",
         help="Filled rendering mode: draft allows placeholders, final enforces SHACL validation.",
     )
+    parser.add_argument(
+        "--output-target",
+        action="append",
+        choices=["markdown", "pdf", "html"],
+        help="Add compiled output target(s) for --output-dir. Repeat to include multiple targets.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Write deterministic export artifacts into this directory.",
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
+    source_artifact = "blank-template"
+    generated_at = datetime.now(timezone.utc).isoformat()
     if args.input_jsonld:
         source_artifact = args.source_artifact_id or args.input_jsonld.name
-        generated_at = args.generated_at or datetime.now(timezone.utc).isoformat()
+        generated_at = args.generated_at or generated_at
         try:
             rendered = render_filled_markdown(
                 args.profile,
@@ -535,10 +706,25 @@ def main():
             parser.exit(1, f"{exc}\n")
     else:
         rendered = render_blank_template(args.profile, args.ui_shapes)
+
+    if args.output_dir:
+        output_targets = args.output_target or ["markdown"]
+        try:
+            export_rendered_outputs(
+                rendered_markdown=rendered,
+                output_dir=args.output_dir,
+                output_targets=output_targets,
+                source_artifact=source_artifact,
+                generated_at=generated_at,
+                render_mode=args.render_mode,
+            )
+        except (RuntimeError, ValueError) as exc:
+            parser.exit(1, f"{exc}\n")
+
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(rendered, encoding="utf-8")
-    else:
+    elif not args.output_dir:
         print(rendered, end="")
 
 

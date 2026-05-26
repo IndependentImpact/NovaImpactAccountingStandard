@@ -446,6 +446,8 @@ End-of-phase criteria:
 
 ### Phase 6: Compile Markdown To PDF And Website Output
 
+Status: completed on 2026-05-26.
+
 Tasks:
 
 - Add a PDF compilation command using Pandoc as the default compiler.
@@ -456,6 +458,16 @@ Tasks:
   exports.
 - Include a short document ID, source hash, or version reference in the PDF
   footer.
+- Added `--output-dir` and repeatable `--output-target {markdown,pdf,html}` to
+  `dataRequirements/document-rendering/tool/render_pdd_markdown.py`.
+- Added deterministic export filenames (`pdd.md`, `pdd.pdf`, `pdd.html`) with
+  Pandoc-based PDF/HTML compilation.
+- Added final-export sidecars (`pdd.metadata.jsonld`, `pdd.validation.json`)
+  with generated artifact metadata.
+- Added PDF footer injection with a short deterministic document ID reference.
+- Added `dataRequirements/tests/test_pdd_output_compilation.py` to cover
+  deterministic artifact names, sidecar generation, and clear compilation
+  failures.
 
 End-of-phase criteria:
 
@@ -519,5 +531,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Begin Phase 6 by adding deterministic Markdown-to-PDF and Markdown-to-HTML
-compilation paths, with sidecar metadata output for final exports.
+Proceed to Phase 7 by integrating this export command into the PDD workflow
+shell trigger path.
