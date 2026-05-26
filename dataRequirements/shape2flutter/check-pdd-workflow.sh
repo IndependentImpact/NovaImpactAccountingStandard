@@ -24,6 +24,12 @@ riot --validate \
 log_step "Run SHACL and workflow gate tests"
 python3 -m unittest discover -s "$ROOT_DIR/dataRequirements/tests" -q
 
+log_step "Run PDD Markdown rendering regression tests"
+python3 -m unittest discover \
+  -s "$ROOT_DIR/dataRequirements/tests" \
+  -p "test_pdd_*.py" \
+  -q
+
 log_step "Build PDD shape2flutter artifacts"
 SHAPE2FLUTTER_BIN="$SHAPE2FLUTTER_BIN" \
 OUT_ROOT="$OUT_ROOT" \

@@ -513,13 +513,22 @@ End-of-phase criteria:
 
 ### Phase 8: Add Regression And Release Checks
 
+Status: completed on 2026-05-26.
+
 Tasks:
 
-- Add the Markdown export checks to the local regression command.
-- Add tests for profile parsing, blank template generation, filled rendering,
-  validation-aware modes, and PDF/HTML compilation where available.
-- Document the full local workflow in a README.
-- Decide whether CI should run Markdown-only checks or full PDF/HTML checks.
+- Added an explicit PDD Markdown rendering regression step to
+  `dataRequirements/shape2flutter/check-pdd-workflow.sh`.
+- Kept the rendering regression suite in `dataRequirements/tests/test_pdd_*.py`,
+  covering profile parsing, blank template generation, filled rendering,
+  validation-aware modes, workflow-shell export handoff, and PDF/HTML
+  compilation behavior.
+- Added `dataRequirements/document-rendering/README.md` to document blank
+  template rendering, draft and final Markdown rendering, deterministic output
+  targets, and workflow-shell export commands.
+- Decided that repository automation should keep Markdown-first checks as the
+  default CI requirement, while full PDF/HTML compilation remains a local or
+  release check when Pandoc is installed.
 
 End-of-phase criteria:
 
@@ -543,5 +552,5 @@ End-of-phase criteria:
 
 ## Immediate Next Step
 
-Proceed to Phase 8 by adding this workflow-shell export command to local
-regression and release checks.
+Choose the default Pandoc PDF engine and NIAS release styling so the documented
+PDF/HTML release checks can be standardized further.
