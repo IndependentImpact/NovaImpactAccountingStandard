@@ -104,8 +104,8 @@ class PddRenderingProfileTests(unittest.TestCase):
             "ImpactRequirementUiShape": "Section B.2 Declared Impacts",
             "DataParameterRequirementUiShape": "Section B.5 Data And Parameter Requirements",
             "PddSectionCUiShape": "Section C. Stakeholder Engagement",
-            "DocumentFieldReviewUiShape": "Validation Review Summary",
-            "DocumentReferenceUiShape": "PDD Certificate Issuance Request and Appendix A",
+            "DocumentFieldReviewUiShape": "Appendix A.1 Validation Review Summary",
+            "DocumentReferenceUiShape": "Appendix A.2 PDD Certificate Issuance Request and Appendix A",
         }
         for shape, heading in expected_rows.items():
             with self.subTest(shape=shape):
@@ -128,16 +128,39 @@ class PddRenderingProfileTests(unittest.TestCase):
 
     def test_profile_body_resembles_conventional_pdd_outline(self):
         required_headings = [
+            "# Nova Impact Accounting Standard",
+            "## Project Design Document",
+            "## Table Of Contents",
             "## Section A. Description Of Project",
             "## Section B. Impact Claims And Monitoring",
             "## Section C. Stakeholder Engagement",
-            "## Validation Review Summary",
-            "## Appendix A. Document Metadata",
+            "## Appendix A. Document And Process Metadata",
+            "### A.1 Validation Review Summary",
+            "### A.2 PDD Certificate Issuance Request",
             "## Appendix B. Field-To-Predicate Map",
         ]
         for heading in required_headings:
             with self.subTest(heading=heading):
                 self.assertIn(heading, self.body)
+
+    def test_profile_declares_title_page_and_contents_directives(self):
+        required_directives = [
+            "{{ render: titlePage.projectTitle }}",
+            "{{ render: titlePage.keyProjectInformation }}",
+            "{{ render: tableOfContents }}",
+        ]
+        for directive in required_directives:
+            with self.subTest(directive=directive):
+                self.assertIn(directive, self.body)
+
+    def test_profile_keeps_process_metadata_out_of_main_pdd_body(self):
+        main_body = self.body.split("## Section A. Description Of Project", 1)[1].split(
+            "## Appendix A. Document And Process Metadata", 1
+        )[0]
+        self.assertNotIn("Document IPFS URI", main_body)
+        self.assertNotIn("Document schema IRI", main_body)
+        self.assertIn("document IPFS URI", self.body)
+        self.assertIn("authenticity proof", self.body)
 
 
 if __name__ == "__main__":

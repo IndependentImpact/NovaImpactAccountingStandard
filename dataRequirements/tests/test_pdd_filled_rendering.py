@@ -42,12 +42,28 @@ class PddFilledRenderingTests(unittest.TestCase):
 
     def test_filled_rendering_includes_pdd_sections_and_labels(self):
         rendered = self._render_filled()
+        self.assertIn("# Nova Impact Accounting Standard", rendered)
+        self.assertIn("## Project Design Document", rendered)
+        self.assertIn("## Table Of Contents", rendered)
+        self.assertNotIn("| Project title | PDD Alpha Mangrove Restoration |", rendered)
+        self.assertIn("| Methodology and version | Default PDD Methodology |", rendered)
+        self.assertIn("## Appendix A. Document And Process Metadata", rendered)
         self.assertIn("## Section A. Description Of Project", rendered)
         self.assertIn("## Section B. Impact Claims And Monitoring", rendered)
         self.assertIn("## Section C. Stakeholder Engagement", rendered)
         self.assertIn("Facility: Community-led mangrove nursery", rendered)
         self.assertIn("(Intentional, Beneficial)", rendered)
         self.assertIn("| Unit | kWh |", rendered)
+
+    def test_filled_rendering_keeps_document_metadata_in_appendix(self):
+        rendered = self._render_filled()
+        pdd_body = rendered.split("## Section A. Description Of Project", 1)[1].split(
+            "## Appendix A. Document And Process Metadata", 1
+        )[0]
+        appendix = rendered.split("## Appendix A. Document And Process Metadata", 1)[1]
+        self.assertNotIn("Document IPFS URI", pdd_body)
+        self.assertIn("| Document schema IRI | PDDxA-1.0.0 |", appendix)
+        self.assertIn("| Validation status | draft (validation not enforced) |", appendix)
 
     def test_filled_rendering_body_has_no_raw_json(self):
         rendered = self._render_filled()
@@ -105,7 +121,7 @@ class PddFilledRenderingTests(unittest.TestCase):
             )
             self.assertIn("renderMode: final", completed.stdout)
             self.assertIn(
-                "- Validation status: final (SHACL validation passed)",
+                "| Validation status | final (SHACL validation passed) |",
                 completed.stdout,
             )
 
