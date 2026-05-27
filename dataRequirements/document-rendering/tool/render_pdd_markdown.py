@@ -102,6 +102,19 @@ def _heading_anchor(title):
     return slug
 
 
+TOC_PLACEHOLDER = "<!-- NIAS_TABLE_OF_CONTENTS -->"
+
+
+def _pandoc_latex_label(title):
+    slug = title.lower()
+    slug = re.sub(r"`([^`]+)`", r"\1", slug)
+    slug = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", slug)
+    slug = re.sub(r"[^a-z0-9\s.-]", "", slug)
+    slug = re.sub(r"\s+", "-", slug.strip())
+    slug = re.sub(r"-+", "-", slug)
+    return slug
+
+
 def _document_headings_for_toc(body: str):
     headings = []
     collecting = False
@@ -109,7 +122,9 @@ def _document_headings_for_toc(body: str):
         line = raw_line.strip()
         if line == "## Workflow Section Rendering Map":
             break
-        match = re.match(r"^(#{2,3})\s+(.+)$", line)
+        if line == TOC_PLACEHOLDER:
+            continue
+        match = re.match(r"^(#{2,4})\s+(.+)$", line)
         if not match:
             continue
         level = len(match.group(1))
@@ -123,11 +138,21 @@ def _document_headings_for_toc(body: str):
 
 
 def _render_table_of_contents(body: str):
-    lines = []
-    for level, title in _document_headings_for_toc(body):
-        indent = "  " if level >= 3 else ""
-        lines.append(f"{indent}- [{title}](#{_heading_anchor(title)})")
-    return lines or ["- _[table of contents to be generated]_"]
+    headings = _document_headings_for_toc(body)
+    if not headings:
+        return ["| Section | Page |", "| --- | ---: |", "| _[table of contents to be generated]_ |  |"]
+
+    lines = ["| Section | Page |", "| --- | ---: |"]
+    for _, title in headings:
+        lines.append(f"| {title} | \\pageref{{{_pandoc_latex_label(title)}}} |")
+    return lines
+
+
+def _replace_table_of_contents(rendered_body: str):
+    return rendered_body.replace(
+        TOC_PLACEHOLDER,
+        "\n".join(_render_table_of_contents(rendered_body)),
+    )
 
 
 def _render_blank_title_page_table():
@@ -184,73 +209,120 @@ def _render_blank_data_parameter_table():
 
 BLANK_CONTENT_DIRECTIVES = {
     "pdd.sectionA": [],
-    "pdd.sectionA.projectPurpose": [
-        "- **[required]** Project title: _[to be populated]_",
-        "- **[required]** Objective: _[to be populated]_",
-    ],
-    "pdd.sectionA.locations": [
-        "- **[required]** Project locations: _[location, boundary, map, or resource reference]_",
-    ],
+    "pdd.sectionA.projectPurpose": _two_column_table(
+        [
+            ("Project title", "**[required]** _[to be populated]_"),
+            ("Objective", "**[required]** _[to be populated]_"),
+        ]
+    ),
+    "pdd.sectionA.locations": _two_column_table(
+        [
+            (
+                "Project locations",
+                "**[required]** _[location, boundary, map, or resource reference]_",
+            ),
+        ]
+    ),
     "pdd.sectionA.technologiesAndMeasures": [
-        "- **[required]** Type: _[facility, system, equipment, or other]_",
-        "- **[required]** Description: _[to be populated]_",
-        "- **[required]** Current age in years: _[to be populated]_",
-        "- **[required]** Estimated lifespan in years: _[to be populated]_",
-        "- **[optional]** Additional information: _[to be populated]_",
+        "#### Technology Or Measure",
+        "",
+        *_two_column_table(
+            [
+                ("Type", "**[required]** _[facility, system, equipment, or other]_"),
+                ("Description", "**[required]** _[to be populated]_"),
+                ("Current age in years", "**[required]** _[to be populated]_"),
+                ("Estimated lifespan in years", "**[required]** _[to be populated]_"),
+                ("Additional information", "**[optional]** _[to be populated]_"),
+            ]
+        ),
     ],
     "pdd.sectionA.projectParties": [
-        "- **[required]** Party name: _[to be populated]_",
-        "- **[required]** Host party: _[yes/no]_",
-        "- **[required]** Participant party: _[yes/no]_",
-        "- **[required]** Public or private: _[to be populated]_",
-        "- **[optional]** Additional information: _[to be populated]_",
+        "#### Project Party",
+        "",
+        *_two_column_table(
+            [
+                ("Party name", "**[required]** _[to be populated]_"),
+                ("Host party", "**[required]** _[yes/no]_"),
+                ("Participant party", "**[required]** _[yes/no]_"),
+                ("Public or private", "**[required]** _[to be populated]_"),
+                ("Additional information", "**[optional]** _[to be populated]_"),
+            ]
+        ),
     ],
-    "pdd.sectionA.legalFundingHistoryEligibility": [
-        "- **[required]** Legal matters: _[to be populated]_",
-        "- **[required]** Public funding: _[yes/no]_",
-        "- **[optional]** Public funding sources: _[to be populated]_",
-        "- **[required]** Project history: _[to be populated]_",
-        "- **[required]** Debundling assessment: _[to be populated]_",
-        "- **[optional]** Eligibility description: _[to be populated]_",
-    ],
+    "pdd.sectionA.legalFundingHistoryEligibility": _two_column_table(
+        [
+            ("Legal matters", "**[required]** _[to be populated]_"),
+            ("Public funding", "**[required]** _[yes/no]_"),
+            ("Public funding sources", "**[optional]** _[to be populated]_"),
+            ("Project history", "**[required]** _[to be populated]_"),
+            ("Debundling assessment", "**[required]** _[to be populated]_"),
+            ("Eligibility description", "**[optional]** _[to be populated]_"),
+        ]
+    ),
     "pdd.sectionB": [],
     "pdd.sectionB.methodologyReferences": [
-        "- **[required]** Methodology reference and version: _[to be populated]_",
+        "| Methodology reference and version |",
+        "| --- |",
+        "| **[required]** _[to be populated]_ |",
     ],
     "pdd.sectionB.declaredImpacts": [
-        "- **[required]** Intentionality: _[intentional or unintentional]_",
-        "- **[required]** Beneficial or adverse: _[beneficial or adverse]_",
-        "- **[required]** Impact description: _[to be populated]_",
-        "- **[required]** Monitored: _[yes/no]_",
-        "- **[optional]** Not monitored justification: _[to be populated]_",
-        "- **[optional]** Additionality justification: _[to be populated]_",
-        "- **[optional]** Baseline or counterfactual state: _[indicator, value, unit, date/time]_",
-        "- **[optional]** Project or real state: _[indicator, value, unit, date/time]_",
-        "- **[optional]** Provenance resources: _[to be populated]_",
+        "#### Declared Impact",
+        "",
+        *_two_column_table(
+            [
+                ("Intentionality", "**[required]** _[intentional or unintentional]_"),
+                ("Beneficial or adverse", "**[required]** _[beneficial or adverse]_"),
+                ("Impact description", "**[required]** _[to be populated]_"),
+                ("Monitored", "**[required]** _[yes/no]_"),
+                ("Not monitored justification", "**[optional]** _[to be populated]_"),
+                ("Additionality justification", "**[optional]** _[to be populated]_"),
+                (
+                    "Baseline or counterfactual state",
+                    "**[optional]** _[indicator, value, unit, date/time]_",
+                ),
+                (
+                    "Project or real state",
+                    "**[optional]** _[indicator, value, unit, date/time]_",
+                ),
+                ("Provenance resources", "**[optional]** _[to be populated]_"),
+            ]
+        ),
     ],
     "pdd.sectionB.impactClaims": [
-        "- **[required]** Impact claim subject: _[project or activity]_",
-        "- **[required]** Methodology references: _[to be populated]_",
+        "#### Impact Claim",
+        "",
+        *_two_column_table(
+            [
+                ("Impact claim subject", "**[required]** _[project or activity]_"),
+                ("Methodology references", "**[required]** _[to be populated]_"),
+            ]
+        ),
     ],
     "pdd.sectionB.creditingAndMonitoringPeriods": [
-        "- **[optional]** Crediting period start: _[to be populated]_",
-        "- **[optional]** Crediting period end: _[to be populated]_",
-        "- **[optional]** Renewable crediting period: _[yes/no]_",
-        "- **[optional]** Monitoring periods: _[start and end date/time]_",
+        "#### Crediting And Monitoring Period",
+        "",
+        *_two_column_table(
+            [
+                ("Crediting period start", "**[optional]** _[to be populated]_"),
+                ("Crediting period end", "**[optional]** _[to be populated]_"),
+                ("Renewable crediting period", "**[optional]** _[yes/no]_"),
+                ("Monitoring periods", "**[optional]** _[start and end date/time]_"),
+            ]
+        ),
     ],
-    "pdd.sectionB.exAnteEstimates": [
-        "- **[optional]** Ex-ante impact estimate: _[to be populated]_",
-    ],
+    "pdd.sectionB.exAnteEstimates": _two_column_table(
+        [("Ex-ante impact estimate", "**[optional]** _[to be populated]_")]
+    ),
     "pdd.sectionC": [],
-    "pdd.sectionC.stakeholderEngagementModalities": [
-        "- **[required]** Stakeholder engagement modalities: _[to be populated]_",
-    ],
-    "pdd.sectionC.stakeholderCommentSummary": [
-        "- **[optional]** Stakeholder comment summary: _[to be populated]_",
-    ],
-    "pdd.sectionC.stakeholderCommentConsideration": [
-        "- **[optional]** Stakeholder comment consideration: _[to be populated]_",
-    ],
+    "pdd.sectionC.stakeholderEngagementModalities": _two_column_table(
+        [("Stakeholder engagement modalities", "**[required]** _[to be populated]_")]
+    ),
+    "pdd.sectionC.stakeholderCommentSummary": _two_column_table(
+        [("Stakeholder comment summary", "**[optional]** _[to be populated]_")]
+    ),
+    "pdd.sectionC.stakeholderCommentConsideration": _two_column_table(
+        [("Stakeholder comment consideration", "**[optional]** _[to be populated]_")]
+    ),
 }
 
 
@@ -260,11 +332,23 @@ def _render_blank_directive(directive: str, profile_body: str):
     if directive == "titlePage.keyProjectInformation":
         return _render_blank_title_page_table()
     if directive == "tableOfContents":
-        return _render_table_of_contents(profile_body)
+        return [TOC_PLACEHOLDER]
     if directive == "metadataAppendix":
         return _render_blank_metadata_appendix()
     if directive == "pdd.sectionB.dataParameterTables":
         return _render_blank_data_parameter_table()
+    if directive == "predicateMapAppendix":
+        return _two_column_table(
+            [
+                ("Predicate map appendix", "**[optional]** _[to be populated]_"),
+            ]
+        )
+    if directive == "sourceEvidenceAppendix":
+        return _two_column_table(
+            [
+                ("Source graph identifier", "**[optional]** _[to be populated]_"),
+            ]
+        )
     if directive in BLANK_CONTENT_DIRECTIVES:
         return BLANK_CONTENT_DIRECTIVES[directive]
     return None
@@ -347,22 +431,13 @@ def _render_shape_placeholders(graph, shape_lookup, shape_name, depth=0, seen=No
     if shape is None:
         return []
 
-    lines = []
+    rows = []
     for _, label, required, nested in _ordered_fields(graph, shape, recurse_limit=1):
         status = "required" if required else "optional"
-        indent = "  " * depth
-        lines.append(f"{indent}- **[{status}]** {label}: _[to be populated]_")
+        rows.append((label, f"**[{status}]** _[to be populated]_"))
         if nested:
-            lines.extend(
-                _render_shape_placeholders(
-                    graph,
-                    shape_lookup,
-                    nested,
-                    depth=depth + 1,
-                    seen=seen | {shape_name},
-                )
-            )
-    return lines
+            rows.append((f"{label} details", f"See nested {nested} fields."))
+    return _two_column_table(rows)
 
 
 def render_blank_template(profile_path: Path, ui_shapes_path: Path):
@@ -405,7 +480,7 @@ def render_blank_template(profile_path: Path, ui_shapes_path: Path):
         lines.extend(placeholders)
         lines.append("")
 
-    rendered_body = "\n".join(lines).rstrip() + "\n"
+    rendered_body = _replace_table_of_contents("\n".join(lines).rstrip()) + "\n"
     return f"{front_matter}{rendered_body}"
 
 
@@ -434,7 +509,7 @@ def _render_data_parameter_tables(graph: Graph, section_b):
                 "",
             ]
         )
-    return rows or ["- No parameter tables available.", ""]
+    return rows or ["No parameter tables available.", ""]
 
 
 def _is_truthy_value(graph: Graph, node):
@@ -578,14 +653,21 @@ def _render_filled_directive(
         )
 
     if directive == "tableOfContents":
-        return _render_table_of_contents(profile_body)
+        return [TOC_PLACEHOLDER]
 
     if directive == "documentControl.versionSummary":
         schema = _first_value(graph, section_a, DCTERMS.conformsTo)
-        return [f"- Section A schema: {_as_markdown_value(graph, schema) if schema is not None else 'Unavailable'}"]
+        return _two_column_table(
+            [
+                (
+                    "Section A schema",
+                    _as_markdown_value(graph, schema) if schema is not None else "Unavailable",
+                ),
+            ]
+        )
 
     if directive == "documentControl.validationStatus":
-        return [f"- Validation status: {validation_status}"]
+        return _two_column_table([("Validation status", validation_status)])
 
     if directive == "pdd.sectionA":
         return []
@@ -593,117 +675,222 @@ def _render_filled_directive(
     if directive == "pdd.sectionA.projectPurpose":
         objective = _first_value(graph, project, AIAO.hasObjective)
         description = _first_value(graph, objective, SCHEMA.description)
-        return [f"- {_as_markdown_value(graph, description) if description is not None else 'Unavailable'}"]
+        return [_as_markdown_value(graph, description) if description is not None else "Unavailable"]
 
     if directive == "pdd.sectionA.locations":
-        lines = []
+        rows = []
         for location in _sorted_values(graph, project, IMPACTONT.hasSpatialLocation):
             ipfs_uri = _first_value(graph, location, NIAS.resourceIpfsUri)
-            lines.append(f"- {_as_markdown_value(graph, ipfs_uri) if ipfs_uri is not None else _local_name(location)}")
-        return lines or ["- No locations provided."]
+            rows.append(
+                (
+                    "Location resource",
+                    _as_markdown_value(graph, ipfs_uri) if ipfs_uri is not None else _local_name(location),
+                )
+            )
+        return _two_column_table(rows) if rows else ["No locations provided."]
 
     if directive == "pdd.sectionA.technologiesAndMeasures":
         lines = []
-        for technology in _sorted_values(graph, project, NIAS.technologyOrMeasure):
+        for index, technology in enumerate(
+            _sorted_values(graph, project, NIAS.technologyOrMeasure), start=1
+        ):
             tech_type = _first_value(graph, technology, NIAS.techMeasType)
             description = _first_value(graph, technology, SCHEMA.description)
-            lines.append(
-                f"- {_as_markdown_value(graph, tech_type) if tech_type is not None else 'Technology'}: "
-                f"{_as_markdown_value(graph, description) if description is not None else 'Unavailable'}"
+            lines.extend(
+                [
+                    f"#### Technology Or Measure {index}",
+                    "",
+                    *_two_column_table(
+                        [
+                            (
+                                "Type",
+                                _as_markdown_value(graph, tech_type) if tech_type is not None else "Technology",
+                            ),
+                            (
+                                "Description",
+                                _as_markdown_value(graph, description) if description is not None else "Unavailable",
+                            ),
+                        ]
+                    ),
+                    "",
+                ]
             )
-        return lines or ["- No technologies or measures provided."]
+        return lines or ["No technologies or measures provided."]
 
     if directive == "pdd.sectionA.projectParties":
         lines = []
-        for party in _sorted_values(graph, project, NIAS.projectParty):
+        for index, party in enumerate(_sorted_values(graph, project, NIAS.projectParty), start=1):
             name = _first_value(graph, party, NIAS.partyName)
             host = _first_value(graph, party, NIAS.isHostParty)
             participant = _first_value(graph, party, NIAS.isParticipantParty)
-            lines.append(
-                f"- {_as_markdown_value(graph, name) if name is not None else _local_name(party)} "
-                f"(host: {_as_markdown_value(graph, host) if host is not None else 'No'}, "
-                f"participant: {_as_markdown_value(graph, participant) if participant is not None else 'No'})"
+            lines.extend(
+                [
+                    f"#### Project Party {index}",
+                    "",
+                    *_two_column_table(
+                        [
+                            (
+                                "Party name",
+                                _as_markdown_value(graph, name) if name is not None else _local_name(party),
+                            ),
+                            (
+                                "Host party",
+                                _as_markdown_value(graph, host) if host is not None else "No",
+                            ),
+                            (
+                                "Participant party",
+                                _as_markdown_value(graph, participant) if participant is not None else "No",
+                            ),
+                        ]
+                    ),
+                    "",
+                ]
             )
-        return lines or ["- No project parties provided."]
+        return lines or ["No project parties provided."]
 
     if directive == "pdd.sectionA.legalFundingHistoryEligibility":
-        return [
-            f"- Legal matters: {_as_markdown_value(graph, _first_value(graph, project, NIAS.legalMatters) or Literal('Unavailable'))}",
-            f"- Public funding: {_as_markdown_value(graph, _first_value(graph, project, NIAS.publicFundingStatus) or Literal('Unavailable'))}",
-            f"- Project history: {_as_markdown_value(graph, _first_value(graph, project, NIAS.projectHistory) or Literal('Unavailable'))}",
-            f"- Debundling assessment: {_as_markdown_value(graph, _first_value(graph, project, NIAS.debundlingAssessment) or Literal('Unavailable'))}",
-        ]
+        return _two_column_table(
+            [
+                (
+                    "Legal matters",
+                    _as_markdown_value(graph, _first_value(graph, project, NIAS.legalMatters) or Literal("Unavailable")),
+                ),
+                (
+                    "Public funding",
+                    _as_markdown_value(graph, _first_value(graph, project, NIAS.publicFundingStatus) or Literal("Unavailable")),
+                ),
+                (
+                    "Project history",
+                    _as_markdown_value(graph, _first_value(graph, project, NIAS.projectHistory) or Literal("Unavailable")),
+                ),
+                (
+                    "Debundling assessment",
+                    _as_markdown_value(graph, _first_value(graph, project, NIAS.debundlingAssessment) or Literal("Unavailable")),
+                ),
+            ]
+        )
 
     if directive == "pdd.sectionB":
         return []
 
     if directive == "pdd.sectionB.methodologyReferences":
         values = _sorted_values(graph, section_b, NIAS.usesMethodology)
-        return [f"- {_as_markdown_value(graph, item)}" for item in values] or ["- No methodology references provided."]
+        return (
+            ["| Methodology reference |", "| --- |"]
+            + [f"| {_escape_table_cell(_as_markdown_value(graph, item))} |" for item in values]
+            if values
+            else ["No methodology references provided."]
+        )
 
     if directive == "pdd.sectionB.declaredImpacts":
         lines = []
-        for impact in _sorted_values(graph, section_b, NIAS.hasDeclaredImpact):
+        for index, impact in enumerate(
+            _sorted_values(graph, section_b, NIAS.hasDeclaredImpact), start=1
+        ):
             description = _first_value(graph, impact, SCHEMA.description)
             intentionality = _first_value(graph, impact, NIAS.impactIntentionality)
             impact_kind = _first_value(graph, impact, NIAS.beneficialOrAdverse)
-            lines.append(
-                f"- {_as_markdown_value(graph, description) if description is not None else _local_name(impact)} "
-                f"({_as_markdown_value(graph, intentionality) if intentionality is not None else 'unknown'}, "
-                f"{_as_markdown_value(graph, impact_kind) if impact_kind is not None else 'unknown'})"
+            lines.extend(
+                [
+                    f"#### Declared Impact {index}",
+                    "",
+                    *_two_column_table(
+                        [
+                            (
+                                "Description",
+                                _as_markdown_value(graph, description) if description is not None else _local_name(impact),
+                            ),
+                            (
+                                "Intentionality",
+                                _as_markdown_value(graph, intentionality) if intentionality is not None else "unknown",
+                            ),
+                            (
+                                "Beneficial or adverse",
+                                _as_markdown_value(graph, impact_kind) if impact_kind is not None else "unknown",
+                            ),
+                        ]
+                    ),
+                    "",
+                ]
             )
-        return lines or ["- No declared impacts provided."]
+        return lines or ["No declared impacts provided."]
 
     if directive == "pdd.sectionB.impactClaims":
         lines = []
-        for claim in _sorted_values(graph, section_b, NIAS.impactClaim):
+        for index, claim in enumerate(_sorted_values(graph, section_b, NIAS.impactClaim), start=1):
             subject = _first_value(graph, claim, CLAIMONT.hasSubject)
             methodologies = [
                 _as_markdown_value(graph, item)
                 for item in _sorted_values(graph, claim, NIAS.usesMethodology)
             ]
             methods = ", ".join(methodologies) if methodologies else "Unavailable"
-            lines.append(
-                f"- Subject: {_as_markdown_value(graph, subject) if subject is not None else 'Unavailable'}; "
-                f"Methodologies: {methods}"
+            lines.extend(
+                [
+                    f"#### Impact Claim {index}",
+                    "",
+                    *_two_column_table(
+                        [
+                            (
+                                "Subject",
+                                _as_markdown_value(graph, subject) if subject is not None else "Unavailable",
+                            ),
+                            ("Methodologies", methods),
+                        ]
+                    ),
+                    "",
+                ]
             )
-        return lines or ["- No impact claims provided."]
+        return lines or ["No impact claims provided."]
 
     if directive == "pdd.sectionB.creditingAndMonitoringPeriods":
         lines = []
-        for impact in _sorted_values(graph, section_b, NIAS.hasDeclaredImpact):
+        for index, impact in enumerate(
+            _sorted_values(graph, section_b, NIAS.hasDeclaredImpact), start=1
+        ):
             crediting = _first_value(graph, impact, NIAS.creditingPeriod)
             renewable = _first_value(graph, crediting, NIAS.creditingPeriodIsRenewable)
-            lines.append(
-                f"- Crediting period renewable: {_as_markdown_value(graph, renewable) if renewable is not None else 'Unavailable'}"
+            lines.extend(
+                [
+                    f"#### Crediting And Monitoring Period {index}",
+                    "",
+                    *_two_column_table(
+                        [
+                            (
+                                "Crediting period renewable",
+                                _as_markdown_value(graph, renewable) if renewable is not None else "Unavailable",
+                            ),
+                        ]
+                    ),
+                    "",
+                ]
             )
-        return lines or ["- No crediting period data provided."]
+        return lines or ["No crediting period data provided."]
 
     if directive == "pdd.sectionB.dataParameterTables":
         return _render_data_parameter_tables(graph, section_b)
 
     if directive == "pdd.sectionB.exAnteEstimates":
-        lines = []
+        rows = []
         for impact in _sorted_values(graph, section_b, NIAS.hasDeclaredImpact):
             value = _first_value(graph, impact, NIAS.exAnteImpactEstimate)
             if value is not None:
-                lines.append(f"- {_as_markdown_value(graph, value)}")
-        return lines or ["- No ex-ante estimates provided."]
+                rows.append(("Ex-ante impact estimate", _as_markdown_value(graph, value)))
+        return _two_column_table(rows) if rows else ["No ex-ante estimates provided."]
 
     if directive == "pdd.sectionC":
         return []
 
     if directive == "pdd.sectionC.stakeholderEngagementModalities":
         value = _first_value(graph, section_c, NIAS.stakeholderEngagementModalities)
-        return [f"- {_as_markdown_value(graph, value) if value is not None else 'Unavailable'}"]
+        return [_as_markdown_value(graph, value) if value is not None else "Unavailable"]
 
     if directive == "pdd.sectionC.stakeholderCommentSummary":
         value = _first_value(graph, section_c, NIAS.stakeholderCommentSummary)
-        return [f"- {_as_markdown_value(graph, value) if value is not None else 'Unavailable'}"]
+        return [_as_markdown_value(graph, value) if value is not None else "Unavailable"]
 
     if directive == "pdd.sectionC.stakeholderCommentConsideration":
         value = _first_value(graph, section_c, NIAS.stakeholderCommentConsideration)
-        return [f"- {_as_markdown_value(graph, value) if value is not None else 'Unavailable'}"]
+        return [_as_markdown_value(graph, value) if value is not None else "Unavailable"]
 
     if directive == "metadataAppendix":
         schema = _first_value(graph, section_a, DCTERMS.conformsTo)
@@ -732,16 +919,21 @@ def _render_filled_directive(
         )
 
     if directive == "predicateMapAppendix":
-        return [
-            "- Project title -> https://nova.org.za/novaimpactaccountingstandard/title",
-            "- Declared impact description -> https://schema.org/description",
-            "- Stakeholder modalities -> https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities",
-        ]
+        return _two_column_table(
+            [
+                ("Project title", "https://nova.org.za/novaimpactaccountingstandard/title"),
+                ("Declared impact description", "https://schema.org/description"),
+                (
+                    "Stakeholder modalities",
+                    "https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities",
+                ),
+            ]
+        )
 
     if directive == "sourceEvidenceAppendix":
-        return [f"- Source graph identifier: {source_artifact}"]
+        return _two_column_table([("Source graph identifier", source_artifact)])
 
-    return [f"- No data provided for `{directive}`."]
+    return [f"No data provided for `{directive}`."]
 
 
 def render_filled_markdown(
@@ -830,7 +1022,7 @@ def render_filled_markdown(
         )
         lines.append("")
 
-    rendered_body = "\n".join(lines).rstrip() + "\n"
+    rendered_body = _replace_table_of_contents("\n".join(lines).rstrip()) + "\n"
     return f"{front_matter}{rendered_body}"
 
 
@@ -914,6 +1106,12 @@ def _compile_pandoc_output(
             header_file.write("\\rfoot{\\thepage}\n")
             header_file.write("\\renewcommand{\\headrulewidth}{0pt}\n")
             header_file.write("\\renewcommand{\\footrulewidth}{0.4pt}\n")
+            header_file.write("\\fancypagestyle{pddtitle}{%\n")
+            header_file.write("\\fancyhf{}%\n")
+            header_file.write(f"\\lfoot{{Document ID: {document_reference}}}%\n")
+            header_file.write("\\renewcommand{\\headrulewidth}{0pt}%\n")
+            header_file.write("\\renewcommand{\\footrulewidth}{0.4pt}%\n")
+            header_file.write("}\n")
             header_path = Path(header_file.name)
         command.extend(["--include-in-header", str(header_path)])
     else:
@@ -947,13 +1145,68 @@ def _pdf_safe_text(value: str):
     )
 
 
-def _markdown_to_pdf_lines(markdown: str):
+def _format_roman_number(value: int):
+    numerals = [
+        (1000, "m"),
+        (900, "cm"),
+        (500, "d"),
+        (400, "cd"),
+        (100, "c"),
+        (90, "xc"),
+        (50, "l"),
+        (40, "xl"),
+        (10, "x"),
+        (9, "ix"),
+        (5, "v"),
+        (4, "iv"),
+        (1, "i"),
+    ]
+    remaining = value
+    parts = []
+    for amount, numeral in numerals:
+        while remaining >= amount:
+            parts.append(numeral)
+            remaining -= amount
+    return "".join(parts) or str(value)
+
+
+def _pdf_page_label(numbering_style: str, page_number: int):
+    if numbering_style == "roman":
+        return _format_roman_number(page_number)
+    return str(page_number)
+
+
+def _markdown_to_pdf_pages(markdown: str, lines_per_page: int = 52):
     if markdown.startswith("---\n"):
         end = markdown.find("\n---\n", 4)
         if end != -1:
             markdown = markdown[end + len("\n---\n") :]
 
-    lines = []
+    pages = []
+    label_to_page = {}
+    current_page = {
+        "lines": [],
+        "numbering_style": "arabic",
+        "page_number": 1,
+        "show_page_number": True,
+    }
+
+    def finish_page(force=False):
+        nonlocal current_page
+        if force or current_page["lines"]:
+            pages.append(current_page)
+            current_page = {
+                "lines": [],
+                "numbering_style": current_page["numbering_style"],
+                "page_number": current_page["page_number"] + 1,
+                "show_page_number": True,
+            }
+
+    def append_line(line: str):
+        if len(current_page["lines"]) >= lines_per_page:
+            finish_page(force=True)
+        current_page["lines"].append(line)
+
     in_fenced_block = False
     for raw_line in markdown.splitlines():
         stripped = raw_line.strip()
@@ -961,35 +1214,81 @@ def _markdown_to_pdf_lines(markdown: str):
             in_fenced_block = not in_fenced_block
             continue
         if not in_fenced_block:
+            if stripped == r"\newpage":
+                finish_page(force=True)
+                continue
+            page_style_match = re.match(r"^\\thispagestyle\{([^}]+)\}$", stripped)
+            if page_style_match:
+                current_page["show_page_number"] = (
+                    page_style_match.group(1) != "pddtitle"
+                )
+                continue
+            numbering_match = re.match(r"^\\pagenumbering\{([^}]+)\}$", stripped)
+            if numbering_match:
+                current_page["numbering_style"] = numbering_match.group(1)
+                current_page["page_number"] = 1
+                continue
+            counter_match = re.match(r"^\\setcounter\{page\}\{(\d+)\}$", stripped)
+            if counter_match:
+                current_page["page_number"] = int(counter_match.group(1))
+                continue
+            heading_match = re.match(r"^#{1,6}\s+(.+)$", stripped)
+            if heading_match:
+                if len(current_page["lines"]) >= lines_per_page:
+                    finish_page(force=True)
+                label_to_page[_pandoc_latex_label(heading_match.group(1).strip())] = (
+                    _pdf_page_label(
+                        current_page["numbering_style"],
+                        current_page["page_number"],
+                    )
+                )
             stripped = re.sub(r"^#{1,6}\s+", "", stripped)
             stripped = stripped.replace("**", "").replace("`", "")
             stripped = re.sub(r"\{\{ render: ([^}]+) \}\}", r"[to be populated: \1]", stripped)
         if not stripped:
-            lines.append("")
+            append_line("")
             continue
-        wrapped = textwrap.wrap(stripped, width=92) or [stripped]
-        lines.extend(wrapped)
-    return lines or ["Project Design Document"]
+        wrapped = (
+            [stripped]
+            if "\\pageref{" in stripped
+            else textwrap.wrap(stripped, width=92) or [stripped]
+        )
+        for line in wrapped:
+            append_line(line)
+    finish_page()
+    for page in pages:
+        page["lines"] = [
+            re.sub(
+                r"\\pageref\{([^}]+)\}",
+                lambda match: label_to_page.get(match.group(1), "?"),
+                line,
+            )
+            for line in page["lines"]
+        ]
+    return pages or [
+        {
+            "lines": ["Project Design Document"],
+            "numbering_style": "arabic",
+            "page_number": 1,
+            "show_page_number": True,
+        }
+    ]
 
 
-def _paginate_lines(lines: list[str], lines_per_page: int):
-    pages = []
-    for index in range(0, len(lines), lines_per_page):
-        pages.append(lines[index : index + lines_per_page])
-    return pages or [[]]
-
-
-def _content_stream_for_page(lines: list[str], document_reference: str, page_number: int):
+def _content_stream_for_page(lines: list[str], document_reference: str, page_label):
     commands = ["BT", "/F1 10 Tf", "54 790 Td", "14 TL"]
     for line in lines:
         commands.append(f"({_pdf_safe_text(line)}) Tj")
         commands.append("T*")
+    footer = f"Document ID: {document_reference}"
+    if page_label:
+        footer = f"{footer} | Page {page_label}"
     commands.extend(
         [
             "ET",
             "BT",
             "/F1 8 Tf",
-            f"54 36 Td (Document ID: {_pdf_safe_text(document_reference)} | Page {page_number}) Tj",
+            f"54 36 Td ({_pdf_safe_text(footer)}) Tj",
             "ET",
         ]
     )
@@ -998,7 +1297,7 @@ def _content_stream_for_page(lines: list[str], document_reference: str, page_num
 
 def _write_minimal_pdf(markdown_path: Path, output_path: Path, document_reference: str):
     markdown = markdown_path.read_text(encoding="utf-8")
-    pages = _paginate_lines(_markdown_to_pdf_lines(markdown), lines_per_page=52)
+    pages = _markdown_to_pdf_pages(markdown, lines_per_page=52)
 
     objects: list[bytes] = [
         b"<< /Type /Catalog /Pages 2 0 R >>",
@@ -1007,14 +1306,19 @@ def _write_minimal_pdf(markdown_path: Path, output_path: Path, document_referenc
     ]
     page_object_numbers = []
 
-    for page_number, page_lines in enumerate(pages, start=1):
+    for page in pages:
         page_object_number = len(objects) + 1
         content_object_number = page_object_number + 1
         page_object_numbers.append(page_object_number)
+        page_label = (
+            _pdf_page_label(page["numbering_style"], page["page_number"])
+            if page["show_page_number"]
+            else None
+        )
         content = _content_stream_for_page(
-            page_lines,
+            page["lines"],
             document_reference=document_reference,
-            page_number=page_number,
+            page_label=page_label,
         )
         objects.append(
             (

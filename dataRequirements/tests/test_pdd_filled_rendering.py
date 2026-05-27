@@ -51,9 +51,30 @@ class PddFilledRenderingTests(unittest.TestCase):
         self.assertIn("## Section A. Description Of Project", rendered)
         self.assertIn("## Section B. Impact Claims And Monitoring", rendered)
         self.assertIn("## Section C. Stakeholder Engagement", rendered)
-        self.assertIn("Facility: Community-led mangrove nursery", rendered)
-        self.assertIn("(Intentional, Beneficial)", rendered)
+        self.assertIn("#### Technology Or Measure 1", rendered)
+        self.assertIn("| Type | Facility |", rendered)
+        self.assertIn(
+            "| Description | Community-led mangrove nursery and replanting measures. |",
+            rendered,
+        )
+        self.assertIn("#### Declared Impact 1", rendered)
+        self.assertIn("| Intentionality | Intentional |", rendered)
+        self.assertIn("| Beneficial or adverse | Beneficial |", rendered)
         self.assertIn("| Unit | kWh |", rendered)
+
+    def test_filled_rendering_toc_is_table_with_page_references(self):
+        rendered = self._render_filled()
+        toc = rendered.split("## Table Of Contents", 1)[1].split("\\newpage", 1)[0]
+        self.assertIn("| Section | Page |", toc)
+        self.assertIn(
+            "| Section A. Description Of Project | \\pageref{section-a.-description-of-project} |",
+            toc,
+        )
+        self.assertIn(
+            "| Parameter: Electricity generated | \\pageref{parameter-electricity-generated} |",
+            toc,
+        )
+        self.assertNotRegex(toc, r"(?m)^\\s*- ")
 
     def test_filled_rendering_keeps_document_metadata_in_appendix(self):
         rendered = self._render_filled()

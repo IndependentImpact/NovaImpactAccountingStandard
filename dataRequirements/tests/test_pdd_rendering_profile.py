@@ -153,6 +153,18 @@ class PddRenderingProfileTests(unittest.TestCase):
             with self.subTest(directive=directive):
                 self.assertIn(directive, self.body)
 
+    def test_profile_declares_pdf_page_numbering_boundaries(self):
+        expected_sequences = [
+            "\\thispagestyle{pddtitle}\n\n\\newpage\n\n\\pagenumbering{roman}",
+            "\\newpage\n\n\\pagenumbering{arabic}\n\\setcounter{page}{1}",
+            "\\newpage\n\n## Appendix A. Document And Process Metadata",
+            "\\newpage\n\n## Appendix B. Field-To-Predicate Map",
+            "\\newpage\n\n## Appendix C. Source Graph And Hash Evidence",
+        ]
+        for sequence in expected_sequences:
+            with self.subTest(sequence=sequence):
+                self.assertIn(sequence, self.body)
+
     def test_profile_keeps_process_metadata_out_of_main_pdd_body(self):
         main_body = self.body.split("## Section A. Description Of Project", 1)[1].split(
             "## Appendix A. Document And Process Metadata", 1
