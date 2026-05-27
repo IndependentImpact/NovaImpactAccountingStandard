@@ -1,0 +1,103 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ScoringRulesShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - ScoringRules concept scheme SHACL shapes"@en ;
+    dcterms:description "SHACL shapes validating the ReviewMandate, ScoringModelTerm, IndicatorQualityDimension, MethodologyQualityDimension, and InstrumentQualityDimension concept schemes defined in ScoringRules.ttl."@en .
+
+# ---------------------------------------------------------------------------
+# ReviewMandate constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:ReviewMandateValueShape a sh:PropertyShape ;
+    sh:path nias-o:reviewMandate ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:validation
+        nias-cs:verification
+    ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "The review mandate must be either nias-cs:validation or nias-cs:verification."@en .
+
+# ---------------------------------------------------------------------------
+# IndicatorQualityDimension constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:IndicatorQualityDimensionValueShape a sh:PropertyShape ;
+    sh:path nias-o:indicatorQualityDimension ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:indicator-validity
+        nias-cs:indicator-reliability
+        nias-cs:indicator-sensitivity
+    ) ;
+    sh:message "The value of nias-o:indicatorQualityDimension must be a recognised IndicatorQualityDimension concept."@en .
+
+# ---------------------------------------------------------------------------
+# MethodologyQualityDimension constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:MethodologyQualityDimensionValueShape a sh:PropertyShape ;
+    sh:path nias-o:methodologyQualityDimension ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:methodology-conceptual-soundness
+        nias-cs:methodology-internal-validity
+        nias-cs:methodology-external-validity
+        nias-cs:methodology-reliability
+        nias-cs:methodology-transparency
+        nias-cs:methodology-robustness
+        nias-cs:methodology-sensitivity-specificity
+        nias-cs:methodology-completeness
+        nias-cs:methodology-scalability
+        nias-cs:methodology-timeliness
+        nias-cs:methodology-normative-alignment
+    ) ;
+    sh:message "The value of nias-o:methodologyQualityDimension must be a recognised MethodologyQualityDimension concept."@en .
+
+# ---------------------------------------------------------------------------
+# InstrumentQualityDimension constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:InstrumentQualityDimensionValueShape a sh:PropertyShape ;
+    sh:path nias-o:instrumentQualityDimension ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:instrument-accuracy
+        nias-cs:instrument-precision
+        nias-cs:instrument-resolution
+        nias-cs:instrument-sensitivity
+        nias-cs:instrument-range
+        nias-cs:instrument-stability
+        nias-cs:instrument-calibration
+        nias-cs:instrument-selectivity
+        nias-cs:instrument-noise
+        nias-cs:instrument-response-time
+        nias-cs:instrument-robustness
+        nias-cs:instrument-reliability
+        nias-cs:instrument-usability
+        nias-cs:instrument-traceability
+    ) ;
+    sh:message "The value of nias-o:instrumentQualityDimension must be a recognised InstrumentQualityDimension concept."@en .
+
+# ---------------------------------------------------------------------------
+# ScoringModelTerm constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:ScoringModelTermValueShape a sh:PropertyShape ;
+    sh:path nias-o:scoringModelTerm ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:act-sco
+        nias-cs:validation-point
+        nias-cs:verification-point
+        nias-cs:expert-threshold
+        nias-cs:reputation-weighting
+    ) ;
+    sh:message "The value of nias-o:scoringModelTerm must be a recognised ScoringModelTerm concept."@en .

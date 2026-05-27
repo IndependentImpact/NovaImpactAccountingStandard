@@ -1,0 +1,27 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ReputationRulesShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - ReputationRules concept scheme SHACL shapes"@en ;
+    dcterms:description "SHACL shapes validating the ReputationLifecycleTerm concept scheme defined in ReputationRules.ttl."@en .
+
+# ---------------------------------------------------------------------------
+# ReputationLifecycleTerm constraint shape
+# ---------------------------------------------------------------------------
+
+nias-o:ReputationLifecycleTermValueShape a sh:PropertyShape ;
+    sh:path nias-o:reputationLifecycleTerm ;
+    sh:class skos:Concept ;
+    sh:in (
+        nias-cs:ksr-gain
+        nias-cs:ksr-decay
+        nias-cs:ksr-balance
+        nias-cs:decay-rate
+        nias-cs:decay-floor
+    ) ;
+    sh:message "The value of nias-o:reputationLifecycleTerm must be a recognised ReputationLifecycleTerm concept."@en .

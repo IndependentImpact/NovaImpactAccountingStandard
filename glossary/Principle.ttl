@@ -1,0 +1,109 @@
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# ---------------------------------------------------------------------------
+# Impact principles
+# ---------------------------------------------------------------------------
+
+nias-cs:purposefulness a skos:Concept ;
+    skos:definition "An activity should have a clearly defined, justified purpose aimed at producing a net-positive outcome for society or the environment. The motivation behind an activity should be genuine, transparent, and aligned with stated sustainability or ethical goals." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Purposefulness" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:do-no-harm a skos:Concept ;
+    skos:definition "An activity should avoid, mitigate, or compensate for any foreseeable negative impacts that it may have, particularly on vulnerable populations or ecosystems. In the face of scientific uncertainty and potential for serious harm, the burden of proof should fall on demonstrating safety before action." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Do no harm" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:impact-effectiveness a skos:Concept ;
+    skos:definition "The chosen intervention should be demonstrably capable of achieving its intended outcomes under realistic conditions." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Effectiveness" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:impact-efficiency a skos:Concept ;
+    skos:definition "The desired impact should be achieved with the least necessary resources and collateral burden." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Efficiency" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:equity-and-inclusivity a skos:Concept ;
+    skos:definition "The benefits and burdens of an activity should be distributed fairly, with particular consideration given to marginalised stakeholders." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Equity & inclusivity" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:adaptiveness a skos:Concept ;
+    skos:definition "Activities should, where relevant, be periodically reviewed and adjusted in response to observed outcomes and contextual changes." ;
+    skos:inScheme nias-cs:ImpactPrinciple ;
+    skos:prefLabel "Adaptiveness" ;
+    skos:topConceptOf nias-cs:ImpactPrinciple .
+
+nias-cs:ImpactPrinciple a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary of guiding principles that activities and their owners should adhere to when pursuing net-positive outcomes for society or the environment." ;
+    skos:hasTopConcept nias-cs:adaptiveness,
+        nias-cs:do-no-harm,
+        nias-cs:equity-and-inclusivity,
+        nias-cs:impact-effectiveness,
+        nias-cs:impact-efficiency,
+        nias-cs:purposefulness ;
+    skos:prefLabel "Impact principles" .
+
+# ---------------------------------------------------------------------------
+# Accounting principles
+# ---------------------------------------------------------------------------
+
+nias-cs:accounting-relevance a skos:Concept ;
+    skos:definition "Accounting should focus on the impacts that are significant to decision-making and stakeholders. Reports should focus on information that is useful for stakeholders' decisions and evaluations." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Relevance" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-completeness a skos:Concept ;
+    skos:definition "All material impacts within the defined boundary should be included and reported on." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Completeness" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-consistency a skos:Concept ;
+    skos:definition "Methods and assumptions should be applied consistently over time and across comparable activities. Information should be presented in a way that allows comparisons across time, activities, and entities." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Consistency" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-accuracy a skos:Concept ;
+    skos:definition "Estimates should be as precise as possible given available data and methods, minimising bias and uncertainty. Information should be free from material error or distortion." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Accuracy" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-conservativeness a skos:Concept ;
+    skos:definition "Where uncertainty remains, assumptions should err on the side of not overstating benefits or understating harms." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Conservativeness" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-verifiability a skos:Concept ;
+    skos:definition "All data sources, assumptions, and methods should be documented in a clear, comprehensible manner, and be maximally publicly accessible to allow independent parties (including non-specialists) to reproduce and/or confirm the reported results." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Verifiability" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:accounting-accountability a skos:Concept ;
+    skos:definition "Those responsible for producing and reporting information should be clearly identified and answerable for its quality." ;
+    skos:inScheme nias-cs:AccountingPrinciple ;
+    skos:prefLabel "Accountability" ;
+    skos:topConceptOf nias-cs:AccountingPrinciple .
+
+nias-cs:AccountingPrinciple a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary of principles that agents should adhere to when accounting for the impact of their activities, ensuring impact reports are relevant, complete, consistent, accurate, conservative, verifiable, and accountable." ;
+    skos:hasTopConcept nias-cs:accounting-accountability,
+        nias-cs:accounting-accuracy,
+        nias-cs:accounting-completeness,
+        nias-cs:accounting-consistency,
+        nias-cs:accounting-conservativeness,
+        nias-cs:accounting-relevance,
+        nias-cs:accounting-verifiability ;
+    skos:prefLabel "Accounting principles" .
