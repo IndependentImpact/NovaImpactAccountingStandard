@@ -58,10 +58,8 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             markdown = output.read_text(encoding="utf-8")
             self.assertIn("### Workflow Export Pilot", markdown)
             self.assertIn("Increase carbon sequestration.", markdown)
-            self.assertIn(
-                "- Community workshop and household survey.",
-                markdown,
-            )
+            self.assertIn("Community workshop and household survey.", markdown)
+            self.assertNotIn("- Community workshop and household survey.", markdown)
 
     def test_final_export_requires_approved_reviews(self):
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -45,35 +45,51 @@ generatedAt: 2026-05-25T00:00:00Z
 | Project cycle | Unavailable |
 
 
+\thispagestyle{pddtitle}
+
 \newpage
+
+\pagenumbering{roman}
+\setcounter{page}{1}
 
 ## Table Of Contents
 
-- [Section A. Description Of Project](#section-a-description-of-project)
-  - [A.1 Purpose And General Description](#a1-purpose-and-general-description)
-  - [A.2 Location Of Project](#a2-location-of-project)
-  - [A.3 Technologies And Measures](#a3-technologies-and-measures)
-  - [A.4 Project Parties](#a4-project-parties)
-  - [A.5 Legal Matters, Funding, History, And Eligibility](#a5-legal-matters-funding-history-and-eligibility)
-- [Section B. Impact Claims And Monitoring](#section-b-impact-claims-and-monitoring)
-  - [B.1 Methodology References](#b1-methodology-references)
-  - [B.2 Declared Impacts](#b2-declared-impacts)
-  - [B.3 Impact Claims](#b3-impact-claims)
-  - [B.4 Crediting And Monitoring Periods](#b4-crediting-and-monitoring-periods)
-  - [B.5 Data And Parameter Requirements](#b5-data-and-parameter-requirements)
-  - [B.6 Ex Ante Estimates](#b6-ex-ante-estimates)
-- [Section C. Stakeholder Engagement](#section-c-stakeholder-engagement)
-  - [C.1 Stakeholder Engagement Modalities](#c1-stakeholder-engagement-modalities)
-  - [C.2 Stakeholder Comment Summary](#c2-stakeholder-comment-summary)
-  - [C.3 Stakeholder Comment Consideration](#c3-stakeholder-comment-consideration)
-- [Appendix A. Document And Process Metadata](#appendix-a-document-and-process-metadata)
-  - [A.1 Validation Review Summary](#a1-validation-review-summary)
-  - [A.2 PDD Certificate Issuance Request](#a2-pdd-certificate-issuance-request)
-- [Appendix B. Field-To-Predicate Map](#appendix-b-field-to-predicate-map)
-- [Appendix C. Source Graph And Hash Evidence](#appendix-c-source-graph-and-hash-evidence)
+| Section | Page |
+| --- | ---: |
+| Section A. Description Of Project | \pageref{section-a.-description-of-project} |
+| A.1 Purpose And General Description | \pageref{a.1-purpose-and-general-description} |
+| A.2 Location Of Project | \pageref{a.2-location-of-project} |
+| A.3 Technologies And Measures | \pageref{a.3-technologies-and-measures} |
+| Technology Or Measure 1 | \pageref{technology-or-measure-1} |
+| A.4 Project Parties | \pageref{a.4-project-parties} |
+| Project Party 1 | \pageref{project-party-1} |
+| A.5 Legal Matters, Funding, History, And Eligibility | \pageref{a.5-legal-matters-funding-history-and-eligibility} |
+| Section B. Impact Claims And Monitoring | \pageref{section-b.-impact-claims-and-monitoring} |
+| B.1 Methodology References | \pageref{b.1-methodology-references} |
+| B.2 Declared Impacts | \pageref{b.2-declared-impacts} |
+| Declared Impact 1 | \pageref{declared-impact-1} |
+| B.3 Impact Claims | \pageref{b.3-impact-claims} |
+| Impact Claim 1 | \pageref{impact-claim-1} |
+| B.4 Crediting And Monitoring Periods | \pageref{b.4-crediting-and-monitoring-periods} |
+| Crediting And Monitoring Period 1 | \pageref{crediting-and-monitoring-period-1} |
+| B.5 Data And Parameter Requirements | \pageref{b.5-data-and-parameter-requirements} |
+| Parameter: Electricity generated | \pageref{parameter-electricity-generated} |
+| B.6 Ex Ante Estimates | \pageref{b.6-ex-ante-estimates} |
+| Section C. Stakeholder Engagement | \pageref{section-c.-stakeholder-engagement} |
+| C.1 Stakeholder Engagement Modalities | \pageref{c.1-stakeholder-engagement-modalities} |
+| C.2 Stakeholder Comment Summary | \pageref{c.2-stakeholder-comment-summary} |
+| C.3 Stakeholder Comment Consideration | \pageref{c.3-stakeholder-comment-consideration} |
+| Appendix A. Document And Process Metadata | \pageref{appendix-a.-document-and-process-metadata} |
+| A.1 Validation Review Summary | \pageref{a.1-validation-review-summary} |
+| A.2 PDD Certificate Issuance Request | \pageref{a.2-pdd-certificate-issuance-request} |
+| Appendix B. Field-To-Predicate Map | \pageref{appendix-b.-field-to-predicate-map} |
+| Appendix C. Source Graph And Hash Evidence | \pageref{appendix-c.-source-graph-and-hash-evidence} |
 
 
 \newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 ## Section A. Description Of Project
 
@@ -81,30 +97,47 @@ generatedAt: 2026-05-25T00:00:00Z
 
 ### A.1 Purpose And General Description
 
-- Restore degraded mangrove habitat and increase shoreline resilience.
+Restore degraded mangrove habitat and increase shoreline resilience.
 
 
 ### A.2 Location Of Project
 
-- ipfs://pdd-alpha-location-coastal-site
+| Field | Value |
+| --- | --- |
+| Location resource | ipfs://pdd-alpha-location-coastal-site |
 
 
 ### A.3 Technologies And Measures
 
-- Facility: Community-led mangrove nursery and replanting measures.
+#### Technology Or Measure 1
+
+| Field | Value |
+| --- | --- |
+| Type | Facility |
+| Description | Community-led mangrove nursery and replanting measures. |
+
 
 
 ### A.4 Project Parties
 
-- Coastal Community Cooperative (host: Yes, participant: Yes)
+#### Project Party 1
+
+| Field | Value |
+| --- | --- |
+| Party name | Coastal Community Cooperative |
+| Host party | Yes |
+| Participant party | Yes |
+
 
 
 ### A.5 Legal Matters, Funding, History, And Eligibility
 
-- Legal matters: All permits are in place.
-- Public funding: no
-- Project history: Pilot restoration started in 2024.
-- Debundling assessment: No overlapping registries identified.
+| Field | Value |
+| --- | --- |
+| Legal matters | All permits are in place. |
+| Public funding | no |
+| Project history | Pilot restoration started in 2024. |
+| Debundling assessment | No overlapping registries identified. |
 
 
 ## Section B. Impact Claims And Monitoring
@@ -113,22 +146,42 @@ generatedAt: 2026-05-25T00:00:00Z
 
 ### B.1 Methodology References
 
-- Default PDD Methodology
+| Methodology reference |
+| --- |
+| Default PDD Methodology |
 
 
 ### B.2 Declared Impacts
 
-- Increase net carbon sequestration in restored mangroves. (Intentional, Beneficial)
+#### Declared Impact 1
+
+| Field | Value |
+| --- | --- |
+| Description | Increase net carbon sequestration in restored mangroves. |
+| Intentionality | Intentional |
+| Beneficial or adverse | Beneficial |
+
 
 
 ### B.3 Impact Claims
 
-- Subject: pdd-alpha; Methodologies: Default PDD Methodology
+#### Impact Claim 1
+
+| Field | Value |
+| --- | --- |
+| Subject | pdd-alpha |
+| Methodologies | Default PDD Methodology |
+
 
 
 ### B.4 Crediting And Monitoring Periods
 
-- Crediting period renewable: Unavailable
+#### Crediting And Monitoring Period 1
+
+| Field | Value |
+| --- | --- |
+| Crediting period renewable | Unavailable |
+
 
 
 ### B.5 Data And Parameter Requirements
@@ -151,7 +204,9 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### B.6 Ex Ante Estimates
 
-- 2450.50
+| Field | Value |
+| --- | --- |
+| Ex-ante impact estimate | 2450.50 |
 
 
 ## Section C. Stakeholder Engagement
@@ -160,18 +215,20 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### C.1 Stakeholder Engagement Modalities
 
-- Public workshops, shoreline focus groups, and household surveys.
+Public workshops, shoreline focus groups, and household surveys.
 
 
 ### C.2 Stakeholder Comment Summary
 
-- Community feedback requested stronger local monitoring visibility.
+Community feedback requested stronger local monitoring visibility.
 
 
 ### C.3 Stakeholder Comment Consideration
 
-- Integrated comments into the revised monitoring plan.
+Integrated comments into the revised monitoring plan.
 
+
+\newpage
 
 ## Appendix A. Document And Process Metadata
 
@@ -191,27 +248,35 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### A.1 Validation Review Summary
 
-- No data provided for `pdd.validation.sectionA`.
+No data provided for `pdd.validation.sectionA`.
 
 
-- No data provided for `pdd.validation.sectionB`.
+No data provided for `pdd.validation.sectionB`.
 
 
-- No data provided for `pdd.validation.sectionC`.
+No data provided for `pdd.validation.sectionC`.
 
 
 ### A.2 PDD Certificate Issuance Request
 
-- No data provided for `pdd.certificateIssuanceRequest`.
+No data provided for `pdd.certificateIssuanceRequest`.
 
+
+\newpage
 
 ## Appendix B. Field-To-Predicate Map
 
-- Project title -> https://nova.org.za/novaimpactaccountingstandard/title
-- Declared impact description -> https://schema.org/description
-- Stakeholder modalities -> https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities
+| Field | Value |
+| --- | --- |
+| Project title | https://nova.org.za/novaimpactaccountingstandard/title |
+| Declared impact description | https://schema.org/description |
+| Stakeholder modalities | https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities |
 
+
+\newpage
 
 ## Appendix C. Source Graph And Hash Evidence
 
-- Source graph identifier: pdd-alpha-input.jsonld
+| Field | Value |
+| --- | --- |
+| Source graph identifier | pdd-alpha-input.jsonld |

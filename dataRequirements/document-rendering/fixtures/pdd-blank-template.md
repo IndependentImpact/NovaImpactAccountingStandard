@@ -41,35 +41,51 @@ sidecarOutputs:
 | Project cycle | _[optional: regular, retroactive, or other cycle]_ |
 
 
+\thispagestyle{pddtitle}
+
 \newpage
+
+\pagenumbering{roman}
+\setcounter{page}{1}
 
 ## Table Of Contents
 
-- [Section A. Description Of Project](#section-a-description-of-project)
-  - [A.1 Purpose And General Description](#a1-purpose-and-general-description)
-  - [A.2 Location Of Project](#a2-location-of-project)
-  - [A.3 Technologies And Measures](#a3-technologies-and-measures)
-  - [A.4 Project Parties](#a4-project-parties)
-  - [A.5 Legal Matters, Funding, History, And Eligibility](#a5-legal-matters-funding-history-and-eligibility)
-- [Section B. Impact Claims And Monitoring](#section-b-impact-claims-and-monitoring)
-  - [B.1 Methodology References](#b1-methodology-references)
-  - [B.2 Declared Impacts](#b2-declared-impacts)
-  - [B.3 Impact Claims](#b3-impact-claims)
-  - [B.4 Crediting And Monitoring Periods](#b4-crediting-and-monitoring-periods)
-  - [B.5 Data And Parameter Requirements](#b5-data-and-parameter-requirements)
-  - [B.6 Ex Ante Estimates](#b6-ex-ante-estimates)
-- [Section C. Stakeholder Engagement](#section-c-stakeholder-engagement)
-  - [C.1 Stakeholder Engagement Modalities](#c1-stakeholder-engagement-modalities)
-  - [C.2 Stakeholder Comment Summary](#c2-stakeholder-comment-summary)
-  - [C.3 Stakeholder Comment Consideration](#c3-stakeholder-comment-consideration)
-- [Appendix A. Document And Process Metadata](#appendix-a-document-and-process-metadata)
-  - [A.1 Validation Review Summary](#a1-validation-review-summary)
-  - [A.2 PDD Certificate Issuance Request](#a2-pdd-certificate-issuance-request)
-- [Appendix B. Field-To-Predicate Map](#appendix-b-field-to-predicate-map)
-- [Appendix C. Source Graph And Hash Evidence](#appendix-c-source-graph-and-hash-evidence)
+| Section | Page |
+| --- | ---: |
+| Section A. Description Of Project | \pageref{section-a.-description-of-project} |
+| A.1 Purpose And General Description | \pageref{a.1-purpose-and-general-description} |
+| A.2 Location Of Project | \pageref{a.2-location-of-project} |
+| A.3 Technologies And Measures | \pageref{a.3-technologies-and-measures} |
+| Technology Or Measure | \pageref{technology-or-measure} |
+| A.4 Project Parties | \pageref{a.4-project-parties} |
+| Project Party | \pageref{project-party} |
+| A.5 Legal Matters, Funding, History, And Eligibility | \pageref{a.5-legal-matters-funding-history-and-eligibility} |
+| Section B. Impact Claims And Monitoring | \pageref{section-b.-impact-claims-and-monitoring} |
+| B.1 Methodology References | \pageref{b.1-methodology-references} |
+| B.2 Declared Impacts | \pageref{b.2-declared-impacts} |
+| Declared Impact | \pageref{declared-impact} |
+| B.3 Impact Claims | \pageref{b.3-impact-claims} |
+| Impact Claim | \pageref{impact-claim} |
+| B.4 Crediting And Monitoring Periods | \pageref{b.4-crediting-and-monitoring-periods} |
+| Crediting And Monitoring Period | \pageref{crediting-and-monitoring-period} |
+| B.5 Data And Parameter Requirements | \pageref{b.5-data-and-parameter-requirements} |
+| Parameter: _[parameter label]_ | \pageref{parameter-parameter-label} |
+| B.6 Ex Ante Estimates | \pageref{b.6-ex-ante-estimates} |
+| Section C. Stakeholder Engagement | \pageref{section-c.-stakeholder-engagement} |
+| C.1 Stakeholder Engagement Modalities | \pageref{c.1-stakeholder-engagement-modalities} |
+| C.2 Stakeholder Comment Summary | \pageref{c.2-stakeholder-comment-summary} |
+| C.3 Stakeholder Comment Consideration | \pageref{c.3-stakeholder-comment-consideration} |
+| Appendix A. Document And Process Metadata | \pageref{appendix-a.-document-and-process-metadata} |
+| A.1 Validation Review Summary | \pageref{a.1-validation-review-summary} |
+| A.2 PDD Certificate Issuance Request | \pageref{a.2-pdd-certificate-issuance-request} |
+| Appendix B. Field-To-Predicate Map | \pageref{appendix-b.-field-to-predicate-map} |
+| Appendix C. Source Graph And Hash Evidence | \pageref{appendix-c.-source-graph-and-hash-evidence} |
 
 
 \newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 ## Section A. Description Of Project
 
@@ -77,41 +93,55 @@ sidecarOutputs:
 
 ### A.1 Purpose And General Description
 
-- **[required]** Project title: _[to be populated]_
-- **[required]** Objective: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Project title | **[required]** _[to be populated]_ |
+| Objective | **[required]** _[to be populated]_ |
 
 
 ### A.2 Location Of Project
 
-- **[required]** Project locations: _[location, boundary, map, or resource reference]_
+| Field | Value |
+| --- | --- |
+| Project locations | **[required]** _[location, boundary, map, or resource reference]_ |
 
 
 ### A.3 Technologies And Measures
 
-- **[required]** Type: _[facility, system, equipment, or other]_
-- **[required]** Description: _[to be populated]_
-- **[required]** Current age in years: _[to be populated]_
-- **[required]** Estimated lifespan in years: _[to be populated]_
-- **[optional]** Additional information: _[to be populated]_
+#### Technology Or Measure
+
+| Field | Value |
+| --- | --- |
+| Type | **[required]** _[facility, system, equipment, or other]_ |
+| Description | **[required]** _[to be populated]_ |
+| Current age in years | **[required]** _[to be populated]_ |
+| Estimated lifespan in years | **[required]** _[to be populated]_ |
+| Additional information | **[optional]** _[to be populated]_ |
 
 
 ### A.4 Project Parties
 
-- **[required]** Party name: _[to be populated]_
-- **[required]** Host party: _[yes/no]_
-- **[required]** Participant party: _[yes/no]_
-- **[required]** Public or private: _[to be populated]_
-- **[optional]** Additional information: _[to be populated]_
+#### Project Party
+
+| Field | Value |
+| --- | --- |
+| Party name | **[required]** _[to be populated]_ |
+| Host party | **[required]** _[yes/no]_ |
+| Participant party | **[required]** _[yes/no]_ |
+| Public or private | **[required]** _[to be populated]_ |
+| Additional information | **[optional]** _[to be populated]_ |
 
 
 ### A.5 Legal Matters, Funding, History, And Eligibility
 
-- **[required]** Legal matters: _[to be populated]_
-- **[required]** Public funding: _[yes/no]_
-- **[optional]** Public funding sources: _[to be populated]_
-- **[required]** Project history: _[to be populated]_
-- **[required]** Debundling assessment: _[to be populated]_
-- **[optional]** Eligibility description: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Legal matters | **[required]** _[to be populated]_ |
+| Public funding | **[required]** _[yes/no]_ |
+| Public funding sources | **[optional]** _[to be populated]_ |
+| Project history | **[required]** _[to be populated]_ |
+| Debundling assessment | **[required]** _[to be populated]_ |
+| Eligibility description | **[optional]** _[to be populated]_ |
 
 
 ## Section B. Impact Claims And Monitoring
@@ -120,34 +150,48 @@ sidecarOutputs:
 
 ### B.1 Methodology References
 
-- **[required]** Methodology reference and version: _[to be populated]_
+| Methodology reference and version |
+| --- |
+| **[required]** _[to be populated]_ |
 
 
 ### B.2 Declared Impacts
 
-- **[required]** Intentionality: _[intentional or unintentional]_
-- **[required]** Beneficial or adverse: _[beneficial or adverse]_
-- **[required]** Impact description: _[to be populated]_
-- **[required]** Monitored: _[yes/no]_
-- **[optional]** Not monitored justification: _[to be populated]_
-- **[optional]** Additionality justification: _[to be populated]_
-- **[optional]** Baseline or counterfactual state: _[indicator, value, unit, date/time]_
-- **[optional]** Project or real state: _[indicator, value, unit, date/time]_
-- **[optional]** Provenance resources: _[to be populated]_
+#### Declared Impact
+
+| Field | Value |
+| --- | --- |
+| Intentionality | **[required]** _[intentional or unintentional]_ |
+| Beneficial or adverse | **[required]** _[beneficial or adverse]_ |
+| Impact description | **[required]** _[to be populated]_ |
+| Monitored | **[required]** _[yes/no]_ |
+| Not monitored justification | **[optional]** _[to be populated]_ |
+| Additionality justification | **[optional]** _[to be populated]_ |
+| Baseline or counterfactual state | **[optional]** _[indicator, value, unit, date/time]_ |
+| Project or real state | **[optional]** _[indicator, value, unit, date/time]_ |
+| Provenance resources | **[optional]** _[to be populated]_ |
 
 
 ### B.3 Impact Claims
 
-- **[required]** Impact claim subject: _[project or activity]_
-- **[required]** Methodology references: _[to be populated]_
+#### Impact Claim
+
+| Field | Value |
+| --- | --- |
+| Impact claim subject | **[required]** _[project or activity]_ |
+| Methodology references | **[required]** _[to be populated]_ |
 
 
 ### B.4 Crediting And Monitoring Periods
 
-- **[optional]** Crediting period start: _[to be populated]_
-- **[optional]** Crediting period end: _[to be populated]_
-- **[optional]** Renewable crediting period: _[yes/no]_
-- **[optional]** Monitoring periods: _[start and end date/time]_
+#### Crediting And Monitoring Period
+
+| Field | Value |
+| --- | --- |
+| Crediting period start | **[optional]** _[to be populated]_ |
+| Crediting period end | **[optional]** _[to be populated]_ |
+| Renewable crediting period | **[optional]** _[yes/no]_ |
+| Monitoring periods | **[optional]** _[start and end date/time]_ |
 
 
 ### B.5 Data And Parameter Requirements
@@ -172,7 +216,9 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### B.6 Ex Ante Estimates
 
-- **[optional]** Ex-ante impact estimate: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Ex-ante impact estimate | **[optional]** _[to be populated]_ |
 
 
 ## Section C. Stakeholder Engagement
@@ -181,18 +227,26 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### C.1 Stakeholder Engagement Modalities
 
-- **[required]** Stakeholder engagement modalities: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Stakeholder engagement modalities | **[required]** _[to be populated]_ |
 
 
 ### C.2 Stakeholder Comment Summary
 
-- **[optional]** Stakeholder comment summary: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Stakeholder comment summary | **[optional]** _[to be populated]_ |
 
 
 ### C.3 Stakeholder Comment Consideration
 
-- **[optional]** Stakeholder comment consideration: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Stakeholder comment consideration | **[optional]** _[to be populated]_ |
 
+
+\newpage
 
 ## Appendix A. Document And Process Metadata
 
@@ -212,111 +266,69 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ### A.1 Validation Review Summary
 
-- **[required]** PDD-A review workflow submission: _[to be populated]_
-  - **[required]** Submitted document: _[to be populated]_
-  - **[required]** Workflow: _[to be populated]_
-  - **[required]** Workflow step: _[to be populated]_
-  - **[required]** Workflow subject: _[to be populated]_
-  - **[required]** Submitted by: _[to be populated]_
-  - **[required]** Recipient: _[to be populated]_
-  - **[required]** Consensus message: _[to be populated]_
-    - **[required]** Consensus topic: _[to be populated]_
-    - **[optional]** Sequence number: _[to be populated]_
-    - **[required]** Consensus timestamp: _[to be populated]_
-    - **[optional]** Message content: _[to be populated]_
-- **[required]** Reviewed PDD-A document: _[to be populated]_
-- **[required]** PDD-A field reviews: _[to be populated]_
-  - **[required]** Field key: _[to be populated]_
-  - **[required]** Field title: _[to be populated]_
-  - **[required]** Field prompt: _[to be populated]_
-  - **[required]** Original response: _[to be populated]_
-  - **[required]** Reviewer decision: _[to be populated]_
-  - **[required]** Reviewer feedback: _[to be populated]_
-- **[required]** Final PDD-A review decision: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| PDD-A review workflow submission | **[required]** _[to be populated]_ |
+| PDD-A review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
+| Reviewed PDD-A document | **[required]** _[to be populated]_ |
+| PDD-A field reviews | **[required]** _[to be populated]_ |
+| PDD-A field reviews details | See nested DocumentFieldReviewUiShape fields. |
+| Final PDD-A review decision | **[required]** _[to be populated]_ |
 
 
-- **[required]** PDD-B review workflow submission: _[to be populated]_
-  - **[required]** Submitted document: _[to be populated]_
-  - **[required]** Workflow: _[to be populated]_
-  - **[required]** Workflow step: _[to be populated]_
-  - **[required]** Workflow subject: _[to be populated]_
-  - **[required]** Submitted by: _[to be populated]_
-  - **[required]** Recipient: _[to be populated]_
-  - **[required]** Consensus message: _[to be populated]_
-    - **[required]** Consensus topic: _[to be populated]_
-    - **[optional]** Sequence number: _[to be populated]_
-    - **[required]** Consensus timestamp: _[to be populated]_
-    - **[optional]** Message content: _[to be populated]_
-- **[required]** Reviewed PDD-B document: _[to be populated]_
-- **[required]** PDD-B field reviews: _[to be populated]_
-  - **[required]** Field key: _[to be populated]_
-  - **[required]** Field title: _[to be populated]_
-  - **[required]** Field prompt: _[to be populated]_
-  - **[required]** Original response: _[to be populated]_
-  - **[required]** Reviewer decision: _[to be populated]_
-  - **[required]** Reviewer feedback: _[to be populated]_
-- **[required]** Final PDD-B review decision: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| PDD-B review workflow submission | **[required]** _[to be populated]_ |
+| PDD-B review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
+| Reviewed PDD-B document | **[required]** _[to be populated]_ |
+| PDD-B field reviews | **[required]** _[to be populated]_ |
+| PDD-B field reviews details | See nested DocumentFieldReviewUiShape fields. |
+| Final PDD-B review decision | **[required]** _[to be populated]_ |
 
 
-- **[required]** PDD-C review workflow submission: _[to be populated]_
-  - **[required]** Submitted document: _[to be populated]_
-  - **[required]** Workflow: _[to be populated]_
-  - **[required]** Workflow step: _[to be populated]_
-  - **[required]** Workflow subject: _[to be populated]_
-  - **[required]** Submitted by: _[to be populated]_
-  - **[required]** Recipient: _[to be populated]_
-  - **[required]** Consensus message: _[to be populated]_
-    - **[required]** Consensus topic: _[to be populated]_
-    - **[optional]** Sequence number: _[to be populated]_
-    - **[required]** Consensus timestamp: _[to be populated]_
-    - **[optional]** Message content: _[to be populated]_
-- **[required]** Reviewed PDD-C document: _[to be populated]_
-- **[required]** PDD-C field reviews: _[to be populated]_
-  - **[required]** Field key: _[to be populated]_
-  - **[required]** Field title: _[to be populated]_
-  - **[required]** Field prompt: _[to be populated]_
-  - **[required]** Original response: _[to be populated]_
-  - **[required]** Reviewer decision: _[to be populated]_
-  - **[required]** Reviewer feedback: _[to be populated]_
-- **[required]** Final PDD-C review decision: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| PDD-C review workflow submission | **[required]** _[to be populated]_ |
+| PDD-C review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
+| Reviewed PDD-C document | **[required]** _[to be populated]_ |
+| PDD-C field reviews | **[required]** _[to be populated]_ |
+| PDD-C field reviews details | See nested DocumentFieldReviewUiShape fields. |
+| Final PDD-C review decision | **[required]** _[to be populated]_ |
 
 
 ### A.2 PDD Certificate Issuance Request
 
-- **[required]** Document IPFS URI: _[to be populated]_
-- **[required]** Document schema IRI: _[to be populated]_
-- **[required]** Encrypted: _[to be populated]_
-- **[required]** Document author: _[to be populated]_
-- **[required]** Authenticity proof: _[to be populated]_
-- **[required]** Workflow submission: _[to be populated]_
-  - **[required]** Submitted document: _[to be populated]_
-  - **[required]** Workflow: _[to be populated]_
-  - **[required]** Workflow step: _[to be populated]_
-  - **[required]** Workflow subject: _[to be populated]_
-  - **[required]** Submitted by: _[to be populated]_
-  - **[required]** Recipient: _[to be populated]_
-  - **[required]** Consensus message: _[to be populated]_
-    - **[required]** Consensus topic: _[to be populated]_
-    - **[optional]** Sequence number: _[to be populated]_
-    - **[required]** Consensus timestamp: _[to be populated]_
-    - **[optional]** Message content: _[to be populated]_
-- **[required]** Approved PDD-A validation review: _[to be populated]_
-  - **[required]** Message ID: _[to be populated]_
-  - **[required]** IPFS URI: _[to be populated]_
-- **[required]** Approved PDD-B validation review: _[to be populated]_
-  - **[required]** Message ID: _[to be populated]_
-  - **[required]** IPFS URI: _[to be populated]_
-- **[required]** Approved PDD-C validation review: _[to be populated]_
-  - **[required]** Message ID: _[to be populated]_
-  - **[required]** IPFS URI: _[to be populated]_
-- **[required]** Issuance account ID: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Document IPFS URI | **[required]** _[to be populated]_ |
+| Document schema IRI | **[required]** _[to be populated]_ |
+| Encrypted | **[required]** _[to be populated]_ |
+| Document author | **[required]** _[to be populated]_ |
+| Authenticity proof | **[required]** _[to be populated]_ |
+| Workflow submission | **[required]** _[to be populated]_ |
+| Workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
+| Approved PDD-A validation review | **[required]** _[to be populated]_ |
+| Approved PDD-A validation review details | See nested DocumentReferenceUiShape fields. |
+| Approved PDD-B validation review | **[required]** _[to be populated]_ |
+| Approved PDD-B validation review details | See nested DocumentReferenceUiShape fields. |
+| Approved PDD-C validation review | **[required]** _[to be populated]_ |
+| Approved PDD-C validation review details | See nested DocumentReferenceUiShape fields. |
+| Issuance account ID | **[required]** _[to be populated]_ |
 
+
+\newpage
 
 ## Appendix B. Field-To-Predicate Map
 
-- **[optional]** predicateMapAppendix: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Predicate map appendix | **[optional]** _[to be populated]_ |
 
+
+\newpage
 
 ## Appendix C. Source Graph And Hash Evidence
 
-- **[optional]** sourceEvidenceAppendix: _[to be populated]_
+| Field | Value |
+| --- | --- |
+| Source graph identifier | **[optional]** _[to be populated]_ |

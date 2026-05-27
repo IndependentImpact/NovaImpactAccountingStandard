@@ -256,6 +256,12 @@ class PddOutputCompilationTests(unittest.TestCase):
             self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
             self.assertIn(b"%%EOF", pdf_bytes[-1024:])
             self.assertIn(b"Document ID: pdd-", pdf_bytes)
+            self.assertNotIn(b"pageref", pdf_bytes)
+            pdf_text = pdf_bytes.decode("latin-1", errors="ignore")
+            first_footer_start = pdf_text.index("Document ID: pdd-")
+            first_footer_end = pdf_text.index(") Tj", first_footer_start)
+            self.assertNotIn("Page", pdf_text[first_footer_start:first_footer_end])
+            self.assertIn("Page i", pdf_text)
 
     def test_html_compilation_failure_surfaces_clear_error(self):
         with tempfile.TemporaryDirectory() as tmpdir:

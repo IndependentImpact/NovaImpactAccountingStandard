@@ -28,13 +28,21 @@ sidecarOutputs:
 
 {{ render: titlePage.keyProjectInformation }}
 
+\thispagestyle{pddtitle}
+
 \newpage
+
+\pagenumbering{roman}
+\setcounter{page}{1}
 
 ## Table Of Contents
 
 {{ render: tableOfContents }}
 
 \newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 ## Section A. Description Of Project
 
@@ -106,6 +114,8 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 {{ render: pdd.sectionC.stakeholderCommentConsideration }}
 
+\newpage
+
 ## Appendix A. Document And Process Metadata
 
 {{ render: metadataAppendix }}
@@ -122,9 +132,13 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 {{ render: pdd.certificateIssuanceRequest }}
 
+\newpage
+
 ## Appendix B. Field-To-Predicate Map
 
 {{ render: predicateMapAppendix }}
+
+\newpage
 
 ## Appendix C. Source Graph And Hash Evidence
 
