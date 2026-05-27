@@ -23,9 +23,14 @@ class PddOutputCompilationTests(unittest.TestCase):
             "\n".join(
                 [
                     "#!/usr/bin/env python3",
+                    "import json",
+                    "import os",
                     "import pathlib",
                     "import sys",
                     "args = sys.argv[1:]",
+                    "args_path = os.environ.get('FAKE_PANDOC_ARGS_PATH')",
+                    "if args_path:",
+                    "    pathlib.Path(args_path).write_text(json.dumps(args), encoding='utf-8')",
                     "source = pathlib.Path(args[0])",
                     "output = pathlib.Path(args[args.index('--output') + 1])",
                     "header = None",
@@ -101,8 +106,14 @@ class PddOutputCompilationTests(unittest.TestCase):
             self.assertTrue(metadata.exists())
             self.assertTrue(validation.exists())
 
-            self.assertIn("## Section A. Description Of Project", markdown.read_text(encoding="utf-8"))
-            self.assertIn("Document ID: pdd-", pdf.read_text(encoding="utf-8"))
+            self.assertIn(
+                "## Section A. Description Of Project",
+                markdown.read_text(encoding="utf-8"),
+            )
+            pdf_bytes = pdf.read_bytes()
+            self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+            self.assertIn(b"%%EOF", pdf_bytes[-1024:])
+            self.assertIn(b"Document ID: pdd-", pdf_bytes)
 
             metadata_payload = json.loads(metadata.read_text(encoding="utf-8"))
             artifact_types = {
@@ -115,7 +126,138 @@ class PddOutputCompilationTests(unittest.TestCase):
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
 
-    def test_pdf_compilation_failure_surfaces_clear_error(self):
+    def test_pdf_compilation_defaults_to_xelatex(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            fake_pandoc = tmp_path / "pandoc"
+            fake_args = tmp_path / "pandoc-args.json"
+            self._write_fake_pandoc(fake_pandoc)
+
+            output_dir = tmp_path / "exported"
+            env = os.environ.copy()
+            env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(INVALID_INPUT),
+                    "--render-mode",
+                    "draft",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env=env,
+            )
+
+            args = json.loads(fake_args.read_text(encoding="utf-8"))
+            self.assertIn("--pdf-engine", args)
+            self.assertEqual(args[args.index("--pdf-engine") + 1], "xelatex")
+
+    def test_pdf_compilation_allows_engine_override(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            fake_pandoc = tmp_path / "pandoc"
+            fake_args = tmp_path / "pandoc-args.json"
+            self._write_fake_pandoc(fake_pandoc)
+
+            output_dir = tmp_path / "exported"
+            env = os.environ.copy()
+            env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
+            env["PANDOC_PDF_ENGINE"] = "lualatex"
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(INVALID_INPUT),
+                    "--render-mode",
+                    "draft",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env=env,
+            )
+
+            args = json.loads(fake_args.read_text(encoding="utf-8"))
+            self.assertIn("--pdf-engine", args)
+            self.assertEqual(args[args.index("--pdf-engine") + 1], "lualatex")
+
+    def test_blank_template_pdf_output_is_valid_pdf(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "exported"
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env={"PATH": "", "PANDOC_BIN": str(Path(tmpdir) / "missing-pandoc")},
+            )
+            pdf = output_dir / "pdd.pdf"
+            self.assertTrue(pdf.exists())
+            pdf_bytes = pdf.read_bytes()
+            self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+            self.assertIn(b"%%EOF", pdf_bytes[-1024:])
+            self.assertIn(b"Document ID: pdd-", pdf_bytes)
+
+    def test_draft_pdf_output_succeeds_without_pandoc(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "exported"
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--input-jsonld",
+                    str(INVALID_INPUT),
+                    "--render-mode",
+                    "draft",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env={"PATH": "", "PANDOC_BIN": str(Path(tmpdir) / "missing-pandoc")},
+            )
+            pdf = output_dir / "pdd.pdf"
+            self.assertTrue(pdf.exists())
+            pdf_bytes = pdf.read_bytes()
+            self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+            self.assertIn(b"%%EOF", pdf_bytes[-1024:])
+            self.assertIn(b"Document ID: pdd-", pdf_bytes)
+
+    def test_html_compilation_failure_surfaces_clear_error(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir) / "exported"
             completed = subprocess.run(
@@ -129,14 +271,14 @@ class PddOutputCompilationTests(unittest.TestCase):
                     "--output-dir",
                     str(output_dir),
                     "--output-target",
-                    "pdf",
+                    "html",
                 ],
                 check=False,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
                 cwd=REPO_ROOT,
-                env={"PATH": ""},
+                env={"PATH": "", "PANDOC_BIN": str(Path(tmpdir) / "missing-pandoc")},
             )
             self.assertNotEqual(completed.returncode, 0)
             self.assertIn("Pandoc command `pandoc` was not found", completed.stderr)
