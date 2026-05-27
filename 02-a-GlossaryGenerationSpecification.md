@@ -82,7 +82,7 @@ The following conceptual lists are present in markdown but not currently modelle
 | `06-a-IndicatorScoringRules.md` | Indicator quality dimensions: Validity, Reliability, Sensitivity, Specificity, Timeliness | No indicator-dimension scheme exists | `IndicatorQualityDimension` |
 | `07-a-MethodologyScoringRules.md` | Methodology quality dimensions (11 listed) | No methodology-dimension scheme exists | `MethodologyQualityDimension` |
 | `08-a-InstrumentScoringRules.md` | Instrument quality dimensions (accuracy, precision, calibration, drift, traceability, etc.) | No instrument-dimension scheme exists | `InstrumentQualityDimension` |
-| `04-a-KnowledgeAndSkillsReputationRules.md` | Time-based decay parameters and related KSR lifecycle terms | No scheme for reputation dynamics terms | `ReputationDynamicsTerm` |
+| `04-a-KnowledgeAndSkillsReputationRules.md` | Time-based decay parameters and related KSR lifecycle terms | No scheme for reputation dynamics terms | `ReputationLifecycleTerm` |
 
 ## 9. Plan to update concept schemes
 
