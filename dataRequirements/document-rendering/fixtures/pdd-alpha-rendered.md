@@ -24,28 +24,59 @@ sourceArtifact: pdd-alpha-input.jsonld
 generatedAt: 2026-05-25T00:00:00Z
 ---
 
-# PDD Alpha Mangrove Restoration
+# Nova Impact Accounting Standard
 
-- Project title: PDD Alpha Mangrove Restoration
-- Project IRI: pdd-alpha
+## Project Design Document
 
-
-## Document Control
-
-- Section A schema: PDDxA-1.0.0
+### PDD Alpha Mangrove Restoration
 
 
-- Validation status: draft (validation not enforced)
+| Field | Value |
+| --- | --- |
+| Project ID | pdd-alpha |
+| PDD/schema version | PDDxA-1.0.0 |
+| Completion/publication date | 2026-05-25T00:00:00Z |
+| Project developer | project-developer-1 |
+| Project representative | Unavailable |
+| Host party or country | Coastal Community Cooperative |
+| Project participants and communities | Coastal Community Cooperative |
+| Methodology and version | Default PDD Methodology |
+| Product or impact type | Increase net carbon sequestration in restored mangroves. (Intentional, Beneficial) |
+| Project cycle | Unavailable |
 
 
-This Project Design Document is generated from NIAS semantic workflow data. The
-canonical data requirements are defined by the NIAS SHACL shapes. This rendering
-profile controls document presentation only.
+\newpage
+
+## Table Of Contents
+
+- [Section A. Description Of Project](#section-a-description-of-project)
+  - [A.1 Purpose And General Description](#a1-purpose-and-general-description)
+  - [A.2 Location Of Project](#a2-location-of-project)
+  - [A.3 Technologies And Measures](#a3-technologies-and-measures)
+  - [A.4 Project Parties](#a4-project-parties)
+  - [A.5 Legal Matters, Funding, History, And Eligibility](#a5-legal-matters-funding-history-and-eligibility)
+- [Section B. Impact Claims And Monitoring](#section-b-impact-claims-and-monitoring)
+  - [B.1 Methodology References](#b1-methodology-references)
+  - [B.2 Declared Impacts](#b2-declared-impacts)
+  - [B.3 Impact Claims](#b3-impact-claims)
+  - [B.4 Crediting And Monitoring Periods](#b4-crediting-and-monitoring-periods)
+  - [B.5 Data And Parameter Requirements](#b5-data-and-parameter-requirements)
+  - [B.6 Ex Ante Estimates](#b6-ex-ante-estimates)
+- [Section C. Stakeholder Engagement](#section-c-stakeholder-engagement)
+  - [C.1 Stakeholder Engagement Modalities](#c1-stakeholder-engagement-modalities)
+  - [C.2 Stakeholder Comment Summary](#c2-stakeholder-comment-summary)
+  - [C.3 Stakeholder Comment Consideration](#c3-stakeholder-comment-consideration)
+- [Appendix A. Document And Process Metadata](#appendix-a-document-and-process-metadata)
+  - [A.1 Validation Review Summary](#a1-validation-review-summary)
+  - [A.2 PDD Certificate Issuance Request](#a2-pdd-certificate-issuance-request)
+- [Appendix B. Field-To-Predicate Map](#appendix-b-field-to-predicate-map)
+- [Appendix C. Source Graph And Hash Evidence](#appendix-c-source-graph-and-hash-evidence)
+
+
+\newpage
 
 ## Section A. Description Of Project
 
-- Reporting agent: project-developer-1
-- Project title: PDD Alpha Mangrove Restoration
 
 
 ### A.1 Purpose And General Description
@@ -78,9 +109,6 @@ profile controls document presentation only.
 
 ## Section B. Impact Claims And Monitoring
 
-- Reporting agent: project-developer-1
-- Number of declared impacts: 1
-- Number of impact claims: 1
 
 
 ### B.1 Methodology References
@@ -128,8 +156,6 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 ## Section C. Stakeholder Engagement
 
-- Stakeholder engagement modalities: Public workshops, shoreline focus groups, and household surveys.
-- Stakeholder comment summary: Community feedback requested stronger local monitoring visibility.
 
 
 ### C.1 Stakeholder Engagement Modalities
@@ -147,7 +173,23 @@ Each data or monitoring parameter renders as one table under this subsection.
 - Integrated comments into the revised monitoring plan.
 
 
-## Validation Review Summary
+## Appendix A. Document And Process Metadata
+
+| Field | Value |
+| --- | --- |
+| Document IPFS URI | Unavailable |
+| Document schema IRI | PDDxA-1.0.0 |
+| Encrypted | Unavailable |
+| Document author | project-developer-1 |
+| Authenticity proof | Unavailable |
+| Workflow submission | Unavailable |
+| Validation status | draft (validation not enforced) |
+| Source artifact | pdd-alpha-input.jsonld |
+| Rendering profile | nias-pdd-rendering-profile |
+| Rendering mode | draft |
+
+
+### A.1 Validation Review Summary
 
 - No data provided for `pdd.validation.sectionA`.
 
@@ -158,16 +200,9 @@ Each data or monitoring parameter renders as one table under this subsection.
 - No data provided for `pdd.validation.sectionC`.
 
 
-## PDD Certificate Issuance Request
+### A.2 PDD Certificate Issuance Request
 
 - No data provided for `pdd.certificateIssuanceRequest`.
-
-
-## Appendix A. Document Metadata
-
-- Source artifact: pdd-alpha-input.jsonld
-- Rendering profile: nias-pdd-rendering-profile
-- Rendering mode: draft
 
 
 ## Appendix B. Field-To-Predicate Map

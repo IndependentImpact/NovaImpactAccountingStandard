@@ -82,6 +82,194 @@ def _as_markdown_value(graph: Graph, node):
     return _local_name(node)
 
 
+def _escape_table_cell(value):
+    return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
+def _two_column_table(rows):
+    lines = ["| Field | Value |", "| --- | --- |"]
+    for label, value in rows:
+        lines.append(f"| {_escape_table_cell(label)} | {_escape_table_cell(value)} |")
+    return lines
+
+
+def _heading_anchor(title):
+    slug = title.lower().replace("&", "and")
+    slug = re.sub(r"`([^`]+)`", r"\1", slug)
+    slug = re.sub(r"[^a-z0-9\s-]", "", slug)
+    slug = re.sub(r"\s+", "-", slug.strip())
+    slug = re.sub(r"-+", "-", slug)
+    return slug
+
+
+def _document_headings_for_toc(body: str):
+    headings = []
+    collecting = False
+    for raw_line in body.splitlines():
+        line = raw_line.strip()
+        if line == "## Workflow Section Rendering Map":
+            break
+        match = re.match(r"^(#{2,3})\s+(.+)$", line)
+        if not match:
+            continue
+        level = len(match.group(1))
+        title = match.group(2).strip()
+        if title == "Section A. Description Of Project":
+            collecting = True
+        if not collecting or title == "Table Of Contents":
+            continue
+        headings.append((level, title))
+    return headings
+
+
+def _render_table_of_contents(body: str):
+    lines = []
+    for level, title in _document_headings_for_toc(body):
+        indent = "  " if level >= 3 else ""
+        lines.append(f"{indent}- [{title}](#{_heading_anchor(title)})")
+    return lines or ["- _[table of contents to be generated]_"]
+
+
+def _render_blank_title_page_table():
+    rows = [
+        ("Project ID", "_[optional: project display ID or project IRI]_"),
+        ("PDD/schema version", "_[optional: document version or schema IRI]_"),
+        ("Completion/publication date", "_[optional: completion or publication date]_"),
+        ("Project developer", "_[required: project developer or responsible party]_"),
+        ("Project representative", "_[optional: representative]_"),
+        ("Host party or country", "_[required where applicable]_"),
+        ("Project participants and communities", "_[required: project parties]_"),
+        ("Methodology and version", "_[required: methodology reference(s)]_"),
+        ("Product or impact type", "_[optional: product requirement or impact type]_"),
+        ("Project cycle", "_[optional: regular, retroactive, or other cycle]_"),
+    ]
+    return _two_column_table(rows)
+
+
+def _render_blank_metadata_appendix():
+    return _two_column_table(
+        [
+            ("Document IPFS URI", "_[required: source document artifact URI]_"),
+            ("Document schema IRI", "_[required: source document schema IRI]_"),
+            ("Encrypted", "_[required: yes/no]_"),
+            ("Document author", "_[required: author or reporting agent IRI]_"),
+            ("Authenticity proof", "_[required: none, signature, or verifiable credential]_"),
+            ("Workflow submission", "_[required: workflow submission evidence]_"),
+            ("Source artifact", "_[rendering source artifact identifier]_"),
+            ("Rendering profile", "nias-pdd-rendering-profile"),
+            ("Rendering mode", "_[draft or final]_"),
+            ("Source graph/hash evidence", "_[see Appendix C]_"),
+        ]
+    )
+
+
+def _render_blank_data_parameter_table():
+    return [
+        "#### Parameter: _[parameter label]_",
+        "",
+        "| Field | Value |",
+        "| --- | --- |",
+        "| Description | _[required]_ |",
+        "| Purpose | _[required]_ |",
+        "| Unit | _[required unit IRI or label]_ |",
+        "| Monitoring status | _[required: monitored or fixed ex ante]_ |",
+        "| Measurement methods and procedures | _[optional]_ |",
+        "| QA/QC procedures | _[optional]_ |",
+        "| Monitoring frequency | _[optional]_ |",
+        "| Sampling plan | _[optional]_ |",
+        "| Applied value | _[optional]_ |",
+        "| Data source | _[optional]_ |",
+    ]
+
+
+BLANK_CONTENT_DIRECTIVES = {
+    "pdd.sectionA": [],
+    "pdd.sectionA.projectPurpose": [
+        "- **[required]** Project title: _[to be populated]_",
+        "- **[required]** Objective: _[to be populated]_",
+    ],
+    "pdd.sectionA.locations": [
+        "- **[required]** Project locations: _[location, boundary, map, or resource reference]_",
+    ],
+    "pdd.sectionA.technologiesAndMeasures": [
+        "- **[required]** Type: _[facility, system, equipment, or other]_",
+        "- **[required]** Description: _[to be populated]_",
+        "- **[required]** Current age in years: _[to be populated]_",
+        "- **[required]** Estimated lifespan in years: _[to be populated]_",
+        "- **[optional]** Additional information: _[to be populated]_",
+    ],
+    "pdd.sectionA.projectParties": [
+        "- **[required]** Party name: _[to be populated]_",
+        "- **[required]** Host party: _[yes/no]_",
+        "- **[required]** Participant party: _[yes/no]_",
+        "- **[required]** Public or private: _[to be populated]_",
+        "- **[optional]** Additional information: _[to be populated]_",
+    ],
+    "pdd.sectionA.legalFundingHistoryEligibility": [
+        "- **[required]** Legal matters: _[to be populated]_",
+        "- **[required]** Public funding: _[yes/no]_",
+        "- **[optional]** Public funding sources: _[to be populated]_",
+        "- **[required]** Project history: _[to be populated]_",
+        "- **[required]** Debundling assessment: _[to be populated]_",
+        "- **[optional]** Eligibility description: _[to be populated]_",
+    ],
+    "pdd.sectionB": [],
+    "pdd.sectionB.methodologyReferences": [
+        "- **[required]** Methodology reference and version: _[to be populated]_",
+    ],
+    "pdd.sectionB.declaredImpacts": [
+        "- **[required]** Intentionality: _[intentional or unintentional]_",
+        "- **[required]** Beneficial or adverse: _[beneficial or adverse]_",
+        "- **[required]** Impact description: _[to be populated]_",
+        "- **[required]** Monitored: _[yes/no]_",
+        "- **[optional]** Not monitored justification: _[to be populated]_",
+        "- **[optional]** Additionality justification: _[to be populated]_",
+        "- **[optional]** Baseline or counterfactual state: _[indicator, value, unit, date/time]_",
+        "- **[optional]** Project or real state: _[indicator, value, unit, date/time]_",
+        "- **[optional]** Provenance resources: _[to be populated]_",
+    ],
+    "pdd.sectionB.impactClaims": [
+        "- **[required]** Impact claim subject: _[project or activity]_",
+        "- **[required]** Methodology references: _[to be populated]_",
+    ],
+    "pdd.sectionB.creditingAndMonitoringPeriods": [
+        "- **[optional]** Crediting period start: _[to be populated]_",
+        "- **[optional]** Crediting period end: _[to be populated]_",
+        "- **[optional]** Renewable crediting period: _[yes/no]_",
+        "- **[optional]** Monitoring periods: _[start and end date/time]_",
+    ],
+    "pdd.sectionB.exAnteEstimates": [
+        "- **[optional]** Ex-ante impact estimate: _[to be populated]_",
+    ],
+    "pdd.sectionC": [],
+    "pdd.sectionC.stakeholderEngagementModalities": [
+        "- **[required]** Stakeholder engagement modalities: _[to be populated]_",
+    ],
+    "pdd.sectionC.stakeholderCommentSummary": [
+        "- **[optional]** Stakeholder comment summary: _[to be populated]_",
+    ],
+    "pdd.sectionC.stakeholderCommentConsideration": [
+        "- **[optional]** Stakeholder comment consideration: _[to be populated]_",
+    ],
+}
+
+
+def _render_blank_directive(directive: str, profile_body: str):
+    if directive == "titlePage.projectTitle":
+        return ["### _[Project title to be populated]_"]
+    if directive == "titlePage.keyProjectInformation":
+        return _render_blank_title_page_table()
+    if directive == "tableOfContents":
+        return _render_table_of_contents(profile_body)
+    if directive == "metadataAppendix":
+        return _render_blank_metadata_appendix()
+    if directive == "pdd.sectionB.dataParameterTables":
+        return _render_blank_data_parameter_table()
+    if directive in BLANK_CONTENT_DIRECTIVES:
+        return BLANK_CONTENT_DIRECTIVES[directive]
+    return None
+
+
 def _first_subject_of_type(graph: Graph, rdf_type):
     return next(iter(graph.subjects(RDF.type, rdf_type)), None)
 
@@ -196,6 +384,12 @@ def render_blank_template(profile_path: Path, ui_shapes_path: Path):
             continue
 
         directive = directive_match.group(1)
+        custom_lines = _render_blank_directive(directive, body)
+        if custom_lines is not None:
+            lines.extend(custom_lines)
+            lines.append("")
+            continue
+
         shape_name = directive_map.get(directive)
         if shape_name is None:
             lines.append(f"- **[optional]** {directive}: _[to be populated]_")
@@ -243,12 +437,122 @@ def _render_data_parameter_tables(graph: Graph, section_b):
     return rows or ["- No parameter tables available.", ""]
 
 
+def _is_truthy_value(graph: Graph, node):
+    if node is None:
+        return False
+    if isinstance(node, Literal):
+        value = node.toPython()
+        if isinstance(value, bool):
+            return value
+    return _as_markdown_value(graph, node).strip().lower() in {"yes", "true", "1"}
+
+
+def _project_party_names(graph: Graph, project, flag_predicate=None):
+    names = []
+    for party in _sorted_values(graph, project, NIAS.projectParty):
+        if flag_predicate is not None and not _is_truthy_value(
+            graph, _first_value(graph, party, flag_predicate)
+        ):
+            continue
+        name = _first_value(graph, party, NIAS.partyName)
+        names.append(
+            _as_markdown_value(graph, name) if name is not None else _local_name(party)
+        )
+    return names
+
+
+def _joined_or_unavailable(values):
+    return ", ".join(values) if values else "Unavailable"
+
+
+def _methodology_labels(graph: Graph, section_b):
+    methodologies = _sorted_values(graph, section_b, NIAS.usesMethodology)
+    if not methodologies:
+        for claim in _sorted_values(graph, section_b, NIAS.impactClaim):
+            methodologies.extend(_sorted_values(graph, claim, NIAS.usesMethodology))
+    return [_as_markdown_value(graph, item) for item in methodologies]
+
+
+def _impact_type_summary(graph: Graph, section_b):
+    summaries = []
+    for impact in _sorted_values(graph, section_b, NIAS.hasDeclaredImpact):
+        description = _first_value(graph, impact, SCHEMA.description)
+        intentionality = _first_value(graph, impact, NIAS.impactIntentionality)
+        impact_kind = _first_value(graph, impact, NIAS.beneficialOrAdverse)
+        detail = []
+        if intentionality is not None:
+            detail.append(_as_markdown_value(graph, intentionality))
+        if impact_kind is not None:
+            detail.append(_as_markdown_value(graph, impact_kind))
+        label = (
+            _as_markdown_value(graph, description)
+            if description is not None
+            else _local_name(impact)
+        )
+        if detail:
+            label = f"{label} ({', '.join(detail)})"
+        summaries.append(label)
+    return summaries
+
+
+def _render_title_page_table(
+    graph: Graph,
+    project,
+    section_a,
+    section_b,
+    generated_at: str,
+):
+    schema = _first_value(graph, section_a, DCTERMS.conformsTo)
+    developer = _first_value(graph, section_a, CLAIMONT.isMadeBy) or _first_value(
+        graph, section_b, CLAIMONT.isMadeBy
+    )
+    host_parties = _project_party_names(graph, project, NIAS.isHostParty)
+    participant_parties = _project_party_names(graph, project, NIAS.isParticipantParty)
+    all_parties = _project_party_names(graph, project)
+    if not participant_parties:
+        participant_parties = all_parties
+
+    rows = [
+        (
+            "Project ID",
+            _as_markdown_value(graph, project) if project is not None else "Unavailable",
+        ),
+        (
+            "PDD/schema version",
+            _as_markdown_value(graph, schema) if schema is not None else "Unavailable",
+        ),
+        ("Completion/publication date", generated_at),
+        (
+            "Project developer",
+            _as_markdown_value(graph, developer) if developer is not None else "Unavailable",
+        ),
+        ("Project representative", "Unavailable"),
+        ("Host party or country", _joined_or_unavailable(host_parties)),
+        (
+            "Project participants and communities",
+            _joined_or_unavailable(participant_parties),
+        ),
+        (
+            "Methodology and version",
+            _joined_or_unavailable(_methodology_labels(graph, section_b)),
+        ),
+        (
+            "Product or impact type",
+            _joined_or_unavailable(_impact_type_summary(graph, section_b)),
+        ),
+        ("Project cycle", "Unavailable"),
+    ]
+    return _two_column_table(rows)
+
+
 def _render_filled_directive(
     directive: str,
     graph: Graph,
     source_artifact: str,
     validation_status: str,
     render_mode: str,
+    generated_at: str,
+    profile_body: str,
 ):
     section_a = _first_subject_of_type(graph, NIAS.PddSectionAReport)
     section_b = _first_subject_of_type(graph, NIAS.PddSectionBReport)
@@ -258,12 +562,23 @@ def _render_filled_directive(
     if project is None and section_a is not None:
         project = _first_value(graph, section_a, CLAIMONT.hasSubject)
 
-    if directive == "titlePage.keyProjectInformation":
+    if directive == "titlePage.projectTitle":
         project_title = _first_value(graph, project, NIAS.title)
         return [
-            f"- Project title: {_as_markdown_value(graph, project_title) if project_title is not None else 'Unavailable'}",
-            f"- Project IRI: {_as_markdown_value(graph, project) if project is not None else 'Unavailable'}",
+            f"### {_as_markdown_value(graph, project_title) if project_title is not None else 'Project title unavailable'}"
         ]
+
+    if directive == "titlePage.keyProjectInformation":
+        return _render_title_page_table(
+            graph,
+            project,
+            section_a,
+            section_b,
+            generated_at=generated_at,
+        )
+
+    if directive == "tableOfContents":
+        return _render_table_of_contents(profile_body)
 
     if directive == "documentControl.versionSummary":
         schema = _first_value(graph, section_a, DCTERMS.conformsTo)
@@ -273,12 +588,7 @@ def _render_filled_directive(
         return [f"- Validation status: {validation_status}"]
 
     if directive == "pdd.sectionA":
-        made_by = _first_value(graph, section_a, CLAIMONT.isMadeBy)
-        title = _first_value(graph, project, NIAS.title)
-        return [
-            f"- Reporting agent: {_as_markdown_value(graph, made_by) if made_by is not None else 'Unavailable'}",
-            f"- Project title: {_as_markdown_value(graph, title) if title is not None else 'Unavailable'}",
-        ]
+        return []
 
     if directive == "pdd.sectionA.projectPurpose":
         objective = _first_value(graph, project, AIAO.hasObjective)
@@ -325,11 +635,7 @@ def _render_filled_directive(
         ]
 
     if directive == "pdd.sectionB":
-        return [
-            f"- Reporting agent: {_as_markdown_value(graph, _first_value(graph, section_b, CLAIMONT.isMadeBy) or Literal('Unavailable'))}",
-            f"- Number of declared impacts: {len(_sorted_values(graph, section_b, NIAS.hasDeclaredImpact))}",
-            f"- Number of impact claims: {len(_sorted_values(graph, section_b, NIAS.impactClaim))}",
-        ]
+        return []
 
     if directive == "pdd.sectionB.methodologyReferences":
         values = _sorted_values(graph, section_b, NIAS.usesMethodology)
@@ -385,10 +691,7 @@ def _render_filled_directive(
         return lines or ["- No ex-ante estimates provided."]
 
     if directive == "pdd.sectionC":
-        return [
-            f"- Stakeholder engagement modalities: {_as_markdown_value(graph, _first_value(graph, section_c, NIAS.stakeholderEngagementModalities) or Literal('Unavailable'))}",
-            f"- Stakeholder comment summary: {_as_markdown_value(graph, _first_value(graph, section_c, NIAS.stakeholderCommentSummary) or Literal('Unavailable'))}",
-        ]
+        return []
 
     if directive == "pdd.sectionC.stakeholderEngagementModalities":
         value = _first_value(graph, section_c, NIAS.stakeholderEngagementModalities)
@@ -403,11 +706,30 @@ def _render_filled_directive(
         return [f"- {_as_markdown_value(graph, value) if value is not None else 'Unavailable'}"]
 
     if directive == "metadataAppendix":
-        return [
-            f"- Source artifact: {source_artifact}",
-            "- Rendering profile: nias-pdd-rendering-profile",
-            f"- Rendering mode: {render_mode}",
-        ]
+        schema = _first_value(graph, section_a, DCTERMS.conformsTo)
+        developer = _first_value(graph, section_a, CLAIMONT.isMadeBy) or _first_value(
+            graph, section_b, CLAIMONT.isMadeBy
+        )
+        return _two_column_table(
+            [
+                ("Document IPFS URI", "Unavailable"),
+                (
+                    "Document schema IRI",
+                    _as_markdown_value(graph, schema) if schema is not None else "Unavailable",
+                ),
+                ("Encrypted", "Unavailable"),
+                (
+                    "Document author",
+                    _as_markdown_value(graph, developer) if developer is not None else "Unavailable",
+                ),
+                ("Authenticity proof", "Unavailable"),
+                ("Workflow submission", "Unavailable"),
+                ("Validation status", validation_status),
+                ("Source artifact", source_artifact),
+                ("Rendering profile", "nias-pdd-rendering-profile"),
+                ("Rendering mode", render_mode),
+            ]
+        )
 
     if directive == "predicateMapAppendix":
         return [
@@ -502,6 +824,8 @@ def render_filled_markdown(
                 source_artifact,
                 validation_status,
                 render_mode,
+                generated_at,
+                body,
             )
         )
         lines.append("")
@@ -571,6 +895,18 @@ def _compile_pandoc_output(
         with tempfile.NamedTemporaryFile(
             "w", encoding="utf-8", suffix=".tex", delete=False
         ) as header_file:
+            header_file.write("\\usepackage{enumitem}\n")
+            header_file.write("\\setlistdepth{9}\n")
+            header_file.write("\\renewlist{itemize}{itemize}{9}\n")
+            header_file.write("\\setlist[itemize]{label=\\textbullet,leftmargin=*}\n")
+            header_file.write("\\setlist[itemize,2]{label=--}\n")
+            header_file.write("\\setlist[itemize,3]{label=*}\n")
+            header_file.write("\\setlist[itemize,4]{label=+}\n")
+            header_file.write("\\setlist[itemize,5]{label=--}\n")
+            header_file.write("\\setlist[itemize,6]{label=*}\n")
+            header_file.write("\\setlist[itemize,7]{label=+}\n")
+            header_file.write("\\setlist[itemize,8]{label=--}\n")
+            header_file.write("\\setlist[itemize,9]{label=*}\n")
             header_file.write("\\usepackage{fancyhdr}\n")
             header_file.write("\\pagestyle{fancy}\n")
             header_file.write("\\fancyhf{}\n")

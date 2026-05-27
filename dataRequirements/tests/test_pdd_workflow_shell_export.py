@@ -56,10 +56,10 @@ class PddWorkflowShellExportTests(unittest.TestCase):
 
             self.assertEqual(completed.stdout, "")
             markdown = output.read_text(encoding="utf-8")
-            self.assertIn("# Workflow Export Pilot", markdown)
-            self.assertIn("Number of declared impacts: 1", markdown)
+            self.assertIn("### Workflow Export Pilot", markdown)
+            self.assertIn("Increase carbon sequestration.", markdown)
             self.assertIn(
-                "Stakeholder engagement modalities: Community workshop and household survey.",
+                "- Community workshop and household survey.",
                 markdown,
             )
 

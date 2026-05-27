@@ -72,6 +72,10 @@ The projection rules are:
   generation timestamp.
 - Human-readable labels should be used where available, while canonical IRIs
   remain available in metadata or footnotes when needed.
+- The main PDD body should contain project design content only. Document wrapper
+  metadata and workflow/process evidence belong in a back-matter metadata
+  appendix and sidecar files, with only a short document ID, hash, or version
+  reference in the footer.
 - Missing required data must not be hidden. Draft exports may show placeholders;
   final exports must require successful validation.
 - The renderer should support Markdown first. PDF and website output should be
@@ -155,8 +159,6 @@ HTML output, and future DOCX export if needed.
 The visible title page and key project information section should contain
 human-facing fields, following the pattern used by conventional PDD templates:
 
-- PDD/document title;
-- project title;
 - project ID;
 - PDD version number;
 - completion or publication date;
@@ -183,8 +185,9 @@ YAML front matter should hold machine-facing provenance and rendering metadata:
 - output document hash where available;
 - canonical context and graph identifiers.
 
-Some fields may appear in both places when they are useful to both people and
-systems, such as project title, project ID, document version, and date.
+The title and subtitle already identify the standard, document type, and project
+title, so those values should not be repeated as rows in the key-information
+table.
 
 ### Repeated Impact And Parameter Sections
 
@@ -228,9 +231,17 @@ Instead:
 - include a full metadata appendix at the end of the Markdown/PDF;
 - emit a machine-readable sidecar file alongside the human-readable outputs.
 
+The main body, from Section A through Section C, should not render document or
+workflow wrapper fields such as document IPFS URI, document schema IRI,
+encryption status, document author, authenticity proof, workflow submission
+evidence, validation review evidence, or PDD-CIR evidence. Those fields are
+process and provenance records, so they belong in the metadata appendix or
+machine-readable sidecars.
+
 The appendix should include:
 
 - document metadata;
+- workflow submission and process metadata;
 - rendering metadata;
 - validation report summary;
 - source artifact references;
@@ -399,7 +410,7 @@ Tasks:
   parameter under the relevant subsection.
 - Resolve concept IRIs to labels where available.
 - Include source artifact metadata and rendering metadata in Markdown front
-  matter.
+  matter and back-matter metadata, not in the PDD content sections.
 - Include a metadata appendix in the rendered Markdown.
 - Add fixture data and expected rendered Markdown output.
 - Added `dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld`
@@ -431,8 +442,7 @@ Tasks:
   `dataRequirements/document-rendering/tool/render_pdd_markdown.py`.
 - Added final-mode SHACL validation against NIAS shapes and ontology graphs,
   with explicit export failure on non-conformant input.
-- Added draft/final validation status rendering in document control and metadata
-  appendix output.
+- Added draft/final validation status rendering in metadata appendix output.
 - Extended `dataRequirements/tests/test_pdd_filled_rendering.py` to cover draft
   rendering, final-mode failure for non-conformant input, and final-mode success
   for conformant input.
