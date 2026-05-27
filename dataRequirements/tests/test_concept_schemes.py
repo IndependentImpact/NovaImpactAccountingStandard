@@ -102,7 +102,6 @@ class ConceptSchemeExpectedContentsTests(unittest.TestCase):
     """Expected concept schemes and concepts must be present in each file."""
 
     def _concepts_in_scheme(self, g: Graph, scheme_iri: str) -> set:
-        scheme = SKOS.ConceptScheme  # noqa: F841 (used via g.subjects)
         from rdflib import URIRef
         return {
             str(c)
