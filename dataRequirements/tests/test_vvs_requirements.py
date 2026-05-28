@@ -35,6 +35,7 @@ MAPPING_FILES = [
     MAPPINGS_DIR / "dlr-requirement-map.ttl",
     MAPPINGS_DIR / "mr-requirement-map.ttl",
 ]
+DEPRECATION_MAP_FILE = MAPPINGS_DIR / "vvs-deprecation-map.ttl"
 
 
 def _load_graph(paths):
@@ -375,6 +376,116 @@ class VvsRequirementMappingsIntegrityTest(unittest.TestCase):
                         "Phase 3 anchor class."
                     ),
                 )
+
+
+class VvsRequirementDeprecationIntegrityTest(unittest.TestCase):
+    """Phase 5 deprecation governance checks."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.requirement_status = URIRef(f"{NIAS_BASE}requirementStatus")
+        cls.requirement_id = URIRef(f"{NIAS_BASE}requirementId")
+        cls.derived_from_rule = URIRef(f"{NIAS_BASE}derivedFromRule")
+        cls.active_status = URIRef(f"{VVS_BASE}active")
+        cls.deprecated_status = URIRef(f"{VVS_BASE}deprecated")
+        cls.owl_deprecated = URIRef("http://www.w3.org/2002/07/owl#deprecated")
+        cls.is_replaced_by = URIRef("http://purl.org/dc/terms/isReplacedBy")
+        cls.boolean_true = {
+            "true",
+            "1",
+            "True",
+            "TRUE",
+        }
+
+        cls.vvs_graph = Graph()
+        cls.vvs_graph.parse(REPO_ROOT / "glossary/ValidationVerificationStandard.ttl")
+
+        cls.deprecation_map_graph = Graph()
+        cls.deprecation_map_graph.parse(DEPRECATION_MAP_FILE)
+
+    def _is_deprecated_node(self, node) -> bool:
+        return any(
+            str(value) in self.boolean_true
+            for _, _, value in self.vvs_graph.triples((node, self.owl_deprecated, None))
+        )
+
+    def test_deprecation_map_file_parses_without_errors(self):
+        self.assertGreater(
+            len(self.deprecation_map_graph),
+            0,
+            msg="vvs-deprecation-map.ttl must not be empty",
+        )
+
+    def test_deprecated_terms_have_machine_readable_annotations(self):
+        deprecated_requirements = {
+            requirement
+            for requirement, _, _ in self.vvs_graph.triples(
+                (None, self.requirement_status, self.deprecated_status)
+            )
+        }
+        self.assertGreater(
+            len(deprecated_requirements),
+            0,
+            msg="Phase 5 requires at least one deprecated VVS term in ValidationVerificationStandard.ttl.",
+        )
+
+        for requirement in deprecated_requirements:
+            with self.subTest(requirement=requirement):
+                self.assertTrue(
+                    self._is_deprecated_node(requirement),
+                    msg=f"{requirement} must include owl:deprecated true.",
+                )
+                self.assertIn(
+                    (requirement, self.is_replaced_by, None),
+                    self.vvs_graph,
+                    msg=f"{requirement} must include dcterms:isReplacedBy to its replacement requirement.",
+                )
+
+    def test_deprecation_map_targets_known_active_requirements(self):
+        active_requirements = {
+            requirement
+            for requirement, _, _ in self.vvs_graph.triples(
+                (None, self.requirement_status, self.active_status)
+            )
+        }
+        for legacy_term, _, replacement in self.deprecation_map_graph.triples(
+            (None, self.is_replaced_by, None)
+        ):
+            with self.subTest(legacy_term=legacy_term, replacement=replacement):
+                self.assertIn(
+                    (legacy_term, self.requirement_id, None),
+                    self.vvs_graph,
+                    msg=f"Deprecated term {legacy_term} must exist in ValidationVerificationStandard.ttl.",
+                )
+                self.assertTrue(
+                    self._is_deprecated_node(legacy_term),
+                    msg=f"Deprecated term {legacy_term} must have owl:deprecated true.",
+                )
+                self.assertIn(
+                    replacement,
+                    active_requirements,
+                    msg=f"Replacement {replacement} must be an active VVS requirement.",
+                )
+
+    def test_active_requirements_do_not_depend_on_deprecated_controls(self):
+        active_requirements = {
+            requirement
+            for requirement, _, _ in self.vvs_graph.triples(
+                (None, self.requirement_status, self.active_status)
+            )
+        }
+        for requirement in active_requirements:
+            for _, _, control in self.vvs_graph.triples(
+                (requirement, self.derived_from_rule, None)
+            ):
+                with self.subTest(requirement=requirement, control=control):
+                    self.assertFalse(
+                        self._is_deprecated_node(control),
+                        msg=(
+                            f"Active requirement {requirement} must not derive from deprecated "
+                            f"control term {control}."
+                        ),
+                    )
 
 
 if __name__ == "__main__":

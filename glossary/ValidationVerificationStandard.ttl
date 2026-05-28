@@ -131,3 +131,37 @@ nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement ;
     nias-o:implementedByShape nias-o:ReqCross001Shape ;
     rdfs:label "REQ-CROSS-001: Cross-artifact impact traceability"@en ;
     skos:definition "Every measured impact reported in a Monitoring Report must be traceable to an impact declared in the corresponding validated PDD, enabling end-to-end traceability from ex-ante declaration to ex-post measurement."@en .
+
+# ---------------------------------------------------------------------------
+# Phase 5 governance and deprecation terms
+# ---------------------------------------------------------------------------
+
+nias-vvs:TERM-PDD-METADATA-001 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "TERM-PDD-METADATA-001" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:deprecated ;
+    nias-o:validatedAt nias-o:PddSectionAReport ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy nias-vvs:REQ-PDD-001 ;
+    rdfs:label "TERM-PDD-METADATA-001: Legacy PDD Section A metadata validation term"@en ;
+    skos:definition "Superseded metadata-centric validation term for PDD Section A completeness. Replaced by requirement-centric control REQ-PDD-001."@en .
+
+nias-vvs:TERM-PDD-METADATA-002 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "TERM-PDD-METADATA-002" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:deprecated ;
+    nias-o:validatedAt nias-o:PddSectionBReport ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy nias-vvs:REQ-PDD-002 ;
+    rdfs:label "TERM-PDD-METADATA-002: Legacy PDD Section B metadata validation term"@en ;
+    skos:definition "Superseded metadata-centric validation term for PDD Section B impact declaration checks. Replaced by requirement-centric control REQ-PDD-002."@en .
+
+nias-vvs:TERM-PDD-METADATA-003 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "TERM-PDD-METADATA-003" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:deprecated ;
+    nias-o:validatedAt nias-o:PddSectionCReport ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy nias-vvs:REQ-PDD-003 ;
+    rdfs:label "TERM-PDD-METADATA-003: Legacy PDD Section C metadata validation term"@en ;
+    skos:definition "Superseded metadata-centric validation term for PDD Section C schema checks. Replaced by requirement-centric control REQ-PDD-003."@en .
