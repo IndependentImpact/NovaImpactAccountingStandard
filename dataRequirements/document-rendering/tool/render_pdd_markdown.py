@@ -82,6 +82,10 @@ def _as_markdown_value(graph: Graph, node):
     return _local_name(node)
 
 
+def _value_or_unavailable(node):
+    return node if node is not None else Literal("Unavailable")
+
+
 def _escape_table_cell(value):
     return str(value).replace("|", "\\|").replace("\n", "<br>")
 
@@ -753,19 +757,35 @@ def _render_filled_directive(
             [
                 (
                     "Legal matters",
-                    _as_markdown_value(graph, _first_value(graph, project, NIAS.legalMatters) or Literal("Unavailable")),
+                    _as_markdown_value(
+                        graph,
+                        _value_or_unavailable(_first_value(graph, project, NIAS.legalMatters)),
+                    ),
                 ),
                 (
                     "Public funding",
-                    _as_markdown_value(graph, _first_value(graph, project, NIAS.publicFundingStatus) or Literal("Unavailable")),
+                    _as_markdown_value(
+                        graph,
+                        _value_or_unavailable(
+                            _first_value(graph, project, NIAS.publicFundingStatus)
+                        ),
+                    ),
                 ),
                 (
                     "Project history",
-                    _as_markdown_value(graph, _first_value(graph, project, NIAS.projectHistory) or Literal("Unavailable")),
+                    _as_markdown_value(
+                        graph,
+                        _value_or_unavailable(_first_value(graph, project, NIAS.projectHistory)),
+                    ),
                 ),
                 (
                     "Debundling assessment",
-                    _as_markdown_value(graph, _first_value(graph, project, NIAS.debundlingAssessment) or Literal("Unavailable")),
+                    _as_markdown_value(
+                        graph,
+                        _value_or_unavailable(
+                            _first_value(graph, project, NIAS.debundlingAssessment)
+                        ),
+                    ),
                 ),
             ]
         )

@@ -19,7 +19,7 @@ source_artifact,legacy_field_path,canonical_predicate,canonical_value_model,phas
 #PDDxA&1.0.0,techmeas_project,nias-o:technologyOrMeasure,nias-o:TechnologyOrMeasure node,sPDDxA_1x0x0_toFluree,
 #PDDxA&1.0.0,parties_project,nias-o:projectParty,nias-o:ProjectParty node,sPDDxA_1x0x0_toFluree,
 #PDDxA&1.0.0,legal_matters,nias-o:legalMatters,string literal,sPDDxA_1x0x0_toFluree,
-#PDDxA&1.0.0,status_public_funding,nias-o:publicFundingStatus,SKOS concept IRI in nias-cs:YesNo,sPDDxA_1x0x0_toFluree,
+#PDDxA&1.0.0,status_public_funding,nias-o:publicFundingStatus,xsd:boolean,sPDDxA_1x0x0_toFluree,
 #PDDxA&1.0.0,source_public_funding,nias-o:publicFundingSource,string literal list,sPDDxA_1x0x0_toFluree,Emitted when public funding sources are supplied.
 #PDDxA&1.0.0,history_project,nias-o:projectHistory,string literal,sPDDxA_1x0x0_toFluree,
 #PDDxA&1.0.0,debundling,nias-o:debundlingAssessment,string literal,sPDDxA_1x0x0_toFluree,
@@ -27,7 +27,7 @@ source_artifact,legacy_field_path,canonical_predicate,canonical_value_model,phas
 #Impact&3.0.0,intentionality,nias-o:impactIntentionality,SKOS concept IRI in nias-cs:ImpactIntentionality,sImpact_3x0x0_toFluree,
 #Impact&3.0.0,beneficial_or_adverse,nias-o:beneficialOrAdverse,SKOS concept IRI in nias-cs:BeneficialOrAdverse,sImpact_3x0x0_toFluree,
 #Impact&3.0.0,description,schema:description,string literal,sImpact_3x0x0_toFluree,
-#Impact&3.0.0,monitored,nias-o:monitored,SKOS concept IRI in nias-cs:MonitoringStatus,sImpact_3x0x0_toFluree,
+#Impact&3.0.0,monitored,nias-o:monitored,xsd:boolean,sImpact_3x0x0_toFluree,
 #Impact&3.0.0,not_monitored_justification,nias-o:notMonitoredJustification,string literal,sImpact_3x0x0_toFluree,Misspelled not_monitored_justifcation is not carried forward.
 #Impact&3.0.0,additionality,nias-o:additionalityJustification,string literal,sImpact_3x0x0_toFluree,Emitted for monitored impacts.
 #Impact&3.0.0,state_baseline,impactont:hasStateA/impactont:hasIndicatorValue/rdf:value,numeric literal,sImpact_3x0x0_toFluree,Replaces legacy impactont:hasValue.

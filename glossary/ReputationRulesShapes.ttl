@@ -16,7 +16,7 @@ nias-o:ReputationRulesShapes a owl:Ontology ;
 
 nias-o:ReputationLifecycleTermValueShape a sh:PropertyShape ;
     sh:path nias-o:reputationLifecycleTerm ;
-    sh:class skos:Concept ;
+    sh:class nias-o:ReputationLifecycleTerm ;
     sh:in (
         nias-cs:ksr-gain
         nias-cs:ksr-decay

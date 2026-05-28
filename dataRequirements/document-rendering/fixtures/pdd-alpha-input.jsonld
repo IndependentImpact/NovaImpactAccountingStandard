@@ -47,9 +47,7 @@
       "nias:projectParty": {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/parties/coastal-community-coop"
       },
-      "nias:publicFundingStatus": {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/no"
-      },
+      "nias:publicFundingStatus": false,
       "nias:technologyOrMeasure": {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/technologies/mangrove-replanting"
       },
@@ -108,9 +106,7 @@
       "nias:impactIntentionality": {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/intentional"
       },
-      "nias:monitored": {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/concepts/yes"
-      },
+      "nias:monitored": true,
       "schema:description": "Increase net carbon sequestration in restored mangroves."
     },
     {

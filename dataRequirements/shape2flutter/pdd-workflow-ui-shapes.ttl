@@ -384,11 +384,11 @@ nias-ui:ProjectDesignUiShape a sh:NodeShape ;
     ] ;
     sh:property [
         sh:path nias-o:publicFundingStatus ;
-        sh:in ( nias-cs:yes nias-cs:no ) ;
+        sh:datatype xsd:boolean ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Public funding" ;
-        ui:widget ui:radio ;
+        ui:widget ui:switch ;
         ui:order 7 ;
     ] ;
     sh:property [
@@ -609,11 +609,11 @@ nias-ui:ImpactRequirementUiShape a sh:NodeShape ;
     ] ;
     sh:property [
         sh:path nias-o:monitored ;
-        sh:in ( nias-cs:yes nias-cs:no ) ;
+        sh:datatype xsd:boolean ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Monitored" ;
-        ui:widget ui:radio ;
+        ui:widget ui:switch ;
         ui:order 4 ;
     ] ;
     sh:property [

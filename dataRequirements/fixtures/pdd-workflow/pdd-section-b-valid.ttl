@@ -38,7 +38,7 @@
         nias-o:publicPrivateClassification nias-cs:private
     ] ;
     nias-o:legalMatters "No outstanding legal encumbrances." ;
-    nias-o:publicFundingStatus nias-cs:no ;
+    nias-o:publicFundingStatus false ;
     nias-o:projectHistory "The project replaces diesel pumping equipment used before 2026." ;
     nias-o:debundlingAssessment "The project is a standalone installation and is not debundled from a larger activity." .
 
@@ -47,7 +47,7 @@
     nias-o:impactIntentionality nias-cs:unintentional ;
     nias-o:beneficialOrAdverse nias-cs:beneficial ;
     schema:description "Minor positive local air-quality co-benefit that will not be quantified." ;
-    nias-o:monitored nias-cs:no ;
+    nias-o:monitored false ;
     nias-o:notMonitoredJustification "The co-benefit is expected to be immaterial relative to the primary monitored impact." .
 
 <https://nova.org.za/novaimpactaccountingstandard/claims/pdd-alpha-impact-claim>

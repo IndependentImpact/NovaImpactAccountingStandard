@@ -16,7 +16,7 @@ nias-o:ScoringRulesShapes a owl:Ontology ;
 
 nias-o:ReviewMandateValueShape a sh:PropertyShape ;
     sh:path nias-o:reviewMandate ;
-    sh:class skos:Concept ;
+    sh:class nias-o:ReviewMandate ;
     sh:in (
         nias-cs:validation
         nias-cs:verification
@@ -31,7 +31,7 @@ nias-o:ReviewMandateValueShape a sh:PropertyShape ;
 
 nias-o:IndicatorQualityDimensionValueShape a sh:PropertyShape ;
     sh:path nias-o:indicatorQualityDimension ;
-    sh:class skos:Concept ;
+    sh:class nias-o:IndicatorQualityDimension ;
     sh:in (
         nias-cs:indicator-validity
         nias-cs:indicator-reliability
@@ -45,7 +45,7 @@ nias-o:IndicatorQualityDimensionValueShape a sh:PropertyShape ;
 
 nias-o:MethodologyQualityDimensionValueShape a sh:PropertyShape ;
     sh:path nias-o:methodologyQualityDimension ;
-    sh:class skos:Concept ;
+    sh:class nias-o:MethodologyQualityDimension ;
     sh:in (
         nias-cs:methodology-conceptual-soundness
         nias-cs:methodology-internal-validity
@@ -67,7 +67,7 @@ nias-o:MethodologyQualityDimensionValueShape a sh:PropertyShape ;
 
 nias-o:InstrumentQualityDimensionValueShape a sh:PropertyShape ;
     sh:path nias-o:instrumentQualityDimension ;
-    sh:class skos:Concept ;
+    sh:class nias-o:InstrumentQualityDimension ;
     sh:in (
         nias-cs:instrument-accuracy
         nias-cs:instrument-precision
@@ -92,7 +92,7 @@ nias-o:InstrumentQualityDimensionValueShape a sh:PropertyShape ;
 
 nias-o:ScoringModelTermValueShape a sh:PropertyShape ;
     sh:path nias-o:scoringModelTerm ;
-    sh:class skos:Concept ;
+    sh:class nias-o:ScoringModelTerm ;
     sh:in (
         nias-cs:act-sco
         nias-cs:validation-point

@@ -13,7 +13,7 @@
     nias-o:impactIntentionality nias-cs:intentional ;
     nias-o:beneficialOrAdverse nias-cs:beneficial ;
     schema:description "Measured reduction in electricity-grid emissions." ;
-    nias-o:monitored nias-cs:yes ;
+    nias-o:monitored true ;
     nias-o:additionalityJustification "Without project intervention this reduction would not occur." ;
     impactont:hasStateA <https://nova.org.za/novaimpactaccountingstandard/states/phase7-monitored-a> ;
     impactont:hasStateB <https://nova.org.za/novaimpactaccountingstandard/states/phase7-monitored-b> ;

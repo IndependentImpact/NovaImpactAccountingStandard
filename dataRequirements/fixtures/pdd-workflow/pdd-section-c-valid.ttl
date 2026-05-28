@@ -37,7 +37,7 @@
         nias-o:publicPrivateClassification nias-cs:private
     ] ;
     nias-o:legalMatters "No outstanding legal encumbrances." ;
-    nias-o:publicFundingStatus nias-cs:no ;
+    nias-o:publicFundingStatus false ;
     nias-o:projectHistory "The project replaces diesel pumping equipment used before 2026." ;
     nias-o:debundlingAssessment "The project is a standalone installation and is not debundled from a larger activity." .
 

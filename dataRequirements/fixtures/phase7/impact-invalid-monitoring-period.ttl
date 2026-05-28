@@ -13,7 +13,7 @@
     nias-o:impactIntentionality nias-cs:intentional ;
     nias-o:beneficialOrAdverse nias-cs:beneficial ;
     schema:description "Monitoring period intentionally outside crediting period." ;
-    nias-o:monitored nias-cs:yes ;
+    nias-o:monitored true ;
     nias-o:additionalityJustification "Used only for regression test." ;
     impactont:hasStateA <https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-a> ;
     impactont:hasStateB <https://nova.org.za/novaimpactaccountingstandard/states/phase7-invalid-period-b> ;

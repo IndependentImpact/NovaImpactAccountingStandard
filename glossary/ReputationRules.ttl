@@ -1,35 +1,41 @@
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 # ---------------------------------------------------------------------------
 # Reputation lifecycle terms
 # ---------------------------------------------------------------------------
 
-nias-cs:ksr-gain a skos:Concept ;
+nias-cs:ksr-gain a nias-o:ReputationLifecycleTerm,
+        skos:Concept ;
     skos:definition "An increase in a platform agent's Knowledge & Skills Reputation (KSR) balance, earned by submitting reviews that are accepted by the platform." ;
     skos:inScheme nias-cs:ReputationLifecycleTerm ;
     skos:prefLabel "KSR gain" ;
     skos:topConceptOf nias-cs:ReputationLifecycleTerm .
 
-nias-cs:ksr-decay a skos:Concept ;
+nias-cs:ksr-decay a nias-o:ReputationLifecycleTerm,
+        skos:Concept ;
     skos:definition "A periodic, time-based reduction in a platform agent's Knowledge & Skills Reputation (KSR) balance, applied at a configurable rate to incentivise continued platform engagement and knowledge currency. Decay stops when the balance reaches zero." ;
     skos:inScheme nias-cs:ReputationLifecycleTerm ;
     skos:prefLabel "KSR decay" ;
     skos:topConceptOf nias-cs:ReputationLifecycleTerm .
 
-nias-cs:ksr-balance a skos:Concept ;
+nias-cs:ksr-balance a nias-o:ReputationLifecycleTerm,
+        skos:Concept ;
     skos:definition "The current total of a platform agent's Knowledge & Skills Reputation (KSR) points in a given domain, calculated as cumulative gains minus cumulative decay, with a floor of zero." ;
     skos:inScheme nias-cs:ReputationLifecycleTerm ;
     skos:prefLabel "KSR balance" ;
     skos:topConceptOf nias-cs:ReputationLifecycleTerm .
 
-nias-cs:decay-rate a skos:Concept ;
+nias-cs:decay-rate a nias-o:ReputationLifecycleTerm,
+        skos:Concept ;
     skos:definition "The configurable rate at which a platform agent's Knowledge & Skills Reputation (KSR) balance decreases per unit of time when the agent is inactive." ;
     skos:inScheme nias-cs:ReputationLifecycleTerm ;
     skos:prefLabel "Decay rate" ;
     skos:topConceptOf nias-cs:ReputationLifecycleTerm .
 
-nias-cs:decay-floor a skos:Concept ;
+nias-cs:decay-floor a nias-o:ReputationLifecycleTerm,
+        skos:Concept ;
     skos:definition "The minimum Knowledge & Skills Reputation (KSR) balance to which time-based decay can reduce an agent's score; decay stops when this floor is reached and cannot cause a negative balance." ;
     skos:inScheme nias-cs:ReputationLifecycleTerm ;
     skos:prefLabel "Decay floor" ;

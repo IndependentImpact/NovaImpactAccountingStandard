@@ -49,8 +49,7 @@ nias-o:licenseScopeShape a sh:NodeShape ;
     sh:targetClass nias-o:AgentLicense .
 
 nias-o:monitoredShape a sh:NodeShape ;
-    sh:property [ sh:class skos:Concept ;
-            sh:in ( nias-cs:yes nias-cs:no ) ;
+    sh:property [ sh:datatype xsd:boolean ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:path nias-o:monitored ] ;

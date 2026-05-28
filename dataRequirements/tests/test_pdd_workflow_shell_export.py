@@ -138,7 +138,7 @@ def _pdd_a_payload():
                             }
                         ],
                         f"{NIAS}legalMatters": "Permits granted.",
-                        f"{NIAS}publicFundingStatus": f"{NIAS}no",
+                        f"{NIAS}publicFundingStatus": False,
                         f"{NIAS}projectHistory": "Started in 2024.",
                         f"{NIAS}debundlingAssessment": "No overlap.",
                     }
@@ -159,7 +159,7 @@ def _pdd_b_payload():
                         f"{SCHEMA}description": "Increase carbon sequestration.",
                         f"{NIAS}impactIntentionality": f"{NIAS}intentional",
                         f"{NIAS}beneficialOrAdverse": f"{NIAS}beneficial",
-                        f"{NIAS}monitored": f"{NIAS}yes",
+                        f"{NIAS}monitored": True,
                     }
                 ],
                 f"{NIAS}impactClaim": [

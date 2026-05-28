@@ -77,7 +77,7 @@ nias-o:ImpactRequirementShape a sh:NodeShape ;
 nias-o:MonitoredImpactShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:monitored ;
-        sh:hasValue nias-cs:yes ;
+        sh:hasValue true ;
         sh:minCount 1 ;
         sh:maxCount 1
     ] ;
@@ -166,7 +166,7 @@ nias-o:MonitoredImpactShape a sh:NodeShape ;
 nias-o:UnmonitoredImpactShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:monitored ;
-        sh:hasValue nias-cs:no ;
+        sh:hasValue false ;
         sh:minCount 1 ;
         sh:maxCount 1
     ] ;

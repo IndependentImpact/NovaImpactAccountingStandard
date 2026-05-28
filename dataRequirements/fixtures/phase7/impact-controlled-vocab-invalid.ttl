@@ -8,5 +8,5 @@
     nias-o:impactIntentionality nias-cs:unsupported-value ;
     nias-o:beneficialOrAdverse nias-cs:beneficial ;
     schema:description "Fixture with an invalid controlled vocabulary value." ;
-    nias-o:monitored nias-cs:no ;
+    nias-o:monitored false ;
     nias-o:notMonitoredJustification "This fixture intentionally tests controlled vocabulary rejection." .

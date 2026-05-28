@@ -123,11 +123,10 @@ nias-o:ImpactIntentionalityPropertyShape a sh:PropertyShape ;
 
 nias-o:MonitoringStatusPropertyShape a sh:PropertyShape ;
     sh:path nias-o:monitored ;
-    sh:nodeKind sh:IRI ;
-    sh:in ( nias-cs:yes nias-cs:no ) ;
+    sh:datatype xsd:boolean ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
-    sh:message "Impact monitoring status must be yes or no."@en .
+    sh:message "Impact monitoring status must be a boolean."@en .
 
 nias-o:MonitoredOrFixedPropertyShape a sh:PropertyShape ;
     sh:path nias-o:monitoredOrFixed ;
@@ -139,11 +138,10 @@ nias-o:MonitoredOrFixedPropertyShape a sh:PropertyShape ;
 
 nias-o:PublicFundingStatusPropertyShape a sh:PropertyShape ;
     sh:path nias-o:publicFundingStatus ;
-    sh:nodeKind sh:IRI ;
-    sh:in ( nias-cs:yes nias-cs:no ) ;
+    sh:datatype xsd:boolean ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
-    sh:message "Public funding status must be yes or no."@en .
+    sh:message "Public funding status must be a boolean."@en .
 
 nias-o:PublicPrivateClassificationPropertyShape a sh:PropertyShape ;
     sh:path nias-o:publicPrivateClassification ;

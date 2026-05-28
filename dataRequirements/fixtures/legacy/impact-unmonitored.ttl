@@ -7,6 +7,6 @@
   nias-o:impactIntentionality nias-o:intentional ;
   nias-o:beneficialOrAdverse nias-o:beneficial ;
   schema:description "Minor landscape co-benefit that will not be quantified." ;
-  nias-o:monitored nias-o:no ;
+  nias-o:monitored false ;
   nias-o:notMonitoredJustification "The impact is not material enough to monitor."
 ] .

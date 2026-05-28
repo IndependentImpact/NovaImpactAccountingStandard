@@ -135,7 +135,7 @@ Restore degraded mangrove habitat and increase shoreline resilience.
 | Field | Value |
 | --- | --- |
 | Legal matters | All permits are in place. |
-| Public funding | no |
+| Public funding | No |
 | Project history | Pilot restoration started in 2024. |
 | Debundling assessment | No overlapping registries identified. |
 

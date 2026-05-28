@@ -37,7 +37,7 @@
         nias-o:publicPrivateClassification nias-cs:private
     ] ;
     nias-o:legalMatters "No outstanding legal encumbrances." ;
-    nias-o:publicFundingStatus nias-cs:no ;
+    nias-o:publicFundingStatus false ;
     nias-o:projectHistory "Legacy fixture project history." ;
     nias-o:debundlingAssessment "Standalone project fixture." .
 

@@ -8,5 +8,5 @@
     nias-o:impactIntentionality nias-cs:unintentional ;
     nias-o:beneficialOrAdverse nias-cs:adverse ;
     schema:description "Minor localized noise increase from maintenance activity." ;
-    nias-o:monitored nias-cs:no ;
+    nias-o:monitored false ;
     nias-o:notMonitoredJustification "Impact is immaterial relative to project boundary and risk profile." .
