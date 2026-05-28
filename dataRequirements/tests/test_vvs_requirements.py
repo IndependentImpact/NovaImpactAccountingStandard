@@ -18,6 +18,8 @@ from rdflib import Graph, URIRef
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+NIAS_BASE = "https://nova.org.za/novaimpactaccountingstandard/"
+VVS_BASE = f"{NIAS_BASE}vvs/"
 
 VVS_SHAPES_FILE = REPO_ROOT / "dataRequirements/vvs-requirement-shapes.ttl"
 
@@ -175,19 +177,13 @@ class VvsImplementedByShapeLinksTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        from rdflib import URIRef
-        from rdflib.namespace import RDF
-
-        NIAS_O = "https://nova.org.za/novaimpactaccountingstandard/"
-        VVS = f"{NIAS_O}vvs/"
-
-        cls.IMPLEMENTED_BY_SHAPE = URIRef(f"{NIAS_O}implementedByShape")
+        cls.IMPLEMENTED_BY_SHAPE = URIRef(f"{NIAS_BASE}implementedByShape")
         cls.expected_links = {
-            URIRef(f"{VVS}REQ-PDD-001"): URIRef(f"{NIAS_O}ReqPdd001Shape"),
-            URIRef(f"{VVS}REQ-PDD-002"): URIRef(f"{NIAS_O}ReqPdd002Shape"),
-            URIRef(f"{VVS}REQ-DLR-001"): URIRef(f"{NIAS_O}ReqDlr001Shape"),
-            URIRef(f"{VVS}REQ-MR-001"): URIRef(f"{NIAS_O}ReqMr001Shape"),
-            URIRef(f"{VVS}REQ-CROSS-001"): URIRef(f"{NIAS_O}ReqCross001Shape"),
+            URIRef(f"{VVS_BASE}REQ-PDD-001"): URIRef(f"{NIAS_BASE}ReqPdd001Shape"),
+            URIRef(f"{VVS_BASE}REQ-PDD-002"): URIRef(f"{NIAS_BASE}ReqPdd002Shape"),
+            URIRef(f"{VVS_BASE}REQ-DLR-001"): URIRef(f"{NIAS_BASE}ReqDlr001Shape"),
+            URIRef(f"{VVS_BASE}REQ-MR-001"): URIRef(f"{NIAS_BASE}ReqMr001Shape"),
+            URIRef(f"{VVS_BASE}REQ-CROSS-001"): URIRef(f"{NIAS_BASE}ReqCross001Shape"),
         }
         cls.vvs_graph = Graph()
         cls.vvs_graph.parse(REPO_ROOT / "glossary/ValidationVerificationStandard.ttl")
@@ -211,20 +207,17 @@ class VvsRequirementMappingsIntegrityTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
-        VVS = f"{NIAS}vvs/"
-
-        cls.validated_at = URIRef(f"{NIAS}validatedAt")
-        cls.verified_by = URIRef(f"{NIAS}verifiedBy")
-        cls.implemented_by_shape = URIRef(f"{NIAS}implementedByShape")
-        cls.requirement_status = URIRef(f"{NIAS}requirementStatus")
-        cls.active_status = URIRef(f"{VVS}active")
-        cls.requirement_id = URIRef(f"{NIAS}requirementId")
+        cls.validated_at = URIRef(f"{NIAS_BASE}validatedAt")
+        cls.verified_by = URIRef(f"{NIAS_BASE}verifiedBy")
+        cls.implemented_by_shape = URIRef(f"{NIAS_BASE}implementedByShape")
+        cls.requirement_status = URIRef(f"{NIAS_BASE}requirementStatus")
+        cls.active_status = URIRef(f"{VVS_BASE}active")
+        cls.requirement_id = URIRef(f"{NIAS_BASE}requirementId")
         cls.known_anchors = {
-            URIRef(f"{NIAS}PddSectionAReport"),
-            URIRef(f"{NIAS}PddSectionBReport"),
-            URIRef(f"{NIAS}DataLineageReport"),
-            URIRef(f"{NIAS}MonitoringReport"),
+            URIRef(f"{NIAS_BASE}PddSectionAReport"),
+            URIRef(f"{NIAS_BASE}PddSectionBReport"),
+            URIRef(f"{NIAS_BASE}DataLineageReport"),
+            URIRef(f"{NIAS_BASE}MonitoringReport"),
         }
 
         cls.vvs_graph = Graph()
@@ -260,8 +253,9 @@ class VvsRequirementMappingsIntegrityTest(unittest.TestCase):
             )
         }
         mapped_requirements = self._mapped_requirements()
-        self.assertTrue(
-            active_requirements.issubset(mapped_requirements),
+        self.assertEqual(
+            active_requirements - mapped_requirements,
+            set(),
             msg=(
                 "Every active requirement must have at least one Phase 3 mapping triple "
                 "(nias-o:validatedAt or nias-o:verifiedBy)."
