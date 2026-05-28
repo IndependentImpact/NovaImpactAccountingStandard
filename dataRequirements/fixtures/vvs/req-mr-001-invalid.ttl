@@ -21,4 +21,5 @@
 <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-report>
     a nias-o:MonitoringReport ;
     nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-observation> ;
-    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-pdd-document> .
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-pdd-document> ;
+    nias-o:requestedIssuanceAccountId "0.0.1002" .

@@ -1,0 +1,27 @@
+# REQ-DLR-002 positive fixture
+# A DataLineageReport that conforms to ReqDlr001Shape and ReqDlr002Shape:
+#   - includes raw dataset and transfer code artifacts
+#   - includes a final dataset artifact
+#   - all referenced artifacts carry nias-o:resourceIpfsUri
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-raw-dataset>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsdlr2rawdataset"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-transfer-code>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsdlr2transfercode"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-final-dataset>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsdlr2finaldataset"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-report>
+    a nias-o:DataLineageReport ;
+    nias-o:rawDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-raw-dataset> ;
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-transfer-code> ;
+    nias-o:finalDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-valid-final-dataset> .
+

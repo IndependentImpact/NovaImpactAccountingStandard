@@ -1,0 +1,21 @@
+# REQ-DLR-002 negative fixture
+# A DataLineageReport that satisfies ReqDlr001Shape but violates ReqDlr002Shape
+# by omitting nias-o:finalDatasetArtifact.
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-invalid-raw-dataset>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsdlr2invalidraw"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-invalid-transfer-code>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsdlr2invalidtransfer"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-invalid-report>
+    a nias-o:DataLineageReport ;
+    nias-o:rawDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-invalid-raw-dataset> ;
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr2-invalid-transfer-code> .
+    # nias-o:finalDatasetArtifact intentionally omitted to trigger REQ-DLR-002 violation
+

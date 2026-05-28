@@ -11,8 +11,14 @@ nias-vvs:REQ-PDD-001 nias-o:validatedAt nias-o:PddSectionAReport .
 
 nias-vvs:REQ-PDD-002 nias-o:validatedAt nias-o:PddSectionBReport .
 
+nias-vvs:REQ-PDD-003 nias-o:validatedAt nias-o:PddSectionCReport .
+
 nias-vvs:REQ-DLR-001 nias-o:validatedAt nias-o:PddSectionBReport .
 
+nias-vvs:REQ-DLR-002 nias-o:validatedAt nias-o:PddSectionBReport .
+
 nias-vvs:REQ-MR-001 nias-o:validatedAt nias-o:PddSectionBReport .
+
+nias-vvs:REQ-MR-002 nias-o:validatedAt nias-o:PddSectionBReport .
 
 nias-vvs:REQ-CROSS-001 nias-o:validatedAt nias-o:PddSectionBReport .

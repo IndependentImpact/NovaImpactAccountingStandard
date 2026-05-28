@@ -1,0 +1,23 @@
+# REQ-MR-002 negative fixture
+# A MonitoringReport that satisfies ReqMr001Shape and ReqCross001Shape but
+# violates ReqMr002Shape by omitting nias-o:requestedIssuanceAccountId.
+
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-invalid-pdd-document>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-invalid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 42.0 ;
+    ind:hasUnit qudt-unit:TONNE .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-invalid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-invalid-observation> ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-invalid-pdd-document> .
+    # nias-o:requestedIssuanceAccountId intentionally omitted to trigger REQ-MR-002 violation
+
