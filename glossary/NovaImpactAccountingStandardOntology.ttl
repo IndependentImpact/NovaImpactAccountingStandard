@@ -1208,3 +1208,73 @@ nias-o:workflowSubjectType a owl:ObjectProperty ;
     rdfs:label "workflowSubjectType"@en ;
     rdfs:domain nias-o:WorkflowDocumentSubmission ;
     skos:definition "Optional legacy discriminator indicating whether the workflow subject is a project or an agent. In the canonical model this is implicit from the workflowSubject IRI."@en .
+
+# ---------------------------------------------------------------------------
+# Validation & Verification Standard (VVS) - classes
+# ---------------------------------------------------------------------------
+
+nias-o:ValidationVerificationRequirement a owl:Class ;
+    rdfs:label "ValidationVerificationRequirement"@en ;
+    skos:definition "An abstract requirement resource within the Validation & Verification Standard, identified by a stable IRI and carrying requirement text, status, and mandate metadata."@en .
+
+nias-o:ValidationRequirement a owl:Class ;
+    rdfs:label "ValidationRequirement"@en ;
+    rdfs:subClassOf nias-o:ValidationVerificationRequirement ;
+    skos:definition "A VVS requirement that governs ex-ante validation, assessed against Project Design Documents and related artifacts."@en .
+
+nias-o:VerificationRequirement a owl:Class ;
+    rdfs:label "VerificationRequirement"@en ;
+    rdfs:subClassOf nias-o:ValidationVerificationRequirement ;
+    skos:definition "A VVS requirement that governs ex-post verification, assessed against Data Lineage Reports, Monitoring Reports, and related artifacts."@en .
+
+nias-o:EvidenceRequirement a owl:Class ;
+    rdfs:label "EvidenceRequirement"@en ;
+    rdfs:subClassOf nias-o:ValidationVerificationRequirement ;
+    skos:definition "A VVS requirement specifying the type and quality of evidence that must be provided to satisfy a validation or verification obligation."@en .
+
+nias-o:RequirementMapping a owl:Class ;
+    rdfs:label "RequirementMapping"@en ;
+    skos:definition "An explicit mapping resource linking a VVS requirement to one or more artifact anchors (PDD sections, DLR nodes, MR nodes) at which validation or verification is assessed."@en .
+
+# ---------------------------------------------------------------------------
+# Validation & Verification Standard (VVS) - properties
+# ---------------------------------------------------------------------------
+
+nias-o:implementedByShape a owl:ObjectProperty ;
+    rdfs:label "implementedByShape"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:range sh:Shape ;
+    skos:definition "Links a VVS requirement to the SHACL shape that enforces it."@en .
+
+nias-o:derivedFromRule a owl:ObjectProperty ;
+    rdfs:label "derivedFromRule"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:range nias-o:ScoringRule ;
+    skos:definition "Links a VVS requirement to the scoring rule or controlled scoring term from which it is derived."@en .
+
+nias-o:validatedAt a owl:ObjectProperty ;
+    rdfs:label "validatedAt"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    skos:definition "Links a VVS requirement to the PDD anchor class or resource at which validation is assessed (ex ante)."@en .
+
+nias-o:verifiedBy a owl:ObjectProperty ;
+    rdfs:label "verifiedBy"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    skos:definition "Links a VVS requirement to the DLR or MR anchor class or resource by which verification is assessed (ex post)."@en .
+
+nias-o:hasEvidenceRequirement a owl:ObjectProperty ;
+    rdfs:label "hasEvidenceRequirement"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:range nias-o:EvidenceRequirement ;
+    skos:definition "Links a validation or verification requirement to an associated evidence requirement."@en .
+
+nias-o:requirementId a owl:DatatypeProperty ;
+    rdfs:label "requirementId"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:range xsd:string ;
+    skos:definition "A stable, human-readable identifier for a VVS requirement (e.g. REQ-PDD-001). Optional when the requirement IRI is canonical."@en .
+
+nias-o:requirementStatus a owl:ObjectProperty ;
+    rdfs:label "requirementStatus"@en ;
+    rdfs:domain nias-o:ValidationVerificationRequirement ;
+    skos:definition "Links a VVS requirement to a controlled status concept (draft, active, or deprecated)."@en .
