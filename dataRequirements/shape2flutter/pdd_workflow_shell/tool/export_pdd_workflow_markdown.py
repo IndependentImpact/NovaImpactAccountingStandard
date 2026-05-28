@@ -63,6 +63,23 @@ def _as_node_reference(value, fallback_suffix: str):
     return {"@id": _node_id(fallback_suffix)}
 
 
+def _as_bool(value, default: bool):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, dict):
+        literal_value = value.get("@value")
+        if isinstance(literal_value, bool):
+            return literal_value
+        value = value.get("@id", literal_value)
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes"} or normalized.endswith("/yes"):
+            return True
+        if normalized in {"false", "0", "no"} or normalized.endswith("/no"):
+            return False
+    return default
+
+
 def _gate_failures(review_payloads):
     failures = []
     for section, expected in SECTION_STEPS.items():
@@ -111,8 +128,8 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
                 party.get("@id"), "parties/pdd-alpha-party"
             ),
             f"{NIAS}legalMatters": project.get(f"{NIAS}legalMatters", ""),
-            f"{NIAS}publicFundingStatus": _as_node_reference(
-                project.get(f"{NIAS}publicFundingStatus"), "concepts/no"
+            f"{NIAS}publicFundingStatus": _as_bool(
+                project.get(f"{NIAS}publicFundingStatus"), False
             ),
             f"{NIAS}projectHistory": project.get(f"{NIAS}projectHistory", ""),
             f"{NIAS}debundlingAssessment": project.get(
@@ -167,8 +184,8 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
                 declared_impact.get(f"{NIAS}beneficialOrAdverse"),
                 "concepts/beneficial",
             ),
-            f"{NIAS}monitored": _as_node_reference(
-                declared_impact.get(f"{NIAS}monitored"), "concepts/yes"
+            f"{NIAS}monitored": _as_bool(
+                declared_impact.get(f"{NIAS}monitored"), True
             ),
         },
         {

@@ -429,10 +429,10 @@ Target SHACL shape:
 - `ImpactRequirementShape`, target class `impactont:Impact`.
 - Require intentionality, beneficial/adverse classification, description, and
   monitoring status.
-- If `nias-o:monitored` is `nias-o:no`, require
+- If `nias-o:monitored` is `false`, require
   `nias-o:notMonitoredJustification` and do not require states, monitoring
   periods, crediting period, or methodology.
-- If `nias-o:monitored` is `nias-o:yes`, require:
+- If `nias-o:monitored` is `true`, require:
   - `nias-o:additionalityJustification`
   - exactly one `impactont:hasStateA`
   - exactly one `impactont:hasStateB`

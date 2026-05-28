@@ -68,7 +68,7 @@ nias-o:ProjectPartyShape a sh:NodeShape ;
 nias-o:ProjectWithPublicFundingShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:publicFundingStatus ;
-        sh:hasValue nias-cs:yes ;
+        sh:hasValue true ;
         sh:minCount 1 ;
         sh:maxCount 1
     ] ;
@@ -82,7 +82,7 @@ nias-o:ProjectWithPublicFundingShape a sh:NodeShape ;
 nias-o:ProjectWithoutPublicFundingShape a sh:NodeShape ;
     sh:property [
         sh:path nias-o:publicFundingStatus ;
-        sh:hasValue nias-cs:no ;
+        sh:hasValue false ;
         sh:minCount 1 ;
         sh:maxCount 1
     ] .

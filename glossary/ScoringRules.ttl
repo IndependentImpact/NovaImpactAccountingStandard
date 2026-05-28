@@ -1,17 +1,20 @@
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 # ---------------------------------------------------------------------------
 # Review mandate
 # ---------------------------------------------------------------------------
 
-nias-cs:validation a skos:Concept ;
+nias-cs:validation a nias-o:ReviewMandate,
+        skos:Concept ;
     skos:definition "A review mandate that evaluates the design of an activity before implementation (ex ante), assessing the likelihood that the activity will, if implemented according to its design, achieve its intended impacts while complying with the applicable standard." ;
     skos:inScheme nias-cs:ReviewMandate ;
     skos:prefLabel "Validation" ;
     skos:topConceptOf nias-cs:ReviewMandate .
 
-nias-cs:verification a skos:Concept ;
+nias-cs:verification a nias-o:ReviewMandate,
+        skos:Concept ;
     skos:definition "A review mandate that evaluates an activity and its impacts during or after implementation and impact monitoring (ex post), assessing what actually occurred during implementation and monitoring." ;
     skos:inScheme nias-cs:ReviewMandate ;
     skos:prefLabel "Verification" ;
@@ -27,31 +30,41 @@ nias-cs:ReviewMandate a skos:ConceptScheme ;
 # Scoring model terms
 # ---------------------------------------------------------------------------
 
-nias-cs:act-sco a skos:Concept ;
+nias-cs:act-sco a nias-o:ScoreType,
+        nias-o:ScoringModelTerm,
+        skos:Concept ;
     skos:definition "Activity Score — a composite score reflecting the quality of an activity's design and implementation as assessed through validation and verification reviews." ;
     skos:inScheme nias-cs:ScoringModelTerm ;
     skos:prefLabel "ActSco" ;
     skos:topConceptOf nias-cs:ScoringModelTerm .
 
-nias-cs:validation-point a skos:Concept ;
+nias-cs:validation-point a nias-o:ScoringModelTerm,
+        nias-o:ScoringUnit,
+        skos:Concept ;
     skos:definition "A scoring unit awarded when a reviewer provides a positive response to a validation review question for a specific reviewable aspect of an activity or impact." ;
     skos:inScheme nias-cs:ScoringModelTerm ;
     skos:prefLabel "Validation point" ;
     skos:topConceptOf nias-cs:ScoringModelTerm .
 
-nias-cs:verification-point a skos:Concept ;
+nias-cs:verification-point a nias-o:ScoringModelTerm,
+        nias-o:ScoringUnit,
+        skos:Concept ;
     skos:definition "A scoring unit awarded when a reviewer provides a positive response to a verification review question for a specific reviewable aspect of an activity or impact." ;
     skos:inScheme nias-cs:ScoringModelTerm ;
     skos:prefLabel "Verification point" ;
     skos:topConceptOf nias-cs:ScoringModelTerm .
 
-nias-cs:expert-threshold a skos:Concept ;
+nias-cs:expert-threshold a nias-o:ScoringModelTerm,
+        nias-o:ScoringRule,
+        skos:Concept ;
     skos:definition "The minimum Knowledge & Skills reputation amount in a domain that a standard requires a reviewer to hold in order to be considered an expert for that domain. Reviews submitted below the expert threshold are weighted proportionally." ;
     skos:inScheme nias-cs:ScoringModelTerm ;
     skos:prefLabel "Expert threshold" ;
     skos:topConceptOf nias-cs:ScoringModelTerm .
 
-nias-cs:reputation-weighting a skos:Concept ;
+nias-cs:reputation-weighting a nias-o:ScoringModelTerm,
+        nias-o:ScoringRule,
+        skos:Concept ;
     skos:definition "The adjustment applied to a review score when a reviewer's Knowledge & Skills reputation is below the expert threshold; calculated as the ratio of the reviewer's reputation to the expert threshold." ;
     skos:inScheme nias-cs:ScoringModelTerm ;
     skos:prefLabel "Reputation weighting" ;
@@ -70,19 +83,22 @@ nias-cs:ScoringModelTerm a skos:ConceptScheme ;
 # Indicator quality dimensions
 # ---------------------------------------------------------------------------
 
-nias-cs:indicator-validity a skos:Concept ;
+nias-cs:indicator-validity a nias-o:IndicatorQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which an indicator measures what it is intended to measure and correctly reflects the underlying concept, including specificity (uniqueness of the indicator to the state of interest)." ;
     skos:inScheme nias-cs:IndicatorQualityDimension ;
     skos:prefLabel "Validity" ;
     skos:topConceptOf nias-cs:IndicatorQualityDimension .
 
-nias-cs:indicator-reliability a skos:Concept ;
+nias-cs:indicator-reliability a nias-o:IndicatorQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which an indicator produces consistent results when measured repeatedly under similar conditions." ;
     skos:inScheme nias-cs:IndicatorQualityDimension ;
     skos:prefLabel "Reliability" ;
     skos:topConceptOf nias-cs:IndicatorQualityDimension .
 
-nias-cs:indicator-sensitivity a skos:Concept ;
+nias-cs:indicator-sensitivity a nias-o:IndicatorQualityDimension,
+        skos:Concept ;
     skos:definition "The ability of an indicator to detect meaningful differences or changes in the underlying reality, including timeliness (whether the indicator updates fast enough to reflect changes in a useful timeframe)." ;
     skos:inScheme nias-cs:IndicatorQualityDimension ;
     skos:prefLabel "Sensitivity" ;
@@ -99,67 +115,78 @@ nias-cs:IndicatorQualityDimension a skos:ConceptScheme ;
 # Methodology quality dimensions
 # ---------------------------------------------------------------------------
 
-nias-cs:methodology-conceptual-soundness a skos:Concept ;
+nias-cs:methodology-conceptual-soundness a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology is grounded in a clear and correct model of reality that explains why the chosen indicators relate to the intended outcome." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Conceptual soundness" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-internal-validity a skos:Concept ;
+nias-cs:methodology-internal-validity a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology correctly attributes cause and effect, isolating the impact of the intervention and avoiding confounding variables or spurious correlations." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Internal validity" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-external-validity a skos:Concept ;
+nias-cs:methodology-external-validity a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology's results generalise across different contexts, populations, or conditions beyond the settings in which it was originally validated." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "External validity" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-reliability a skos:Concept ;
+nias-cs:methodology-reliability a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which independent practitioners applying the same methodology to the same data obtain similar results, reflecting clear procedures and low dependence on subjective judgment." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Reliability" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-transparency a skos:Concept ;
+nias-cs:methodology-transparency a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology's assumptions, data provenance, and procedural steps are documented and accessible so that independent parties can inspect, understand, and verify the methodology." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Transparency" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-robustness a skos:Concept ;
+nias-cs:methodology-robustness a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology produces consistent and trustworthy results under imperfect real-world data conditions and is resistant to manipulation or gaming." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Robustness" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-sensitivity-specificity a skos:Concept ;
+nias-cs:methodology-sensitivity-specificity a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology as a whole reliably detects genuine effects (sensitivity) while avoiding false-positive impact claims (specificity)." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Sensitivity & specificity" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-completeness a skos:Concept ;
+nias-cs:methodology-completeness a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology's system boundary includes all relevant factors such as leakage, rebound effects, and supply-chain impacts, avoiding the exclusion of material negative consequences." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Completeness" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-scalability a skos:Concept ;
+nias-cs:methodology-scalability a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology can be applied at scale in a cost-effective manner, making it practically usable beyond pilot conditions." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Scalability & practicality" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-timeliness a skos:Concept ;
+nias-cs:methodology-timeliness a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology produces insights quickly enough to support monitoring and adaptive decision-making." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Timeliness" ;
     skos:topConceptOf nias-cs:MethodologyQualityDimension .
 
-nias-cs:methodology-normative-alignment a skos:Concept ;
+nias-cs:methodology-normative-alignment a nias-o:MethodologyQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a methodology is fit for the purpose it is meant to serve, aligning with the normative goals of the standard or decision context rather than being optimised for reporting alone." ;
     skos:inScheme nias-cs:MethodologyQualityDimension ;
     skos:prefLabel "Normative alignment" ;
@@ -184,85 +211,99 @@ nias-cs:MethodologyQualityDimension a skos:ConceptScheme ;
 # Instrument quality dimensions
 # ---------------------------------------------------------------------------
 
-nias-cs:instrument-accuracy a skos:Concept ;
+nias-cs:instrument-accuracy a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The closeness of a measurement instrument's readings to the true value of the quantity being measured; requires calibration against a known standard." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Accuracy" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-precision a skos:Concept ;
+nias-cs:instrument-precision a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The repeatability of a measurement instrument — the degree to which repeated measurements of the same quantity under similar conditions yield the same result." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Precision" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-resolution a skos:Concept ;
+nias-cs:instrument-resolution a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The smallest change in the measured quantity that a measurement instrument can detect and report." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Resolution" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-sensitivity a skos:Concept ;
+nias-cs:instrument-sensitivity a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The magnitude of a measurement instrument's output change for a given change in the measured quantity." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Sensitivity" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-range a skos:Concept ;
+nias-cs:instrument-range a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The interval of values over which a measurement instrument can produce reliable measurements." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Range" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-stability a skos:Concept ;
+nias-cs:instrument-stability a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The ability of a measurement instrument to maintain its performance characteristics over time without drifting out of calibration." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Stability" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-calibration a skos:Concept ;
+nias-cs:instrument-calibration a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The process and frequency of adjusting a measurement instrument against a known reference standard to ensure its readings remain accurate." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Calibration" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-selectivity a skos:Concept ;
+nias-cs:instrument-selectivity a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The degree to which a measurement instrument measures only the intended variable without being influenced by other variables (specificity at the instrument level)." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Selectivity" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-noise a skos:Concept ;
+nias-cs:instrument-noise a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The amount of random variation present in a measurement instrument's output; a high signal-to-noise ratio is required to reliably distinguish real changes from measurement artefacts." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Noise" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-response-time a skos:Concept ;
+nias-cs:instrument-response-time a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The speed at which a measurement instrument reacts to changes in the measured quantity." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Response time" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-robustness a skos:Concept ;
+nias-cs:instrument-robustness a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The ability of a measurement instrument to maintain reliable performance under real-world environmental conditions such as temperature, humidity, and vibration." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Robustness" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-reliability a skos:Concept ;
+nias-cs:instrument-reliability a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The consistency of a measurement instrument's operational uptime — the degree to which it functions without failure over time." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Reliability" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-usability a skos:Concept ;
+nias-cs:instrument-usability a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The ease with which a measurement instrument can be correctly operated by its intended users, reducing the risk of operator error." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Usability" ;
     skos:topConceptOf nias-cs:InstrumentQualityDimension .
 
-nias-cs:instrument-traceability a skos:Concept ;
+nias-cs:instrument-traceability a nias-o:InstrumentQualityDimension,
+        skos:Concept ;
     skos:definition "The ability to link a measurement instrument's readings back to recognised national or international measurement standards, supporting scientific credibility and regulatory compliance." ;
     skos:inScheme nias-cs:InstrumentQualityDimension ;
     skos:prefLabel "Traceability" ;

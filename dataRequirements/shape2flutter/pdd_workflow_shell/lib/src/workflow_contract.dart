@@ -479,7 +479,7 @@ class PddWorkflowState {
         },
       ],
       NiasTerm.legalMatters: '',
-      NiasTerm.publicFundingStatus: NiasTerm.no,
+      NiasTerm.publicFundingStatus: false,
       NiasTerm.projectHistory: '',
       NiasTerm.debundlingAssessment: '',
     };
@@ -501,7 +501,7 @@ class PddWorkflowState {
       NiasTerm.impactIntentionality: NiasTerm.intentional,
       NiasTerm.beneficialOrAdverse: NiasTerm.beneficial,
       NiasTerm.description: '',
-      NiasTerm.monitored: NiasTerm.yes,
+      NiasTerm.monitored: true,
     };
   }
 

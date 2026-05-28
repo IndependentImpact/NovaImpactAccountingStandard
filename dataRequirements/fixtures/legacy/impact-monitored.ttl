@@ -11,7 +11,7 @@
   nias-o:impactIntentionality nias-o:intentional ;
   nias-o:beneficialOrAdverse nias-o:beneficial ;
   schema:description "Avoided grid emissions from project activity." ;
-  nias-o:monitored nias-o:yes ;
+  nias-o:monitored true ;
   nias-o:additionalityJustification "The project is additional to the baseline scenario." ;
   impactont:hasStateA [
     a impactont:State ;

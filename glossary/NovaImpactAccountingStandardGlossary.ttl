@@ -1,109 +1,129 @@
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-nias-cs:adverse a skos:Concept ;
+nias-cs:adverse a nias-o:ImpactBenefitClassification,
+        skos:Concept ;
     skos:definition "Impact that has an adverse environmental effect." ;
     skos:inScheme nias-cs:BeneficialOrAdverse ;
     skos:prefLabel "Adverse" ;
     skos:topConceptOf nias-cs:BeneficialOrAdverse .
 
-nias-cs:beneficial a skos:Concept ;
+nias-cs:beneficial a nias-o:ImpactBenefitClassification,
+        skos:Concept ;
     skos:definition "Impact that has a beneficial environmental effect." ;
     skos:inScheme nias-cs:BeneficialOrAdverse ;
     skos:prefLabel "Beneficial" ;
     skos:topConceptOf nias-cs:BeneficialOrAdverse .
 
-nias-cs:eddsa-signature a skos:Concept ;
+nias-cs:eddsa-signature a nias-o:AuthenticityProofMethod,
+        skos:Concept ;
     skos:definition "Authenticity proven via an EdDSA digital signature." ;
     skos:inScheme nias-cs:AuthProof ;
     skos:prefLabel "EdDSA signature" ;
     skos:topConceptOf nias-cs:AuthProof .
 
-nias-cs:equipment a skos:Concept ;
+nias-cs:equipment a nias-o:TechnologyMeasureType,
+        skos:Concept ;
     skos:definition "Technology or measure that is specific equipment." ;
     skos:inScheme nias-cs:TechMeasType ;
     skos:prefLabel "Equipment" ;
     skos:topConceptOf nias-cs:TechMeasType .
 
-nias-cs:facility a skos:Concept ;
+nias-cs:facility a nias-o:TechnologyMeasureType,
+        skos:Concept ;
     skos:definition "Technology or measure that is categorized as a facility." ;
     skos:inScheme nias-cs:TechMeasType ;
     skos:prefLabel "Facility" ;
     skos:topConceptOf nias-cs:TechMeasType .
 
-nias-cs:intentional a skos:Concept ;
+nias-cs:intentional a nias-o:ImpactIntentionality,
+        skos:Concept ;
     skos:definition "Impact that was deliberately intended." ;
     skos:inScheme nias-cs:ImpactIntentionality ;
     skos:prefLabel "Intentional" ;
     skos:topConceptOf nias-cs:ImpactIntentionality .
 
-nias-cs:fixed-ex-ante a skos:Concept ;
+nias-cs:fixed-ex-ante a nias-o:DataParameterMonitoringMode,
+        skos:Concept ;
     skos:definition "Parameter or data point whose value is determined and fixed prior to the start of the crediting period." ;
     skos:inScheme nias-cs:MonitoredOrFixed ;
     skos:prefLabel "Fixed ex-ante" ;
     skos:topConceptOf nias-cs:MonitoredOrFixed .
 
-nias-cs:monitored a skos:Concept ;
+nias-cs:monitored a nias-o:DataParameterMonitoringMode,
+        skos:Concept ;
     skos:definition "Parameter or data point whose value is determined through ongoing monitoring during the crediting period." ;
     skos:inScheme nias-cs:MonitoredOrFixed ;
     skos:prefLabel "Monitored" ;
     skos:topConceptOf nias-cs:MonitoredOrFixed .
 
-nias-cs:projected a skos:Concept ;
+nias-cs:projected a nias-o:ReportStatus,
+        skos:Concept ;
     skos:definition "Report content expresses projected or forecast values that are not yet measured." ;
     skos:inScheme nias-cs:ReportStatus ;
     skos:prefLabel "Projected" ;
     skos:topConceptOf nias-cs:ReportStatus .
 
-nias-cs:measured a skos:Concept ;
+nias-cs:measured a nias-o:ReportStatus,
+        skos:Concept ;
     skos:definition "Report content expresses values measured from real observed states." ;
     skos:inScheme nias-cs:ReportStatus ;
     skos:prefLabel "Measured" ;
     skos:topConceptOf nias-cs:ReportStatus .
 
-nias-cs:verified a skos:Concept ;
+nias-cs:verified a nias-o:ReportStatus,
+        skos:Concept ;
     skos:definition "Report content has been independently verified and attested." ;
     skos:inScheme nias-cs:ReportStatus ;
     skos:prefLabel "Verified" ;
     skos:topConceptOf nias-cs:ReportStatus .
 
-nias-cs:revised a skos:Concept ;
+nias-cs:revised a nias-o:ReportStatus,
+        skos:Concept ;
     skos:definition "Report content has been revised after initial publication." ;
     skos:inScheme nias-cs:ReportStatus ;
     skos:prefLabel "Revised" ;
     skos:topConceptOf nias-cs:ReportStatus .
 
-nias-cs:review-approve a skos:Concept ;
+nias-cs:review-approve a nias-o:ReviewDecision,
+        skos:Concept ;
     skos:definition "Reviewer approves the reviewed document or field." ;
     skos:inScheme nias-cs:ReviewDecision ;
     skos:prefLabel "Approve" ;
     skos:topConceptOf nias-cs:ReviewDecision .
 
-nias-cs:review-reject a skos:Concept ;
+nias-cs:review-reject a nias-o:ReviewDecision,
+        skos:Concept ;
     skos:definition "Reviewer rejects the reviewed document or field." ;
     skos:inScheme nias-cs:ReviewDecision ;
     skos:prefLabel "Reject" ;
     skos:topConceptOf nias-cs:ReviewDecision .
 
-nias-cs:review-forward-action-request a skos:Concept ;
+nias-cs:review-forward-action-request a nias-o:ReviewDecision,
+        skos:Concept ;
     skos:definition "Reviewer forwards an action request arising from a field-level review." ;
     skos:inScheme nias-cs:ReviewDecision ;
     skos:prefLabel "Forward action request" ;
     skos:topConceptOf nias-cs:ReviewDecision .
 
-nias-cs:review-corrective-action-request a skos:Concept ;
+nias-cs:review-corrective-action-request a nias-o:ReviewDecision,
+        skos:Concept ;
     skos:definition "Reviewer requests corrective action arising from a field-level review." ;
     skos:inScheme nias-cs:ReviewDecision ;
     skos:prefLabel "Corrective action request" ;
     skos:topConceptOf nias-cs:ReviewDecision .
 
-nias-cs:mr-verifier a skos:Concept ;
+nias-cs:mr-verifier a nias-o:LicenseScope,
+        skos:Concept ;
     skos:definition "License scope permitting verification of monitoring reports." ;
     skos:inScheme nias-cs:LicenseScope ;
     skos:prefLabel "MR verifier" ;
     skos:topConceptOf nias-cs:LicenseScope .
 
 nias-cs:no a skos:Concept ;
+    owl:deprecated true ;
     skos:definition "Negative response to a yes/no requirement." ;
     skos:inScheme nias-cs:MonitoringStatus,
         nias-cs:YesNo ;
@@ -111,55 +131,64 @@ nias-cs:no a skos:Concept ;
     skos:topConceptOf nias-cs:MonitoringStatus,
         nias-cs:YesNo .
 
-nias-cs:none a skos:Concept ;
+nias-cs:none a nias-o:AuthenticityProofMethod,
+        skos:Concept ;
     skos:definition "No authenticity proof is provided." ;
     skos:inScheme nias-cs:AuthProof ;
     skos:prefLabel "None" ;
     skos:topConceptOf nias-cs:AuthProof .
 
-nias-cs:other a skos:Concept ;
+nias-cs:other a nias-o:TechnologyMeasureType,
+        skos:Concept ;
     skos:definition "Technology or measure subtype not captured by the other categories." ;
     skos:inScheme nias-cs:TechMeasType ;
     skos:prefLabel "Other" ;
     skos:topConceptOf nias-cs:TechMeasType .
 
-nias-cs:pdd-validator a skos:Concept ;
+nias-cs:pdd-validator a nias-o:LicenseScope,
+        skos:Concept ;
     skos:definition "License scope permitting validation of project design documents." ;
     skos:inScheme nias-cs:LicenseScope ;
     skos:prefLabel "PDD validator" ;
     skos:topConceptOf nias-cs:LicenseScope .
 
-nias-cs:project-developer a skos:Concept ;
+nias-cs:project-developer a nias-o:LicenseScope,
+        skos:Concept ;
     skos:definition "License scope permitting project development activities." ;
     skos:inScheme nias-cs:LicenseScope ;
     skos:prefLabel "Project developer" ;
     skos:topConceptOf nias-cs:LicenseScope .
 
-nias-cs:rsa-signature a skos:Concept ;
+nias-cs:rsa-signature a nias-o:AuthenticityProofMethod,
+        skos:Concept ;
     skos:definition "Authenticity proven via an RSA digital signature." ;
     skos:inScheme nias-cs:AuthProof ;
     skos:prefLabel "RSA signature" ;
     skos:topConceptOf nias-cs:AuthProof .
 
-nias-cs:system a skos:Concept ;
+nias-cs:system a nias-o:TechnologyMeasureType,
+        skos:Concept ;
     skos:definition "Technology or measure that operates as a system." ;
     skos:inScheme nias-cs:TechMeasType ;
     skos:prefLabel "System" ;
     skos:topConceptOf nias-cs:TechMeasType .
 
-nias-cs:unintentional a skos:Concept ;
+nias-cs:unintentional a nias-o:ImpactIntentionality,
+        skos:Concept ;
     skos:definition "Impact that occurred without being deliberately intended." ;
     skos:inScheme nias-cs:ImpactIntentionality ;
     skos:prefLabel "Unintentional" ;
     skos:topConceptOf nias-cs:ImpactIntentionality .
 
-nias-cs:vc a skos:Concept ;
+nias-cs:vc a nias-o:AuthenticityProofMethod,
+        skos:Concept ;
     skos:definition "Authenticity proven via a verifiable credential." ;
     skos:inScheme nias-cs:AuthProof ;
     skos:prefLabel "Verifiable credential" ;
     skos:topConceptOf nias-cs:AuthProof .
 
 nias-cs:yes a skos:Concept ;
+    owl:deprecated true ;
     skos:definition "Affirmative response to a yes/no requirement." ;
     skos:inScheme nias-cs:MonitoringStatus,
         nias-cs:YesNo ;
@@ -180,12 +209,14 @@ nias-cs:ImpactIntentionality a skos:ConceptScheme ;
     skos:prefLabel "Impact intentionality" .
 
 nias-cs:MonitoringStatus a skos:ConceptScheme ;
+    owl:deprecated true ;
     skos:definition "Controlled vocabulary indicating whether an impact will be monitored." ;
     skos:hasTopConcept nias-cs:no,
         nias-cs:yes ;
     skos:prefLabel "Impact monitoring status" .
 
 nias-cs:YesNo a skos:ConceptScheme ;
+    owl:deprecated true ;
     skos:definition "Controlled vocabulary for generic yes/no requirements." ;
     skos:hasTopConcept nias-cs:no,
         nias-cs:yes ;
@@ -236,13 +267,15 @@ nias-cs:ReviewDecision a skos:ConceptScheme ;
         nias-cs:review-reject ;
     skos:prefLabel "Review decision" .
 
-nias-cs:private a skos:Concept ;
+nias-cs:private a nias-o:PublicPrivateClassification,
+        skos:Concept ;
     skos:definition "Project party that is a private-sector entity." ;
     skos:inScheme nias-cs:PublicPrivateClassification ;
     skos:prefLabel "Private" ;
     skos:topConceptOf nias-cs:PublicPrivateClassification .
 
-nias-cs:public a skos:Concept ;
+nias-cs:public a nias-o:PublicPrivateClassification,
+        skos:Concept ;
     skos:definition "Project party that is a public-sector entity." ;
     skos:inScheme nias-cs:PublicPrivateClassification ;
     skos:prefLabel "Public" ;
@@ -254,37 +287,43 @@ nias-cs:PublicPrivateClassification a skos:ConceptScheme ;
         nias-cs:public ;
     skos:prefLabel "Public/private classification" .
 
-nias-cs:proposed a skos:Concept ;
+nias-cs:proposed a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology has been submitted for consideration but has not yet entered formal evaluation." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Proposed" ;
     skos:topConceptOf nias-cs:MethodologyApprovalStatus .
 
-nias-cs:under-evaluation a skos:Concept ;
+nias-cs:under-evaluation a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology is currently undergoing formal technical evaluation and review." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Under evaluation" ;
     skos:topConceptOf nias-cs:MethodologyApprovalStatus .
 
-nias-cs:approved a skos:Concept ;
+nias-cs:approved a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology has passed formal evaluation and is approved for use under the standard." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Approved" ;
     skos:topConceptOf nias-cs:MethodologyApprovalStatus .
 
-nias-cs:rejected a skos:Concept ;
+nias-cs:rejected a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology was evaluated and rejected; it may not be used under the standard." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Rejected" ;
     skos:topConceptOf nias-cs:MethodologyApprovalStatus .
 
-nias-cs:surpassed a skos:Concept ;
+nias-cs:surpassed a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology has been superseded by a newer or improved version; projects should migrate to the replacement." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Surpassed" ;
     skos:topConceptOf nias-cs:MethodologyApprovalStatus .
 
-nias-cs:deprecated a skos:Concept ;
+nias-cs:deprecated a nias-o:MethodologyApprovalStatus,
+        skos:Concept ;
     skos:definition "Methodology is no longer recommended for new projects; existing registered projects may continue to use it." ;
     skos:inScheme nias-cs:MethodologyApprovalStatus ;
     skos:prefLabel "Deprecated" ;

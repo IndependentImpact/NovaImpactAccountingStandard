@@ -36,7 +36,7 @@
     nias-o:projectHistory "Established 2025 in the Northern Cape, South Africa." ;
     nias-o:legalMatters "No outstanding legal encumbrances." ;
     nias-o:debundlingAssessment "Standalone installation; not debundled from a larger project." ;
-    nias-o:publicFundingStatus nias-cs:no .
+    nias-o:publicFundingStatus false .
 
 # --- Reporting agent (platform user) ----------------------------------------
 
