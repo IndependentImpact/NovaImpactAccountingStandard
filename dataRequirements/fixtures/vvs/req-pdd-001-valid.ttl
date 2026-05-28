@@ -1,0 +1,27 @@
+# REQ-PDD-001 positive fixture
+# A PddSectionAReport that conforms to ReqPdd001Shape:
+#   - declares the project developer agent (claimont:isMadeBy)
+#   - the project subject has a title (nias-o:title)
+#   - the project subject has at least one project activity (nias-o:technologyOrMeasure)
+
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-a-valid-project>
+    a aiao:Project ;
+    nias-o:title "VVS Test Solar Project" ;
+    nias-o:technologyOrMeasure [
+        a nias-o:TechnologyOrMeasure ;
+        nias-o:techMeasType nias-cs:facility
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-a-valid-report>
+    a nias-o:PddSectionAReport ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/developer-1> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-a-valid-project> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/developer-1>
+    a nias-o:PlatformUser .

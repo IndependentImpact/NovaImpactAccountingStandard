@@ -1,0 +1,23 @@
+# REQ-CROSS-001 positive fixture
+# A MonitoringReport that conforms to ReqCross001Shape:
+#   - is explicitly linked to the validated PDD it is based on (nias-o:alignedWithPDD)
+#   - includes at least one measured observation (nias-o:reportedObservation)
+
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-pdd-document>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 112.0 ;
+    ind:hasUnit qudt-unit:TONNE .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-pdd-document> ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-observation> .

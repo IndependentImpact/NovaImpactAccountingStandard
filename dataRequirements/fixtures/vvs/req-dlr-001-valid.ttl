@@ -1,0 +1,22 @@
+# REQ-DLR-001 positive fixture
+# A DataLineageReport that conforms to ReqDlr001Shape:
+#   - references a traceable source dataset artifact (nias-o:rawDatasetArtifact)
+#     with a content-addressed URI (nias-o:resourceIpfsUri)
+#   - references a traceable data collection method artifact (nias-o:dataTransferCode)
+#     with a content-addressed URI (nias-o:resourceIpfsUri)
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-valid-raw-dataset>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsrawdataset"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-valid-transfer-code>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvstransfercode"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-valid-report>
+    a nias-o:DataLineageReport ;
+    nias-o:rawDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-valid-raw-dataset> ;
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-valid-transfer-code> .

@@ -1,0 +1,189 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# VVS Requirement Shapes — Phase 2 pilot
+# ---------------------------------------------------------------------------
+# One named sh:NodeShape per pilot requirement. Each shape:
+#   • carries sh:name set to the requirement ID;
+#   • uses sh:message strings that begin with the requirement ID so that
+#     test code can assert on requirement-specific failure messages;
+#   • is linked from the requirement resource via nias-o:implementedByShape
+#     in glossary/ValidationVerificationStandard.ttl.
+# ---------------------------------------------------------------------------
+
+nias-o:VvsRequirementShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard — VVS Requirement SHACL Shapes"@en ;
+    dcterms:description "SHACL shapes that implement the five pilot VVS requirements introduced in Phase 1. Shapes are PDD-focused first, as specified in Phase 2 of the Validation & Verification Standard spec."@en .
+
+# ---------------------------------------------------------------------------
+# REQ-PDD-001 — PDD-A structural completeness
+#
+# Requirement text: A PDD Section A report must declare the project title,
+# the project developer agent, and at least one project activity. All
+# mandatory structural fields must be present and non-empty.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqPdd001Shape a sh:NodeShape ;
+    sh:name "REQ-PDD-001" ;
+    sh:targetClass nias-o:PddSectionAReport ;
+    sh:property [
+        sh:path claimont:isMadeBy ;
+        sh:name "REQ-PDD-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-001] A PDD Section A report must declare the project developer agent (claimont:isMadeBy)."@en
+    ] ;
+    sh:property [
+        sh:path ( claimont:hasSubject nias-o:title ) ;
+        sh:name "REQ-PDD-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-001] The project subject of a PDD Section A report must declare a project title (nias-o:title)."@en
+    ] ;
+    sh:property [
+        sh:path ( claimont:hasSubject nias-o:technologyOrMeasure ) ;
+        sh:name "REQ-PDD-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-001] The project subject of a PDD Section A report must declare at least one project activity (nias-o:technologyOrMeasure)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-PDD-002 — PDD-B impact declaration completeness
+#
+# Requirement text: Each impact declared in PDD Section B must reference a
+# quantification methodology, declare an impact benefit classification, and
+# include an estimated impact quantity with a unit of measurement.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqPdd002ImpactShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:beneficialOrAdverse ;
+        sh:name "REQ-PDD-002" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-002] Each impact declared in PDD Section B must include an impact benefit classification (nias-o:beneficialOrAdverse: beneficial or adverse)."@en
+    ] .
+
+nias-o:ReqPdd002Shape a sh:NodeShape ;
+    sh:name "REQ-PDD-002" ;
+    sh:targetClass nias-o:PddSectionBReport ;
+    sh:property [
+        sh:path nias-o:usesMethodology ;
+        sh:name "REQ-PDD-002" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-002] A PDD Section B report must reference at least one quantification methodology (nias-o:usesMethodology)."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:hasDeclaredImpact ;
+        sh:name "REQ-PDD-002" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-PDD-002] A PDD Section B report must include at least one declared impact (nias-o:hasDeclaredImpact)."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:hasDeclaredImpact ;
+        sh:name "REQ-PDD-002" ;
+        sh:node nias-o:ReqPdd002ImpactShape ;
+        sh:message "[REQ-PDD-002] Every impact declared in PDD Section B must satisfy the impact completeness requirements."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-DLR-001 — Data Lineage Report evidence traceability
+#
+# Requirement text: Every data parameter recorded in a Data Lineage Report
+# must include a traceable provenance reference linking the measured value
+# to its source dataset and collection method.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqDlr001ArtifactShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:name "REQ-DLR-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-DLR-001] Each data artifact referenced in a Data Lineage Report must carry a traceable content-addressed URI (nias-o:resourceIpfsUri)."@en
+    ] .
+
+nias-o:ReqDlr001Shape a sh:NodeShape ;
+    sh:name "REQ-DLR-001" ;
+    sh:targetClass nias-o:DataLineageReport ;
+    sh:property [
+        sh:path nias-o:rawDatasetArtifact ;
+        sh:name "REQ-DLR-001" ;
+        sh:minCount 1 ;
+        sh:node nias-o:ReqDlr001ArtifactShape ;
+        sh:message "[REQ-DLR-001] A Data Lineage Report must reference at least one traceable source dataset artifact (nias-o:rawDatasetArtifact)."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:dataTransferCode ;
+        sh:name "REQ-DLR-001" ;
+        sh:minCount 1 ;
+        sh:node nias-o:ReqDlr001ArtifactShape ;
+        sh:message "[REQ-DLR-001] A Data Lineage Report must reference at least one traceable data collection method artifact (nias-o:dataTransferCode)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-MR-001 — Monitoring Report measured impact observation
+#
+# Requirement text: Each measured impact in a Monitoring Report must
+# reference the corresponding PDD Section B impact declaration and record an
+# observed impact quantity with a consistent unit of measurement.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqMr001ObservationShape a sh:NodeShape ;
+    sh:property [
+        sh:path ind:obsValue ;
+        sh:name "REQ-MR-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-MR-001] Each monitoring report observation must record an observed impact quantity (ind:obsValue)."@en
+    ] ;
+    sh:property [
+        sh:path ind:hasUnit ;
+        sh:name "REQ-MR-001" ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "[REQ-MR-001] Each monitoring report observation must declare a consistent unit of measurement (ind:hasUnit)."@en
+    ] .
+
+nias-o:ReqMr001Shape a sh:NodeShape ;
+    sh:name "REQ-MR-001" ;
+    sh:targetClass nias-o:MonitoringReport ;
+    sh:property [
+        sh:path nias-o:reportedObservation ;
+        sh:name "REQ-MR-001" ;
+        sh:minCount 1 ;
+        sh:node nias-o:ReqMr001ObservationShape ;
+        sh:message "[REQ-MR-001] A Monitoring Report must include at least one measured impact observation (nias-o:reportedObservation) with an observed quantity and unit."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-CROSS-001 — Cross-artifact impact traceability
+#
+# Requirement text: Every measured impact reported in a Monitoring Report
+# must be traceable to an impact declared in the corresponding validated PDD,
+# enabling end-to-end traceability from ex-ante declaration to ex-post
+# measurement.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqCross001Shape a sh:NodeShape ;
+    sh:name "REQ-CROSS-001" ;
+    sh:targetClass nias-o:MonitoringReport ;
+    sh:property [
+        sh:path nias-o:alignedWithPDD ;
+        sh:name "REQ-CROSS-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-CROSS-001] A Monitoring Report must be explicitly linked to the validated PDD it is based on (nias-o:alignedWithPDD) to enable end-to-end impact traceability from ex-ante declaration to ex-post measurement."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reportedObservation ;
+        sh:name "REQ-CROSS-001" ;
+        sh:minCount 1 ;
+        sh:message "[REQ-CROSS-001] A Monitoring Report must include at least one measured observation traceable to the PDD impact declaration (nias-o:reportedObservation)."@en
+    ] .
