@@ -68,6 +68,17 @@ nias-vvs:REQ-PDD-002 a nias-o:ValidationRequirement ;
     rdfs:label "REQ-PDD-002: PDD Section B impact declaration completeness"@en ;
     skos:definition "Each impact declared in PDD Section B must reference a quantification methodology, declare an impact benefit classification, and include an estimated impact quantity with a unit of measurement."@en .
 
+# REQ-PDD-003 — PDD-C schema anchoring
+nias-vvs:REQ-PDD-003 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "REQ-PDD-003" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionCReport ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    nias-o:implementedByShape nias-o:ReqPdd003Shape ;
+    rdfs:label "REQ-PDD-003: PDD Section C schema conformance"@en ;
+    skos:definition "A PDD Section C report must identify the canonical PDDxC document schema to ensure implementation and monitoring planning content is versioned against the approved standard form."@en .
+
 # REQ-DLR-001 — DLR evidence lineage
 nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement ;
     nias-o:requirementId "REQ-DLR-001" ;
@@ -78,6 +89,17 @@ nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement ;
     rdfs:label "REQ-DLR-001: Data Lineage Report evidence traceability"@en ;
     skos:definition "Every data parameter recorded in a Data Lineage Report must include a traceable provenance reference linking the measured value to its source dataset and collection method."@en .
 
+# REQ-DLR-002 — DLR final dataset traceability
+nias-vvs:REQ-DLR-002 a nias-o:VerificationRequirement ;
+    nias-o:requirementId "REQ-DLR-002" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionBReport ;
+    nias-o:verifiedBy nias-o:DataLineageReport ;
+    nias-o:implementedByShape nias-o:ReqDlr002Shape ;
+    rdfs:label "REQ-DLR-002: Data Lineage Report final dataset artifact"@en ;
+    skos:definition "A Data Lineage Report must reference a final dataset artifact so that post-cleaning and post-transfer outputs remain auditable for downstream verification and issuance workflows."@en .
+
 # REQ-MR-001 — MR measured observation
 nias-vvs:REQ-MR-001 a nias-o:VerificationRequirement ;
     nias-o:requirementId "REQ-MR-001" ;
@@ -87,6 +109,17 @@ nias-vvs:REQ-MR-001 a nias-o:VerificationRequirement ;
     nias-o:implementedByShape nias-o:ReqMr001Shape ;
     rdfs:label "REQ-MR-001: Monitoring Report measured impact observation"@en ;
     skos:definition "Each measured impact in a Monitoring Report must reference the corresponding PDD Section B impact declaration and record an observed impact quantity with a consistent unit of measurement."@en .
+
+# REQ-MR-002 — MR issuance target declaration
+nias-vvs:REQ-MR-002 a nias-o:VerificationRequirement ;
+    nias-o:requirementId "REQ-MR-002" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionBReport ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    nias-o:implementedByShape nias-o:ReqMr002Shape ;
+    rdfs:label "REQ-MR-002: Monitoring Report issuance account declaration"@en ;
+    skos:definition "A Monitoring Report must declare the requested issuance account identifier so verified impact outcomes can be linked to the intended issuance destination in a deterministic way."@en .
 
 # REQ-CROSS-001 — Cross-artifact traceability
 nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement ;

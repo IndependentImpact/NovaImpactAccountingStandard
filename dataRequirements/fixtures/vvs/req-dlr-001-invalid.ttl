@@ -10,7 +10,12 @@
     a nias-o:ResourceArtifact ;
     nias-o:resourceIpfsUri "ipfs://bafyvvstransfercode"^^xsd:anyURI .
 
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-final-dataset>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvsfinaldataset"^^xsd:anyURI .
+
 <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-report>
     a nias-o:DataLineageReport ;
-    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-transfer-code> .
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-transfer-code> ;
+    nias-o:finalDatasetArtifact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-final-dataset> .
     # nias-o:rawDatasetArtifact intentionally omitted to trigger REQ-DLR-001 violation

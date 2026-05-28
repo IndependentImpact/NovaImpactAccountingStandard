@@ -16,5 +16,6 @@
 
 <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-report>
     a nias-o:MonitoringReport ;
-    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-observation> .
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-observation> ;
+    nias-o:requestedIssuanceAccountId "0.0.2002" .
     # nias-o:alignedWithPDD intentionally omitted to trigger REQ-CROSS-001 violation

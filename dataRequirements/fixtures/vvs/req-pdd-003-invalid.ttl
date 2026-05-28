@@ -1,0 +1,9 @@
+# REQ-PDD-003 negative fixture
+# A PddSectionCReport that violates ReqPdd003Shape by omitting the
+# required canonical dcterms:conformsTo schema value.
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-c-invalid-report>
+    a nias-o:PddSectionCReport .
+

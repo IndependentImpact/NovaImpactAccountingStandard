@@ -52,7 +52,7 @@ class VvsRequirementShapesSyntaxTest(unittest.TestCase):
         graph.parse(VVS_SHAPES_FILE)
         self.assertGreater(len(graph), 0, "vvs-requirement-shapes.ttl must not be empty")
 
-    def test_vvs_shapes_declares_all_five_requirement_shapes(self):
+    def test_vvs_shapes_declares_all_requirement_shapes(self):
         from rdflib.namespace import SH
         from rdflib import URIRef
 
@@ -60,8 +60,11 @@ class VvsRequirementShapesSyntaxTest(unittest.TestCase):
         expected_shapes = [
             URIRef(f"{NIAS}ReqPdd001Shape"),
             URIRef(f"{NIAS}ReqPdd002Shape"),
+            URIRef(f"{NIAS}ReqPdd003Shape"),
             URIRef(f"{NIAS}ReqDlr001Shape"),
+            URIRef(f"{NIAS}ReqDlr002Shape"),
             URIRef(f"{NIAS}ReqMr001Shape"),
+            URIRef(f"{NIAS}ReqMr002Shape"),
             URIRef(f"{NIAS}ReqCross001Shape"),
         ]
         graph = Graph()
@@ -75,7 +78,7 @@ class VvsRequirementShapesSyntaxTest(unittest.TestCase):
 
 
 class VvsRequirementShapesFixtureTest(unittest.TestCase):
-    """Positive and negative fixture tests for each pilot VVS requirement."""
+    """Positive and negative fixture tests for each active VVS requirement."""
 
     @classmethod
     def setUpClass(cls):
@@ -142,6 +145,16 @@ class VvsRequirementShapesFixtureTest(unittest.TestCase):
         self._assert_violates_requirement("req-pdd-002-invalid.ttl", "REQ-PDD-002")
 
     # ------------------------------------------------------------------
+    # REQ-PDD-003 — PDD-C schema conformance
+    # ------------------------------------------------------------------
+
+    def test_req_pdd_003_valid_fixture_conforms(self):
+        self._assert_conforms("req-pdd-003-valid.ttl")
+
+    def test_req_pdd_003_invalid_fixture_fails_with_requirement_message(self):
+        self._assert_violates_requirement("req-pdd-003-invalid.ttl", "REQ-PDD-003")
+
+    # ------------------------------------------------------------------
     # REQ-DLR-001 — Data Lineage Report evidence traceability
     # ------------------------------------------------------------------
 
@@ -152,6 +165,16 @@ class VvsRequirementShapesFixtureTest(unittest.TestCase):
         self._assert_violates_requirement("req-dlr-001-invalid.ttl", "REQ-DLR-001")
 
     # ------------------------------------------------------------------
+    # REQ-DLR-002 — Data Lineage Report final dataset artifact
+    # ------------------------------------------------------------------
+
+    def test_req_dlr_002_valid_fixture_conforms(self):
+        self._assert_conforms("req-dlr-002-valid.ttl")
+
+    def test_req_dlr_002_invalid_fixture_fails_with_requirement_message(self):
+        self._assert_violates_requirement("req-dlr-002-invalid.ttl", "REQ-DLR-002")
+
+    # ------------------------------------------------------------------
     # REQ-MR-001 — Monitoring Report measured impact observation
     # ------------------------------------------------------------------
 
@@ -160,6 +183,16 @@ class VvsRequirementShapesFixtureTest(unittest.TestCase):
 
     def test_req_mr_001_invalid_fixture_fails_with_requirement_message(self):
         self._assert_violates_requirement("req-mr-001-invalid.ttl", "REQ-MR-001")
+
+    # ------------------------------------------------------------------
+    # REQ-MR-002 — Monitoring Report issuance account declaration
+    # ------------------------------------------------------------------
+
+    def test_req_mr_002_valid_fixture_conforms(self):
+        self._assert_conforms("req-mr-002-valid.ttl")
+
+    def test_req_mr_002_invalid_fixture_fails_with_requirement_message(self):
+        self._assert_violates_requirement("req-mr-002-invalid.ttl", "REQ-MR-002")
 
     # ------------------------------------------------------------------
     # REQ-CROSS-001 — Cross-artifact impact traceability
@@ -181,8 +214,11 @@ class VvsImplementedByShapeLinksTest(unittest.TestCase):
         cls.expected_links = {
             URIRef(f"{VVS_BASE}REQ-PDD-001"): URIRef(f"{NIAS_BASE}ReqPdd001Shape"),
             URIRef(f"{VVS_BASE}REQ-PDD-002"): URIRef(f"{NIAS_BASE}ReqPdd002Shape"),
+            URIRef(f"{VVS_BASE}REQ-PDD-003"): URIRef(f"{NIAS_BASE}ReqPdd003Shape"),
             URIRef(f"{VVS_BASE}REQ-DLR-001"): URIRef(f"{NIAS_BASE}ReqDlr001Shape"),
+            URIRef(f"{VVS_BASE}REQ-DLR-002"): URIRef(f"{NIAS_BASE}ReqDlr002Shape"),
             URIRef(f"{VVS_BASE}REQ-MR-001"): URIRef(f"{NIAS_BASE}ReqMr001Shape"),
+            URIRef(f"{VVS_BASE}REQ-MR-002"): URIRef(f"{NIAS_BASE}ReqMr002Shape"),
             URIRef(f"{VVS_BASE}REQ-CROSS-001"): URIRef(f"{NIAS_BASE}ReqCross001Shape"),
         }
         cls.vvs_graph = Graph()
@@ -216,6 +252,7 @@ class VvsRequirementMappingsIntegrityTest(unittest.TestCase):
         cls.known_anchors = {
             URIRef(f"{NIAS_BASE}PddSectionAReport"),
             URIRef(f"{NIAS_BASE}PddSectionBReport"),
+            URIRef(f"{NIAS_BASE}PddSectionCReport"),
             URIRef(f"{NIAS_BASE}DataLineageReport"),
             URIRef(f"{NIAS_BASE}MonitoringReport"),
         }

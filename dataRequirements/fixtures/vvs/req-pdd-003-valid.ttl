@@ -1,0 +1,11 @@
+# REQ-PDD-003 positive fixture
+# A PddSectionCReport that conforms to ReqPdd003Shape by declaring the
+# canonical PDDxC document schema.
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-c-valid-report>
+    a nias-o:PddSectionCReport ;
+    dcterms:conformsTo <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0> .
+

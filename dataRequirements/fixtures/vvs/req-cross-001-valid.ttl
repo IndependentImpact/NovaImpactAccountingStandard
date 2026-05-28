@@ -20,4 +20,5 @@
 <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-report>
     a nias-o:MonitoringReport ;
     nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-pdd-document> ;
-    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-observation> .
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-valid-observation> ;
+    nias-o:requestedIssuanceAccountId "0.0.2001" .

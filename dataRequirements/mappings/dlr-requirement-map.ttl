@@ -9,4 +9,6 @@
 
 nias-vvs:REQ-DLR-001 nias-o:verifiedBy nias-o:DataLineageReport .
 
+nias-vvs:REQ-DLR-002 nias-o:verifiedBy nias-o:DataLineageReport .
+
 nias-vvs:REQ-CROSS-001 nias-o:verifiedBy nias-o:DataLineageReport .

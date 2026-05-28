@@ -1,0 +1,26 @@
+# REQ-MR-002 positive fixture
+# A MonitoringReport that conforms to ReqMr001Shape, ReqCross001Shape,
+# and ReqMr002Shape by providing:
+#   - measured observation with value and unit
+#   - aligned PDD link
+#   - requested issuance account id
+
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-valid-pdd-document>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-valid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 42.0 ;
+    ind:hasUnit qudt-unit:TONNE .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-valid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-valid-observation> ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr2-valid-pdd-document> ;
+    nias-o:requestedIssuanceAccountId "0.0.12345" .
+

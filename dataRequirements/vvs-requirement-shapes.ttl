@@ -13,7 +13,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # ---------------------------------------------------------------------------
-# VVS Requirement Shapes — Phase 2 pilot
+# VVS Requirement Shapes — expanded through Phase 4
 # ---------------------------------------------------------------------------
 # One named sh:NodeShape per pilot requirement. Each shape:
 #   • carries sh:name set to the requirement ID;
@@ -25,7 +25,7 @@
 
 nias-o:VvsRequirementShapes a owl:Ontology ;
     dcterms:title "Nova Impact Accounting Standard — VVS Requirement SHACL Shapes"@en ;
-    dcterms:description "SHACL shapes that implement the five pilot VVS requirements introduced in Phase 1. Shapes are PDD-focused first, as specified in Phase 2 of the Validation & Verification Standard spec."@en .
+    dcterms:description "SHACL shapes implementing Phase 1-4 VVS requirements, including expanded PDD, DLR, and MR coverage beyond the initial pilot set."@en .
 
 # ---------------------------------------------------------------------------
 # REQ-PDD-001 — PDD-A structural completeness
@@ -96,6 +96,25 @@ nias-o:ReqPdd002Shape a sh:NodeShape ;
     ] .
 
 # ---------------------------------------------------------------------------
+# REQ-PDD-003 — PDD-C schema conformance
+#
+# Requirement text: A PDD Section C report must identify the canonical PDDxC
+# document schema.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqPdd003Shape a sh:NodeShape ;
+    sh:name "REQ-PDD-003" ;
+    sh:targetClass nias-o:PddSectionCReport ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:name "REQ-PDD-003" ;
+        sh:hasValue <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "[REQ-PDD-003] A PDD Section C report must declare conformance to the canonical PDDxC-4.0.0 document schema (dcterms:conformsTo)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
 # REQ-DLR-001 — Data Lineage Report evidence traceability
 #
 # Requirement text: Every data parameter recorded in a Data Lineage Report
@@ -130,6 +149,24 @@ nias-o:ReqDlr001Shape a sh:NodeShape ;
     ] .
 
 # ---------------------------------------------------------------------------
+# REQ-DLR-002 — Data Lineage Report final dataset artifact
+#
+# Requirement text: A Data Lineage Report must reference a final dataset
+# artifact so post-cleaning outputs remain auditable.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqDlr002Shape a sh:NodeShape ;
+    sh:name "REQ-DLR-002" ;
+    sh:targetClass nias-o:DataLineageReport ;
+    sh:property [
+        sh:path nias-o:finalDatasetArtifact ;
+        sh:name "REQ-DLR-002" ;
+        sh:minCount 1 ;
+        sh:node nias-o:ReqDlr001ArtifactShape ;
+        sh:message "[REQ-DLR-002] A Data Lineage Report must reference at least one traceable final dataset artifact (nias-o:finalDatasetArtifact)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
 # REQ-MR-001 — Monitoring Report measured impact observation
 #
 # Requirement text: Each measured impact in a Monitoring Report must
@@ -161,6 +198,24 @@ nias-o:ReqMr001Shape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:node nias-o:ReqMr001ObservationShape ;
         sh:message "[REQ-MR-001] A Monitoring Report must include at least one measured impact observation (nias-o:reportedObservation) with an observed quantity and unit."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-MR-002 — Monitoring Report issuance account declaration
+#
+# Requirement text: A Monitoring Report must declare the requested issuance
+# account identifier.
+# ---------------------------------------------------------------------------
+
+nias-o:ReqMr002Shape a sh:NodeShape ;
+    sh:name "REQ-MR-002" ;
+    sh:targetClass nias-o:MonitoringReport ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:name "REQ-MR-002" ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "[REQ-MR-002] A Monitoring Report must declare the requested issuance account identifier (nias-o:requestedIssuanceAccountId)."@en
     ] .
 
 # ---------------------------------------------------------------------------
