@@ -1,0 +1,95 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Validation & Verification Standard (VVS) - requirement graph
+# ---------------------------------------------------------------------------
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/> a owl:Ontology ;
+    rdfs:label "Nova Impact Accounting Standard — Validation & Verification Standard"@en ;
+    dcterms:title "NIAS Validation & Verification Standard Requirements"@en ;
+    dcterms:description "Requirement instances for the NIAS Validation & Verification Standard (VVS). Each resource carries a stable IRI, human-readable identifier, mandate, status, and links to the anchor artifact class at which the requirement is assessed."@en .
+
+# ---------------------------------------------------------------------------
+# Requirement status concept scheme
+# ---------------------------------------------------------------------------
+
+nias-vvs:RequirementStatus a skos:ConceptScheme ;
+    skos:prefLabel "Requirement status"@en ;
+    skos:definition "Controlled lifecycle statuses for VVS requirement resources."@en ;
+    skos:hasTopConcept nias-vvs:draft, nias-vvs:active, nias-vvs:deprecated .
+
+nias-vvs:draft a skos:Concept ;
+    skos:inScheme nias-vvs:RequirementStatus ;
+    skos:topConceptOf nias-vvs:RequirementStatus ;
+    skos:prefLabel "Draft"@en ;
+    skos:definition "The requirement is under development and has not yet been formally adopted."@en .
+
+nias-vvs:active a skos:Concept ;
+    skos:inScheme nias-vvs:RequirementStatus ;
+    skos:topConceptOf nias-vvs:RequirementStatus ;
+    skos:prefLabel "Active"@en ;
+    skos:definition "The requirement is formally adopted and currently in force."@en .
+
+nias-vvs:deprecated a skos:Concept ;
+    skos:inScheme nias-vvs:RequirementStatus ;
+    skos:topConceptOf nias-vvs:RequirementStatus ;
+    skos:prefLabel "Deprecated"@en ;
+    skos:definition "The requirement has been superseded and is no longer in force."@en .
+
+# ---------------------------------------------------------------------------
+# Pilot requirements — Phase 1
+# ---------------------------------------------------------------------------
+
+# REQ-PDD-001 — PDD-A structural content
+nias-vvs:REQ-PDD-001 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "REQ-PDD-001" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionAReport ;
+    rdfs:label "REQ-PDD-001: PDD Section A structural completeness"@en ;
+    skos:definition "A PDD Section A report must declare the project title, the project developer agent, and at least one project activity. All mandatory structural fields must be present and non-empty."@en .
+
+# REQ-PDD-002 — PDD-B impact declaration
+nias-vvs:REQ-PDD-002 a nias-o:ValidationRequirement ;
+    nias-o:requirementId "REQ-PDD-002" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionBReport ;
+    rdfs:label "REQ-PDD-002: PDD Section B impact declaration completeness"@en ;
+    skos:definition "Each impact declared in PDD Section B must reference a quantification methodology, declare an impact benefit classification, and include an estimated impact quantity with a unit of measurement."@en .
+
+# REQ-DLR-001 — DLR evidence lineage
+nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement ;
+    nias-o:requirementId "REQ-DLR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:verifiedBy nias-o:DataLineageReport ;
+    rdfs:label "REQ-DLR-001: Data Lineage Report evidence traceability"@en ;
+    skos:definition "Every data parameter recorded in a Data Lineage Report must include a traceable provenance reference linking the measured value to its source dataset and collection method."@en .
+
+# REQ-MR-001 — MR measured observation
+nias-vvs:REQ-MR-001 a nias-o:VerificationRequirement ;
+    nias-o:requirementId "REQ-MR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    rdfs:label "REQ-MR-001: Monitoring Report measured impact observation"@en ;
+    skos:definition "Each measured impact in a Monitoring Report must reference the corresponding PDD Section B impact declaration and record an observed impact quantity with a consistent unit of measurement."@en .
+
+# REQ-CROSS-001 — Cross-artifact traceability
+nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement ;
+    nias-o:requirementId "REQ-CROSS-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionBReport ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    rdfs:label "REQ-CROSS-001: Cross-artifact impact traceability"@en ;
+    skos:definition "Every measured impact reported in a Monitoring Report must be traceable to an impact declared in the corresponding validated PDD, enabling end-to-end traceability from ex-ante declaration to ex-post measurement."@en .
