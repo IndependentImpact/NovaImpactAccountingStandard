@@ -1,0 +1,33 @@
+# REQ-PDD-002 negative fixture
+# A PddSectionBReport that violates ReqPdd002Shape:
+#   - references a methodology (passes methodology check)
+#   - declares an impact (passes minCount check on hasDeclaredImpact)
+#   - but the declared impact is MISSING nias-o:beneficialOrAdverse (triggers REQ-PDD-002 violation)
+
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix meth: <http://independentimpact.org/methodology/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-methodology>
+    a meth:Methodology ;
+    rdfs:label "VVS Test Methodology 1.0" .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-impact>
+    a impactont:Impact .
+    # nias-o:beneficialOrAdverse intentionally omitted to trigger REQ-PDD-002 violation
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-project>
+    a aiao:Project .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-report>
+    a nias-o:PddSectionBReport ;
+    claimont:isMadeBy <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/developer-1> ;
+    claimont:hasSubject <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-project> ;
+    nias-o:usesMethodology <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-methodology> ;
+    nias-o:hasDeclaredImpact <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/pdd-b-invalid-impact> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/developer-1>
+    a nias-o:PlatformUser .

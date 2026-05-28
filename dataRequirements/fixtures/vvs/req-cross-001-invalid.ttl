@@ -1,0 +1,20 @@
+# REQ-CROSS-001 negative fixture
+# A MonitoringReport that violates ReqCross001Shape:
+#   - includes a measured observation (passes reportedObservation check)
+#   - but is MISSING nias-o:alignedWithPDD (triggers REQ-CROSS-001 violation —
+#     no traceability link to the validated PDD)
+
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 112.0 ;
+    ind:hasUnit qudt-unit:TONNE .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/cross-invalid-observation> .
+    # nias-o:alignedWithPDD intentionally omitted to trigger REQ-CROSS-001 violation

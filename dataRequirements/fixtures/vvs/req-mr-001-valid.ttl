@@ -1,0 +1,26 @@
+# REQ-MR-001 positive fixture
+# A MonitoringReport that conforms to ReqMr001Shape:
+#   - includes a measured impact observation (nias-o:reportedObservation)
+#   - the observation has an observed quantity (ind:obsValue)
+#   - the observation has a unit of measurement (ind:hasUnit)
+# Also satisfies ReqCross001Shape (same target class) by linking to a PDD.
+
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-valid-pdd-document>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-valid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 87.5 ;
+    ind:hasUnit qudt-unit:TONNE .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-valid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-valid-observation> ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-valid-pdd-document> .
+

@@ -1,0 +1,16 @@
+# REQ-DLR-001 negative fixture
+# A DataLineageReport that violates ReqDlr001Shape:
+#   - has a data transfer code artifact (passes dataTransferCode check)
+#   - but is MISSING nias-o:rawDatasetArtifact (triggers REQ-DLR-001 violation)
+
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-transfer-code>
+    a nias-o:ResourceArtifact ;
+    nias-o:resourceIpfsUri "ipfs://bafyvvstransfercode"^^xsd:anyURI .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-report>
+    a nias-o:DataLineageReport ;
+    nias-o:dataTransferCode <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/dlr-invalid-transfer-code> .
+    # nias-o:rawDatasetArtifact intentionally omitted to trigger REQ-DLR-001 violation

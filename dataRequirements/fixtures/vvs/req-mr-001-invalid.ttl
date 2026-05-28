@@ -1,0 +1,24 @@
+# REQ-MR-001 negative fixture
+# A MonitoringReport that violates ReqMr001Shape:
+#   - includes a measured impact observation (passes reportedObservation check)
+#   - the observation has an observed quantity (passes obsValue check)
+#   - but the observation is MISSING ind:hasUnit (triggers REQ-MR-001 violation)
+# Has alignedWithPDD so that the ReqCross001Shape check does not interfere.
+
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-pdd-document>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-observation>
+    a ind:IndicatorObservation ;
+    ind:obsValue 87.5 .
+    # ind:hasUnit intentionally omitted to trigger REQ-MR-001 violation
+
+<https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-report>
+    a nias-o:MonitoringReport ;
+    nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-observation> ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/vvs/fixtures/mr-invalid-pdd-document> .
