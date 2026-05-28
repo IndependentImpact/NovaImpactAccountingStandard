@@ -1,0 +1,12 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/dlr-requirement-map/> a owl:Ontology ;
+    dcterms:title "NIAS VVS Phase 3 DLR requirement mapping"@en ;
+    dcterms:description "Phase 3 mapping triples linking pilot VVS requirements to deterministic DLR verification anchors."@en .
+
+nias-vvs:REQ-DLR-001 nias-o:verifiedBy nias-o:DataLineageReport .
+
+nias-vvs:REQ-CROSS-001 nias-o:verifiedBy nias-o:DataLineageReport .
