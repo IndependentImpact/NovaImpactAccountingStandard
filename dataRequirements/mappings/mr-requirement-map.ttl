@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/mr-requirement-map/> a owl:Ontology ;
+    dcterms:title "NIAS VVS Phase 3 MR requirement mapping"@en ;
+    dcterms:description "Phase 3 mapping triples linking pilot VVS requirements to deterministic MR verification anchors."@en .
+
+nias-vvs:REQ-PDD-001 nias-o:implementedByShape nias-o:ReqPdd001Shape ;
+    nias-o:verifiedBy nias-o:MonitoringReport .
+
+nias-vvs:REQ-PDD-002 nias-o:implementedByShape nias-o:ReqPdd002Shape ;
+    nias-o:verifiedBy nias-o:MonitoringReport .
+
+nias-vvs:REQ-MR-001 nias-o:implementedByShape nias-o:ReqMr001Shape ;
+    nias-o:verifiedBy nias-o:MonitoringReport .
+
+nias-vvs:REQ-CROSS-001 nias-o:implementedByShape nias-o:ReqCross001Shape ;
+    nias-o:verifiedBy nias-o:MonitoringReport .
