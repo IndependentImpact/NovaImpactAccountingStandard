@@ -322,7 +322,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             output_dir = tmp_path / "exported"
             env = os.environ.copy()
             env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
-            env.pop("PANDOC_BIN", None)
+            env["PANDOC_BIN"] = str(fake_pandoc)
 
             subprocess.run(
                 [

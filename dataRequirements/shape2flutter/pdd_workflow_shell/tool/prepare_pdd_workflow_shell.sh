@@ -2,8 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
+. "$ROOT_DIR/dataRequirements/shape2flutter/load-env.sh"
+load_nias_env "$ROOT_DIR"
 SHELL_DIR="$ROOT_DIR/dataRequirements/shape2flutter/pdd_workflow_shell"
-OUT_ROOT="${OUT_ROOT:-/tmp/nias-shape2flutter/pdd-workflow}"
+OUT_BASE="${NIAS_TMP_DIR:-/tmp}"
+OUT_BASE="${OUT_BASE%/}"
+OUT_ROOT="${OUT_ROOT:-$OUT_BASE/nias-shape2flutter/pdd-workflow}"
 
 "$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"
 

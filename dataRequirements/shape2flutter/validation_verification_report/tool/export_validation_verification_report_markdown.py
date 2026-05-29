@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -12,6 +13,10 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+from nias_local_env import load_repo_env
+
+load_repo_env(REPO_ROOT)
 RENDER_SCRIPT = (
     REPO_ROOT
     / "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py"
@@ -336,7 +341,7 @@ def main():
             write_review_package(args.review_package_output, graph)
 
         command = [
-            sys.executable,
+            os.environ.get("PYTHON3_BIN") or sys.executable,
             str(RENDER_SCRIPT),
             "--report-type",
             args.report_type,

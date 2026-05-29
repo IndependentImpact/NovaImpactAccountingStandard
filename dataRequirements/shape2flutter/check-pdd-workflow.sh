@@ -2,8 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+. "$ROOT_DIR/dataRequirements/shape2flutter/load-env.sh"
+load_nias_env "$ROOT_DIR"
 SHAPE2FLUTTER_BIN="${SHAPE2FLUTTER_BIN:-/Users/christiaanpauw/shape2flutter/shape2flutter}"
-OUT_ROOT="${OUT_ROOT:-/tmp/nias-shape2flutter/pdd-workflow}"
+OUT_BASE="${NIAS_TMP_DIR:-/tmp}"
+OUT_BASE="${OUT_BASE%/}"
+OUT_ROOT="${OUT_ROOT:-$OUT_BASE/nias-shape2flutter/pdd-workflow}"
+PYTHON_BIN="${PYTHON3_BIN:-python3}"
 RUN_WORKFLOW_SHELL_CHECK="${RUN_WORKFLOW_SHELL_CHECK:-true}"
 
 log_step() {
@@ -22,10 +27,10 @@ riot --validate \
   "$ROOT_DIR"/dataRequirements/fixtures/pdd-workflow/*.ttl
 
 log_step "Run SHACL and workflow gate tests"
-python3 -m unittest discover -s "$ROOT_DIR/dataRequirements/tests" -q
+"$PYTHON_BIN" -m unittest discover -s "$ROOT_DIR/dataRequirements/tests" -q
 
 log_step "Run PDD Markdown rendering regression tests"
-python3 -m unittest discover \
+"$PYTHON_BIN" -m unittest discover \
   -s "$ROOT_DIR/dataRequirements/tests" \
   -p "test_pdd_*.py" \
   -q

@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+from nias_local_env import load_repo_env
+
+load_repo_env(REPO_ROOT)
 RENDER_SCRIPT = (
     REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
 )
@@ -495,7 +500,7 @@ def main():
         )
 
         command = [
-            sys.executable,
+            os.environ.get("PYTHON3_BIN") or sys.executable,
             str(RENDER_SCRIPT),
             "--input-jsonld",
             str(payload_path),
