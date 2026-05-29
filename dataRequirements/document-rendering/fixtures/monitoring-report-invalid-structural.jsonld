@@ -1,0 +1,35 @@
+[
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/invalid-monitoring-report",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document",
+      "https://nova.org.za/novaimpactaccountingstandard/MonitoringReport"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+      {
+        "@value": false
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/resourceIpfsUri": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "ipfs://bafyinvalidmonitoringreport"
+      }
+    ]
+  }
+]

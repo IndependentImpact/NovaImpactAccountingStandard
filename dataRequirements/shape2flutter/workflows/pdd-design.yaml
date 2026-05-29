@@ -1,0 +1,16 @@
+workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/pdd-design
+title: PDD Design Workflow
+artifact_type: pdd
+owner_role: project-developer
+steps:
+  - id: pddA
+    label: PDD Section A
+    form: PddSectionAReportShape
+  - id: pddB
+    label: PDD Section B
+    form: PddSectionBReportShape
+  - id: pddC
+    label: PDD Section C
+    form: PddSectionCStakeholderEngagementShape
+outputs:
+  - pdd

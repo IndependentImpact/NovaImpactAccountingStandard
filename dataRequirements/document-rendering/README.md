@@ -18,12 +18,17 @@ Workflow-shell handoff exporters now share a config-backed export engine:
 
 - engine: `dataRequirements/document-rendering/tool/export_workflow_report.py`
 - PDD mapping config: `dataRequirements/document-rendering/config/pdd-export.yaml`
-- Validation/verification mapping config:
-  `dataRequirements/document-rendering/config/validation-verification-export.yaml`
+- Validation mapping config:
+  `dataRequirements/document-rendering/config/validation-report-export.yaml`
+- Monitoring mapping config:
+  `dataRequirements/document-rendering/config/monitoring-report-export.yaml`
+- Verification mapping config:
+  `dataRequirements/document-rendering/config/verification-report-export.yaml`
 
 The input/UI side still emits structured workflow payloads, and the output side
-ingests them through deterministic handoff adapters. Final-mode workflow gates
-for PDD are evaluated from config before invoking the renderer.
+ingests them through deterministic handoff adapters. Final-mode PDD rendering
+validates the PDD artifact itself; validation, monitoring, and verification
+reports are separate linked outputs.
 
 ## Prerequisites
 
@@ -147,17 +152,13 @@ python3 dataRequirements/shape2flutter/pdd_workflow_shell/tool/export_pdd_workfl
   --output /tmp/pdd-workflow.md
 ```
 
-For final export, include approved validation review payloads and request any
-desired deterministic targets:
+For final export, request any desired deterministic targets:
 
 ```bash
 python3 dataRequirements/shape2flutter/pdd_workflow_shell/tool/export_pdd_workflow_markdown.py \
   --pdd-a-json /tmp/pdd-a.json \
   --pdd-b-json /tmp/pdd-b.json \
   --pdd-c-json /tmp/pdd-c.json \
-  --review-a-json /tmp/review-a.json \
-  --review-b-json /tmp/review-b.json \
-  --review-c-json /tmp/review-c.json \
   --render-mode final \
   --output-dir /tmp/pdd-export \
   --output-target markdown \
@@ -177,6 +178,12 @@ Run the focused Validation/Verification Report rendering suite:
 
 ```bash
 python3 -m unittest dataRequirements.tests.test_validation_verification_report_rendering -q
+```
+
+Run the focused Monitoring Report rendering suite:
+
+```bash
+python3 -m unittest dataRequirements.tests.test_monitoring_report_rendering -q
 ```
 
 ## Render A Validation Report Or Verification Report
@@ -216,8 +223,7 @@ canonical review-package JSON-LD, writes the optional package handoff file, and
 then invokes this renderer:
 
 ```bash
-python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
-  --report-type validation \
+python3 dataRequirements/shape2flutter/validation_report/tool/export_validation_report_markdown.py \
   --review-json /tmp/validation-review-form.json \
   --evidence-jsonld /tmp/reviewed-artifacts.jsonld \
   --document-author https://nova.org.za/novaimpactaccountingstandard/users/validator-1 \
@@ -227,6 +233,9 @@ python3 dataRequirements/shape2flutter/validation_verification_report/tool/expor
   --output-dir /tmp/validation-report \
   --output-target markdown
 ```
+
+Use `dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py`
+for the corresponding Verification Report.
 
 Validation and Verification Report bodies render review decisions, field
 findings, and VVS requirement coverage only. Review document-envelope metadata,
@@ -267,6 +276,51 @@ Deterministic verification outputs:
 - `verification-report.html`
 - `verification-report.metadata.jsonld`
 - `verification-report.validation.json`
+
+## Render A Monitoring Report
+
+Render a blank Monitoring Report template:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py
+```
+
+Render a draft Monitoring Report from JSON-LD:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py \
+  --input-jsonld dataRequirements/document-rendering/fixtures/monitoring-report-input.jsonld \
+  --source-artifact-id monitoring-report-input.jsonld \
+  --generated-at 2026-05-28T00:00:00Z \
+  --render-mode draft
+```
+
+When starting from generated Monitoring Report forms, use the shape2flutter
+handoff adapter:
+
+```bash
+python3 dataRequirements/shape2flutter/monitoring_report/tool/export_monitoring_report_markdown.py \
+  --monitoring-json /tmp/monitoring-report-form.json \
+  --aligned-pdd https://nova.org.za/novaimpactaccountingstandard/pdd-versions/pdd-v1 \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/monitoring-party-1 \
+  --resource-ipfs-uri ipfs://bafy-monitoring-report \
+  --render-mode final \
+  --monitoring-package-output /tmp/monitoring-report-package.jsonld \
+  --output-dir /tmp/monitoring-report \
+  --output-target markdown
+```
+
+Final mode validates the Monitoring Report document envelope, workflow
+submission, PDD reference, monitoring period, measured observation, dataset
+evidence, calculation resources, and requested issuance account.
+
+Deterministic monitoring outputs:
+
+- `monitoring-report.md`
+- `monitoring-report.pdf`
+- `monitoring-report.html`
+- `monitoring-report.metadata.jsonld`
+- `monitoring-report.validation.json`
 
 Run the full local workflow regression command:
 

@@ -7,7 +7,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import (
-    evaluate_final_gate_failures,
     load_export_config,
     run_renderer_with_payload,
 )
@@ -425,9 +424,21 @@ def main():
     parser.add_argument("--pdd-a-json", type=Path, required=True)
     parser.add_argument("--pdd-b-json", type=Path, required=True)
     parser.add_argument("--pdd-c-json", type=Path, required=True)
-    parser.add_argument("--review-a-json", type=Path)
-    parser.add_argument("--review-b-json", type=Path)
-    parser.add_argument("--review-c-json", type=Path)
+    parser.add_argument(
+        "--review-a-json",
+        type=Path,
+        help="Deprecated. Validation reports are exported separately from PDD.",
+    )
+    parser.add_argument(
+        "--review-b-json",
+        type=Path,
+        help="Deprecated. Validation reports are exported separately from PDD.",
+    )
+    parser.add_argument(
+        "--review-c-json",
+        type=Path,
+        help="Deprecated. Validation reports are exported separately from PDD.",
+    )
     parser.add_argument("--render-mode", choices=["draft", "final"], default="draft")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--output-dir", type=Path)
@@ -448,16 +459,6 @@ def main():
     pdd_b = _load_json(args.pdd_b_json)
     pdd_c = _load_json(args.pdd_c_json)
     export_config = load_export_config(EXPORT_CONFIG)
-
-    if args.render_mode == "final":
-        review_payloads = {
-            "a": _load_json(args.review_a_json) if args.review_a_json else None,
-            "b": _load_json(args.review_b_json) if args.review_b_json else None,
-            "c": _load_json(args.review_c_json) if args.review_c_json else None,
-        }
-        failures = evaluate_final_gate_failures(export_config, review_payloads)
-        if failures:
-            parser.exit(1, "Workflow gate failed for final export:\n- " + "\n- ".join(failures) + "\n")
 
     renderer_payload = build_renderer_payload(pdd_a, pdd_b, pdd_c)
     run_renderer_with_payload(

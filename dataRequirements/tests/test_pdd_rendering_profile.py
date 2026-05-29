@@ -93,14 +93,19 @@ class PddRenderingProfileTests(unittest.TestCase):
             "pdd.sectionA",
             "pdd.sectionB",
             "pdd.sectionC",
+        ]
+        for directive in expected_directives:
+            with self.subTest(directive=directive):
+                self.assertIn(f"{{{{ render: {directive} }}}}", self.body)
+        forbidden_directives = [
             "pdd.validation.sectionA",
             "pdd.validation.sectionB",
             "pdd.validation.sectionC",
             "pdd.certificateIssuanceRequest",
         ]
-        for directive in expected_directives:
+        for directive in forbidden_directives:
             with self.subTest(directive=directive):
-                self.assertIn(f"{{{{ render: {directive} }}}}", self.body)
+                self.assertNotIn(f"{{{{ render: {directive} }}}}", self.body)
 
     def test_top_level_content_shapes_have_deterministic_heading_locations(self):
         expected_rows = {
@@ -110,8 +115,6 @@ class PddRenderingProfileTests(unittest.TestCase):
             "ImpactRequirementUiShape": "Section B.2 Declared Impacts",
             "DataParameterRequirementUiShape": "Section B.5 Data And Parameter Requirements",
             "PddSectionCUiShape": "Section C. Stakeholder Engagement",
-            "DocumentFieldReviewUiShape": "Appendix A.1 Validation Review Summary",
-            "DocumentReferenceUiShape": "Appendix A.2 PDD Certificate Issuance Request and Appendix A",
         }
         for shape, heading in expected_rows.items():
             with self.subTest(shape=shape):
@@ -141,13 +144,18 @@ class PddRenderingProfileTests(unittest.TestCase):
             "## Section B. Impact Claims And Monitoring",
             "## Section C. Stakeholder Engagement",
             "## Appendix A. Document And Process Metadata",
-            "### A.1 Validation Review Summary",
-            "### A.2 PDD Certificate Issuance Request",
             "## Appendix B. Field-To-Predicate Map",
         ]
         for heading in required_headings:
             with self.subTest(heading=heading):
                 self.assertIn(heading, self.body)
+        forbidden_headings = [
+            "### A.1 Validation Review Summary",
+            "### A.2 PDD Certificate Issuance Request",
+        ]
+        for heading in forbidden_headings:
+            with self.subTest(heading=heading):
+                self.assertNotIn(heading, self.body)
 
     def test_profile_declares_title_page_and_contents_directives(self):
         required_directives = [

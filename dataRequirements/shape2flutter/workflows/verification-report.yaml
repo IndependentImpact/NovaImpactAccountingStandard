@@ -1,0 +1,11 @@
+workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/verification-report
+title: Verification Report Workflow
+artifact_type: verification-report
+owner_role: verifier
+reviewed_artifact: monitoring-report
+steps:
+  - id: verification-review
+    label: Verify Monitoring Report
+    form: VerifiedImpactCertificateIssuanceRequestReviewShape
+outputs:
+  - verification-report

@@ -123,18 +123,6 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 {{ render: metadataAppendix }}
 
-### A.1 Validation Review Summary
-
-{{ render: pdd.validation.sectionA }}
-
-{{ render: pdd.validation.sectionB }}
-
-{{ render: pdd.validation.sectionC }}
-
-### A.2 PDD Certificate Issuance Request
-
-{{ render: pdd.certificateIssuanceRequest }}
-
 \newpage
 
 ## Appendix B. Field-To-Predicate Map
@@ -154,10 +142,6 @@ Each data or monitoring parameter renders as one table under this subsection.
 | PDD Section A | `PddSectionAUiShape` / `PddSectionAReportShape` | Section A. Description Of Project | `{{ render: pdd.sectionA }}` |
 | PDD Section B | `PddSectionBUiShape` / `PddSectionBReportShape` | Section B. Impact Claims And Monitoring | `{{ render: pdd.sectionB }}` |
 | PDD Section C | `PddSectionCUiShape` / `PddSectionCShape` | Section C. Stakeholder Engagement | `{{ render: pdd.sectionC }}` |
-| PDD Section A validation review | `PddSectionAValidationReviewUiShape` / `GenericDocumentReviewShape` | Appendix A.1 Validation Review Summary | `{{ render: pdd.validation.sectionA }}` |
-| PDD Section B validation review | `PddSectionBValidationReviewUiShape` / `GenericDocumentReviewShape` | Appendix A.1 Validation Review Summary | `{{ render: pdd.validation.sectionB }}` |
-| PDD Section C validation review | `PddSectionCValidationReviewUiShape` / `GenericDocumentReviewShape` | Appendix A.1 Validation Review Summary | `{{ render: pdd.validation.sectionC }}` |
-| PDD-CIR | `PddCertificateIssuanceRequestUiShape` / `PddCertificateIssuanceRequestShape` | Appendix A.2 PDD Certificate Issuance Request | `{{ render: pdd.certificateIssuanceRequest }}` |
 
 ## Top-Level Content Shape Heading Map
 
@@ -176,18 +160,17 @@ Each data or monitoring parameter renders as one table under this subsection.
 | `DateTimeIntervalUiShape` | `DateTimeIntervalShape` | Section B.4 Crediting And Monitoring Periods |
 | `DataParameterRequirementUiShape` | `DataParameterRequirementShape` | Section B.5 Data And Parameter Requirements |
 | `PddSectionCUiShape` | `PddSectionCShape` | Section C. Stakeholder Engagement |
-| `DocumentFieldReviewUiShape` | `DocumentFieldReviewShape` | Appendix A.1 Validation Review Summary |
-| `DocumentReferenceUiShape` | `DocumentReferenceShape` | Appendix A.2 PDD Certificate Issuance Request and Appendix A |
 
 ## Main Body And Metadata Boundary
 
 The main PDD body, from Section A through Section C, renders substantive project
 design content only. Document wrapper and workflow/process metadata such as
 document IPFS URI, document schema IRI, encryption status, document author,
-authenticity proof, workflow submission evidence, validation review evidence,
-and PDD certificate issuance request evidence render in Appendix A or sidecar
-metadata files, not inside the PDD content sections. The PDF footer should carry
-only a short document ID, hash, or version reference.
+authenticity proof, and workflow submission evidence render in Appendix A or
+sidecar metadata files, not inside the PDD content sections. Validation reports,
+verification reports, and certificate issuance requests are separate linked
+artifacts; they are not rendered inside the PDD publication. The PDF footer
+should carry only a short document ID, hash, or version reference.
 
 ## Default Field Rendering Rules
 

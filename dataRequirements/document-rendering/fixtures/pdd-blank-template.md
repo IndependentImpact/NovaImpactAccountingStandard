@@ -237,58 +237,6 @@ Each data or monitoring parameter renders as one table under this subsection.
 | Source graph/hash evidence | _[see Appendix C]_ |
 
 
-### A.1 Validation Review Summary
-
-| Field | Value |
-| --- | --- |
-| PDD-A review workflow submission | **[required]** _[to be populated]_ |
-| PDD-A review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
-| Reviewed PDD-A document | **[required]** _[to be populated]_ |
-| PDD-A field reviews | **[required]** _[to be populated]_ |
-| PDD-A field reviews details | See nested DocumentFieldReviewUiShape fields. |
-| Final PDD-A review decision | **[required]** _[to be populated]_ |
-
-
-| Field | Value |
-| --- | --- |
-| PDD-B review workflow submission | **[required]** _[to be populated]_ |
-| PDD-B review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
-| Reviewed PDD-B document | **[required]** _[to be populated]_ |
-| PDD-B field reviews | **[required]** _[to be populated]_ |
-| PDD-B field reviews details | See nested DocumentFieldReviewUiShape fields. |
-| Final PDD-B review decision | **[required]** _[to be populated]_ |
-
-
-| Field | Value |
-| --- | --- |
-| PDD-C review workflow submission | **[required]** _[to be populated]_ |
-| PDD-C review workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
-| Reviewed PDD-C document | **[required]** _[to be populated]_ |
-| PDD-C field reviews | **[required]** _[to be populated]_ |
-| PDD-C field reviews details | See nested DocumentFieldReviewUiShape fields. |
-| Final PDD-C review decision | **[required]** _[to be populated]_ |
-
-
-### A.2 PDD Certificate Issuance Request
-
-| Field | Value |
-| --- | --- |
-| Document IPFS URI | **[required]** _[to be populated]_ |
-| Document schema IRI | **[required]** _[to be populated]_ |
-| Encrypted | **[required]** _[to be populated]_ |
-| Document author | **[required]** _[to be populated]_ |
-| Authenticity proof | **[required]** _[to be populated]_ |
-| Workflow submission | **[required]** _[to be populated]_ |
-| Workflow submission details | See nested WorkflowDocumentSubmissionUiShape fields. |
-| Approved PDD-A validation review | **[required]** _[to be populated]_ |
-| Approved PDD-A validation review details | See nested DocumentReferenceUiShape fields. |
-| Approved PDD-B validation review | **[required]** _[to be populated]_ |
-| Approved PDD-B validation review details | See nested DocumentReferenceUiShape fields. |
-| Approved PDD-C validation review | **[required]** _[to be populated]_ |
-| Approved PDD-C validation review details | See nested DocumentReferenceUiShape fields. |
-| Issuance account ID | **[required]** _[to be populated]_ |
-
-
 \newpage
 
 ## Appendix B. Field-To-Predicate Map

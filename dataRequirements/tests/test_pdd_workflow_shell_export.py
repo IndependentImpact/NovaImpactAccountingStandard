@@ -103,7 +103,7 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             self.assertIn("#### Declared Impact 2", markdown)
             self.assertIn("Improve biodiversity.", markdown)
 
-    def test_final_export_requires_approved_reviews(self):
+    def test_final_export_no_longer_uses_validation_review_gate(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             pdd_a = tmp_path / "pdd-a.json"
@@ -147,9 +147,10 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             )
 
             self.assertNotEqual(completed.returncode, 0)
-            self.assertIn("Workflow gate failed for final export", completed.stderr)
+            self.assertNotIn("Workflow gate failed for final export", completed.stderr)
+            self.assertNotIn("validation review is not approved", completed.stderr)
             self.assertIn(
-                "PDD-B validation review is not approved.",
+                "Final render mode requires SHACL-conformant input.",
                 completed.stderr,
             )
 
