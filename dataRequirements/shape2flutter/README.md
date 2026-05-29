@@ -6,11 +6,147 @@ NIAS workflow screen shapes.
 The canonical SHACL constraints remain in `dataRequirements/*.ttl`. The
 `validation-verification-ui-shapes.ttl` file flattens inherited/composed shapes
 and adds `ui:` hints so `shape2flutter` can generate usable first-pass forms.
-The `pdd-workflow-ui-shapes.ttl` file does the same for PDD creation,
-validation, and certificate issuance request forms.
+The `pdd-workflow-ui-shapes.ttl` file currently does the same for the combined
+local PDD workflow preview: PDD creation, validation review, and PDD certificate
+issuance request forms.
 
 For the planned PDD creation and validation workflow, see
 [`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
+
+For the planned split between PDD Design, Validation Report, Monitoring Report,
+and Verification Report activities, see
+[`pdd-validation-monitoring-verification-split-workplan.md`](pdd-validation-monitoring-verification-split-workplan.md).
+
+## Activity Startup Guide
+
+The repository currently supports a combined PDD workflow shell and a combined
+validation/verification generated preview. The target architecture is to run
+PDD Design, Validation, Monitoring Report, and Verification as separate
+activities that exchange linked artifacts.
+
+### Run The Current Combined PDD Demo
+
+Use this when you want to exercise the current local PDD workflow shell with
+PDD-A/B/C, validation review screens, role gates, and the PDD-CIR gate together.
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/prepare_pdd_workflow_shell.sh
+flutter run -d chrome
+```
+
+Run the combined local regression check from the repository root:
+
+```bash
+dataRequirements/shape2flutter/check-pdd-workflow.sh
+```
+
+### Run PDD Design Forms Only
+
+Use this when you only need developer-side PDD capture. Today these forms are
+generated from the combined PDD workflow shape bundle; use the PDD Section A,
+PDD Section B, and PDD Section C screens and ignore the validation/PDD-CIR
+screens.
+
+```bash
+dataRequirements/shape2flutter/build-pdd-workflow.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/pdd-workflow/schema \
+  --build-dir /tmp/nias-shape2flutter/pdd-workflow/flutter \
+  --preview-dir /tmp/nias-shape2flutter/pdd-workflow/preview \
+  --port 8080 \
+  --no-browser
+```
+
+Draft PDD Markdown export from captured PDD-A/B/C JSON payloads:
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/export_pdd_workflow_markdown.py \
+  --pdd-a-json /tmp/pdd-a.json \
+  --pdd-b-json /tmp/pdd-b.json \
+  --pdd-c-json /tmp/pdd-c.json \
+  --render-mode draft \
+  --output /tmp/pdd.md
+```
+
+### Run Validation Only
+
+Use this when a validator is reviewing a specific PDD artifact. The current
+generated preview still comes from the combined validation/verification bundle,
+but the handoff command can render a Validation Report independently with
+`--report-type validation`.
+
+```bash
+dataRequirements/shape2flutter/build-validation-verification.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
+  --port 8081 \
+  --no-browser
+```
+
+```bash
+python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
+  --report-type validation \
+  --review-json /tmp/validation-review-form.json \
+  --evidence-jsonld /tmp/reviewed-pdd.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/validator-1 \
+  --resource-ipfs-uri ipfs://bafy-validation-review \
+  --workflow-step-label "Validate PDD" \
+  --render-mode draft \
+  --output /tmp/validation-report.md
+```
+
+### Run Monitoring Report Only
+
+Monitoring Report has canonical SHACL coverage in
+`dataRequirements/monitoring-report-shapes.ttl`, but a dedicated
+shape2flutter UI bundle, workflow YAML, handoff adapter, and renderer are still
+planned work. Track that implementation in
+[`pdd-validation-monitoring-verification-split-workplan.md`](pdd-validation-monitoring-verification-split-workplan.md).
+
+Until that lane exists, use the SHACL fixtures and tests for Monitoring Report
+model validation rather than a generated UI preview.
+
+### Run Verification Only
+
+Use this when a verifier is reviewing a Monitoring Report or VIC issuance
+request package. The current generated preview comes from the combined
+validation/verification bundle, but the handoff command can render a
+Verification Report independently with `--report-type verification`.
+
+```bash
+dataRequirements/shape2flutter/build-validation-verification.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
+  --port 8082 \
+  --no-browser
+```
+
+```bash
+python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
+  --report-type verification \
+  --review-json /tmp/verification-review-form.json \
+  --evidence-jsonld /tmp/reviewed-monitoring-report.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/verifier-1 \
+  --resource-ipfs-uri ipfs://bafy-verification-review \
+  --workflow-step-label "Verify Monitoring Report" \
+  --render-mode draft \
+  --output /tmp/verification-report.md
+```
 
 ## Input/Output Handoff Architecture
 
