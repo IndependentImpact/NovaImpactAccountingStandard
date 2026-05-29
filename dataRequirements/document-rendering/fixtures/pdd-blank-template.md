@@ -8,6 +8,9 @@ canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
 internalModel: expanded-jsonld-or-rdf
 pdfCompiler: pandoc
+toc: true
+toc-depth: 3
+toc-title: "Table of Contents"
 draftModeAllowsPlaceholders: true
 finalModeRequiresValidation: true
 repeatedParameterMode: table-per-parameter
@@ -50,37 +53,7 @@ sidecarOutputs:
 
 ## Table Of Contents
 
-| Section | Page |
-| --- | ---: |
-| Section A. Description Of Project | \pageref{section-a.-description-of-project} |
-| A.1 Purpose And General Description | \pageref{a.1-purpose-and-general-description} |
-| A.2 Location Of Project | \pageref{a.2-location-of-project} |
-| A.3 Technologies And Measures | \pageref{a.3-technologies-and-measures} |
-| Technology Or Measure | \pageref{technology-or-measure} |
-| A.4 Project Parties | \pageref{a.4-project-parties} |
-| Project Party | \pageref{project-party} |
-| A.5 Legal Matters, Funding, History, And Eligibility | \pageref{a.5-legal-matters-funding-history-and-eligibility} |
-| Section B. Impact Claims And Monitoring | \pageref{section-b.-impact-claims-and-monitoring} |
-| B.1 Methodology References | \pageref{b.1-methodology-references} |
-| B.2 Declared Impacts | \pageref{b.2-declared-impacts} |
-| Declared Impact | \pageref{declared-impact} |
-| B.3 Impact Claims | \pageref{b.3-impact-claims} |
-| Impact Claim | \pageref{impact-claim} |
-| B.4 Crediting And Monitoring Periods | \pageref{b.4-crediting-and-monitoring-periods} |
-| Crediting And Monitoring Period | \pageref{crediting-and-monitoring-period} |
-| B.5 Data And Parameter Requirements | \pageref{b.5-data-and-parameter-requirements} |
-| Parameter: _[parameter label]_ | \pageref{parameter-parameter-label} |
-| B.6 Ex Ante Estimates | \pageref{b.6-ex-ante-estimates} |
-| Section C. Stakeholder Engagement | \pageref{section-c.-stakeholder-engagement} |
-| C.1 Stakeholder Engagement Modalities | \pageref{c.1-stakeholder-engagement-modalities} |
-| C.2 Stakeholder Comment Summary | \pageref{c.2-stakeholder-comment-summary} |
-| C.3 Stakeholder Comment Consideration | \pageref{c.3-stakeholder-comment-consideration} |
-| Appendix A. Document And Process Metadata | \pageref{appendix-a.-document-and-process-metadata} |
-| A.1 Validation Review Summary | \pageref{a.1-validation-review-summary} |
-| A.2 PDD Certificate Issuance Request | \pageref{a.2-pdd-certificate-issuance-request} |
-| Appendix B. Field-To-Predicate Map | \pageref{appendix-b.-field-to-predicate-map} |
-| Appendix C. Source Graph And Hash Evidence | \pageref{appendix-c.-source-graph-and-hash-evidence} |
-
+\tableofcontents
 
 \newpage
 
