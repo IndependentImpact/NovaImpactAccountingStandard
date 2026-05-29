@@ -1,0 +1,364 @@
+[
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-review-1",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document",
+      "https://nova.org.za/novaimpactaccountingstandard/GenericDocumentReview"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+      {
+        "@value": false
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/validator-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/resourceIpfsUri": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "ipfs://bafyvvvalidationreview"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/hasWorkflowSubmission": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-submission-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldReview": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-field-review-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/finalReviewDecision": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/review-approve"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-field-review-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/DocumentFieldReview"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldKey": [
+      {
+        "@value": "pdd_b_declared_impacts"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldTitle": [
+      {
+        "@value": "PDD Section B declared impacts"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldPrompt": [
+      {
+        "@value": "Confirm that PDD Section B declares impacts and methodology references."
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/originalResponse": [
+      {
+        "@value": "One beneficial GHG impact is declared with a quantification methodology."
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewerDecision": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/review-approve"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewerFeedback": [
+      {
+        "@value": "The impact declaration is complete for validation."
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-submission-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowDocumentSubmission"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submittedDocument": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-review-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflow": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-workflow"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowStep": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-step"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/project-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentSubmittedBy": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/validator-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentRecipient": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/registry-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubmissionConsensusMessage": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-message-1"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document",
+      "https://nova.org.za/novaimpactaccountingstandard/VerifiedImpactCertificateIssuanceRequestReview"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/DRVICIR-1.0.0"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+      {
+        "@value": false
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/verifier-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/resourceIpfsUri": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "ipfs://bafyvvverificationreview"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/hasWorkflowSubmission": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-submission-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldReview": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-field-review-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/finalReviewDecision": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/review-approve"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/requestedIssuanceAccountId": [
+      {
+        "@value": "0.0.3003"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-field-review-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/DocumentFieldReview"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldKey": [
+      {
+        "@value": "monitoring_report_impact_summary"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldTitle": [
+      {
+        "@value": "Monitoring report impact summary"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/fieldPrompt": [
+      {
+        "@value": "Confirm that the verified impact summary matches the monitoring report."
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/originalResponse": [
+      {
+        "@value": "87.5 tCO2e avoided during the monitoring period."
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewerDecision": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/review-approve"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewerFeedback": [
+      {
+        "@value": "The verified impact summary is consistent with the monitoring report review."
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-submission-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowDocumentSubmission"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submittedDocument": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflow": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-workflow"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowStep": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-step"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/project-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentSubmittedBy": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/verifier-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentRecipient": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/registry-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubmissionConsensusMessage": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-message-1"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-workflow",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/Workflow"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-workflow",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/Workflow"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-step",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowStep"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Validate PDD impact declaration"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-step",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowStep"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Verify monitoring report and VIC issuance request"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/validator-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PlatformUser"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/verifier-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PlatformUser"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/registry-1",
+    "@type": [
+      "http://w3id.org/infocomm#CommunicationParty"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/topic-1",
+    "@type": [
+      "https://hashgraphontology.xyz/core/ConsensusTopic"
+    ],
+    "https://hashgraphontology.xyz/core/hasTopicId": [
+      {
+        "@value": "0.0.1001"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-message-1",
+    "@type": [
+      "https://hashgraphontology.xyz/core/TopicMessage"
+    ],
+    "https://hashgraphontology.xyz/core/inTopic": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/topic-1"
+      }
+    ],
+    "https://hashgraphontology.xyz/core/hasSequenceNumber": [
+      {
+        "@value": 21
+      }
+    ],
+    "https://hashgraphontology.xyz/core/hasConsensusTimestamp": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-05-27T10:00:00Z"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-message-1",
+    "@type": [
+      "https://hashgraphontology.xyz/core/TopicMessage"
+    ],
+    "https://hashgraphontology.xyz/core/inTopic": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/topic-1"
+      }
+    ],
+    "https://hashgraphontology.xyz/core/hasSequenceNumber": [
+      {
+        "@value": 22
+      }
+    ],
+    "https://hashgraphontology.xyz/core/hasConsensusTimestamp": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-05-27T11:00:00Z"
+      }
+    ]
+  }
+]
