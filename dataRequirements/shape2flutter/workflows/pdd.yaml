@@ -1,0 +1,21 @@
+workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/pdd
+title: PDD Workflow
+steps:
+  - id: pddA
+    label: PDD Section A
+    form: PddSectionAReportShape
+  - id: pddB
+    label: PDD Section B
+    form: PddSectionBReportShape
+  - id: pddC
+    label: PDD Section C
+    form: PddSectionCStakeholderEngagementShape
+  - id: reviewA
+    label: Validate PDD-A
+    form: PddSectionAValidationReviewShape
+  - id: reviewB
+    label: Validate PDD-B
+    form: PddSectionBValidationReviewShape
+  - id: reviewC
+    label: Validate PDD-C
+    form: PddSectionCValidationReviewShape

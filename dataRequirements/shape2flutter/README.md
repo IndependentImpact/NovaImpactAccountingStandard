@@ -12,6 +12,29 @@ validation, and certificate issuance request forms.
 For the planned PDD creation and validation workflow, see
 [`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
 
+## Input/Output Handoff Architecture
+
+The generated UI/forms remain input-side only. Export/rendering remains
+output-side only. They are connected by a stable handoff contract:
+
+1. Canonical SHACL/TTL shapes define authoritative paths and validation.
+2. `shape2flutter/*-ui-shapes.ttl` files project those paths into form capture.
+3. Workflow shell exporters map captured payloads into renderer-ingestible
+   JSON-LD.
+4. The shared export engine in
+   `dataRequirements/document-rendering/tool/export_workflow_report.py` invokes
+   profile-driven renderers.
+
+Workflow step definitions are tracked in:
+
+- `dataRequirements/shape2flutter/workflows/pdd.yaml`
+- `dataRequirements/shape2flutter/workflows/validation-verification.yaml`
+
+Per-report export mapping config now lives in:
+
+- `dataRequirements/document-rendering/config/pdd-export.yaml`
+- `dataRequirements/document-rendering/config/validation-verification-export.yaml`
+
 ## Validation And Verification Build
 
 ```bash

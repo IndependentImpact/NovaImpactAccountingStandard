@@ -1,0 +1,9 @@
+workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/validation-verification
+title: Validation And Verification Review Workflow
+steps:
+  - id: validation-review
+    label: Validation review
+    form: GenericDocumentReviewShape
+  - id: verification-review
+    label: Verification review
+    form: VerifiedImpactCertificateIssuanceRequestReviewShape
