@@ -51,6 +51,10 @@ class PddFilledRenderingTests(unittest.TestCase):
         self.assertIn("## Section A. Description Of Project", rendered)
         self.assertIn("## Section B. Impact Claims And Monitoring", rendered)
         self.assertIn("## Section C. Stakeholder Engagement", rendered)
+        self.assertNotIn("### A.1 Validation Review Summary", rendered)
+        self.assertNotIn("### A.2 PDD Certificate Issuance Request", rendered)
+        self.assertNotIn("pdd.validation.sectionA", rendered)
+        self.assertNotIn("pdd.certificateIssuanceRequest", rendered)
         self.assertIn("#### Technology Or Measure 1", rendered)
         self.assertIn("| Type | Facility |", rendered)
         self.assertIn(

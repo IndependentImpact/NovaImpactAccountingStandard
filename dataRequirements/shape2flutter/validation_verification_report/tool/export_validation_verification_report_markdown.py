@@ -18,9 +18,10 @@ from export_workflow_report import (
 from nias_local_env import load_repo_env
 
 load_repo_env(REPO_ROOT)
-EXPORT_CONFIG = (
-    REPO_ROOT / "dataRequirements/document-rendering/config/validation-verification-export.yaml"
-)
+EXPORT_CONFIGS = {
+    "validation": REPO_ROOT / "dataRequirements/document-rendering/config/validation-report-export.yaml",
+    "verification": REPO_ROOT / "dataRequirements/document-rendering/config/verification-report-export.yaml",
+}
 
 DATA = "https://jellyfiiish.xyz/ns/"
 HEDERA = "https://hashgraphontology.xyz/core/"
@@ -333,7 +334,7 @@ def main():
 
     generated_at = args.generated_at or datetime.now(timezone.utc).isoformat()
     graph = build_review_package(args, generated_at)
-    export_config = load_export_config(EXPORT_CONFIG)
+    export_config = load_export_config(EXPORT_CONFIGS[args.report_type])
 
     if args.review_package_output:
         write_review_package(args.review_package_output, graph)

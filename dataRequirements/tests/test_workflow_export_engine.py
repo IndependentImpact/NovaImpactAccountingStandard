@@ -11,15 +11,13 @@ NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
 
 
 class WorkflowExportEngineTests(unittest.TestCase):
-    def test_pdd_export_config_has_expected_final_gates(self):
+    def test_pdd_export_config_has_no_validation_review_gate(self):
         config = load_export_config(
             REPO_ROOT / "dataRequirements/document-rendering/config/pdd-export.yaml"
         )
-        gates = config["final_gate_requirements"]
-        self.assertEqual(set(gates.keys()), {"a", "b", "c"})
-        self.assertEqual(gates["a"]["required_review_of"], f"{NIAS}documents/pdd-alpha/pddA")
+        self.assertNotIn("final_gate_requirements", config)
 
-    def test_final_gate_failures_are_config_driven(self):
+    def test_final_gate_failures_are_noop_without_gate_config(self):
         config = load_export_config(
             REPO_ROOT / "dataRequirements/document-rendering/config/pdd-export.yaml"
         )
@@ -35,18 +33,46 @@ class WorkflowExportEngineTests(unittest.TestCase):
             "c": None,
         }
         failures = evaluate_final_gate_failures(config, review_payloads)
-        self.assertIn("PDD-B validation review is not approved.", failures)
-        self.assertIn("PDD-C validation review has not been submitted.", failures)
+        self.assertEqual(failures, [])
 
-    def test_second_report_type_uses_shared_export_config(self):
+    def test_validation_and_verification_use_split_export_configs(self):
+        validation_config = load_export_config(
+            REPO_ROOT
+            / "dataRequirements/document-rendering/config/validation-report-export.yaml"
+        )
+        verification_config = load_export_config(
+            REPO_ROOT
+            / "dataRequirements/document-rendering/config/verification-report-export.yaml"
+        )
+        self.assertEqual(
+            validation_config["renderer_script"],
+            "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py",
+        )
+        self.assertEqual(validation_config["default_output_targets"], ["markdown"])
+        self.assertEqual(
+            verification_config["renderer_script"],
+            validation_config["renderer_script"],
+        )
+        self.assertEqual(verification_config["default_output_targets"], ["markdown"])
+        self.assertEqual(
+            validation_config["payload_filename"],
+            "validation-report-review-package.jsonld",
+        )
+        self.assertEqual(
+            verification_config["payload_filename"],
+            "verification-report-review-package.jsonld",
+        )
+
+    def test_monitoring_report_export_config_uses_monitoring_renderer(self):
         config = load_export_config(
             REPO_ROOT
-            / "dataRequirements/document-rendering/config/validation-verification-export.yaml"
+            / "dataRequirements/document-rendering/config/monitoring-report-export.yaml"
         )
         self.assertEqual(
             config["renderer_script"],
-            "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py",
+            "dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py",
         )
+        self.assertEqual(config["payload_filename"], "monitoring-report-package.jsonld")
         self.assertEqual(config["default_output_targets"], ["markdown"])
 
 

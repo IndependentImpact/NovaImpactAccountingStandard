@@ -1,0 +1,11 @@
+workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/validation-report
+title: Validation Report Workflow
+artifact_type: validation-report
+owner_role: validator
+reviewed_artifact: pdd
+steps:
+  - id: validation-review
+    label: Validate PDD
+    form: GenericDocumentReviewShape
+outputs:
+  - validation-report

@@ -219,22 +219,6 @@ Integrated comments into the revised monitoring plan.
 | Rendering mode | draft |
 
 
-### A.1 Validation Review Summary
-
-No data provided for `pdd.validation.sectionA`.
-
-
-No data provided for `pdd.validation.sectionB`.
-
-
-No data provided for `pdd.validation.sectionC`.
-
-
-### A.2 PDD Certificate Issuance Request
-
-No data provided for `pdd.certificateIssuanceRequest`.
-
-
 \newpage
 
 ## Appendix B. Field-To-Predicate Map

@@ -19,6 +19,7 @@
     nias-o:resourceIpfsUri "ipfs://bafymr"^^xsd:anyURI ;
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/mr-submission-1> ;
     nias-o:reportedIndicatorLabel "Tonnes of CO2e avoided" ;
+    nias-o:alignedWithPDD <https://nova.org.za/novaimpactaccountingstandard/test/pdd-version-1> ;
     nias-o:forPeriod <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-1> ;
     nias-o:reportedObservation <https://nova.org.za/novaimpactaccountingstandard/test/mr-observation-1> ;
     nias-o:usesDataset <https://nova.org.za/novaimpactaccountingstandard/test/dataset-1> ;

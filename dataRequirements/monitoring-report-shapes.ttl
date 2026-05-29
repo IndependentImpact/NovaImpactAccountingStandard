@@ -57,6 +57,13 @@ nias-o:MonitoringReportShape a sh:NodeShape ;
         sh:message "A monitoring report must preserve the legacy indicator label."@en
     ] ;
     sh:property [
+        sh:path nias-o:alignedWithPDD ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring report must reference the validated PDD version it reports against."@en
+    ] ;
+    sh:property [
         sh:path nias-o:forPeriod ;
         sh:class time:Interval ;
         sh:node nias-o:DateTimeIntervalShape ;

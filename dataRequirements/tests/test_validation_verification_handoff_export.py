@@ -12,6 +12,14 @@ SCRIPT = (
     REPO_ROOT
     / "dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py"
 )
+VALIDATION_WRAPPER = (
+    REPO_ROOT
+    / "dataRequirements/shape2flutter/validation_report/tool/export_validation_report_markdown.py"
+)
+VERIFICATION_WRAPPER = (
+    REPO_ROOT
+    / "dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py"
+)
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
 EVIDENCE = FIXTURES / "validation-verification-report-evidence.jsonld"
 
@@ -179,7 +187,123 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
             self.assertIn("## Verification Report", rendered)
             self.assertIn("| handoff-verification-review | Verification review | Approve | 1 |", rendered)
             self.assertNotIn("handoff-validation-review", rendered)
-            self.assertIn("## Verification Report", html.read_text(encoding="utf-8"))
+            self.assertIn("Verification Report", html.read_text(encoding="utf-8"))
+
+    def test_validation_activity_wrapper_uses_validation_defaults(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            review_json = tmp_path / "validation-review-form.json"
+            package_jsonld = tmp_path / "validation-package.jsonld"
+            output = tmp_path / "validation-report.md"
+
+            payload = _review_form_payload("validation")
+            del payload[f"{NIAS}hasWorkflowSubmission"][f"{NIAS}workflow"]
+            review_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(VALIDATION_WRAPPER),
+                    "--review-json",
+                    str(review_json),
+                    "--review-id",
+                    f"{NIAS}test/wrapper-validation-review",
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--document-author",
+                    f"{NIAS}test/validator-1",
+                    "--resource-ipfs-uri",
+                    "ipfs://bafywrappervalidationreview",
+                    "--workflow-step-label",
+                    "Validate PDD wrapper",
+                    "--generated-at",
+                    "2026-05-28T00:00:00Z",
+                    "--render-mode",
+                    "final",
+                    "--review-package-output",
+                    str(package_jsonld),
+                    "--output",
+                    str(output),
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+
+            rendered = output.read_text(encoding="utf-8")
+            self.assertIn("## Validation Report", rendered)
+            self.assertNotIn("## Verification Report", rendered)
+
+            package = json.loads(package_jsonld.read_text(encoding="utf-8"))
+            submission = next(
+                node
+                for node in package
+                if node["@id"].endswith("/workflow-submission")
+            )
+            self.assertEqual(
+                submission[f"{NIAS}workflow"][0]["@id"],
+                f"{NIAS}workflows/validation-report",
+            )
+
+    def test_verification_activity_wrapper_uses_verification_defaults(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            review_json = tmp_path / "verification-review-form.json"
+            package_jsonld = tmp_path / "verification-package.jsonld"
+            output = tmp_path / "verification-report.md"
+
+            payload = _review_form_payload("verification")
+            del payload[f"{NIAS}hasWorkflowSubmission"][f"{NIAS}workflow"]
+            review_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(VERIFICATION_WRAPPER),
+                    "--review-json",
+                    str(review_json),
+                    "--review-id",
+                    f"{NIAS}test/wrapper-verification-review",
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--document-author",
+                    f"{NIAS}test/verifier-1",
+                    "--resource-ipfs-uri",
+                    "ipfs://bafywrapperverificationreview",
+                    "--workflow-step-label",
+                    "Verify monitoring report wrapper",
+                    "--generated-at",
+                    "2026-05-28T00:00:00Z",
+                    "--render-mode",
+                    "final",
+                    "--review-package-output",
+                    str(package_jsonld),
+                    "--output",
+                    str(output),
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+
+            rendered = output.read_text(encoding="utf-8")
+            self.assertIn("## Verification Report", rendered)
+            self.assertNotIn("## Validation Report", rendered)
+
+            package = json.loads(package_jsonld.read_text(encoding="utf-8"))
+            submission = next(
+                node
+                for node in package
+                if node["@id"].endswith("/workflow-submission")
+            )
+            self.assertEqual(
+                submission[f"{NIAS}workflow"][0]["@id"],
+                f"{NIAS}workflows/verification-report",
+            )
 
 
 def _review_form_payload(report_type):

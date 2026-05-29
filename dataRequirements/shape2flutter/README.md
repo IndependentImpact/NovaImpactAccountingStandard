@@ -6,11 +6,164 @@ NIAS workflow screen shapes.
 The canonical SHACL constraints remain in `dataRequirements/*.ttl`. The
 `validation-verification-ui-shapes.ttl` file flattens inherited/composed shapes
 and adds `ui:` hints so `shape2flutter` can generate usable first-pass forms.
-The `pdd-workflow-ui-shapes.ttl` file does the same for PDD creation,
-validation, and certificate issuance request forms.
+The `pdd-workflow-ui-shapes.ttl` file currently does the same for the combined
+local PDD workflow preview: PDD creation, validation review, and PDD certificate
+issuance request forms.
 
 For the planned PDD creation and validation workflow, see
 [`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
+
+For the planned split between PDD Design, Validation Report, Monitoring Report,
+and Verification Report activities, see
+[`pdd-validation-monitoring-verification-split-workplan.md`](pdd-validation-monitoring-verification-split-workplan.md).
+
+## Activity Startup Guide
+
+The repository currently supports a combined PDD workflow shell plus separate
+launch/export paths for PDD Design, Validation, Monitoring Report, and
+Verification activities that exchange linked artifacts. Validation and
+Verification still share one generated UI shape bundle internally.
+
+### Run The Current Combined PDD Demo
+
+Use this when you want to exercise the current local PDD workflow shell with
+PDD-A/B/C, validation review screens, role gates, and the PDD-CIR gate together.
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/prepare_pdd_workflow_shell.sh
+flutter run -d chrome
+```
+
+Run the combined local regression check from the repository root:
+
+```bash
+dataRequirements/shape2flutter/check-pdd-workflow.sh
+```
+
+### Run PDD Design Forms Only
+
+Use this when you only need developer-side PDD capture. Today these forms are
+generated from the combined PDD workflow shape bundle; use the PDD Section A,
+PDD Section B, and PDD Section C screens and ignore the validation/PDD-CIR
+screens.
+
+```bash
+dataRequirements/shape2flutter/build-pdd-workflow.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/pdd-workflow/schema \
+  --build-dir /tmp/nias-shape2flutter/pdd-workflow/flutter \
+  --preview-dir /tmp/nias-shape2flutter/pdd-workflow/preview \
+  --port 8080 \
+  --no-browser
+```
+
+Draft PDD Markdown export from captured PDD-A/B/C JSON payloads:
+
+```bash
+cd dataRequirements/shape2flutter/pdd_workflow_shell
+tool/export_pdd_workflow_markdown.py \
+  --pdd-a-json /tmp/pdd-a.json \
+  --pdd-b-json /tmp/pdd-b.json \
+  --pdd-c-json /tmp/pdd-c.json \
+  --render-mode draft \
+  --output /tmp/pdd.md
+```
+
+### Run Validation Only
+
+Use this when a validator is reviewing a specific PDD artifact. The current
+generated preview still uses the shared validation/verification UI shape bundle,
+but it writes to a validation-specific output root and exports through a
+validation-specific command.
+
+```bash
+dataRequirements/shape2flutter/build-validation-report.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/validation-report/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-report/preview \
+  --port 8081 \
+  --no-browser
+```
+
+```bash
+python3 dataRequirements/shape2flutter/validation_report/tool/export_validation_report_markdown.py \
+  --review-json /tmp/validation-review-form.json \
+  --evidence-jsonld /tmp/reviewed-pdd.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/validator-1 \
+  --resource-ipfs-uri ipfs://bafy-validation-review \
+  --workflow-step-label "Validate PDD" \
+  --render-mode draft \
+  --output /tmp/validation-report.md
+```
+
+### Run Monitoring Report Only
+
+Use this when a monitoring party is publishing measured impact for a specific
+monitoring period against a validated PDD version.
+
+```bash
+dataRequirements/shape2flutter/build-monitoring-report.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/monitoring-report/schema \
+  --build-dir /tmp/nias-shape2flutter/monitoring-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/monitoring-report/preview \
+  --port 8083 \
+  --no-browser
+```
+
+```bash
+python3 dataRequirements/shape2flutter/monitoring_report/tool/export_monitoring_report_markdown.py \
+  --monitoring-json /tmp/monitoring-report-form.json \
+  --aligned-pdd https://nova.org.za/novaimpactaccountingstandard/pdd-versions/pdd-v1 \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/monitoring-party-1 \
+  --resource-ipfs-uri ipfs://bafy-monitoring-report \
+  --workflow-step-label "Submit Monitoring Report" \
+  --render-mode draft \
+  --output /tmp/monitoring-report.md
+```
+
+### Run Verification Only
+
+Use this when a verifier is reviewing a Monitoring Report or VIC issuance
+request package. The current generated preview still uses the shared
+validation/verification UI shape bundle, but it writes to a
+verification-specific output root and exports through a verification-specific
+command.
+
+```bash
+dataRequirements/shape2flutter/build-verification-report.sh
+```
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/verification-report/schema \
+  --build-dir /tmp/nias-shape2flutter/verification-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/verification-report/preview \
+  --port 8082 \
+  --no-browser
+```
+
+```bash
+python3 dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py \
+  --review-json /tmp/verification-review-form.json \
+  --evidence-jsonld /tmp/reviewed-monitoring-report.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/verifier-1 \
+  --resource-ipfs-uri ipfs://bafy-verification-review \
+  --workflow-step-label "Verify Monitoring Report" \
+  --render-mode draft \
+  --output /tmp/verification-report.md
+```
 
 ## Input/Output Handoff Architecture
 
@@ -27,61 +180,90 @@ output-side only. They are connected by a stable handoff contract:
 
 Workflow step definitions are tracked in:
 
+- `dataRequirements/shape2flutter/workflows/pdd-design.yaml`
+- `dataRequirements/shape2flutter/workflows/validation-report.yaml`
+- `dataRequirements/shape2flutter/workflows/monitoring-report.yaml`
+- `dataRequirements/shape2flutter/workflows/verification-report.yaml`
+
+The existing combined preview definitions remain available while the generated
+UIs are being split:
+
 - `dataRequirements/shape2flutter/workflows/pdd.yaml`
 - `dataRequirements/shape2flutter/workflows/validation-verification.yaml`
 
 Per-report export mapping config now lives in:
 
 - `dataRequirements/document-rendering/config/pdd-export.yaml`
+- `dataRequirements/document-rendering/config/monitoring-report-export.yaml`
+- `dataRequirements/document-rendering/config/validation-report-export.yaml`
+- `dataRequirements/document-rendering/config/verification-report-export.yaml`
+
+The legacy combined validation/verification export config remains available for
+older local scripts:
+
 - `dataRequirements/document-rendering/config/validation-verification-export.yaml`
 
 ## Validation And Verification Build
 
 ```bash
-dataRequirements/shape2flutter/build-validation-verification.sh
+dataRequirements/shape2flutter/build-validation-report.sh
+dataRequirements/shape2flutter/build-verification-report.sh
 ```
 
-By default this writes generated artifacts outside the repository:
+Both scripts still use the shared `validation-verification-ui-shapes.ttl`
+bundle, but they write generated artifacts to activity-specific output roots:
 
-- `/tmp/nias-shape2flutter/validation-verification/schema/forms.jsonld`
-- `/tmp/nias-shape2flutter/validation-verification/flutter/*.dart`
+- `/tmp/nias-shape2flutter/validation-report/schema/forms.jsonld`
+- `/tmp/nias-shape2flutter/validation-report/flutter/*.dart`
+- `/tmp/nias-shape2flutter/verification-report/schema/forms.jsonld`
+- `/tmp/nias-shape2flutter/verification-report/flutter/*.dart`
 
 Override paths when needed:
 
 ```bash
 SHAPE2FLUTTER_BIN=/Users/christiaanpauw/shape2flutter/shape2flutter \
-OUT_ROOT=/tmp/nias-shape2flutter/validation-verification \
-dataRequirements/shape2flutter/build-validation-verification.sh
+OUT_ROOT=/tmp/nias-shape2flutter/validation-report \
+dataRequirements/shape2flutter/build-validation-report.sh
 ```
 
 ## Validation And Verification Preview
 
-After running the build script, launch the Flutter web preview from the
-generated schema and Dart files:
+After running the relevant build script, launch the Flutter web preview from the
+generated schema and Dart files. Validation defaults to port `8081`:
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \
-  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
-  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
-  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
-  --port 8080
+  --schema-dir /tmp/nias-shape2flutter/validation-report/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-report/preview \
+  --port 8081
+```
+
+Verification defaults to port `8082`:
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/verification-report/schema \
+  --build-dir /tmp/nias-shape2flutter/verification-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/verification-report/preview \
+  --port 8082
 ```
 
 The preview command builds the preview app, starts a local HTTP server, and
 opens the browser. If the browser does not open automatically, use:
 
 ```text
-http://localhost:8080
+http://localhost:8081
 ```
 
 To keep the server in the terminal but avoid opening a browser automatically:
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \
-  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
-  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
-  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
-  --port 8080 \
+  --schema-dir /tmp/nias-shape2flutter/validation-report/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-report/preview \
+  --port 8081 \
   --no-browser
 ```
 
@@ -90,9 +272,9 @@ server:
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \
-  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
-  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
-  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
+  --schema-dir /tmp/nias-shape2flutter/validation-report/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-report/preview \
   --serve=false \
   --no-browser
 ```
@@ -101,18 +283,18 @@ Use a different port if `8080` is already occupied:
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \
-  --schema-dir /tmp/nias-shape2flutter/validation-verification/schema \
-  --build-dir /tmp/nias-shape2flutter/validation-verification/flutter \
-  --preview-dir /tmp/nias-shape2flutter/validation-verification/preview \
+  --schema-dir /tmp/nias-shape2flutter/validation-report/schema \
+  --build-dir /tmp/nias-shape2flutter/validation-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/validation-report/preview \
   --port 3000 \
   --no-browser
 ```
 
 While the server is running, these debug endpoints are useful:
 
-- `http://localhost:8080/health`
-- `http://localhost:8080/debug`
-- `http://localhost:8080/files`
+- `http://localhost:8081/health`
+- `http://localhost:8081/debug`
+- `http://localhost:8081/files`
 
 Stop the preview server with `Ctrl+C`.
 
@@ -124,8 +306,7 @@ report rendering, wrap them into a canonical review package with
 workflow submission evidence, and optional reviewed-artifact evidence graphs:
 
 ```bash
-python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
-  --report-type validation \
+python3 dataRequirements/shape2flutter/validation_report/tool/export_validation_report_markdown.py \
   --review-json /tmp/validation-review-form.json \
   --review-id https://nova.org.za/novaimpactaccountingstandard/reviews/validation-review-1 \
   --evidence-jsonld /tmp/reviewed-artifacts.jsonld \
@@ -142,7 +323,8 @@ python3 dataRequirements/shape2flutter/validation_verification_report/tool/expor
   --output-target html
 ```
 
-Use `--report-type verification` for the corresponding Verification Report.
+Use `dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py`
+for the corresponding Verification Report.
 The handoff script passes repeatable `--evidence-jsonld` graphs through to the
 report renderer; final mode requires VVS-targeted evidence in the review package
 or evidence graphs.
