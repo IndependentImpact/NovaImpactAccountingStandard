@@ -110,8 +110,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
 
     def test_validation_draft_rendering_filters_reviews_and_vvs_coverage(self):
         rendered = self._render_draft("validation")
-        self.assertIn("#### Review documents", rendered)
-        self.assertIn("\n1\n", rendered)
+        self.assertRegex(rendered, r"#### Review documents\s+1\s")
         self.assertIn("| vv-validation-review-1 | Validation review | Approve | 1 |", rendered)
         self.assertNotIn("vv-verification-review-1", rendered)
         self.assertIn("| REQ-PDD-001 | validation | PddSectionAReport |", rendered)
@@ -120,8 +119,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
 
     def test_verification_draft_rendering_filters_reviews_and_vvs_coverage(self):
         rendered = self._render_draft("verification")
-        self.assertIn("#### Review documents", rendered)
-        self.assertIn("\n1\n", rendered)
+        self.assertRegex(rendered, r"#### Review documents\s+1\s")
         self.assertNotIn("vv-validation-review-1 | Validation review", rendered)
         self.assertIn("| vv-verification-review-1 | Verification review | Approve | 1 |", rendered)
         self.assertNotIn("REQ-PDD-001", rendered)

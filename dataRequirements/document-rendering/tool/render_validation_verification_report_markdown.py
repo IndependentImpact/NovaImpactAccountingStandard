@@ -101,14 +101,14 @@ def _heading_value_blocks(rows, heading_level: int = 4):
         return str(value).strip()
 
     marker = "#" * heading_level
+    row_items = list(rows)
     lines: list[str] = []
-    for heading, value in rows:
+    for index, (heading, value) in enumerate(row_items):
         lines.append(f"{marker} {_scalar_text(heading)}")
         content = _scalar_text(value)
         lines.append(content if content else "_Not provided._")
-        lines.append("")
-    if lines and lines[-1] == "":
-        lines.pop()
+        if index < len(row_items) - 1:
+            lines.append("")
     return lines
 
 

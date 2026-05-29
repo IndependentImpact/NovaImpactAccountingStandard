@@ -45,6 +45,7 @@ def _parse_simple_front_matter(front_matter: str):
 
 
 def _parse_scalar(value: str):
+    # Support simple quoted YAML scalars used in profile front matter.
     if value.startswith('"') and value.endswith('"'):
         return value[1:-1]
     if value == "true":
