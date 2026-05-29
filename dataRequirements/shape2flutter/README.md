@@ -93,6 +93,37 @@ While the server is running, these debug endpoints are useful:
 
 Stop the preview server with `Ctrl+C`.
 
+## Validation And Verification Report Handoff
+
+Generated validation and verification review forms are UI payloads. Before final
+report rendering, wrap them into a canonical review package with
+`data:Document`, the appropriate review class, document-envelope metadata,
+workflow submission evidence, and optional reviewed-artifact evidence graphs:
+
+```bash
+python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
+  --report-type validation \
+  --review-json /tmp/validation-review-form.json \
+  --review-id https://nova.org.za/novaimpactaccountingstandard/reviews/validation-review-1 \
+  --evidence-jsonld /tmp/reviewed-artifacts.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/validator-1 \
+  --resource-ipfs-uri ipfs://bafy-validation-review \
+  --workflow-step-label "Validate PDD" \
+  --source-artifact-id validation-review-form.json \
+  --generated-at 2026-05-28T00:00:00Z \
+  --render-mode final \
+  --review-package-output /tmp/validation-review-package.jsonld \
+  --output-dir /tmp/validation-report \
+  --output-target markdown \
+  --output-target pdf \
+  --output-target html
+```
+
+Use `--report-type verification` for the corresponding Verification Report.
+The handoff script passes repeatable `--evidence-jsonld` graphs through to the
+report renderer; final mode requires VVS-targeted evidence in the review package
+or evidence graphs.
+
 ## PDD Workflow Build
 
 ```bash

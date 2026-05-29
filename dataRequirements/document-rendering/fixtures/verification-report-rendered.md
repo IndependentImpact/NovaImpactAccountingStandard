@@ -60,9 +60,9 @@ generatedAt: 2026-05-28T00:00:00Z
 | Review Decision Register | \pageref{review-decision-register} |
 | Field Review Findings | \pageref{field-review-findings} |
 | VVS Requirement Coverage Summary | \pageref{vvs-requirement-coverage-summary} |
-| Workflow And Consensus Evidence | \pageref{workflow-and-consensus-evidence} |
-| Appendix A. Source Graph And Hash Evidence | \pageref{appendix-a.-source-graph-and-hash-evidence} |
-| Appendix B. Field-To-Predicate Map | \pageref{appendix-b.-field-to-predicate-map} |
+| Appendix A. Review Document And Workflow Evidence | \pageref{appendix-a.-review-document-and-workflow-evidence} |
+| Appendix B. Source Graph And Hash Evidence | \pageref{appendix-b.-source-graph-and-hash-evidence} |
+| Appendix C. Field-To-Predicate Map | \pageref{appendix-c.-field-to-predicate-map} |
 
 
 \newpage
@@ -72,9 +72,9 @@ generatedAt: 2026-05-28T00:00:00Z
 
 ## Review Decision Register
 
-| Review document | Review type | Final decision | Schema | Reviewer | IPFS URI |
-| --- | --- | --- | --- | --- | --- |
-| vv-verification-review-1 | Verification review | Approve | DRVICIR-1.0.0 | verifier-1 | ipfs://bafyvvverificationreview |
+| Review document | Review type | Final decision | Field reviews |
+| --- | --- | --- | ---: |
+| vv-verification-review-1 | Verification review | Approve | 1 |
 
 
 ## Field Review Findings
@@ -95,7 +95,14 @@ generatedAt: 2026-05-28T00:00:00Z
 | REQ-MR-002 | verification | MonitoringReport | ReqMr002Shape | draft evidence present (1) |
 
 
-## Workflow And Consensus Evidence
+\newpage
+
+## Appendix A. Review Document And Workflow Evidence
+
+| Review document | Schema | Author | IPFS URI | Encrypted | Auth proof |
+| --- | --- | --- | --- | --- | --- |
+| vv-verification-review-1 | DRVICIR-1.0.0 | verifier-1 | ipfs://bafyvvverificationreview | No | None |
+
 
 | Review document | Submitted document | Workflow step | Subject | Submitted by | Recipient | Consensus topic | Sequence | Timestamp |
 | --- | --- | --- | --- | --- | --- | --- | ---: | --- |
@@ -104,7 +111,7 @@ generatedAt: 2026-05-28T00:00:00Z
 
 \newpage
 
-## Appendix A. Source Graph And Hash Evidence
+## Appendix B. Source Graph And Hash Evidence
 
 | Field | Value |
 | --- | --- |
@@ -117,7 +124,7 @@ generatedAt: 2026-05-28T00:00:00Z
 
 \newpage
 
-## Appendix B. Field-To-Predicate Map
+## Appendix C. Field-To-Predicate Map
 
 | Field | Value |
 | --- | --- |
@@ -129,7 +136,10 @@ generatedAt: 2026-05-28T00:00:00Z
 | Field title | nias-o:fieldTitle |
 | Reviewer decision | nias-o:reviewerDecision |
 | Reviewer feedback | nias-o:reviewerFeedback |
-| Workflow submission | nias-o:hasWorkflowSubmission |
+| Document author | nias-o:documentAuthor |
+| Document IPFS URI | nias-o:resourceIpfsUri |
+| Authenticity proof | nias-o:authProof |
+| Workflow submission evidence | nias-o:hasWorkflowSubmission |
 | Consensus message | nias-o:workflowSubmissionConsensusMessage |
 | VVS requirement ID | nias-o:requirementId |
 | VVS implementing shape | nias-o:implementedByShape |
