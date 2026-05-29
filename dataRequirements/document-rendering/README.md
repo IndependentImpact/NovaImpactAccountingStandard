@@ -197,6 +197,30 @@ python3 dataRequirements/document-rendering/tool/render_validation_verification_
 
 Use `--report-type verification` for the corresponding Verification Report.
 
+When starting from generated validation or verification review forms, use the
+shape2flutter handoff adapter first. It wraps the generated form payloads into
+canonical review-package JSON-LD, writes the optional package handoff file, and
+then invokes this renderer:
+
+```bash
+python3 dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py \
+  --report-type validation \
+  --review-json /tmp/validation-review-form.json \
+  --evidence-jsonld /tmp/reviewed-artifacts.jsonld \
+  --document-author https://nova.org.za/novaimpactaccountingstandard/users/validator-1 \
+  --resource-ipfs-uri ipfs://bafy-validation-review \
+  --render-mode final \
+  --review-package-output /tmp/validation-review-package.jsonld \
+  --output-dir /tmp/validation-report \
+  --output-target markdown
+```
+
+Validation and Verification Report bodies render review decisions, field
+findings, and VVS requirement coverage only. Review document-envelope metadata,
+workflow submission evidence, source graph hashes, and predicate mappings are
+kept in appendices and final-mode sidecars so the report body does not treat
+legacy `headers` input as substantive content.
+
 Final mode validates the review package structurally and validates only the VVS
 requirement shapes for the selected `--report-type` over the review package plus
 repeatable `--evidence-jsonld` graphs:

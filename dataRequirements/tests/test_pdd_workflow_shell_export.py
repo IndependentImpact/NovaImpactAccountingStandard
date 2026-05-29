@@ -61,6 +61,48 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             self.assertIn("Community workshop and household survey.", markdown)
             self.assertNotIn("- Community workshop and household survey.", markdown)
 
+    def test_draft_export_preserves_repeated_form_values(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            pdd_a = tmp_path / "pdd-a.json"
+            pdd_b = tmp_path / "pdd-b.json"
+            pdd_c = tmp_path / "pdd-c.json"
+            output = tmp_path / "pdd.md"
+
+            pdd_a.write_text(json.dumps(_pdd_a_payload(repeated=True)), encoding="utf-8")
+            pdd_b.write_text(json.dumps(_pdd_b_payload(repeated=True)), encoding="utf-8")
+            pdd_c.write_text(json.dumps(_pdd_c_payload()), encoding="utf-8")
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--pdd-a-json",
+                    str(pdd_a),
+                    "--pdd-b-json",
+                    str(pdd_b),
+                    "--pdd-c-json",
+                    str(pdd_c),
+                    "--render-mode",
+                    "draft",
+                    "--output",
+                    str(output),
+                ],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                check=True,
+            )
+
+            markdown = output.read_text(encoding="utf-8")
+            self.assertIn("ipfs://workflow-export-location-2", markdown)
+            self.assertIn("| Type | facility |", markdown)
+            self.assertIn("| Type | system |", markdown)
+            self.assertIn("Soil carbon monitoring.", markdown)
+            self.assertIn("University Partner", markdown)
+            self.assertIn("#### Declared Impact 2", markdown)
+            self.assertIn("Improve biodiversity.", markdown)
+
     def test_final_export_requires_approved_reviews(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
@@ -112,7 +154,38 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             )
 
 
-def _pdd_a_payload():
+def _pdd_a_payload(repeated=False):
+    locations = [
+        {f"{NIAS}resourceIpfsUri": "ipfs://workflow-export-location"}
+    ]
+    technologies = [
+        {
+            f"{NIAS}techMeasType": f"{NIAS}facility",
+            f"{SCHEMA}description": "Nursery and replanting.",
+        }
+    ]
+    parties = [
+        {
+            f"{NIAS}partyName": "Community Cooperative",
+            f"{NIAS}isHostParty": True,
+            f"{NIAS}isParticipantParty": True,
+        }
+    ]
+    if repeated:
+        locations.append({f"{NIAS}resourceIpfsUri": "ipfs://workflow-export-location-2"})
+        technologies.append(
+            {
+                f"{NIAS}techMeasType": f"{NIAS}system",
+                f"{SCHEMA}description": "Soil carbon monitoring.",
+            }
+        )
+        parties.append(
+            {
+                f"{NIAS}partyName": "University Partner",
+                f"{NIAS}isHostParty": False,
+                f"{NIAS}isParticipantParty": True,
+            }
+        )
     return {
         f"{NIAS}reportContent": [
             {
@@ -121,22 +194,9 @@ def _pdd_a_payload():
                     {
                         f"{NIAS}title": "Workflow Export Pilot",
                         f"{AIAO}hasObjective": [{f"{SCHEMA}description": "Restore habitat."}],
-                        f"{IMPACTONT}hasSpatialLocation": [
-                            {f"{NIAS}resourceIpfsUri": "ipfs://workflow-export-location"}
-                        ],
-                        f"{NIAS}technologyOrMeasure": [
-                            {
-                                f"{NIAS}techMeasType": f"{NIAS}facility",
-                                f"{SCHEMA}description": "Nursery and replanting.",
-                            }
-                        ],
-                        f"{NIAS}projectParty": [
-                            {
-                                f"{NIAS}partyName": "Community Cooperative",
-                                f"{NIAS}isHostParty": True,
-                                f"{NIAS}isParticipantParty": True,
-                            }
-                        ],
+                        f"{IMPACTONT}hasSpatialLocation": locations,
+                        f"{NIAS}technologyOrMeasure": technologies,
+                        f"{NIAS}projectParty": parties,
                         f"{NIAS}legalMatters": "Permits granted.",
                         f"{NIAS}publicFundingStatus": False,
                         f"{NIAS}projectHistory": "Started in 2024.",
@@ -149,24 +209,43 @@ def _pdd_a_payload():
     }
 
 
-def _pdd_b_payload():
+def _pdd_b_payload(repeated=False):
+    impacts = [
+        {
+            f"{SCHEMA}description": "Increase carbon sequestration.",
+            f"{NIAS}impactIntentionality": f"{NIAS}intentional",
+            f"{NIAS}beneficialOrAdverse": f"{NIAS}beneficial",
+            f"{NIAS}monitored": True,
+        }
+    ]
+    claims = [
+        {
+            f"{CLAIM}hasSubject": f"{NIAS}projects/pdd-alpha",
+        }
+    ]
+    if repeated:
+        impacts.append(
+            {
+                f"{SCHEMA}description": "Improve biodiversity.",
+                f"{NIAS}impactIntentionality": f"{NIAS}intentional",
+                f"{NIAS}beneficialOrAdverse": f"{NIAS}beneficial",
+                f"{NIAS}monitored": True,
+            }
+        )
+        claims.append(
+            {
+                f"{CLAIM}hasSubject": f"{NIAS}projects/pdd-alpha",
+                f"{NIAS}usesMethodology": [
+                    f"{NIAS}methodologies/biodiversity-methodology"
+                ],
+            }
+        )
     return {
         f"{NIAS}reportContent": [
             {
                 f"{CLAIM}isMadeBy": f"{NIAS}users/project-developer-1",
-                f"{NIAS}hasDeclaredImpact": [
-                    {
-                        f"{SCHEMA}description": "Increase carbon sequestration.",
-                        f"{NIAS}impactIntentionality": f"{NIAS}intentional",
-                        f"{NIAS}beneficialOrAdverse": f"{NIAS}beneficial",
-                        f"{NIAS}monitored": True,
-                    }
-                ],
-                f"{NIAS}impactClaim": [
-                    {
-                        f"{CLAIM}hasSubject": f"{NIAS}projects/pdd-alpha",
-                    }
-                ],
+                f"{NIAS}hasDeclaredImpact": impacts,
+                f"{NIAS}impactClaim": claims,
                 f"{NIAS}usesMethodology": [
                     f"{NIAS}methodologies/default-pdd-methodology"
                 ],

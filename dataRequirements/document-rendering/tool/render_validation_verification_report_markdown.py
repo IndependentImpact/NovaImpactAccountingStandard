@@ -228,9 +228,15 @@ def _render_blank_directive(directive: str, report_type: str):
         return [TOC_PLACEHOLDER]
     if directive == "review.decisionRegister":
         return [
-            "| Review document | Review type | Final decision | Schema | Reviewer | IPFS URI |",
+            "| Review document | Review type | Final decision | Field reviews |",
+            "| --- | --- | --- | ---: |",
+            "| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[field review count]_ |",
+        ]
+    if directive == "review.documentEnvelope":
+        return [
+            "| Review document | Schema | Author | IPFS URI | Encrypted | Auth proof |",
             "| --- | --- | --- | --- | --- | --- |",
-            "| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[schema IRI]_ | _[reviewer]_ | _[IPFS URI]_ |",
+            "| **[required]** _[review document]_ | _[schema IRI]_ | _[author]_ | _[IPFS URI]_ | _[yes/no]_ | _[proof type]_ |",
         ]
     if directive == "review.fieldFindings":
         return [
@@ -261,11 +267,17 @@ def _render_blank_directive(directive: str, report_type: str):
     if directive == "predicateMapAppendix":
         return _two_column_table(
             [
+                ("Review document type", "rdf:type"),
+                ("Document schema", "nias-o:documentSchema"),
+                ("Document author", "nias-o:documentAuthor"),
+                ("Document IPFS URI", "nias-o:resourceIpfsUri"),
+                ("Authenticity proof", "nias-o:authProof"),
                 ("Final review decision", "nias-o:finalReviewDecision"),
                 ("Field review", "nias-o:fieldReview"),
                 ("Reviewer decision", "nias-o:reviewerDecision"),
                 ("Reviewer feedback", "nias-o:reviewerFeedback"),
-                ("Workflow submission", "nias-o:hasWorkflowSubmission"),
+                ("Workflow submission evidence", "nias-o:hasWorkflowSubmission"),
+                ("Consensus message", "nias-o:workflowSubmissionConsensusMessage"),
                 ("VVS requirement implementation", "nias-o:implementedByShape"),
             ]
         )
@@ -475,22 +487,41 @@ def _render_package_summary(
 
 def _render_decision_register(graph: Graph, report_type: str):
     lines = [
-        "| Review document | Review type | Final decision | Schema | Reviewer | IPFS URI |",
+        "| Review document | Review type | Final decision | Field reviews |",
+        "| --- | --- | --- | ---: |",
+    ]
+    for review in _review_nodes(graph, report_type):
+        lines.append(
+            "| {review} | {kind} | {decision} | {field_count} |".format(
+                review=_escape(_display_value(graph, review)),
+                kind=_escape(_review_kind(graph, review)),
+                decision=_escape(_display_value(graph, _first_value(graph, review, NIAS.finalReviewDecision))),
+                field_count=len(_field_review_nodes(graph, review)),
+            )
+        )
+    if len(lines) == 2:
+        lines.append("| No review documents supplied. |  |  |  |")
+    return lines
+
+
+def _render_review_document_envelope(graph: Graph, report_type: str):
+    lines = [
+        "| Review document | Schema | Author | IPFS URI | Encrypted | Auth proof |",
         "| --- | --- | --- | --- | --- | --- |",
     ]
     for review in _review_nodes(graph, report_type):
         lines.append(
-            "| {review} | {kind} | {decision} | {schema} | {author} | {ipfs} |".format(
+            "| {review} | {schema} | {author} | {ipfs} | {encrypted} | {auth_proof} |".format(
                 review=_escape(_display_value(graph, review)),
-                kind=_escape(_review_kind(graph, review)),
-                decision=_escape(_display_value(graph, _first_value(graph, review, NIAS.finalReviewDecision))),
                 schema=_escape(_display_value(graph, _first_value(graph, review, NIAS.documentSchema))),
                 author=_escape(_display_value(graph, _first_value(graph, review, NIAS.documentAuthor))),
                 ipfs=_escape(_display_value(graph, _first_value(graph, review, NIAS.resourceIpfsUri))),
+                encrypted=_escape(_display_value(graph, _first_value(graph, review, NIAS.isEncrypted))),
+                auth_proof=_escape(_display_value(graph, _first_value(graph, review, NIAS.authProof))),
             )
         )
     if len(lines) == 2:
-        lines.append("| No review documents supplied. |  |  |  |  |  |")
+        lines.append("| No review document envelope supplied. |  |  |  |  |  |")
     return lines
 
 
@@ -637,7 +668,10 @@ def _render_predicate_map():
             ("Field title", "nias-o:fieldTitle"),
             ("Reviewer decision", "nias-o:reviewerDecision"),
             ("Reviewer feedback", "nias-o:reviewerFeedback"),
-            ("Workflow submission", "nias-o:hasWorkflowSubmission"),
+            ("Document author", "nias-o:documentAuthor"),
+            ("Document IPFS URI", "nias-o:resourceIpfsUri"),
+            ("Authenticity proof", "nias-o:authProof"),
+            ("Workflow submission evidence", "nias-o:hasWorkflowSubmission"),
             ("Consensus message", "nias-o:workflowSubmissionConsensusMessage"),
             ("VVS requirement ID", "nias-o:requirementId"),
             ("VVS implementing shape", "nias-o:implementedByShape"),
@@ -671,6 +705,8 @@ def _render_filled_directive(
         return [TOC_PLACEHOLDER]
     if directive == "review.decisionRegister":
         return _render_decision_register(display_graph, report_type)
+    if directive == "review.documentEnvelope":
+        return _render_review_document_envelope(display_graph, report_type)
     if directive == "review.fieldFindings":
         return _render_field_findings(display_graph, report_type)
     if directive == "vvs.requirementCoverage":

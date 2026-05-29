@@ -56,9 +56,9 @@ reportType: verification
 | Review Decision Register | \pageref{review-decision-register} |
 | Field Review Findings | \pageref{field-review-findings} |
 | VVS Requirement Coverage Summary | \pageref{vvs-requirement-coverage-summary} |
-| Workflow And Consensus Evidence | \pageref{workflow-and-consensus-evidence} |
-| Appendix A. Source Graph And Hash Evidence | \pageref{appendix-a.-source-graph-and-hash-evidence} |
-| Appendix B. Field-To-Predicate Map | \pageref{appendix-b.-field-to-predicate-map} |
+| Appendix A. Review Document And Workflow Evidence | \pageref{appendix-a.-review-document-and-workflow-evidence} |
+| Appendix B. Source Graph And Hash Evidence | \pageref{appendix-b.-source-graph-and-hash-evidence} |
+| Appendix C. Field-To-Predicate Map | \pageref{appendix-c.-field-to-predicate-map} |
 
 
 \newpage
@@ -68,9 +68,9 @@ reportType: verification
 
 ## Review Decision Register
 
-| Review document | Review type | Final decision | Schema | Reviewer | IPFS URI |
-| --- | --- | --- | --- | --- | --- |
-| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[schema IRI]_ | _[reviewer]_ | _[IPFS URI]_ |
+| Review document | Review type | Final decision | Field reviews |
+| --- | --- | --- | ---: |
+| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[field review count]_ |
 
 
 ## Field Review Findings
@@ -87,7 +87,14 @@ reportType: verification
 | **[required]** _[REQ-*]_ | _[validation or verification]_ | _[PDD/DLR/MR anchor]_ | _[SHACL shape]_ | _[not assessed]_ |
 
 
-## Workflow And Consensus Evidence
+\newpage
+
+## Appendix A. Review Document And Workflow Evidence
+
+| Review document | Schema | Author | IPFS URI | Encrypted | Auth proof |
+| --- | --- | --- | --- | --- | --- |
+| **[required]** _[review document]_ | _[schema IRI]_ | _[author]_ | _[IPFS URI]_ | _[yes/no]_ | _[proof type]_ |
+
 
 | Review document | Submitted document | Workflow step | Subject | Submitted by | Recipient | Consensus topic | Sequence | Timestamp |
 | --- | --- | --- | --- | --- | --- | --- | ---: | --- |
@@ -96,7 +103,7 @@ reportType: verification
 
 \newpage
 
-## Appendix A. Source Graph And Hash Evidence
+## Appendix B. Source Graph And Hash Evidence
 
 | Field | Value |
 | --- | --- |
@@ -107,13 +114,19 @@ reportType: verification
 
 \newpage
 
-## Appendix B. Field-To-Predicate Map
+## Appendix C. Field-To-Predicate Map
 
 | Field | Value |
 | --- | --- |
+| Review document type | rdf:type |
+| Document schema | nias-o:documentSchema |
+| Document author | nias-o:documentAuthor |
+| Document IPFS URI | nias-o:resourceIpfsUri |
+| Authenticity proof | nias-o:authProof |
 | Final review decision | nias-o:finalReviewDecision |
 | Field review | nias-o:fieldReview |
 | Reviewer decision | nias-o:reviewerDecision |
 | Reviewer feedback | nias-o:reviewerFeedback |
-| Workflow submission | nias-o:hasWorkflowSubmission |
+| Workflow submission evidence | nias-o:hasWorkflowSubmission |
+| Consensus message | nias-o:workflowSubmissionConsensusMessage |
 | VVS requirement implementation | nias-o:implementedByShape |

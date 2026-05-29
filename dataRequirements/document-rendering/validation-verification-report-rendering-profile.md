@@ -57,19 +57,23 @@ sidecarOutputs:
 
 {{ render: vvs.requirementCoverage }}
 
-## Workflow And Consensus Evidence
+\newpage
+
+## Appendix A. Review Document And Workflow Evidence
+
+{{ render: review.documentEnvelope }}
 
 {{ render: workflow.consensusEvidence }}
 
 \newpage
 
-## Appendix A. Source Graph And Hash Evidence
+## Appendix B. Source Graph And Hash Evidence
 
 {{ render: sourceEvidenceAppendix }}
 
 \newpage
 
-## Appendix B. Field-To-Predicate Map
+## Appendix C. Field-To-Predicate Map
 
 {{ render: predicateMapAppendix }}
 
@@ -81,7 +85,8 @@ sidecarOutputs:
 | Review decisions | `GenericDocumentReviewShape` / `VerifiedImpactCertificateIssuanceRequestReviewShape` | Review Decision Register | `{{ render: review.decisionRegister }}` |
 | Field findings | `DocumentFieldReviewShape` | Field Review Findings | `{{ render: review.fieldFindings }}` |
 | VVS requirements | `vvs-requirement-shapes.ttl` / `ValidationVerificationStandard.ttl` | VVS Requirement Coverage Summary | `{{ render: vvs.requirementCoverage }}` |
-| Workflow evidence | `WorkflowDocumentSubmissionShape` / `HederaTopicMessageShape` | Workflow And Consensus Evidence | `{{ render: workflow.consensusEvidence }}` |
+| Review document envelope | `DocumentShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: review.documentEnvelope }}` |
+| Workflow evidence | `WorkflowDocumentSubmissionShape` / `HederaTopicMessageShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: workflow.consensusEvidence }}` |
 
 ## Rendering Boundary
 
@@ -90,16 +95,18 @@ projections over existing review documents and requirement metadata. They do not
 introduce a new canonical report class. Reviewed PDD, Data Lineage Report,
 Monitoring Report, VIC-IR, or VIC artifacts may be supplied as evidence graphs
 for final SHACL validation, but their substantive source content is not rendered
-in the main report body.
+in the main report body. Document-envelope and workflow-submission metadata
+render in appendices or sidecars, not as report content.
 
 ## Default Field Rendering Rules
 
 | Value kind | Rendering behavior |
 | --- | --- |
 | Review document | One row in the decision register |
+| Review document envelope | Appendix-only provenance row with schema, author, IPFS URI, encryption, and proof metadata |
 | Field review | One row in the findings register |
 | Review decision concept | Human label when available, otherwise compact IRI |
-| Workflow submission | One row in workflow evidence with subject, parties, and consensus message |
+| Workflow submission | Appendix-only workflow evidence row with subject, parties, and consensus message |
 | VVS requirement | One row per active requirement with shape, anchor, and evidence status |
 | Missing optional value in draft mode | Empty placeholder |
 | Missing required value in draft mode | Visible placeholder |

@@ -90,7 +90,8 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         self.assertIn("## Review Decision Register", rendered)
         self.assertIn("## Field Review Findings", rendered)
         self.assertIn("## VVS Requirement Coverage Summary", rendered)
-        self.assertIn("## Workflow And Consensus Evidence", rendered)
+        self.assertIn("## Appendix A. Review Document And Workflow Evidence", rendered)
+        self.assertNotIn("\n## Workflow And Consensus Evidence\n", rendered)
         self.assertIn("**[required for final]**", rendered)
 
     def test_validation_draft_rendering_matches_fixture(self):
@@ -108,7 +109,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
     def test_validation_draft_rendering_filters_reviews_and_vvs_coverage(self):
         rendered = self._render_draft("validation")
         self.assertIn("| Review documents | 1 |", rendered)
-        self.assertIn("| vv-validation-review-1 | Validation review | Approve |", rendered)
+        self.assertIn("| vv-validation-review-1 | Validation review | Approve | 1 |", rendered)
         self.assertNotIn("vv-verification-review-1", rendered)
         self.assertIn("| REQ-PDD-001 | validation | PddSectionAReport |", rendered)
         self.assertNotIn("REQ-MR-001", rendered)
@@ -118,10 +119,22 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         rendered = self._render_draft("verification")
         self.assertIn("| Review documents | 1 |", rendered)
         self.assertNotIn("vv-validation-review-1 | Validation review", rendered)
-        self.assertIn("| vv-verification-review-1 | Verification review | Approve |", rendered)
+        self.assertIn("| vv-verification-review-1 | Verification review | Approve | 1 |", rendered)
         self.assertNotIn("REQ-PDD-001", rendered)
         self.assertIn("| REQ-MR-001 | verification | MonitoringReport |", rendered)
         self.assertIn("Verify monitoring report and VIC issuance request", rendered)
+
+    def test_workflow_and_document_envelope_render_in_appendix_only(self):
+        rendered = self._render_draft("validation")
+        self.assertLess(
+            rendered.index("## VVS Requirement Coverage Summary"),
+            rendered.index("## Appendix A. Review Document And Workflow Evidence"),
+        )
+        body = rendered.split("## Appendix A. Review Document And Workflow Evidence", 1)[0]
+        self.assertNotIn("Workflow step", body)
+        self.assertNotIn("IPFS URI", body)
+        self.assertIn("Workflow step", rendered)
+        self.assertIn("IPFS URI", rendered)
 
     def test_final_validation_rendering_accepts_conformant_input(self):
         completed = subprocess.run(
