@@ -12,6 +12,19 @@ The rendering boundary has three layers:
 The renderer stays independent of Fluree, IPFS, and Hedera deployment concerns.
 It consumes canonical data and produces deterministic document artifacts.
 
+## Shared Workflow Export Engine
+
+Workflow-shell handoff exporters now share a config-backed export engine:
+
+- engine: `dataRequirements/document-rendering/tool/export_workflow_report.py`
+- PDD mapping config: `dataRequirements/document-rendering/config/pdd-export.yaml`
+- Validation/verification mapping config:
+  `dataRequirements/document-rendering/config/validation-verification-export.yaml`
+
+The input/UI side still emits structured workflow payloads, and the output side
+ingests them through deterministic handoff adapters. Final-mode workflow gates
+for PDD are evaluated from config before invoking the renderer.
+
 ## Prerequisites
 
 - `python3`

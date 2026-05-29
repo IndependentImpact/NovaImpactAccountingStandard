@@ -3,23 +3,23 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+from export_workflow_report import (
+    load_export_config,
+    run_renderer_with_payload,
+)
 from nias_local_env import load_repo_env
 
 load_repo_env(REPO_ROOT)
-RENDER_SCRIPT = (
-    REPO_ROOT
-    / "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py"
+EXPORT_CONFIG = (
+    REPO_ROOT / "dataRequirements/document-rendering/config/validation-verification-export.yaml"
 )
 
 DATA = "https://jellyfiiish.xyz/ns/"
@@ -333,41 +333,31 @@ def main():
 
     generated_at = args.generated_at or datetime.now(timezone.utc).isoformat()
     graph = build_review_package(args, generated_at)
+    export_config = load_export_config(EXPORT_CONFIG)
 
-    with tempfile.TemporaryDirectory(prefix="nias-vv-export-") as tmpdir:
-        package_path = Path(tmpdir) / "validation-verification-review-package.jsonld"
-        write_review_package(package_path, graph)
-        if args.review_package_output:
-            write_review_package(args.review_package_output, graph)
+    if args.review_package_output:
+        write_review_package(args.review_package_output, graph)
 
-        command = [
-            os.environ.get("PYTHON3_BIN") or sys.executable,
-            str(RENDER_SCRIPT),
-            "--report-type",
-            args.report_type,
-            "--input-jsonld",
-            str(package_path),
-            "--source-artifact-id",
-            args.source_artifact_id,
-            "--generated-at",
-            generated_at,
-            "--render-mode",
-            args.render_mode,
-        ]
-        for evidence_path in args.evidence_jsonld:
-            command.extend(["--evidence-jsonld", str(evidence_path)])
-        if args.output:
-            command.extend(["--output", str(args.output)])
-        if args.output_dir:
-            command.extend(["--output-dir", str(args.output_dir)])
-            for target in args.output_target or ["markdown"]:
-                command.extend(["--output-target", target])
-
-        completed = subprocess.run(command, capture_output=True, text=True, encoding="utf-8")
-        if completed.returncode != 0:
-            parser.exit(completed.returncode, completed.stderr or completed.stdout)
-        if not args.output and not args.output_dir:
-            print(completed.stdout, end="")
+    extra_renderer_args = [
+        "--report-type",
+        args.report_type,
+        "--generated-at",
+        generated_at,
+    ]
+    for evidence_path in args.evidence_jsonld:
+        extra_renderer_args.extend(["--evidence-jsonld", str(evidence_path)])
+    run_renderer_with_payload(
+        repo_root=REPO_ROOT,
+        config=export_config,
+        renderer_payload=graph,
+        render_mode=args.render_mode,
+        source_artifact_id=args.source_artifact_id,
+        parser=parser,
+        output=args.output,
+        output_dir=args.output_dir,
+        output_targets=args.output_target,
+        extra_renderer_args=extra_renderer_args,
+    )
 
 
 if __name__ == "__main__":

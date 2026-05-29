@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import os
-import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+from export_workflow_report import (
+    evaluate_final_gate_failures,
+    load_export_config,
+    run_renderer_with_payload,
+)
 from nias_local_env import load_repo_env
 
 load_repo_env(REPO_ROOT)
-RENDER_SCRIPT = (
-    REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
+EXPORT_CONFIG = (
+    REPO_ROOT / "dataRequirements/document-rendering/config/pdd-export.yaml"
 )
 
 NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
@@ -24,24 +26,6 @@ DCTERMS = "http://purl.org/dc/terms/"
 IND = "http://independentimpact.org/indicator-owl/"
 RDFS = "http://www.w3.org/2000/01/rdf-schema#"
 SCHEMA = "https://schema.org/"
-
-SECTION_STEPS = {
-    "a": {
-        "step_name": "pddA",
-        "review_of": f"{NIAS}documents/pdd-alpha/pddA",
-        "review_decision": f"{NIAS}review-approve",
-    },
-    "b": {
-        "step_name": "pddB",
-        "review_of": f"{NIAS}documents/pdd-alpha/pddB",
-        "review_decision": f"{NIAS}review-approve",
-    },
-    "c": {
-        "step_name": "pddC",
-        "review_of": f"{NIAS}documents/pdd-alpha/pddC",
-        "review_decision": f"{NIAS}review-approve",
-    },
-}
 
 IRI_VALUE_FIELDS = {
     f"{NIAS}publicPrivateClassification",
@@ -146,22 +130,6 @@ def _resource_nodes(values, prefix, extra_fields):
                 node[target_key] = default
         nodes.append(node)
     return references, nodes
-
-
-def _gate_failures(review_payloads):
-    failures = []
-    for section, expected in SECTION_STEPS.items():
-        review = review_payloads.get(section)
-        if review is None:
-            failures.append(f"PDD-{section.upper()} validation review has not been submitted.")
-            continue
-        if review.get(f"{NIAS}finalReviewDecision") != expected["review_decision"]:
-            failures.append(f"PDD-{section.upper()} validation review is not approved.")
-        if review.get(f"{NIAS}isReviewOf") != expected["review_of"]:
-            failures.append(
-                f"PDD-{section.upper()} review does not point to the submitted document."
-            )
-    return failures
 
 
 def build_renderer_payload(pdd_a, pdd_b, pdd_c):
@@ -479,6 +447,7 @@ def main():
     pdd_a = _load_json(args.pdd_a_json)
     pdd_b = _load_json(args.pdd_b_json)
     pdd_c = _load_json(args.pdd_c_json)
+    export_config = load_export_config(EXPORT_CONFIG)
 
     if args.render_mode == "final":
         review_payloads = {
@@ -486,49 +455,22 @@ def main():
             "b": _load_json(args.review_b_json) if args.review_b_json else None,
             "c": _load_json(args.review_c_json) if args.review_c_json else None,
         }
-        failures = _gate_failures(review_payloads)
+        failures = evaluate_final_gate_failures(export_config, review_payloads)
         if failures:
             parser.exit(1, "Workflow gate failed for final export:\n- " + "\n- ".join(failures) + "\n")
 
     renderer_payload = build_renderer_payload(pdd_a, pdd_b, pdd_c)
-
-    with tempfile.TemporaryDirectory(prefix="nias-workflow-export-") as tmpdir:
-        payload_path = Path(tmpdir) / "workflow-shell-render-input.jsonld"
-        payload_path.write_text(
-            json.dumps(renderer_payload, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
-
-        command = [
-            os.environ.get("PYTHON3_BIN") or sys.executable,
-            str(RENDER_SCRIPT),
-            "--input-jsonld",
-            str(payload_path),
-            "--render-mode",
-            args.render_mode,
-            "--source-artifact-id",
-            args.source_artifact_id,
-        ]
-
-        if args.output:
-            command.extend(["--output", str(args.output)])
-        if args.output_dir:
-            command.extend(["--output-dir", str(args.output_dir)])
-            for target in args.output_target or ["markdown"]:
-                command.extend(["--output-target", target])
-
-        completed = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-        )
-
-        if completed.returncode != 0:
-            parser.exit(completed.returncode, completed.stderr or completed.stdout)
-
-        if not args.output and not args.output_dir:
-            print(completed.stdout, end="")
+    run_renderer_with_payload(
+        repo_root=REPO_ROOT,
+        config=export_config,
+        renderer_payload=renderer_payload,
+        render_mode=args.render_mode,
+        source_artifact_id=args.source_artifact_id,
+        parser=parser,
+        output=args.output,
+        output_dir=args.output_dir,
+        output_targets=args.output_target,
+    )
 
 
 if __name__ == "__main__":

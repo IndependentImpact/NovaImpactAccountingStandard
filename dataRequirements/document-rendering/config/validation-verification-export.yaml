@@ -1,0 +1,4 @@
+renderer_script: dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py
+payload_filename: validation-verification-review-package.jsonld
+default_output_targets:
+  - markdown
