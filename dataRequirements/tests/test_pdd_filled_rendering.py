@@ -62,18 +62,11 @@ class PddFilledRenderingTests(unittest.TestCase):
         self.assertIn("| Beneficial or adverse | Beneficial |", rendered)
         self.assertIn("| Unit | kWh |", rendered)
 
-    def test_filled_rendering_toc_is_table_with_page_references(self):
+    def test_filled_rendering_uses_native_latex_toc_marker(self):
         rendered = self._render_filled()
         toc = rendered.split("## Table Of Contents", 1)[1].split("\\newpage", 1)[0]
-        self.assertIn("| Section | Page |", toc)
-        self.assertIn(
-            "| Section A. Description Of Project | \\pageref{section-a.-description-of-project} |",
-            toc,
-        )
-        self.assertIn(
-            "| Parameter: Electricity generated | \\pageref{parameter-electricity-generated} |",
-            toc,
-        )
+        self.assertIn("\\tableofcontents", toc)
+        self.assertNotIn("| Section | Page |", toc)
         self.assertNotRegex(toc, r"(?m)^\\s*- ")
 
     def test_filled_rendering_keeps_document_metadata_in_appendix(self):

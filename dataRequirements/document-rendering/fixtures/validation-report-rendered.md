@@ -8,6 +8,9 @@ canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
 internalModel: expanded-jsonld-or-rdf
 pdfCompiler: pandoc
+toc: true
+toc-depth: 3
+toc-title: "Table of Contents"
 draftModeAllowsPlaceholders: true
 finalModeRequiresValidation: true
 defaultOutputTargets:
@@ -34,16 +37,29 @@ generatedAt: 2026-05-28T00:00:00Z
 ### Validation Review Package
 
 
-| Field | Value |
-| --- | --- |
-| Report type | Validation Report |
-| Review documents | 1 |
-| Field reviews | 1 |
-| Final decisions | Approve: 1 |
-| VVS evidence targets | 3 |
-| Generated at | 2026-05-28T00:00:00Z |
-| Rendering mode | draft |
-| Source artifact | validation-verification-report-input.jsonld |
+#### Report type
+Validation Report
+
+#### Review documents
+1
+
+#### Field reviews
+1
+
+#### Final decisions
+Approve: 1
+
+#### VVS evidence targets
+3
+
+#### Generated at
+2026-05-28T00:00:00Z
+
+#### Rendering mode
+draft
+
+#### Source artifact
+validation-verification-report-input.jsonld
 
 
 \thispagestyle{pddtitle}
@@ -55,15 +71,7 @@ generatedAt: 2026-05-28T00:00:00Z
 
 ## Table Of Contents
 
-| Section | Page |
-| --- | ---: |
-| Review Decision Register | \pageref{review-decision-register} |
-| Field Review Findings | \pageref{field-review-findings} |
-| VVS Requirement Coverage Summary | \pageref{vvs-requirement-coverage-summary} |
-| Appendix A. Review Document And Workflow Evidence | \pageref{appendix-a.-review-document-and-workflow-evidence} |
-| Appendix B. Source Graph And Hash Evidence | \pageref{appendix-b.-source-graph-and-hash-evidence} |
-| Appendix C. Field-To-Predicate Map | \pageref{appendix-c.-field-to-predicate-map} |
-
+\tableofcontents
 
 \newpage
 
@@ -111,33 +119,67 @@ generatedAt: 2026-05-28T00:00:00Z
 
 ## Appendix B. Source Graph And Hash Evidence
 
-| Field | Value |
-| --- | --- |
-| Source artifact | validation-verification-report-input.jsonld |
-| Input JSON-LD | validation-verification-report-input.jsonld |
-| Input SHA-256 | 8af13c57b79c6863cb421ac7a76b65fb49b8238d84619e67136d8e85bb1d3dfd |
-| Evidence JSON-LD 1 | validation-verification-report-evidence.jsonld |
-| Evidence SHA-256 1 | 880acc33f8caa29240d2d34c4bce0891480bcdbe852f14818ce6d7ed8c74d659 |
+### Source artifact
+validation-verification-report-input.jsonld
+
+### Input JSON-LD
+validation-verification-report-input.jsonld
+
+### Input SHA-256
+8af13c57b79c6863cb421ac7a76b65fb49b8238d84619e67136d8e85bb1d3dfd
+
+### Evidence JSON-LD 1
+validation-verification-report-evidence.jsonld
+
+### Evidence SHA-256 1
+880acc33f8caa29240d2d34c4bce0891480bcdbe852f14818ce6d7ed8c74d659
 
 
 \newpage
 
 ## Appendix C. Field-To-Predicate Map
 
-| Field | Value |
-| --- | --- |
-| Review document type | rdf:type |
-| Document schema | nias-o:documentSchema |
-| Final review decision | nias-o:finalReviewDecision |
-| Field review | nias-o:fieldReview |
-| Field key | nias-o:fieldKey |
-| Field title | nias-o:fieldTitle |
-| Reviewer decision | nias-o:reviewerDecision |
-| Reviewer feedback | nias-o:reviewerFeedback |
-| Document author | nias-o:documentAuthor |
-| Document IPFS URI | nias-o:resourceIpfsUri |
-| Authenticity proof | nias-o:authProof |
-| Workflow submission evidence | nias-o:hasWorkflowSubmission |
-| Consensus message | nias-o:workflowSubmissionConsensusMessage |
-| VVS requirement ID | nias-o:requirementId |
-| VVS implementing shape | nias-o:implementedByShape |
+### Review document type
+rdf:type
+
+### Document schema
+nias-o:documentSchema
+
+### Final review decision
+nias-o:finalReviewDecision
+
+### Field review
+nias-o:fieldReview
+
+### Field key
+nias-o:fieldKey
+
+### Field title
+nias-o:fieldTitle
+
+### Reviewer decision
+nias-o:reviewerDecision
+
+### Reviewer feedback
+nias-o:reviewerFeedback
+
+### Document author
+nias-o:documentAuthor
+
+### Document IPFS URI
+nias-o:resourceIpfsUri
+
+### Authenticity proof
+nias-o:authProof
+
+### Workflow submission evidence
+nias-o:hasWorkflowSubmission
+
+### Consensus message
+nias-o:workflowSubmissionConsensusMessage
+
+### VVS requirement ID
+nias-o:requirementId
+
+### VVS implementing shape
+nias-o:implementedByShape
