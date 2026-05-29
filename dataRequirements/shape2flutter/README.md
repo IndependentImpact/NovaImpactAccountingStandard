@@ -8,6 +8,8 @@ The canonical SHACL constraints remain in `dataRequirements/*.ttl`. The
 and adds `ui:` hints so `shape2flutter` can generate usable first-pass forms.
 The `pdd-workflow-ui-shapes.ttl` file does the same for PDD creation,
 validation, and certificate issuance request forms.
+The `monitoring-report-ui-shapes.ttl` file provides a dedicated Monitoring
+Report capture form bundle.
 
 For the planned PDD creation and validation workflow, see
 [`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
@@ -34,6 +36,29 @@ Per-report export mapping config now lives in:
 
 - `dataRequirements/document-rendering/config/pdd-export.yaml`
 - `dataRequirements/document-rendering/config/validation-verification-export.yaml`
+
+## Monitoring Report Build
+
+```bash
+OUT_ROOT=/tmp/nias-shape2flutter/monitoring-report \
+dataRequirements/shape2flutter/build-monitoring-report.sh
+```
+
+This generates a separate Monitoring Report Flutter form bundle:
+
+- `/tmp/nias-shape2flutter/monitoring-report/schema/forms.jsonld`
+- `/tmp/nias-shape2flutter/monitoring-report/flutter/*.dart`
+
+Preview it with:
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/monitoring-report/schema \
+  --build-dir /tmp/nias-shape2flutter/monitoring-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/monitoring-report/preview \
+  --port 8083 \
+  --no-browser
+```
 
 ## Validation And Verification Build
 
