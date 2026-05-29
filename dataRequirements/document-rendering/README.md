@@ -160,6 +160,77 @@ Run the focused PDD rendering test suite from the repository root:
 python3 -m unittest discover -s dataRequirements/tests -p 'test_pdd_*.py' -q
 ```
 
+Run the focused Validation/Verification Report rendering suite:
+
+```bash
+python3 -m unittest dataRequirements.tests.test_validation_verification_report_rendering -q
+```
+
+## Render A Validation Report Or Verification Report
+
+Render a blank Validation Report template:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+  --report-type validation
+```
+
+Render a blank Verification Report template:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+  --report-type verification
+```
+
+Render a draft Validation Report from review JSON-LD and optional
+reviewed-artifact evidence:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+  --report-type validation \
+  --input-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-input.jsonld \
+  --evidence-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-evidence.jsonld \
+  --source-artifact-id validation-verification-report-input.jsonld \
+  --generated-at 2026-05-28T00:00:00Z \
+  --render-mode draft
+```
+
+Use `--report-type verification` for the corresponding Verification Report.
+
+Final mode validates the review package structurally and validates only the VVS
+requirement shapes for the selected `--report-type` over the review package plus
+repeatable `--evidence-jsonld` graphs:
+
+```bash
+python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+  --report-type validation \
+  --input-jsonld /tmp/vv-review-package.jsonld \
+  --evidence-jsonld /tmp/vv-evidence.jsonld \
+  --source-artifact-id vv-review-package.jsonld \
+  --generated-at 2026-05-28T00:00:00Z \
+  --render-mode final \
+  --output-dir /tmp/vv-report \
+  --output-target markdown \
+  --output-target pdf \
+  --output-target html
+```
+
+Deterministic validation outputs:
+
+- `validation-report.md`
+- `validation-report.pdf`
+- `validation-report.html`
+- `validation-report.metadata.jsonld`
+- `validation-report.validation.json`
+
+Deterministic verification outputs:
+
+- `verification-report.md`
+- `verification-report.pdf`
+- `verification-report.html`
+- `verification-report.metadata.jsonld`
+- `verification-report.validation.json`
+
 Run the full local workflow regression command:
 
 ```bash
