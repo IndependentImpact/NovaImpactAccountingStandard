@@ -64,6 +64,7 @@ class PddOutputCompilationTests(unittest.TestCase):
             output_dir = tmp_path / "exported"
             env = os.environ.copy()
             env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["PANDOC_BIN"] = str(fake_pandoc)
 
             subprocess.run(
                 [
@@ -136,6 +137,7 @@ class PddOutputCompilationTests(unittest.TestCase):
             output_dir = tmp_path / "exported"
             env = os.environ.copy()
             env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["PANDOC_BIN"] = str(fake_pandoc)
             env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
 
             subprocess.run(
@@ -173,6 +175,7 @@ class PddOutputCompilationTests(unittest.TestCase):
             output_dir = tmp_path / "exported"
             env = os.environ.copy()
             env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["PANDOC_BIN"] = str(fake_pandoc)
             env["FAKE_PANDOC_ARGS_PATH"] = str(fake_args)
             env["PANDOC_PDF_ENGINE"] = "lualatex"
 

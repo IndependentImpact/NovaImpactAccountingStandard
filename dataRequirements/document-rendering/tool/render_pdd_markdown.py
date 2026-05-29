@@ -14,8 +14,11 @@ from pathlib import Path
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, Namespace
 
+from nias_local_env import load_repo_env
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+load_repo_env(REPO_ROOT)
 DEFAULT_PROFILE = (
     REPO_ROOT / "dataRequirements/document-rendering/pdd-rendering-profile.md"
 )

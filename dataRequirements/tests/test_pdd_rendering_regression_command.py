@@ -12,10 +12,11 @@ class PddRenderingRegressionCommandTests(unittest.TestCase):
     def test_workflow_regression_script_runs_explicit_rendering_suite(self):
         script = CHECK_SCRIPT.read_text(encoding="utf-8")
         self.assertIn('log_step "Run PDD Markdown rendering regression tests"', script)
+        self.assertIn('PYTHON_BIN="${PYTHON3_BIN:-python3}"', script)
         self.assertRegex(
             script,
             re.compile(
-                r'python3 -m unittest discover\s+\\\n'
+                r'"\$PYTHON_BIN" -m unittest discover\s+\\\n'
                 r'\s+-s "\$ROOT_DIR/dataRequirements/tests" \\\n'
                 r'\s+-p "test_pdd_\*\.py" \\\n'
                 r'\s+-q'
