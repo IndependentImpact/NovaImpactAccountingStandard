@@ -46,10 +46,8 @@ class PddBlankTemplateTests(unittest.TestCase):
         self.assertNotIn("| Standard | Nova Impact Accounting Standard |", rendered)
         self.assertNotIn("| Project title | _[required: project title]_ |", rendered)
         self.assertIn("| Methodology and version | _[required: methodology reference(s)]_ |", rendered)
-        self.assertIn(
-            "| Section A. Description Of Project | \\pageref{section-a.-description-of-project} |",
-            rendered,
-        )
+        self.assertIn("\\tableofcontents", rendered)
+        self.assertNotIn("| Section | Page |", rendered)
         self.assertNotIn("- [Section A. Description Of Project]", rendered)
 
     def test_document_metadata_is_not_rendered_in_pdd_sections(self):

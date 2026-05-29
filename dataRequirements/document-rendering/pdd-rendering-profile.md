@@ -8,6 +8,9 @@ canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
 internalModel: expanded-jsonld-or-rdf
 pdfCompiler: pandoc
+toc: true
+toc-depth: 3
+toc-title: "Table of Contents"
 draftModeAllowsPlaceholders: true
 finalModeRequiresValidation: true
 repeatedParameterMode: table-per-parameter
@@ -37,7 +40,7 @@ sidecarOutputs:
 
 ## Table Of Contents
 
-{{ render: tableOfContents }}
+\tableofcontents
 
 \newpage
 

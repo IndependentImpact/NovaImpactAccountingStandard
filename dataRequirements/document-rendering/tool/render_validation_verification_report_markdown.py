@@ -92,6 +92,26 @@ def _two_column_table(rows):
     return pdd_renderer._two_column_table(rows)
 
 
+def _heading_value_blocks(rows, heading_level: int = 4):
+    def _scalar_text(value):
+        if value is None:
+            return ""
+        if isinstance(value, bool):
+            return "Yes" if value else "No"
+        return str(value).strip()
+
+    marker = "#" * heading_level
+    row_items = list(rows)
+    lines: list[str] = []
+    for index, (heading, value) in enumerate(row_items):
+        lines.append(f"{marker} {_scalar_text(heading)}")
+        content = _scalar_text(value)
+        lines.append(content if content else "_Not provided._")
+        if index < len(row_items) - 1:
+            lines.append("")
+    return lines
+
+
 def _report_label(report_type: str):
     return "Validation Report" if report_type == "validation" else "Verification Report"
 
@@ -212,7 +232,7 @@ def _render_blank_directive(directive: str, report_type: str):
     if directive == "titlePage.reportTitle":
         return [f"### _[{_report_label(report_type)} package title]_"]
     if directive == "titlePage.packageSummary":
-        return _two_column_table(
+        return _heading_value_blocks(
             [
                 ("Report type", _report_label(report_type)),
                 ("Review documents", "**[required]** _[to be populated]_"),
@@ -222,10 +242,11 @@ def _render_blank_directive(directive: str, report_type: str):
                 ("Generated at", "**[optional]** _[to be populated]_"),
                 ("Rendering mode", "**[optional]** _[draft or final]_"),
                 ("Source artifact", "**[optional]** _[to be populated]_"),
-            ]
+            ],
+            heading_level=4,
         )
     if directive == "tableOfContents":
-        return [TOC_PLACEHOLDER]
+        return [r"\tableofcontents"]
     if directive == "review.decisionRegister":
         return [
             "| Review document | Review type | Final decision | Field reviews |",
@@ -257,15 +278,16 @@ def _render_blank_directive(directive: str, report_type: str):
             "| **[required]** _[review document]_ | _[submitted document]_ | _[workflow step]_ | _[subject]_ | _[submitter]_ | _[recipient]_ | _[topic]_ | _[sequence]_ | _[timestamp]_ |",
         ]
     if directive == "sourceEvidenceAppendix":
-        return _two_column_table(
+        return _heading_value_blocks(
             [
                 ("Input JSON-LD", "**[required]** _[to be populated]_"),
                 ("Evidence JSON-LD", "**[optional]** _[to be populated]_"),
                 ("Source graph hash evidence", "**[optional]** _[to be populated]_"),
-            ]
+            ],
+            heading_level=3,
         )
     if directive == "predicateMapAppendix":
-        return _two_column_table(
+        return _heading_value_blocks(
             [
                 ("Review document type", "rdf:type"),
                 ("Document schema", "nias-o:documentSchema"),
@@ -279,7 +301,8 @@ def _render_blank_directive(directive: str, report_type: str):
                 ("Workflow submission evidence", "nias-o:hasWorkflowSubmission"),
                 ("Consensus message", "nias-o:workflowSubmissionConsensusMessage"),
                 ("VVS requirement implementation", "nias-o:implementedByShape"),
-            ]
+            ],
+            heading_level=3,
         )
     return [f"- **[optional]** {directive}: _[to be populated]_"]
 
@@ -307,7 +330,7 @@ def render_blank_template(profile_path: Path, report_type: str):
             continue
         lines.extend(_render_blank_directive(directive_match.group(1), report_type))
         lines.append("")
-    rendered_body = _replace_table_of_contents("\n".join(lines).rstrip()) + "\n"
+    rendered_body = "\n".join(lines).rstrip() + "\n"
     return f"{front_matter}{rendered_body}"
 
 
@@ -471,7 +494,7 @@ def _render_package_summary(
     report_type: str,
 ):
     target_subjects = _selected_target_subjects(combined_graph, report_type)
-    return _two_column_table(
+    return _heading_value_blocks(
         [
             ("Report type", _report_label(report_type)),
             ("Review documents", len(_review_nodes(display_graph, report_type))),
@@ -481,7 +504,8 @@ def _render_package_summary(
             ("Generated at", generated_at),
             ("Rendering mode", render_mode),
             ("Source artifact", source_artifact),
-        ]
+        ],
+        heading_level=4,
     )
 
 
@@ -654,11 +678,11 @@ def _render_source_evidence(input_path: Path, evidence_paths: list[Path], source
             rows.append((f"Evidence SHA-256 {index}", pdd_renderer._sha256_file(path)))
     else:
         rows.append(("Evidence JSON-LD", "Not supplied"))
-    return _two_column_table(rows)
+    return _heading_value_blocks(rows, heading_level=3)
 
 
 def _render_predicate_map():
-    return _two_column_table(
+    return _heading_value_blocks(
         [
             ("Review document type", "rdf:type"),
             ("Document schema", "nias-o:documentSchema"),
@@ -675,7 +699,8 @@ def _render_predicate_map():
             ("Consensus message", "nias-o:workflowSubmissionConsensusMessage"),
             ("VVS requirement ID", "nias-o:requirementId"),
             ("VVS implementing shape", "nias-o:implementedByShape"),
-        ]
+        ],
+        heading_level=3,
     )
 
 
@@ -702,7 +727,7 @@ def _render_filled_directive(
             report_type,
         )
     if directive == "tableOfContents":
-        return [TOC_PLACEHOLDER]
+        return [r"\tableofcontents"]
     if directive == "review.decisionRegister":
         return _render_decision_register(display_graph, report_type)
     if directive == "review.documentEnvelope":
@@ -780,7 +805,7 @@ def render_filled_markdown(
             )
         )
         lines.append("")
-    rendered_body = _replace_table_of_contents("\n".join(lines).rstrip()) + "\n"
+    rendered_body = "\n".join(lines).rstrip() + "\n"
     return f"{front_matter}{rendered_body}"
 
 

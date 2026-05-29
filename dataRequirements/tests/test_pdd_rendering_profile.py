@@ -45,6 +45,9 @@ def _parse_simple_front_matter(front_matter: str):
 
 
 def _parse_scalar(value: str):
+    # Support simple quoted YAML scalars used in profile front matter.
+    if value.startswith('"') and value.endswith('"'):
+        return value[1:-1]
     if value == "true":
         return True
     if value == "false":
@@ -67,6 +70,9 @@ class PddRenderingProfileTests(unittest.TestCase):
         self.assertEqual(self.metadata["primaryInput"], "JSON-LD")
         self.assertEqual(self.metadata["pdfCompiler"], "pandoc")
         self.assertTrue(self.metadata["finalModeRequiresValidation"])
+        self.assertTrue(self.metadata["toc"])
+        self.assertEqual(self.metadata["toc-depth"], "3")
+        self.assertEqual(self.metadata["toc-title"], "Table of Contents")
         self.assertEqual(
             self.metadata["repeatedParameterMode"],
             "table-per-parameter",
@@ -147,7 +153,7 @@ class PddRenderingProfileTests(unittest.TestCase):
         required_directives = [
             "{{ render: titlePage.projectTitle }}",
             "{{ render: titlePage.keyProjectInformation }}",
-            "{{ render: tableOfContents }}",
+            "\\tableofcontents",
         ]
         for directive in required_directives:
             with self.subTest(directive=directive):

@@ -8,6 +8,9 @@ canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
 internalModel: expanded-jsonld-or-rdf
 pdfCompiler: pandoc
+toc: true
+toc-depth: 3
+toc-title: "Table of Contents"
 draftModeAllowsPlaceholders: true
 finalModeRequiresValidation: true
 defaultOutputTargets:
@@ -30,16 +33,29 @@ reportType: verification
 ### _[Verification Report package title]_
 
 
-| Field | Value |
-| --- | --- |
-| Report type | Verification Report |
-| Review documents | **[required]** _[to be populated]_ |
-| Field reviews | **[required]** _[to be populated]_ |
-| Final decisions | **[required]** _[to be populated]_ |
-| VVS evidence targets | **[required for final]** _[to be populated]_ |
-| Generated at | **[optional]** _[to be populated]_ |
-| Rendering mode | **[optional]** _[draft or final]_ |
-| Source artifact | **[optional]** _[to be populated]_ |
+#### Report type
+Verification Report
+
+#### Review documents
+**[required]** _[to be populated]_
+
+#### Field reviews
+**[required]** _[to be populated]_
+
+#### Final decisions
+**[required]** _[to be populated]_
+
+#### VVS evidence targets
+**[required for final]** _[to be populated]_
+
+#### Generated at
+**[optional]** _[to be populated]_
+
+#### Rendering mode
+**[optional]** _[draft or final]_
+
+#### Source artifact
+**[optional]** _[to be populated]_
 
 
 \thispagestyle{pddtitle}
@@ -51,15 +67,7 @@ reportType: verification
 
 ## Table Of Contents
 
-| Section | Page |
-| --- | ---: |
-| Review Decision Register | \pageref{review-decision-register} |
-| Field Review Findings | \pageref{field-review-findings} |
-| VVS Requirement Coverage Summary | \pageref{vvs-requirement-coverage-summary} |
-| Appendix A. Review Document And Workflow Evidence | \pageref{appendix-a.-review-document-and-workflow-evidence} |
-| Appendix B. Source Graph And Hash Evidence | \pageref{appendix-b.-source-graph-and-hash-evidence} |
-| Appendix C. Field-To-Predicate Map | \pageref{appendix-c.-field-to-predicate-map} |
-
+\tableofcontents
 
 \newpage
 
@@ -105,28 +113,52 @@ reportType: verification
 
 ## Appendix B. Source Graph And Hash Evidence
 
-| Field | Value |
-| --- | --- |
-| Input JSON-LD | **[required]** _[to be populated]_ |
-| Evidence JSON-LD | **[optional]** _[to be populated]_ |
-| Source graph hash evidence | **[optional]** _[to be populated]_ |
+### Input JSON-LD
+**[required]** _[to be populated]_
+
+### Evidence JSON-LD
+**[optional]** _[to be populated]_
+
+### Source graph hash evidence
+**[optional]** _[to be populated]_
 
 
 \newpage
 
 ## Appendix C. Field-To-Predicate Map
 
-| Field | Value |
-| --- | --- |
-| Review document type | rdf:type |
-| Document schema | nias-o:documentSchema |
-| Document author | nias-o:documentAuthor |
-| Document IPFS URI | nias-o:resourceIpfsUri |
-| Authenticity proof | nias-o:authProof |
-| Final review decision | nias-o:finalReviewDecision |
-| Field review | nias-o:fieldReview |
-| Reviewer decision | nias-o:reviewerDecision |
-| Reviewer feedback | nias-o:reviewerFeedback |
-| Workflow submission evidence | nias-o:hasWorkflowSubmission |
-| Consensus message | nias-o:workflowSubmissionConsensusMessage |
-| VVS requirement implementation | nias-o:implementedByShape |
+### Review document type
+rdf:type
+
+### Document schema
+nias-o:documentSchema
+
+### Document author
+nias-o:documentAuthor
+
+### Document IPFS URI
+nias-o:resourceIpfsUri
+
+### Authenticity proof
+nias-o:authProof
+
+### Final review decision
+nias-o:finalReviewDecision
+
+### Field review
+nias-o:fieldReview
+
+### Reviewer decision
+nias-o:reviewerDecision
+
+### Reviewer feedback
+nias-o:reviewerFeedback
+
+### Workflow submission evidence
+nias-o:hasWorkflowSubmission
+
+### Consensus message
+nias-o:workflowSubmissionConsensusMessage
+
+### VVS requirement implementation
+nias-o:implementedByShape
