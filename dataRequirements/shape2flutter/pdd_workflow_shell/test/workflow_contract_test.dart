@@ -81,7 +81,35 @@ void main() {
     expect(gate.failures, contains('PDD-B validation review is not approved.'));
   });
 
-  test('wrong reviewed document link blocks PDD-CIR', () {
+  test('reviewSeed emits reviewTarget and no fieldKey', () {
+    final workflow = PddWorkflowState();
+
+    for (final step in [
+      PddWorkflowStep.pddA,
+      PddWorkflowStep.pddB,
+      PddWorkflowStep.pddC,
+    ]) {
+      workflow.submit(step, workflow.documentSeed(step));
+    }
+
+    for (final section in ReviewSection.values) {
+      final seed = workflow.reviewSeed(section);
+      final fieldReviews = seed['${NiasTerm.base}fieldReview'] as List<dynamic>;
+      expect(fieldReviews, isNotEmpty);
+
+      for (final entry in fieldReviews) {
+        final review = entry as Map<String, dynamic>;
+        expect(review.containsKey('${NiasTerm.base}fieldKey'), isFalse,
+            reason: 'fieldKey must not appear in reviewSeed output');
+        final target = review['${NiasTerm.base}reviewTarget'];
+        expect(target, isA<Map<String, dynamic>>(),
+            reason: 'reviewTarget must be a structured object');
+        final targetMap = target as Map<String, dynamic>;
+        expect(targetMap['${NiasTerm.base}reviewedArtifact'], isNotNull);
+        expect(targetMap['${NiasTerm.base}reviewedAnchor'], isNotNull);
+      }
+    }
+  });
     final workflow = PddWorkflowState();
     workflow.submit(
       PddWorkflowStep.pddA,

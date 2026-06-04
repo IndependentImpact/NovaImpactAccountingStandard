@@ -149,7 +149,15 @@ required by the PDD-CIR gate.
   "nias-o:fieldReview": [
     {
       "@type": "nias-o:DocumentFieldReview",
-      "nias-o:fieldKey": "title_project",
+      "nias-o:reviewTarget": {
+        "@type": "nias-o:ReviewTarget",
+        "nias-o:reviewedArtifact": {
+          "@id": "nias:documents/{project-slug}/{section}/{source-submission-id}"
+        },
+        "nias-o:reviewedAnchor": {
+          "@id": "nias:documents/{project-slug}/{section}/{source-submission-id}/anchors/{anchor-id}"
+        }
+      },
       "nias-o:fieldTitle": "Project title",
       "nias-o:fieldPrompt": "Provide the project title.",
       "nias-o:originalResponse": "Original field value",

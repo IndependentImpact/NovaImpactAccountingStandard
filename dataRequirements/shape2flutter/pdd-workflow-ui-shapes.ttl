@@ -1113,14 +1113,36 @@ nias-ui:PddCertificateIssuanceRequestUiShape a sh:NodeShape ;
         ui:order 10 ;
     ] .
 
+nias-ui:ReviewTargetUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ReviewTarget ;
+    sh:property [
+        sh:path nias-o:reviewedArtifact ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed artifact IRI" ;
+        ui:help "IRI of the exact PDD, monitoring report, or other reviewed artifact version." ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedAnchor ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed anchor IRI" ;
+        ui:help "IRI of the concrete artifact anchor being reviewed." ;
+        ui:order 2 ;
+    ] .
+
 nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
     sh:targetClass nias-o:DocumentFieldReview ;
     sh:property [
-        sh:path nias-o:fieldKey ;
-        sh:datatype xsd:string ;
+        sh:path nias-o:reviewTarget ;
+        sh:node nias-ui:ReviewTargetUiShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Field key" ;
+        ui:label "Review target" ;
+        ui:widget ui:subform ;
         ui:order 1 ;
     ] ;
     sh:property [
