@@ -19,6 +19,7 @@ ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
 ]
+SHA256_HASH_PATTERN = r"^sha256:[a-f0-9]{64}$"
 
 
 class MonitoringReportRenderingTests(unittest.TestCase):
@@ -173,10 +174,7 @@ class MonitoringReportRenderingTests(unittest.TestCase):
                         anchor["dcterms:isPartOf"]["@id"],
                         metadata_payload["@id"],
                     )
-                    self.assertRegex(
-                        anchor["nias:contentHash"],
-                        r"^sha256:[a-f0-9]{64}$",
-                    )
+                    self.assertRegex(anchor["nias:contentHash"], SHA256_HASH_PATTERN)
 
             metadata_graph = Graph()
             metadata_graph.parse(metadata, format="json-ld")

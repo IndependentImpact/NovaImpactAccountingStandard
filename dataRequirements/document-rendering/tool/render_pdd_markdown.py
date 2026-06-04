@@ -1071,7 +1071,7 @@ def _load_anchor_definitions(path: Path):
         source_path = graph.value(subject, NIAS.sourcePath)
         render_order = graph.value(subject, NIAS.renderOrder)
         if key is None or title is None or source_shape is None or render_order is None:
-            raise ValueError(f"PDD anchor definition {subject} is incomplete.")
+            raise ValueError(f"Anchor definition {subject} is incomplete.")
         definitions.append(
             {
                 "id": str(subject),
@@ -1104,7 +1104,7 @@ def _markdown_section_for_heading(markdown: str, title: str):
         break
 
     if start_index is None or heading_level is None:
-        raise ValueError(f"Rendered PDD is missing anchor heading: {title}")
+        raise ValueError(f"Rendered document is missing anchor heading: {title}")
 
     end_index = len(lines)
     next_heading_pattern = re.compile(r"^(#{1,6})\s+.+$")
