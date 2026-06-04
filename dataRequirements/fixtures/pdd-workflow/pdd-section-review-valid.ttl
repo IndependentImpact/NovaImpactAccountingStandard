@@ -1,4 +1,5 @@
 @prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix hedera: <https://hashgraphontology.xyz/core/> .
 @prefix infocomm: <http://w3id.org/infocomm#> .
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
@@ -58,3 +59,10 @@
 
 <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd>
     a nias-o:Workflow .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .

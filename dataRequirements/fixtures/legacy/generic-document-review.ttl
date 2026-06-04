@@ -1,4 +1,5 @@
 @prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix hedera: <https://hashgraphontology.xyz/core/> .
 @prefix infocomm: <http://w3id.org/infocomm#> .
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
@@ -63,3 +64,10 @@
     hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
     hedera:hasSequenceNumber 5 ;
     hedera:hasConsensusTimestamp "2026-04-02T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1>
+    a data:Document .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1/anchors/pdd.sectionA.projectPurpose>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> .

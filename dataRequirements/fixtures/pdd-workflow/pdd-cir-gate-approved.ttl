@@ -1,4 +1,5 @@
 @prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix hedera: <https://hashgraphontology.xyz/core/> .
 @prefix infocomm: <http://w3id.org/infocomm#> .
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
@@ -253,6 +254,18 @@
         ] ;
         hedera:hasConsensusTimestamp "2026-01-06T00:00:00Z"^^xsd:dateTimeStamp
     ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b/anchors/pdd.sectionB.declaredImpacts>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c/anchors/pdd.sectionC.stakeholderCommentSummary>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> .
 
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-cir>
     a nias-o:WorkflowDocumentSubmission ;

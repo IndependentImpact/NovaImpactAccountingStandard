@@ -392,5 +392,39 @@
         "@value": "2026-05-27T11:00:00Z"
       }
     ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-b-report",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd/anchors/pdd.sectionB.declaredImpacts",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/ArtifactAnchor"
+    ],
+    "http://purl.org/dc/terms/isPartOf": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-b-report"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.report.impactSummary",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/ArtifactAnchor"
+    ],
+    "http://purl.org/dc/terms/isPartOf": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report"
+      }
+    ]
   }
 ]
