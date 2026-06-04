@@ -1,0 +1,118 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ArtifactAnchorShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Artifact Anchor SHACL Shapes"@en ;
+    dcterms:description "Stable anchor definitions and artifact-version anchor instances for review, rendering, and linked-artifact traceability."@en .
+
+nias-o:AnchorKeyPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:anchorKey ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[A-Za-z][A-Za-z0-9-]*(\\.[A-Za-z0-9][A-Za-z0-9-]*)*$" ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "An anchor must have exactly one stable dotted anchor key, such as pdd.sectionA.projectPurpose."@en .
+
+nias-o:AnchorTitlePropertyShape a sh:PropertyShape ;
+    sh:path dcterms:title ;
+    sh:or (
+        [ sh:datatype xsd:string ]
+        [ sh:datatype rdf:langString ]
+    ) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "An anchor definition must have exactly one human-readable title."@en .
+
+nias-o:AnchorDefinitionShape a sh:NodeShape ;
+    sh:targetClass nias-o:AnchorDefinition ;
+    sh:property nias-o:AnchorKeyPropertyShape ;
+    sh:property nias-o:AnchorTitlePropertyShape ;
+    sh:property [
+        sh:path nias-o:sourceShape ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An anchor definition must identify the canonical source SHACL shape."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:sourcePath ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "An anchor definition may identify the canonical RDF property path for the reviewable value."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:renderOrder ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An anchor definition must have exactly one deterministic render/review order."@en
+    ] .
+
+nias-o:ArtifactAnchorShape a sh:NodeShape ;
+    sh:targetClass nias-o:ArtifactAnchor ;
+    sh:property nias-o:AnchorKeyPropertyShape ;
+    sh:property [
+        sh:path nias-o:anchorDefinition ;
+        sh:class nias-o:AnchorDefinition ;
+        sh:node nias-o:AnchorDefinitionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor must link to exactly one reusable anchor definition."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:isPartOf ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor must identify the exact artifact version it belongs to."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:sourceNode ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor must identify the RDF node that supplied the anchored content."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:sourcePath ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor may identify the RDF property path that supplied the anchored content."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:renderHeading ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor may preserve the rendered heading used for display."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:contentHash ;
+        sh:datatype xsd:string ;
+        sh:pattern "^(sha256:)?[A-Fa-f0-9]{64}$" ;
+        sh:maxCount 1 ;
+        sh:message "An artifact anchor content hash must be a SHA-256 digest, optionally prefixed with sha256:."@en
+    ] .
+
+nias-o:ReviewedArtifactPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:reviewedArtifact ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "A review target must identify the exact reviewed artifact version."@en .
+
+nias-o:ReviewedAnchorPropertyShape a sh:PropertyShape ;
+    sh:path nias-o:reviewedAnchor ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "A review target must identify the exact reviewed artifact anchor."@en .
+
+nias-o:ReviewTargetShape a sh:NodeShape ;
+    sh:targetClass nias-o:ReviewTarget ;
+    sh:property nias-o:ReviewedArtifactPropertyShape ;
+    sh:property nias-o:ReviewedAnchorPropertyShape .

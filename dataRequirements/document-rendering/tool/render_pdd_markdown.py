@@ -37,6 +37,9 @@ DEFAULT_VALIDATION_ONTOLOGIES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
 ]
+DEFAULT_PDD_ANCHOR_DEFINITIONS = (
+    REPO_ROOT / "dataRequirements/mappings/pdd-anchor-definitions.ttl"
+)
 DEFAULT_PANDOC_PDF_ENGINE = "xelatex"
 
 SH = Namespace("http://www.w3.org/ns/shacl#")
@@ -1057,6 +1060,94 @@ def _sha256_file(path: Path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
+    graph = Graph()
+    graph.parse(str(path), format="turtle")
+    definitions = []
+    for subject in graph.subjects(RDF.type, NIAS.AnchorDefinition):
+        key = graph.value(subject, NIAS.anchorKey)
+        title = graph.value(subject, DCTERMS.title)
+        source_shape = graph.value(subject, NIAS.sourceShape)
+        source_path = graph.value(subject, NIAS.sourcePath)
+        render_order = graph.value(subject, NIAS.renderOrder)
+        if key is None or title is None or source_shape is None or render_order is None:
+            raise ValueError(f"PDD anchor definition {subject} is incomplete.")
+        definitions.append(
+            {
+                "id": str(subject),
+                "key": str(key),
+                "title": str(title),
+                "sourceShape": str(source_shape),
+                "sourcePath": str(source_path) if source_path is not None else None,
+                "renderOrder": int(render_order.toPython()),
+            }
+        )
+    return sorted(definitions, key=lambda item: item["renderOrder"])
+
+
+def _markdown_section_for_heading(markdown: str, title: str):
+    heading_pattern = re.compile(rf"^(#{{2,3}})\s+{re.escape(title)}\s*$")
+    lines = markdown.splitlines()
+    start_index = None
+    heading_level = None
+
+    for index, line in enumerate(lines):
+        match = heading_pattern.match(line.strip())
+        if not match:
+            continue
+        start_index = index
+        heading_level = len(match.group(1))
+        break
+
+    if start_index is None or heading_level is None:
+        raise ValueError(f"Rendered PDD is missing anchor heading: {title}")
+
+    end_index = len(lines)
+    next_heading_pattern = re.compile(r"^(#{1,6})\s+.+$")
+    for index in range(start_index + 1, len(lines)):
+        match = next_heading_pattern.match(lines[index].strip())
+        if match and len(match.group(1)) <= heading_level:
+            end_index = index
+            break
+
+    return "\n".join(lines[start_index:end_index]).strip() + "\n"
+
+
+def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
+    artifact_id = f"urn:nias:{document_id}"
+    anchors = []
+    for definition in _load_pdd_anchor_definitions():
+        section_markdown = _markdown_section_for_heading(
+            rendered_markdown,
+            definition["title"],
+        )
+        definition_node = {
+            "@id": definition["id"],
+            "@type": "nias:AnchorDefinition",
+            "nias:anchorKey": definition["key"],
+            "dcterms:title": definition["title"],
+            "nias:sourceShape": {"@id": definition["sourceShape"]},
+            "nias:renderOrder": definition["renderOrder"],
+        }
+        if definition["sourcePath"] is not None:
+            definition_node["nias:sourcePath"] = {"@id": definition["sourcePath"]}
+
+        anchor = {
+            "@id": f"{artifact_id}:anchors:{definition['key']}",
+            "@type": "nias:ArtifactAnchor",
+            "nias:anchorDefinition": definition_node,
+            "nias:anchorKey": definition["key"],
+            "dcterms:isPartOf": {"@id": artifact_id},
+            "nias:sourceNode": {"@id": artifact_id},
+            "nias:renderHeading": definition["title"],
+            "nias:contentHash": f"sha256:{_sha256_text(section_markdown)}",
+        }
+        if definition["sourcePath"] is not None:
+            anchor["nias:sourcePath"] = {"@id": definition["sourcePath"]}
+        anchors.append(anchor)
+    return anchors
+
+
 def _resolve_pandoc_bin():
     configured = os.environ.get("PANDOC_BIN")
     if configured:
@@ -1482,18 +1573,21 @@ def export_rendered_outputs(
 
     if render_mode == "final":
         metadata_path = output_dir / "pdd.metadata.jsonld"
+        artifact_anchors = _pdd_artifact_anchors(rendered_markdown, document_id)
         metadata_payload = {
             "@context": {
+                "data": "https://jellyfiiish.xyz/ns/",
                 "dcterms": "http://purl.org/dc/terms/",
                 "nias": "https://nova.org.za/novaimpactaccountingstandard/",
             },
             "@id": f"urn:nias:{document_id}",
-            "@type": "dcterms:BibliographicResource",
+            "@type": ["dcterms:BibliographicResource", "data:Document"],
             "dcterms:identifier": document_id,
             "dcterms:source": source_artifact,
             "dcterms:created": generated_at,
             "nias:renderMode": render_mode,
             "nias:artifacts": artifacts,
+            "nias:artifactAnchor": artifact_anchors,
         }
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",

@@ -49,6 +49,14 @@ nias-o:AuthenticityProofMethod a owl:Class ;
     rdfs:subClassOf nias-o:OperationalVocabularyTerm ;
     skos:definition "A method by which the authenticity of a document can be proven."@en .
 
+nias-o:AnchorDefinition a owl:Class ;
+    rdfs:label "AnchorDefinition"@en ;
+    skos:definition "A reusable, schema-level anchor for a reviewable or renderable report section, paragraph, field, or evidence item."@en .
+
+nias-o:ArtifactAnchor a owl:Class ;
+    rdfs:label "ArtifactAnchor"@en ;
+    skos:definition "A version-specific anchor in a concrete document or report artifact."@en .
+
 nias-o:DataParameterMonitoringMode a owl:Class ;
     rdfs:label "DataParameterMonitoringMode"@en ;
     rdfs:subClassOf nias-o:OperationalVocabularyTerm ;
@@ -88,6 +96,10 @@ nias-o:ReviewDecision a owl:Class ;
     rdfs:label "ReviewDecision"@en ;
     rdfs:subClassOf nias-o:OperationalVocabularyTerm ;
     skos:definition "A controlled decision made during document or field review."@en .
+
+nias-o:ReviewTarget a owl:Class ;
+    rdfs:label "ReviewTarget"@en ;
+    skos:definition "A link object identifying the exact artifact version and artifact anchor reviewed by a finding or review activity."@en .
 
 nias-o:ReviewMandate a owl:Class ;
     rdfs:label "ReviewMandate"@en ;
@@ -606,6 +618,30 @@ nias-o:alignedWithPDD a owl:ObjectProperty ;
     rdfs:range data:Document ;
     skos:definition "The project design document (PDD) on which a monitoring report is based."@en .
 
+nias-o:anchorDefinition a owl:ObjectProperty ;
+    rdfs:label "anchorDefinition"@en ;
+    rdfs:domain nias-o:ArtifactAnchor ;
+    rdfs:range nias-o:AnchorDefinition ;
+    skos:definition "Links a version-specific artifact anchor to its reusable schema-level anchor definition."@en .
+
+nias-o:anchorKey a owl:DatatypeProperty ;
+    rdfs:label "anchorKey"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:AnchorDefinition nias-o:ArtifactAnchor ) ] ;
+    rdfs:range xsd:string ;
+    skos:definition "Stable dotted key for a reviewable or renderable artifact anchor."@en .
+
+nias-o:artifactAnchor a owl:ObjectProperty ;
+    rdfs:label "artifactAnchor"@en ;
+    rdfs:domain data:Document ;
+    rdfs:range nias-o:ArtifactAnchor ;
+    skos:definition "A concrete version-specific anchor contained in a rendered or reviewable artifact."@en .
+
+nias-o:contentHash a owl:DatatypeProperty ;
+    rdfs:label "contentHash"@en ;
+    rdfs:domain nias-o:ArtifactAnchor ;
+    rdfs:range xsd:string ;
+    skos:definition "SHA-256 digest of the content represented by an artifact anchor."@en .
+
 nias-o:forPeriod a owl:ObjectProperty ;
     rdfs:label "forPeriod"@en ;
     rdfs:domain [ owl:unionOf ( nias-o:MonitoringReport nias-o:DataLineageReport ) ] ;
@@ -617,6 +653,54 @@ nias-o:hasMonitoringReport a owl:ObjectProperty ;
     rdfs:domain aiao:Project ;
     rdfs:range nias-o:MonitoringReport ;
     skos:definition "A monitoring report associated with a project."@en .
+
+nias-o:renderHeading a owl:DatatypeProperty ;
+    rdfs:label "renderHeading"@en ;
+    rdfs:domain nias-o:ArtifactAnchor ;
+    rdfs:range xsd:string ;
+    skos:definition "Human-readable heading used when the anchored content is rendered."@en .
+
+nias-o:renderOrder a owl:DatatypeProperty ;
+    rdfs:label "renderOrder"@en ;
+    rdfs:domain nias-o:AnchorDefinition ;
+    rdfs:range xsd:integer ;
+    skos:definition "Deterministic order for rendering and review checklist generation."@en .
+
+nias-o:reviewedAnchor a owl:ObjectProperty ;
+    rdfs:label "reviewedAnchor"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:ReviewTarget nias-o:DocumentFieldReview ) ] ;
+    rdfs:range nias-o:ArtifactAnchor ;
+    skos:definition "Identifies the exact artifact anchor reviewed by a review target or field-level review finding."@en .
+
+nias-o:reviewedArtifact a owl:ObjectProperty ;
+    rdfs:label "reviewedArtifact"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:ReviewTarget nias-o:DocumentFieldReview nias-o:DocumentReview ) ] ;
+    rdfs:range data:Document ;
+    skos:definition "Identifies the exact artifact version reviewed by a review target or review finding."@en .
+
+nias-o:reviewTarget a owl:ObjectProperty ;
+    rdfs:label "reviewTarget"@en ;
+    rdfs:domain nias-o:DocumentFieldReview ;
+    rdfs:range nias-o:ReviewTarget ;
+    skos:definition "Link object identifying the reviewed artifact and anchor for a review finding."@en .
+
+nias-o:sourceNode a owl:ObjectProperty ;
+    rdfs:label "sourceNode"@en ;
+    rdfs:domain nias-o:ArtifactAnchor ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "Identifies the RDF node that supplied the anchored content in a concrete artifact version."@en .
+
+nias-o:sourcePath a owl:ObjectProperty ;
+    rdfs:label "sourcePath"@en ;
+    rdfs:domain [ owl:unionOf ( nias-o:AnchorDefinition nias-o:ArtifactAnchor ) ] ;
+    rdfs:range rdf:Property ;
+    skos:definition "Identifies the RDF property path that supplies anchored content when the anchor maps to a property."@en .
+
+nias-o:sourceShape a owl:ObjectProperty ;
+    rdfs:label "sourceShape"@en ;
+    rdfs:domain nias-o:AnchorDefinition ;
+    rdfs:range sh:NodeShape ;
+    skos:definition "Identifies the canonical SHACL node shape that defines the reviewable anchor."@en .
 
 nias-o:certificateNumber a owl:DatatypeProperty ;
     rdfs:label "certificateNumber"@en ;

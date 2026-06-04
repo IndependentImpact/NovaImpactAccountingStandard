@@ -52,7 +52,7 @@ sidecarOutputs:
 
 {{ render: review.decisionRegister }}
 
-## Field Review Findings
+## Anchor Review Findings
 
 {{ render: review.fieldFindings }}
 
@@ -86,7 +86,7 @@ sidecarOutputs:
 | --- | --- | --- | --- |
 | Review package summary | `GenericDocumentReviewShape` / `VerifiedImpactCertificateIssuanceRequestReviewShape` | Title page | `{{ render: titlePage.packageSummary }}` |
 | Review decisions | `GenericDocumentReviewShape` / `VerifiedImpactCertificateIssuanceRequestReviewShape` | Review Decision Register | `{{ render: review.decisionRegister }}` |
-| Field findings | `DocumentFieldReviewShape` | Field Review Findings | `{{ render: review.fieldFindings }}` |
+| Anchor findings | `DocumentFieldReviewShape` / `ReviewTargetShape` | Anchor Review Findings | `{{ render: review.fieldFindings }}` |
 | VVS requirements | `vvs-requirement-shapes.ttl` / `ValidationVerificationStandard.ttl` | VVS Requirement Coverage Summary | `{{ render: vvs.requirementCoverage }}` |
 | Review document envelope | `DocumentShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: review.documentEnvelope }}` |
 | Workflow evidence | `WorkflowDocumentSubmissionShape` / `HederaTopicMessageShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: workflow.consensusEvidence }}` |
@@ -107,7 +107,7 @@ render in appendices or sidecars, not as report content.
 | --- | --- |
 | Review document | One row in the decision register |
 | Review document envelope | Appendix-only provenance row with schema, author, IPFS URI, encryption, and proof metadata |
-| Field review | One row in the findings register |
+| Anchor review | One row in the findings register, linked to a reviewed artifact and artifact anchor |
 | Review decision concept | Human label when available, otherwise compact IRI |
 | Workflow submission | Appendix-only workflow evidence row with subject, parties, and consensus message |
 | VVS requirement | One row per active requirement with shape, anchor, and evidence status |

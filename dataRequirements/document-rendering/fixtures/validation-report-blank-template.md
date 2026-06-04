@@ -39,7 +39,7 @@ Validation Report
 #### Review documents
 **[required]** _[to be populated]_
 
-#### Field reviews
+#### Anchor reviews
 **[required]** _[to be populated]_
 
 #### Final decisions
@@ -76,16 +76,16 @@ Validation Report
 
 ## Review Decision Register
 
-| Review document | Review type | Final decision | Field reviews |
+| Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
-| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[field review count]_ |
+| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[anchor review count]_ |
 
 
-## Field Review Findings
+## Anchor Review Findings
 
-| Review document | Field | Decision | Feedback | Original response |
-| --- | --- | --- | --- | --- |
-| **[required]** _[review document]_ | _[field title]_ | _[field decision]_ | _[reviewer feedback]_ | _[submitted response]_ |
+| Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
+| --- | --- | --- | --- | --- | --- |
+| **[required]** _[review document]_ | _[artifact IRI]_ | _[anchor IRI]_ | _[review decision]_ | _[reviewer feedback]_ | _[anchored content]_ |
 
 
 ## VVS Requirement Coverage Summary
@@ -145,8 +145,17 @@ nias-o:authProof
 ### Final review decision
 nias-o:finalReviewDecision
 
-### Field review
+### Anchor review
 nias-o:fieldReview
+
+### Review target
+nias-o:reviewTarget
+
+### Reviewed artifact
+nias-o:reviewedArtifact
+
+### Reviewed anchor
+nias-o:reviewedAnchor
 
 ### Reviewer decision
 nias-o:reviewerDecision

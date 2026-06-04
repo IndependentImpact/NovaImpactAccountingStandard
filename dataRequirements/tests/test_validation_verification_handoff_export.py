@@ -117,6 +117,13 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                 f"{NIAS}document-schema/GenericDocumentReview-5.0.0",
             )
             self.assertIn(f"{NIAS}hasWorkflowSubmission", review_node)
+            field_node = next(
+                node
+                for node in package
+                if node["@id"] == f"{NIAS}test/handoff-validation-review/field-review-1"
+            )
+            self.assertNotIn(f"{NIAS}fieldKey", field_node)
+            self.assertIn(f"{NIAS}reviewTarget", field_node)
 
     def test_verification_review_form_writes_verification_outputs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -325,7 +332,18 @@ def _review_form_payload(report_type):
         },
         f"{NIAS}fieldReview": [
             {
-                f"{NIAS}fieldKey": f"{report_type}_field",
+                f"{NIAS}reviewTarget": {
+                    f"{NIAS}reviewedArtifact": (
+                        f"{NIAS}test/pdd-artifact-1"
+                        if report_type == "validation"
+                        else f"{NIAS}test/monitoring-report-1"
+                    ),
+                    f"{NIAS}reviewedAnchor": (
+                        f"{NIAS}test/pdd-artifact-1/anchors/pdd.sectionB.declaredImpacts"
+                        if report_type == "validation"
+                        else f"{NIAS}test/monitoring-report-1/anchors/monitoring.report.impactSummary"
+                    ),
+                },
                 f"{NIAS}fieldTitle": f"{report_type.title()} field",
                 f"{NIAS}fieldPrompt": "Review the supplied evidence.",
                 f"{NIAS}originalResponse": "Evidence package submitted.",

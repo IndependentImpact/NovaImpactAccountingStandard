@@ -119,6 +119,11 @@ Final exports also emit:
 - `pdd.metadata.jsonld`
 - `pdd.validation.json`
 
+`pdd.metadata.jsonld` includes concrete `nias:artifactAnchor` entries for the
+rendered PDD body sections. Validation review packages should reference these
+artifact anchor IRIs through `nias:reviewTarget` rather than using legacy field
+keys.
+
 Blank-template and filled-data PDF outputs are still actual PDF files. The
 renderer prefers Pandoc, but falls back to a minimal valid PDF renderer if
 Pandoc cannot produce a PDF.
@@ -237,8 +242,10 @@ python3 dataRequirements/shape2flutter/validation_report/tool/export_validation_
 Use `dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py`
 for the corresponding Verification Report.
 
-Validation and Verification Report bodies render review decisions, field
-findings, and VVS requirement coverage only. Review document-envelope metadata,
+Validation and Verification Report bodies render review decisions, anchor review
+findings, and VVS requirement coverage only. Each finding must identify a
+`nias:reviewTarget` with `nias:reviewedArtifact` and `nias:reviewedAnchor`;
+the renderer displays these as anchor review findings. Review document-envelope metadata,
 workflow submission evidence, source graph hashes, and predicate mappings are
 kept in appendices and final-mode sidecars so the report body does not treat
 legacy `headers` input as substantive content.

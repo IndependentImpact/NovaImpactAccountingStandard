@@ -71,7 +71,11 @@
     nias-o:isReviewOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
     nias-o:fieldReview [
         a nias-o:DocumentFieldReview ;
-        nias-o:fieldKey "title_project" ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
+        ] ;
         nias-o:fieldTitle "Project title" ;
         nias-o:fieldPrompt "Provide the project title." ;
         nias-o:originalResponse "PDD Alpha Solar Irrigation Project" ;
@@ -92,7 +96,11 @@
     nias-o:isReviewOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> ;
     nias-o:fieldReview [
         a nias-o:DocumentFieldReview ;
-        nias-o:fieldKey "impact_declaration" ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b/anchors/pdd.sectionB.declaredImpacts>
+        ] ;
         nias-o:fieldTitle "Impact declaration" ;
         nias-o:fieldPrompt "Provide the expected impact declaration." ;
         nias-o:originalResponse "The project reduces diesel consumption." ;
@@ -113,7 +121,11 @@
     nias-o:isReviewOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> ;
     nias-o:fieldReview [
         a nias-o:DocumentFieldReview ;
-        nias-o:fieldKey "stakeholder_comments" ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c/anchors/pdd.sectionC.stakeholderCommentSummary>
+        ] ;
         nias-o:fieldTitle "Stakeholder comments" ;
         nias-o:fieldPrompt "Summarize stakeholder comments." ;
         nias-o:originalResponse "Stakeholders supported the activity." ;

@@ -52,9 +52,9 @@
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/DocumentFieldReview"
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/fieldKey": [
+    "https://nova.org.za/novaimpactaccountingstandard/reviewTarget": [
       {
-        "@value": "pdd_b_declared_impacts"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-review-target-1"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/fieldTitle": [
@@ -80,6 +80,22 @@
     "https://nova.org.za/novaimpactaccountingstandard/reviewerFeedback": [
       {
         "@value": "The impact declaration is complete for validation."
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-validation-review-target-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/ReviewTarget"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedArtifact": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-b-report"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedAnchor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd/anchors/pdd.sectionB.declaredImpacts"
       }
     ]
   },
@@ -182,9 +198,9 @@
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/DocumentFieldReview"
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/fieldKey": [
+    "https://nova.org.za/novaimpactaccountingstandard/reviewTarget": [
       {
-        "@value": "monitoring_report_impact_summary"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-target-1"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/fieldTitle": [
@@ -210,6 +226,22 @@
     "https://nova.org.za/novaimpactaccountingstandard/reviewerFeedback": [
       {
         "@value": "The verified impact summary is consistent with the monitoring report review."
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-target-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/ReviewTarget"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedArtifact": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedAnchor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.report.impactSummary"
       }
     ]
   },
