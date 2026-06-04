@@ -145,6 +145,44 @@ nias-o:PddSectionCReportShape a sh:NodeShape ;
         sh:message "A PDD-C report must conform to the canonical PDDxC-4.0.0 document schema."@en
     ] .
 
+nias-o:PddReportShape a sh:NodeShape ;
+    sh:targetClass nias-o:PddReport ;
+    sh:node nias-o:ProjectDesignDocumentShape ;
+    sh:property [
+        sh:path nias-o:hasPddSectionA ;
+        sh:class nias-o:PddSectionAReport ;
+        sh:node nias-o:PddSectionAReportShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:order 10 ;
+        sh:message "A canonical composite PDD must include exactly one Section A subcomponent."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:hasPddSectionB ;
+        sh:class nias-o:PddSectionBReport ;
+        sh:node nias-o:PddSectionBReportShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:order 20 ;
+        sh:message "A canonical composite PDD must include exactly one Section B subcomponent."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:hasPddSectionC ;
+        sh:class nias-o:PddSectionCStakeholderEngagement ;
+        sh:node nias-o:PddSectionCShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:order 30 ;
+        sh:message "A canonical composite PDD must include exactly one Section C subcomponent."@en
+    ] ;
+    sh:property [
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDD-1.0.0> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A canonical composite PDD must conform to the canonical PDD-1.0.0 document schema."@en
+    ] .
+
 # ---------------------------------------------------------------------------
 # Document-to-report linking constraint
 # ---------------------------------------------------------------------------

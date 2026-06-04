@@ -248,6 +248,12 @@ nias-o:DocumentShape a sh:NodeShape ;
     sh:targetClass nias-o:PddSectionCStakeholderEngagement ;
     nias-o:validatingShape nias-o:PddSectionCShape .
 
+<https://nova.org.za/novaimpactaccountingstandard/document-schema/PDD-1.0.0>
+    a nias-o:DocumentSchema ;
+    dcterms:title "Project Design Document 1.0.0"@en ;
+    sh:targetClass nias-o:PddReport ;
+    nias-o:validatingShape nias-o:PddReportShape .
+
 <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDCIR-3.0.0>
     a nias-o:DocumentSchema ;
     dcterms:title "PDD Certificate Issuance Request 3.0.0"@en ;
