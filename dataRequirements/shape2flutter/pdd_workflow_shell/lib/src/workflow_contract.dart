@@ -63,6 +63,9 @@ class NiasTerm {
       '${base}stakeholderEngagementModalities';
   static const techMeasType = '${base}techMeasType';
   static const technologyOrMeasure = '${base}technologyOrMeasure';
+  static const reviewTarget = '${base}reviewTarget';
+  static const reviewedArtifact = '${base}reviewedArtifact';
+  static const reviewedAnchor = '${base}reviewedAnchor';
   static const title = '${base}title';
   static const usesMethodology = '${base}usesMethodology';
   static const workflowSubject = '${base}workflowSubject';
@@ -531,7 +534,12 @@ class PddWorkflowState {
     seed['${NiasTerm.base}fieldReview'] = [
       {
         '@type': '${NiasTerm.base}DocumentFieldReview',
-        '${NiasTerm.base}fieldKey': 'section_${section.name}_summary',
+        '${NiasTerm.base}reviewTarget': {
+          '@type': '${NiasTerm.base}ReviewTarget',
+          '${NiasTerm.base}reviewedArtifact': source?.documentIri ?? '',
+          '${NiasTerm.base}reviewedAnchor':
+              '${NiasTerm.base}anchors/section_${section.name}_summary',
+        },
         '${NiasTerm.base}fieldTitle': '${section.label} summary',
         '${NiasTerm.base}fieldPrompt':
             'Review the submitted ${section.label} section.',

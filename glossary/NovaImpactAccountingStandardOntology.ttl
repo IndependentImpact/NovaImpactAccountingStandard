@@ -760,7 +760,9 @@ nias-o:fieldKey a owl:DatatypeProperty ;
     rdfs:label "fieldKey"@en ;
     rdfs:domain nias-o:DocumentFieldReview ;
     rdfs:range xsd:string ;
-    skos:definition "Legacy key of the reviewed document field."@en .
+    owl:deprecated true ;
+    dcterms:isReplacedBy nias-o:reviewTarget ;
+    skos:definition "Deprecated. Legacy key of the reviewed document field. Use nias-o:reviewTarget (with reviewedArtifact and reviewedAnchor) instead."@en .
 
 nias-o:fieldPrompt a owl:DatatypeProperty ;
     rdfs:label "fieldPrompt"@en ;
