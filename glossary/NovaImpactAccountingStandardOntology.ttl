@@ -37,6 +37,8 @@ data:Document rdfs:subClassOf infocomm:Information .
 
 hedera:ConsensusTopic rdfs:subClassOf infocomm:Medium .
 
+meth:Methodology rdfs:subClassOf aiao:Control .
+
 nias-o:OperationalVocabularyTerm a owl:Class ;
     rdfs:label "OperationalVocabularyTerm"@en ;
     rdfs:subClassOf skos:Concept ;
@@ -104,7 +106,8 @@ nias-o:ScoreType a owl:Class ;
 
 nias-o:ScoringRule a owl:Class ;
     rdfs:label "ScoringRule"@en ;
-    rdfs:subClassOf nias-o:ScoringModelTerm ;
+    rdfs:subClassOf nias-o:ScoringModelTerm,
+        aiao:Control ;
     skos:definition "A controlled term identifying a rule or adjustment used in scoring."@en .
 
 nias-o:ScoringUnit a owl:Class ;
@@ -165,7 +168,8 @@ nias-o:DocumentSchema a owl:Class ;
 
 nias-o:DataParameterRequirement a owl:Class ;
     rdfs:label "DataParameterRequirement"@en ;
-    rdfs:subClassOf infocomm:Information ;
+    rdfs:subClassOf infocomm:Information,
+        aiao:Control ;
     skos:definition "A data or parameter requirement used to quantify an impact."@en .
 
 nias-o:Dataset a owl:Class ;
@@ -1215,6 +1219,7 @@ nias-o:workflowSubjectType a owl:ObjectProperty ;
 
 nias-o:ValidationVerificationRequirement a owl:Class ;
     rdfs:label "ValidationVerificationRequirement"@en ;
+    rdfs:subClassOf aiao:Control ;
     skos:definition "An abstract requirement resource within the Validation & Verification Standard, identified by a stable IRI and carrying requirement text, status, and mandate metadata."@en .
 
 nias-o:ValidationRequirement a owl:Class ;
@@ -1255,11 +1260,13 @@ nias-o:derivedFromRule a owl:ObjectProperty ;
 nias-o:validatedAt a owl:ObjectProperty ;
     rdfs:label "validatedAt"@en ;
     rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:subPropertyOf aiao:governs ;
     skos:definition "Links a VVS requirement to the PDD anchor class or resource at which validation is assessed (ex ante)."@en .
 
 nias-o:verifiedBy a owl:ObjectProperty ;
     rdfs:label "verifiedBy"@en ;
     rdfs:domain nias-o:ValidationVerificationRequirement ;
+    rdfs:subPropertyOf aiao:governs ;
     skos:definition "Links a VVS requirement to the DLR or MR anchor class or resource by which verification is assessed (ex post)."@en .
 
 nias-o:hasEvidenceRequirement a owl:ObjectProperty ;

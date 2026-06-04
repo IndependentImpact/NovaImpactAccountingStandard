@@ -1,3 +1,4 @@
+@prefix aiao: <http://w3id.org/aiao#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
@@ -49,85 +50,105 @@ nias-vvs:deprecated a skos:Concept ;
 # ---------------------------------------------------------------------------
 
 # REQ-PDD-001 — PDD-A structural content
-nias-vvs:REQ-PDD-001 a nias-o:ValidationRequirement ;
+nias-vvs:REQ-PDD-001 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-PDD-001" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionAReport ;
+    aiao:governs nias-o:PddSectionAReport ;
     nias-o:implementedByShape nias-o:ReqPdd001Shape ;
     rdfs:label "REQ-PDD-001: PDD Section A structural completeness"@en ;
     skos:definition "A PDD Section A report must declare the project title, the project developer agent, and at least one project activity. All mandatory structural fields must be present and non-empty."@en .
 
 # REQ-PDD-002 — PDD-B impact declaration
-nias-vvs:REQ-PDD-002 a nias-o:ValidationRequirement ;
+nias-vvs:REQ-PDD-002 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-PDD-002" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionBReport ;
+    aiao:governs nias-o:PddSectionBReport ;
     nias-o:implementedByShape nias-o:ReqPdd002Shape ;
     rdfs:label "REQ-PDD-002: PDD Section B impact declaration completeness"@en ;
     skos:definition "Each impact declared in PDD Section B must reference a quantification methodology, declare an impact benefit classification, and include an estimated impact quantity with a unit of measurement."@en .
 
 # REQ-PDD-003 — PDD-C schema anchoring
-nias-vvs:REQ-PDD-003 a nias-o:ValidationRequirement ;
+nias-vvs:REQ-PDD-003 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-PDD-003" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionCReport ;
     nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:PddSectionCReport,
+        nias-o:MonitoringReport ;
     nias-o:implementedByShape nias-o:ReqPdd003Shape ;
     rdfs:label "REQ-PDD-003: PDD Section C schema conformance"@en ;
     skos:definition "A PDD Section C report must identify the canonical PDDxC document schema to ensure implementation and monitoring planning content is versioned against the approved standard form."@en .
 
 # REQ-DLR-001 — DLR evidence lineage
-nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement ;
+nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-DLR-001" ;
     nias-o:reviewMandate nias-cs:verification ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:verifiedBy nias-o:DataLineageReport ;
+    aiao:governs nias-o:DataLineageReport ;
     nias-o:implementedByShape nias-o:ReqDlr001Shape ;
     rdfs:label "REQ-DLR-001: Data Lineage Report evidence traceability"@en ;
     skos:definition "Every data parameter recorded in a Data Lineage Report must include a traceable provenance reference linking the measured value to its source dataset and collection method."@en .
 
 # REQ-DLR-002 — DLR final dataset traceability
-nias-vvs:REQ-DLR-002 a nias-o:VerificationRequirement ;
+nias-vvs:REQ-DLR-002 a nias-o:VerificationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-DLR-002" ;
     nias-o:reviewMandate nias-cs:verification ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionBReport ;
     nias-o:verifiedBy nias-o:DataLineageReport ;
+    aiao:governs nias-o:PddSectionBReport,
+        nias-o:DataLineageReport ;
     nias-o:implementedByShape nias-o:ReqDlr002Shape ;
     rdfs:label "REQ-DLR-002: Data Lineage Report final dataset artifact"@en ;
     skos:definition "A Data Lineage Report must reference a final dataset artifact so that post-cleaning and post-transfer outputs remain auditable for downstream verification and issuance workflows."@en .
 
 # REQ-MR-001 — MR measured observation
-nias-vvs:REQ-MR-001 a nias-o:VerificationRequirement ;
+nias-vvs:REQ-MR-001 a nias-o:VerificationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-MR-001" ;
     nias-o:reviewMandate nias-cs:verification ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:MonitoringReport ;
     nias-o:implementedByShape nias-o:ReqMr001Shape ;
     rdfs:label "REQ-MR-001: Monitoring Report measured impact observation"@en ;
     skos:definition "Each measured impact in a Monitoring Report must reference the corresponding PDD Section B impact declaration and record an observed impact quantity with a consistent unit of measurement."@en .
 
 # REQ-MR-002 — MR issuance target declaration
-nias-vvs:REQ-MR-002 a nias-o:VerificationRequirement ;
+nias-vvs:REQ-MR-002 a nias-o:VerificationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-MR-002" ;
     nias-o:reviewMandate nias-cs:verification ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionBReport ;
     nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:PddSectionBReport,
+        nias-o:MonitoringReport ;
     nias-o:implementedByShape nias-o:ReqMr002Shape ;
     rdfs:label "REQ-MR-002: Monitoring Report issuance account declaration"@en ;
     skos:definition "A Monitoring Report must declare the requested issuance account identifier so verified impact outcomes can be linked to the intended issuance destination in a deterministic way."@en .
 
 # REQ-CROSS-001 — Cross-artifact traceability
-nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement ;
+nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement,
+        aiao:Control ;
     nias-o:requirementId "REQ-CROSS-001" ;
     nias-o:reviewMandate nias-cs:verification ;
     nias-o:requirementStatus nias-vvs:active ;
     nias-o:validatedAt nias-o:PddSectionBReport ;
     nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:PddSectionBReport,
+        nias-o:MonitoringReport ;
     nias-o:implementedByShape nias-o:ReqCross001Shape ;
     rdfs:label "REQ-CROSS-001: Cross-artifact impact traceability"@en ;
     skos:definition "Every measured impact reported in a Monitoring Report must be traceable to an impact declared in the corresponding validated PDD, enabling end-to-end traceability from ex-ante declaration to ex-post measurement."@en .
@@ -136,32 +157,63 @@ nias-vvs:REQ-CROSS-001 a nias-o:VerificationRequirement ;
 # Phase 5 governance and deprecation terms
 # ---------------------------------------------------------------------------
 
-nias-vvs:TERM-PDD-METADATA-001 a nias-o:ValidationRequirement ;
+nias-vvs:TERM-PDD-METADATA-001 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "TERM-PDD-METADATA-001" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:deprecated ;
     nias-o:validatedAt nias-o:PddSectionAReport ;
+    aiao:governs nias-o:PddSectionAReport ;
     owl:deprecated true ;
     dcterms:isReplacedBy nias-vvs:REQ-PDD-001 ;
     rdfs:label "TERM-PDD-METADATA-001: Legacy PDD Section A metadata validation term"@en ;
     skos:definition "Superseded metadata-centric validation term for PDD Section A completeness. Replaced by requirement-centric control REQ-PDD-001."@en .
 
-nias-vvs:TERM-PDD-METADATA-002 a nias-o:ValidationRequirement ;
+nias-vvs:TERM-PDD-METADATA-002 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "TERM-PDD-METADATA-002" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:deprecated ;
     nias-o:validatedAt nias-o:PddSectionBReport ;
+    aiao:governs nias-o:PddSectionBReport ;
     owl:deprecated true ;
     dcterms:isReplacedBy nias-vvs:REQ-PDD-002 ;
     rdfs:label "TERM-PDD-METADATA-002: Legacy PDD Section B metadata validation term"@en ;
     skos:definition "Superseded metadata-centric validation term for PDD Section B impact declaration checks. Replaced by requirement-centric control REQ-PDD-002."@en .
 
-nias-vvs:TERM-PDD-METADATA-003 a nias-o:ValidationRequirement ;
+nias-vvs:TERM-PDD-METADATA-003 a nias-o:ValidationRequirement,
+        aiao:Control ;
     nias-o:requirementId "TERM-PDD-METADATA-003" ;
     nias-o:reviewMandate nias-cs:validation ;
     nias-o:requirementStatus nias-vvs:deprecated ;
     nias-o:validatedAt nias-o:PddSectionCReport ;
+    aiao:governs nias-o:PddSectionCReport ;
     owl:deprecated true ;
     dcterms:isReplacedBy nias-vvs:REQ-PDD-003 ;
     rdfs:label "TERM-PDD-METADATA-003: Legacy PDD Section C metadata validation term"@en ;
     skos:definition "Superseded metadata-centric validation term for PDD Section C schema checks. Replaced by requirement-centric control REQ-PDD-003."@en .
+
+nias-o:PddSectionAReport aiao:isGovernedBy
+        nias-vvs:REQ-PDD-001,
+        nias-vvs:TERM-PDD-METADATA-001 .
+
+nias-o:PddSectionBReport aiao:isGovernedBy
+        nias-vvs:REQ-PDD-002,
+        nias-vvs:REQ-DLR-002,
+        nias-vvs:REQ-MR-002,
+        nias-vvs:REQ-CROSS-001,
+        nias-vvs:TERM-PDD-METADATA-002 .
+
+nias-o:PddSectionCReport aiao:isGovernedBy
+        nias-vvs:REQ-PDD-003,
+        nias-vvs:TERM-PDD-METADATA-003 .
+
+nias-o:DataLineageReport aiao:isGovernedBy
+        nias-vvs:REQ-DLR-001,
+        nias-vvs:REQ-DLR-002 .
+
+nias-o:MonitoringReport aiao:isGovernedBy
+        nias-vvs:REQ-PDD-003,
+        nias-vvs:REQ-MR-001,
+        nias-vvs:REQ-MR-002,
+        nias-vvs:REQ-CROSS-001 .
