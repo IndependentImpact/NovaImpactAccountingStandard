@@ -54,6 +54,9 @@
 <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1>
     a nias-o:PlatformUser .
 
+<https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1>
+    a nias-o:PlatformUser .
+
 <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry>
     a infocomm:CommunicationParty .
 
@@ -61,8 +64,44 @@
     a nias-o:Workflow .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a>
-    a data:Document .
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafypddsectiona"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a> .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Submit PDD section A"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-03T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionA.projectPurpose>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:title "Project title" ;
+    nias-o:sourceShape nias-o:PddSectionAReportShape ;
+    nias-o:renderOrder 110 .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
     a nias-o:ArtifactAnchor ;
-    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionA.projectPurpose> ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .

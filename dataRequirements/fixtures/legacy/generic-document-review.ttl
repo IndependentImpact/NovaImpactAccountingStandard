@@ -66,8 +66,46 @@
     hedera:hasConsensusTimestamp "2026-04-02T00:00:00Z"^^xsd:dateTimeStamp .
 
 <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1>
-    a data:Document .
+    a data:Document ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxA-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafygenericrevieweddocument"^^xsd:anyURI ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-submission-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-submission-1>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/test/review-workflow> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Submit reviewed document"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/test/project-1> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/test/registry-1> ;
+    nias-o:workflowSubmissionConsensusMessage <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-message-1> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-message-1>
+    a hedera:TopicMessage ;
+    hedera:inTopic <https://nova.org.za/novaimpactaccountingstandard/test/topic-1> ;
+    hedera:hasSequenceNumber 4 ;
+    hedera:hasConsensusTimestamp "2026-04-01T00:00:00Z"^^xsd:dateTimeStamp .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/project-developer-1>
+    a nias-o:PlatformUser .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/pdd.sectionA.projectPurpose>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:title "Project Title" ;
+    nias-o:sourceShape nias-o:PddSectionAReportShape ;
+    nias-o:renderOrder 110 .
 
 <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1/anchors/pdd.sectionA.projectPurpose>
     a nias-o:ArtifactAnchor ;
-    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> .
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/pdd.sectionA.projectPurpose> ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> .

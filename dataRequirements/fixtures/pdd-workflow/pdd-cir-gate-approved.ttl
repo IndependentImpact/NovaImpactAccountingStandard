@@ -255,17 +255,47 @@
         hedera:hasConsensusTimestamp "2026-01-06T00:00:00Z"^^xsd:dateTimeStamp
     ] .
 
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionA.projectPurpose>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:title "Project title" ;
+    nias-o:sourceShape nias-o:PddSectionAReportShape ;
+    nias-o:renderOrder 110 .
+
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionB.declaredImpacts>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.declaredImpacts" ;
+    dcterms:title "Impact declaration" ;
+    nias-o:sourceShape nias-o:PddSectionBReportShape ;
+    nias-o:renderOrder 210 .
+
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionC.stakeholderCommentSummary>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionC.stakeholderCommentSummary" ;
+    dcterms:title "Stakeholder comments" ;
+    nias-o:sourceShape nias-o:PddSectionCReportShape ;
+    nias-o:renderOrder 310 .
+
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
     a nias-o:ArtifactAnchor ;
-    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionA.projectPurpose> ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b/anchors/pdd.sectionB.declaredImpacts>
     a nias-o:ArtifactAnchor ;
-    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> .
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionB.declaredImpacts> ;
+    nias-o:anchorKey "pdd.sectionB.declaredImpacts" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-b> .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c/anchors/pdd.sectionC.stakeholderCommentSummary>
     a nias-o:ArtifactAnchor ;
-    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> .
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionC.stakeholderCommentSummary> ;
+    nias-o:anchorKey "pdd.sectionC.stakeholderCommentSummary" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> .
 
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-cir>
     a nias-o:WorkflowDocumentSubmission ;

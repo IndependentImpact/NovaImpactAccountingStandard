@@ -129,6 +129,128 @@ def _topic_iri_from_value(value, topic_id):
     return _node_id(f"topics/{topic_id}")
 
 
+def _anchor_key_from_iri(anchor_iri):
+    if not anchor_iri:
+        return None
+    text = str(anchor_iri)
+    if "/anchors/" in text:
+        return text.split("/anchors/", 1)[1]
+    return _local_label(text)
+
+
+def _build_review_target_support_nodes(
+    args,
+    review_id,
+    field_id,
+    index,
+    reviewed_artifact,
+    reviewed_anchor,
+    field_title,
+    generated_at,
+):
+    if not reviewed_artifact and not reviewed_anchor:
+        return []
+
+    support_id = f"{field_id}/support"
+    artifact_submission_id = f"{support_id}/reviewed-artifact-submission"
+    artifact_step_id = f"{support_id}/reviewed-artifact-step"
+    artifact_message_id = f"{artifact_submission_id}/consensus-message"
+    topic_id = args.topic_id
+    topic_iri = _node_id(f"topics/{topic_id}")
+    workflow_id = _node_id("workflows/review-target-support")
+    submitted_by = _iri(args.submitted_by, args.document_author)
+    recipient = _iri(args.recipient, _node_id("registry/nova-registry"))
+
+    nodes = [
+        {"@id": workflow_id, "@type": [f"{NIAS}Workflow"]},
+        {
+            "@id": artifact_step_id,
+            "@type": [f"{NIAS}WorkflowStep"],
+            f"{RDFS}label": _literal_value("Capture reviewed artifact support"),
+        },
+        {"@id": submitted_by, "@type": [f"{NIAS}PlatformUser"]},
+        {"@id": recipient, "@type": [f"{INFOCOMM}CommunicationParty"]},
+        {
+            "@id": topic_iri,
+            "@type": [f"{HEDERA}ConsensusTopic"],
+            f"{HEDERA}hasTopicId": _literal_value(topic_id),
+        },
+        {
+            "@id": artifact_message_id,
+            "@type": [f"{HEDERA}TopicMessage"],
+            f"{HEDERA}inTopic": _iri_value(topic_iri),
+            f"{HEDERA}hasConsensusTimestamp": _literal_value(
+                generated_at, datatype=f"{XSD}dateTimeStamp"
+            ),
+            f"{HEDERA}hasSequenceNumber": _literal_value(
+                index, datatype=f"{XSD}integer"
+            ),
+        },
+    ]
+
+    if reviewed_artifact:
+        nodes.extend(
+            [
+                {
+                    "@id": reviewed_artifact,
+                    "@type": [f"{DATA}Document"],
+                    f"{NIAS}documentSchema": _iri_value(
+                        f"{NIAS}document-schema/ReviewedArtifact-1.0.0"
+                    ),
+                    f"{NIAS}isEncrypted": _literal_value(False),
+                    f"{NIAS}documentAuthor": _iri_value(args.document_author),
+                    f"{NIAS}authProof": _iri_value(args.auth_proof),
+                    f"{NIAS}resourceIpfsUri": _literal_value(
+                        f"ipfs://review-target-support-{index}",
+                        datatype=f"{XSD}anyURI",
+                    ),
+                    f"{NIAS}hasWorkflowSubmission": _iri_value(artifact_submission_id),
+                },
+                {
+                    "@id": artifact_submission_id,
+                    "@type": [f"{NIAS}WorkflowDocumentSubmission"],
+                    f"{NIAS}submittedDocument": _iri_value(reviewed_artifact),
+                    f"{NIAS}workflow": _iri_value(workflow_id),
+                    f"{NIAS}workflowStep": _iri_value(artifact_step_id),
+                    f"{NIAS}workflowSubject": _iri_value(args.workflow_subject),
+                    f"{NIAS}workflowDocumentSubmittedBy": _iri_value(submitted_by),
+                    f"{NIAS}workflowDocumentRecipient": _iri_value(recipient),
+                    f"{NIAS}workflowSubmissionConsensusMessage": _iri_value(
+                        artifact_message_id
+                    ),
+                },
+            ]
+        )
+
+    if reviewed_anchor:
+        anchor_key = _anchor_key_from_iri(reviewed_anchor)
+        anchor_definition_id = f"{support_id}/anchor-definition"
+        anchor_definition = {
+            "@id": anchor_definition_id,
+            "@type": [f"{NIAS}AnchorDefinition"],
+            f"{NIAS}anchorKey": _literal_value(anchor_key),
+            "http://purl.org/dc/terms/title": _literal_value(
+                field_title or _local_label(anchor_key)
+            ),
+            f"{NIAS}sourceShape": _iri_value(f"{NIAS}ReviewTargetShape"),
+            f"{NIAS}renderOrder": _literal_value(index, datatype=f"{XSD}integer"),
+        }
+        anchor_node = {
+            "@id": reviewed_anchor,
+            "@type": [f"{NIAS}ArtifactAnchor"],
+            f"{NIAS}anchorDefinition": _iri_value(anchor_definition_id),
+            f"{NIAS}anchorKey": _literal_value(anchor_key),
+            f"{NIAS}sourceNode": _iri_value(reviewed_artifact or review_id),
+        }
+        if reviewed_artifact:
+            anchor_node["http://purl.org/dc/terms/isPartOf"] = _iri_value(
+                reviewed_artifact
+            )
+        nodes.extend([anchor_definition, anchor_node])
+
+    return nodes
+
+
 def _bool_arg(value):
     return str(value).strip().lower() in {"true", "1", "yes"}
 
@@ -143,9 +265,10 @@ def _review_id(args, payload, index):
     return _node_id(f"review-packages/{args.report_type}-review-{index}")
 
 
-def _build_field_review_nodes(payload, review_id):
+def _build_field_review_nodes(args, payload, review_id, generated_at):
     nodes = []
     references = []
+    support_nodes = []
     for index, raw_field in enumerate(_as_list(payload.get(f"{NIAS}fieldReview")), start=1):
         if not isinstance(raw_field, dict):
             continue
@@ -168,17 +291,23 @@ def _build_field_review_nodes(payload, review_id):
             "@id": target_id,
             "@type": [f"{NIAS}ReviewTarget"],
         }
+        reviewed_artifact = _string(
+            raw_target.get(f"{NIAS}reviewedArtifact")
+            or raw_field.get(f"{NIAS}reviewedArtifact")
+        )
+        reviewed_anchor = _string(
+            raw_target.get(f"{NIAS}reviewedAnchor")
+            or raw_field.get(f"{NIAS}reviewedAnchor")
+        )
         _optional_iri(
             target_node,
             f"{NIAS}reviewedArtifact",
-            raw_target.get(f"{NIAS}reviewedArtifact")
-            or raw_field.get(f"{NIAS}reviewedArtifact"),
+            reviewed_artifact,
         )
         _optional_iri(
             target_node,
             f"{NIAS}reviewedAnchor",
-            raw_target.get(f"{NIAS}reviewedAnchor")
-            or raw_field.get(f"{NIAS}reviewedAnchor"),
+            reviewed_anchor,
         )
         node[f"{NIAS}reviewTarget"] = _iri_value(target_id)
         _optional_literal(node, f"{NIAS}fieldTitle", raw_field.get(f"{NIAS}fieldTitle"))
@@ -191,7 +320,19 @@ def _build_field_review_nodes(payload, review_id):
             raw_field.get(f"{NIAS}reviewerFeedback"),
         )
         nodes.extend([node, target_node])
-    return references, nodes
+        support_nodes.extend(
+            _build_review_target_support_nodes(
+                args,
+                review_id,
+                field_id,
+                index,
+                reviewed_artifact,
+                reviewed_anchor,
+                _string(raw_field.get(f"{NIAS}fieldTitle")),
+                generated_at,
+            )
+        )
+    return references, nodes, support_nodes
 
 
 def _build_workflow_nodes(args, payload, review_id, index, generated_at):
@@ -279,10 +420,22 @@ def _build_workflow_nodes(args, payload, review_id, index, generated_at):
 
 def build_review_package(args, generated_at):
     graph = []
+    seen = set()
+
+    def add_nodes(*nodes):
+        for node in nodes:
+            node_id = node.get("@id")
+            if node_id in seen:
+                continue
+            seen.add(node_id)
+            graph.append(node)
+
     for index, review_path in enumerate(args.review_json, start=1):
         payload = _load_json(review_path)
         review_id = _review_id(args, payload, index)
-        field_refs, field_nodes = _build_field_review_nodes(payload, review_id)
+        field_refs, field_nodes, support_nodes = _build_field_review_nodes(
+            args, payload, review_id, generated_at
+        )
         submission_id, workflow_nodes = _build_workflow_nodes(
             args, payload, review_id, index, generated_at
         )
@@ -311,7 +464,7 @@ def build_review_package(args, generated_at):
                 payload.get(f"{NIAS}requestedIssuanceAccountId"),
             )
 
-        graph.extend([review_node, *field_nodes, *workflow_nodes])
+        add_nodes(review_node, *field_nodes, *support_nodes, *workflow_nodes)
     return graph
 
 
