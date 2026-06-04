@@ -9,6 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 SHAPE_FILES = [
     REPO_ROOT / "dataRequirements/common-shapes.ttl",
+    REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl",
     REPO_ROOT / "dataRequirements/project-design-shapes.ttl",
     REPO_ROOT / "dataRequirements/impact-declaration-shapes.ttl",
     REPO_ROOT / "dataRequirements/document-shapes.ttl",

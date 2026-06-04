@@ -183,14 +183,36 @@ nias-ui:ResourceArtifactUiShape a sh:NodeShape ;
         ui:order 1 ;
     ] .
 
+nias-ui:ReviewTargetUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ReviewTarget ;
+    sh:property [
+        sh:path nias-o:reviewedArtifact ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed artifact IRI" ;
+        ui:help "IRI of the exact PDD, monitoring report, or other reviewed artifact version." ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedAnchor ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed anchor IRI" ;
+        ui:help "IRI of the concrete artifact anchor being reviewed." ;
+        ui:order 2 ;
+    ] .
+
 nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
     sh:targetClass nias-o:DocumentFieldReview ;
     sh:property [
-        sh:path nias-o:fieldKey ;
-        sh:datatype xsd:string ;
+        sh:path nias-o:reviewTarget ;
+        sh:node nias-ui:ReviewTargetUiShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Field key" ;
+        ui:label "Review target" ;
+        ui:widget ui:subform ;
         ui:order 1 ;
     ] ;
     sh:property [
@@ -198,7 +220,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Field title" ;
+        ui:label "Reviewed item title" ;
         ui:order 2 ;
     ] ;
     sh:property [
@@ -206,7 +228,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Field prompt" ;
+        ui:label "Review prompt" ;
         ui:widget ui:textarea ;
         ui:order 3 ;
     ] ;
@@ -215,7 +237,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Original response" ;
+        ui:label "Reviewed content" ;
         ui:widget ui:textarea ;
         ui:order 4 ;
     ] ;
@@ -259,7 +281,7 @@ nias-ui:GenericDocumentReviewUiShape a sh:NodeShape ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
-        ui:label "Field reviews" ;
+        ui:label "Anchor reviews" ;
         ui:widget ui:subform ;
         ui:order 2 ;
     ] ;
@@ -289,7 +311,7 @@ nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
-        ui:label "Field reviews" ;
+        ui:label "Anchor reviews" ;
         ui:widget ui:subform ;
         ui:order 2 ;
     ] ;

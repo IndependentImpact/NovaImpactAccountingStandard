@@ -43,7 +43,7 @@ Validation Report
 #### Review documents
 1
 
-#### Field reviews
+#### Anchor reviews
 1
 
 #### Final decisions
@@ -80,16 +80,16 @@ validation-verification-report-input.jsonld
 
 ## Review Decision Register
 
-| Review document | Review type | Final decision | Field reviews |
+| Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
 | vv-validation-review-1 | Validation review | Approve | 1 |
 
 
-## Field Review Findings
+## Anchor Review Findings
 
-| Review document | Field | Decision | Feedback | Original response |
-| --- | --- | --- | --- | --- |
-| vv-validation-review-1 | PDD Section B declared impacts | Approve | The impact declaration is complete for validation. | One beneficial GHG impact is declared with a quantification methodology. |
+| Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
+| --- | --- | --- | --- | --- | --- |
+| vv-validation-review-1 | pdd-b-report | pdd.sectionB.declaredImpacts | Approve | The impact declaration is complete for validation. | One beneficial GHG impact is declared with a quantification methodology. |
 
 
 ## VVS Requirement Coverage Summary
@@ -126,7 +126,7 @@ validation-verification-report-input.jsonld
 validation-verification-report-input.jsonld
 
 ### Input SHA-256
-8af13c57b79c6863cb421ac7a76b65fb49b8238d84619e67136d8e85bb1d3dfd
+98241774c8cecda29727edb5a5c5149b55762d98b47923534f213effb6e14246
 
 ### Evidence JSON-LD 1
 validation-verification-report-evidence.jsonld
@@ -148,14 +148,17 @@ nias-o:documentSchema
 ### Final review decision
 nias-o:finalReviewDecision
 
-### Field review
+### Anchor review
 nias-o:fieldReview
 
-### Field key
-nias-o:fieldKey
+### Review target
+nias-o:reviewTarget
 
-### Field title
-nias-o:fieldTitle
+### Reviewed artifact
+nias-o:reviewedArtifact
+
+### Reviewed anchor
+nias-o:reviewedAnchor
 
 ### Reviewer decision
 nias-o:reviewerDecision

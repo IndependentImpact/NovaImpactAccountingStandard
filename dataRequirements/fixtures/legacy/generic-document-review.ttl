@@ -20,7 +20,11 @@
 
 <https://nova.org.za/novaimpactaccountingstandard/test/generic-field-review-1>
     a nias-o:DocumentFieldReview ;
-    nias-o:fieldKey "title_project" ;
+    nias-o:reviewTarget [
+        a nias-o:ReviewTarget ;
+        nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1> ;
+        nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/test/generic-reviewed-document-1/anchors/pdd.sectionA.projectPurpose>
+    ] ;
     nias-o:fieldTitle "Project Title" ;
     nias-o:fieldPrompt "Title of the project:" ;
     nias-o:originalResponse "Example clean cooking programme" ;

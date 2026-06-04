@@ -47,9 +47,9 @@
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/DocumentFieldReview"
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/fieldKey": [
+    "https://nova.org.za/novaimpactaccountingstandard/reviewTarget": [
       {
-        "@value": "missing_final_decision"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-invalid-review-target-1"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/fieldTitle": [
@@ -75,6 +75,22 @@
     "https://nova.org.za/novaimpactaccountingstandard/reviewerFeedback": [
       {
         "@value": "The review cannot be rendered as final without a final decision."
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/vv-invalid-review-target-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/ReviewTarget"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedArtifact": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-b-report"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reviewedAnchor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd/anchors/pdd.sectionB.declaredImpacts"
       }
     ]
   },

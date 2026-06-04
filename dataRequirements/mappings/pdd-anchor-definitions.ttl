@@ -1,0 +1,128 @@
+@prefix aiao: <http://w3id.org/aiao#> .
+@prefix claimont: <http://w3id.org/claimont#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix impactont: <http://w3id.org/impactont#> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/pdd-anchor-definitions/> a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - PDD Anchor Definitions"@en ;
+    dcterms:description "Canonical stable anchor definitions for the rendered Project Design Document body. These anchors are schema-level targets used to emit concrete artifact anchors for each PDD version and to link validation findings to exact PDD sections."@en .
+
+nias-o:pdd-section-a a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA" ;
+    dcterms:title "Section A. Description Of Project"@en ;
+    nias-o:sourceShape nias-o:PddSectionAReportShape ;
+    nias-o:renderOrder 100 .
+
+nias-o:pdd-section-a-project-purpose a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
+    dcterms:title "A.1 Purpose And General Description"@en ;
+    nias-o:sourceShape nias-o:ObjectiveShape ;
+    nias-o:sourcePath aiao:hasObjective ;
+    nias-o:renderOrder 110 .
+
+nias-o:pdd-section-a-locations a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.locations" ;
+    dcterms:title "A.2 Location Of Project"@en ;
+    nias-o:sourceShape nias-o:SpatialLocationResourceShape ;
+    nias-o:sourcePath impactont:hasSpatialLocation ;
+    nias-o:renderOrder 120 .
+
+nias-o:pdd-section-a-technologies-and-measures a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.technologiesAndMeasures" ;
+    dcterms:title "A.3 Technologies And Measures"@en ;
+    nias-o:sourceShape nias-o:TechnologyOrMeasureShape ;
+    nias-o:sourcePath nias-o:technologyOrMeasure ;
+    nias-o:renderOrder 130 .
+
+nias-o:pdd-section-a-project-parties a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.projectParties" ;
+    dcterms:title "A.4 Project Parties"@en ;
+    nias-o:sourceShape nias-o:ProjectPartyShape ;
+    nias-o:sourcePath nias-o:projectParty ;
+    nias-o:renderOrder 140 .
+
+nias-o:pdd-section-a-legal-funding-history-eligibility a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionA.legalFundingHistoryEligibility" ;
+    dcterms:title "A.5 Legal Matters, Funding, History, And Eligibility"@en ;
+    nias-o:sourceShape nias-o:ProjectDesignShape ;
+    nias-o:sourcePath claimont:hasSubject ;
+    nias-o:renderOrder 150 .
+
+nias-o:pdd-section-b a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB" ;
+    dcterms:title "Section B. Impact Claims And Monitoring"@en ;
+    nias-o:sourceShape nias-o:PddSectionBReportShape ;
+    nias-o:renderOrder 200 .
+
+nias-o:pdd-section-b-methodology-references a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.methodologyReferences" ;
+    dcterms:title "B.1 Methodology References"@en ;
+    nias-o:sourceShape nias-o:PddSectionBReportShape ;
+    nias-o:sourcePath nias-o:usesMethodology ;
+    nias-o:renderOrder 210 .
+
+nias-o:pdd-section-b-declared-impacts a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.declaredImpacts" ;
+    dcterms:title "B.2 Declared Impacts"@en ;
+    nias-o:sourceShape nias-o:ImpactRequirementShape ;
+    nias-o:sourcePath nias-o:hasDeclaredImpact ;
+    nias-o:renderOrder 220 .
+
+nias-o:pdd-section-b-impact-claims a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.impactClaims" ;
+    dcterms:title "B.3 Impact Claims"@en ;
+    nias-o:sourceShape nias-o:ImpactClaimShape ;
+    nias-o:sourcePath nias-o:impactClaim ;
+    nias-o:renderOrder 230 .
+
+nias-o:pdd-section-b-crediting-and-monitoring-periods a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.creditingAndMonitoringPeriods" ;
+    dcterms:title "B.4 Crediting And Monitoring Periods"@en ;
+    nias-o:sourceShape nias-o:ImpactRequirementShape ;
+    nias-o:sourcePath nias-o:hasDeclaredImpact ;
+    nias-o:renderOrder 240 .
+
+nias-o:pdd-section-b-data-parameter-tables a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.dataParameterTables" ;
+    dcterms:title "B.5 Data And Parameter Requirements"@en ;
+    nias-o:sourceShape nias-o:DataParameterRequirementShape ;
+    nias-o:sourcePath nias-o:dataParameterRequirement ;
+    nias-o:renderOrder 250 .
+
+nias-o:pdd-section-b-ex-ante-estimates a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionB.exAnteEstimates" ;
+    dcterms:title "B.6 Ex Ante Estimates"@en ;
+    nias-o:sourceShape nias-o:ImpactRequirementShape ;
+    nias-o:sourcePath nias-o:exAnteImpactEstimate ;
+    nias-o:renderOrder 260 .
+
+nias-o:pdd-section-c a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionC" ;
+    dcterms:title "Section C. Stakeholder Engagement"@en ;
+    nias-o:sourceShape nias-o:PddSectionCShape ;
+    nias-o:renderOrder 300 .
+
+nias-o:pdd-section-c-stakeholder-engagement-modalities a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionC.stakeholderEngagementModalities" ;
+    dcterms:title "C.1 Stakeholder Engagement Modalities"@en ;
+    nias-o:sourceShape nias-o:PddSectionCShape ;
+    nias-o:sourcePath nias-o:stakeholderEngagementModalities ;
+    nias-o:renderOrder 310 .
+
+nias-o:pdd-section-c-stakeholder-comment-summary a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionC.stakeholderCommentSummary" ;
+    dcterms:title "C.2 Stakeholder Comment Summary"@en ;
+    nias-o:sourceShape nias-o:PddSectionCShape ;
+    nias-o:sourcePath nias-o:stakeholderCommentSummary ;
+    nias-o:renderOrder 320 .
+
+nias-o:pdd-section-c-stakeholder-comment-consideration a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionC.stakeholderCommentConsideration" ;
+    dcterms:title "C.3 Stakeholder Comment Consideration"@en ;
+    nias-o:sourceShape nias-o:PddSectionCShape ;
+    nias-o:sourcePath nias-o:stakeholderCommentConsideration ;
+    nias-o:renderOrder 330 .

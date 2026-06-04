@@ -17,7 +17,11 @@
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a-review> ;
     nias-o:fieldReview [
         a nias-o:DocumentFieldReview ;
-        nias-o:fieldKey "title_project" ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
+        ] ;
         nias-o:fieldTitle "Project title" ;
         nias-o:fieldPrompt "Provide the project title." ;
         nias-o:originalResponse "PDD Alpha Solar Irrigation Project" ;

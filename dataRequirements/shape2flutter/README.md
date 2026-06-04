@@ -73,12 +73,18 @@ tool/export_pdd_workflow_markdown.py \
   --output /tmp/pdd.md
 ```
 
+Use `--render-mode final --output-dir /tmp/pdd-export --output-target markdown`
+when the PDD is ready to become the reviewed artifact. The final export writes
+`pdd.metadata.jsonld` with concrete `nias:artifactAnchor` IRIs for the rendered
+PDD sections.
+
 ### Run Validation Only
 
 Use this when a validator is reviewing a specific PDD artifact. The current
 generated preview still uses the shared validation/verification UI shape bundle,
 but it writes to a validation-specific output root and exports through a
-validation-specific command.
+validation-specific command. Anchor review rows should point at the reviewed
+PDD artifact IRI and one of the concrete anchor IRIs from `pdd.metadata.jsonld`.
 
 ```bash
 dataRequirements/shape2flutter/build-validation-report.sh
@@ -139,7 +145,8 @@ Use this when a verifier is reviewing a Monitoring Report or VIC issuance
 request package. The current generated preview still uses the shared
 validation/verification UI shape bundle, but it writes to a
 verification-specific output root and exports through a verification-specific
-command.
+command. Anchor review rows should point at the reviewed Monitoring Report or
+VIC request artifact and the exact artifact anchor being verified.
 
 ```bash
 dataRequirements/shape2flutter/build-verification-report.sh

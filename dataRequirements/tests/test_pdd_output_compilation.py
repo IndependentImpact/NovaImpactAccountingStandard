@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from pyshacl import validate
 from rdflib import Graph
 
 
@@ -15,6 +16,11 @@ VALID_TTL_INPUT = REPO_ROOT / "dataRequirements/fixtures/phase7/impact-monitored
 INVALID_INPUT = (
     REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld"
 )
+ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+ONTOLOGY_FILES = [
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
+]
 
 
 class PddOutputCompilationTests(unittest.TestCase):
@@ -122,6 +128,46 @@ class PddOutputCompilationTests(unittest.TestCase):
                 for artifact in metadata_payload["nias:artifacts"]
             }
             self.assertEqual(artifact_types, {"markdown", "pdf", "website"})
+            anchors = metadata_payload["nias:artifactAnchor"]
+            self.assertEqual(len(anchors), 17)
+            self.assertEqual(
+                anchors[0]["nias:anchorKey"],
+                "pdd.sectionA",
+            )
+            self.assertEqual(
+                anchors[-1]["nias:anchorKey"],
+                "pdd.sectionC.stakeholderCommentConsideration",
+            )
+            for anchor in anchors:
+                with self.subTest(anchor=anchor["nias:anchorKey"]):
+                    self.assertEqual(anchor["@type"], "nias:ArtifactAnchor")
+                    self.assertEqual(
+                        anchor["dcterms:isPartOf"]["@id"],
+                        metadata_payload["@id"],
+                    )
+                    self.assertRegex(
+                        anchor["nias:contentHash"],
+                        r"^sha256:[a-f0-9]{64}$",
+                    )
+
+            metadata_graph = Graph()
+            metadata_graph.parse(metadata, format="json-ld")
+            shape_graph = Graph()
+            shape_graph.parse(ARTIFACT_ANCHOR_SHAPES)
+            ontology_graph = Graph()
+            for ontology_path in ONTOLOGY_FILES:
+                ontology_graph.parse(ontology_path)
+            conforms, _, validation_text = validate(
+                data_graph=metadata_graph,
+                shacl_graph=shape_graph,
+                ont_graph=ontology_graph,
+                inference="none",
+                abort_on_first=False,
+                allow_infos=False,
+                allow_warnings=False,
+                advanced=True,
+            )
+            self.assertTrue(conforms, msg=validation_text)
 
             validation_payload = json.loads(validation.read_text(encoding="utf-8"))
             self.assertEqual(validation_payload["status"], "passed")

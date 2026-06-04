@@ -21,6 +21,7 @@ DEFAULT_VVS_REQUIREMENTS = REPO_ROOT / "glossary/ValidationVerificationStandard.
 DEFAULT_VVS_SHAPES = REPO_ROOT / "dataRequirements/vvs-requirement-shapes.ttl"
 DEFAULT_STRUCTURAL_SHAPES = [
     REPO_ROOT / "dataRequirements/common-shapes.ttl",
+    REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl",
     REPO_ROOT / "dataRequirements/document-shapes.ttl",
     REPO_ROOT / "dataRequirements/document-reference-shapes.ttl",
     REPO_ROOT / "dataRequirements/review-shapes.ttl",
@@ -77,7 +78,13 @@ def _display_value(graph: Graph, node):
             return "Yes" if value else "No"
         return str(value)
     if isinstance(node, URIRef):
-        for predicate in (RDFS.label, SKOS.prefLabel, DCTERMS.title):
+        for predicate in (
+            RDFS.label,
+            SKOS.prefLabel,
+            DCTERMS.title,
+            NIAS.renderHeading,
+            NIAS.anchorKey,
+        ):
             label = graph.value(node, predicate)
             if label is not None:
                 return str(label)
@@ -236,7 +243,7 @@ def _render_blank_directive(directive: str, report_type: str):
             [
                 ("Report type", _report_label(report_type)),
                 ("Review documents", "**[required]** _[to be populated]_"),
-                ("Field reviews", "**[required]** _[to be populated]_"),
+                ("Anchor reviews", "**[required]** _[to be populated]_"),
                 ("Final decisions", "**[required]** _[to be populated]_"),
                 ("VVS evidence targets", "**[required for final]** _[to be populated]_"),
                 ("Generated at", "**[optional]** _[to be populated]_"),
@@ -249,9 +256,9 @@ def _render_blank_directive(directive: str, report_type: str):
         return [r"\tableofcontents"]
     if directive == "review.decisionRegister":
         return [
-            "| Review document | Review type | Final decision | Field reviews |",
+            "| Review document | Review type | Final decision | Anchor reviews |",
             "| --- | --- | --- | ---: |",
-            "| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[field review count]_ |",
+            "| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[anchor review count]_ |",
         ]
     if directive == "review.documentEnvelope":
         return [
@@ -261,9 +268,9 @@ def _render_blank_directive(directive: str, report_type: str):
         ]
     if directive == "review.fieldFindings":
         return [
-            "| Review document | Field | Decision | Feedback | Original response |",
-            "| --- | --- | --- | --- | --- |",
-            "| **[required]** _[review document]_ | _[field title]_ | _[field decision]_ | _[reviewer feedback]_ | _[submitted response]_ |",
+            "| Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |",
+            "| --- | --- | --- | --- | --- | --- |",
+            "| **[required]** _[review document]_ | _[artifact IRI]_ | _[anchor IRI]_ | _[review decision]_ | _[reviewer feedback]_ | _[anchored content]_ |",
         ]
     if directive == "vvs.requirementCoverage":
         return [
@@ -295,7 +302,10 @@ def _render_blank_directive(directive: str, report_type: str):
                 ("Document IPFS URI", "nias-o:resourceIpfsUri"),
                 ("Authenticity proof", "nias-o:authProof"),
                 ("Final review decision", "nias-o:finalReviewDecision"),
-                ("Field review", "nias-o:fieldReview"),
+                ("Anchor review", "nias-o:fieldReview"),
+                ("Review target", "nias-o:reviewTarget"),
+                ("Reviewed artifact", "nias-o:reviewedArtifact"),
+                ("Reviewed anchor", "nias-o:reviewedAnchor"),
                 ("Reviewer decision", "nias-o:reviewerDecision"),
                 ("Reviewer feedback", "nias-o:reviewerFeedback"),
                 ("Workflow submission evidence", "nias-o:hasWorkflowSubmission"),
@@ -498,7 +508,7 @@ def _render_package_summary(
         [
             ("Report type", _report_label(report_type)),
             ("Review documents", len(_review_nodes(display_graph, report_type))),
-            ("Field reviews", len(_all_field_review_nodes(display_graph, report_type))),
+            ("Anchor reviews", len(_all_field_review_nodes(display_graph, report_type))),
             ("Final decisions", _review_decision_counts(display_graph, report_type)),
             ("VVS evidence targets", len(target_subjects)),
             ("Generated at", generated_at),
@@ -511,7 +521,7 @@ def _render_package_summary(
 
 def _render_decision_register(graph: Graph, report_type: str):
     lines = [
-        "| Review document | Review type | Final decision | Field reviews |",
+        "| Review document | Review type | Final decision | Anchor reviews |",
         "| --- | --- | --- | ---: |",
     ]
     for review in _review_nodes(graph, report_type):
@@ -551,24 +561,25 @@ def _render_review_document_envelope(graph: Graph, report_type: str):
 
 def _render_field_findings(graph: Graph, report_type: str):
     lines = [
-        "| Review document | Field | Decision | Feedback | Original response |",
-        "| --- | --- | --- | --- | --- |",
+        "| Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for review, field_review in _all_field_review_nodes(graph, report_type):
-        field_title = _first_value(graph, field_review, NIAS.fieldTitle)
-        field_key = _first_value(graph, field_review, NIAS.fieldKey)
-        field_label = _display_value(graph, field_title) if field_title is not None else _display_value(graph, field_key)
+        review_target = _first_value(graph, field_review, NIAS.reviewTarget)
+        reviewed_artifact = _first_value(graph, review_target, NIAS.reviewedArtifact)
+        reviewed_anchor = _first_value(graph, review_target, NIAS.reviewedAnchor)
         lines.append(
-            "| {review} | {field} | {decision} | {feedback} | {response} |".format(
+            "| {review} | {artifact} | {anchor} | {decision} | {feedback} | {response} |".format(
                 review=_escape(_display_value(graph, review)),
-                field=_escape(field_label),
+                artifact=_escape(_display_value(graph, reviewed_artifact)),
+                anchor=_escape(_display_value(graph, reviewed_anchor)),
                 decision=_escape(_display_value(graph, _first_value(graph, field_review, NIAS.reviewerDecision))),
                 feedback=_escape(_display_value(graph, _first_value(graph, field_review, NIAS.reviewerFeedback))),
                 response=_escape(_display_value(graph, _first_value(graph, field_review, NIAS.originalResponse))),
             )
         )
     if len(lines) == 2:
-        lines.append("| No field reviews supplied. |  |  |  |  |")
+        lines.append("| No anchor reviews supplied. |  |  |  |  |  |")
     return lines
 
 
@@ -687,9 +698,10 @@ def _render_predicate_map():
             ("Review document type", "rdf:type"),
             ("Document schema", "nias-o:documentSchema"),
             ("Final review decision", "nias-o:finalReviewDecision"),
-            ("Field review", "nias-o:fieldReview"),
-            ("Field key", "nias-o:fieldKey"),
-            ("Field title", "nias-o:fieldTitle"),
+            ("Anchor review", "nias-o:fieldReview"),
+            ("Review target", "nias-o:reviewTarget"),
+            ("Reviewed artifact", "nias-o:reviewedArtifact"),
+            ("Reviewed anchor", "nias-o:reviewedAnchor"),
             ("Reviewer decision", "nias-o:reviewerDecision"),
             ("Reviewer feedback", "nias-o:reviewerFeedback"),
             ("Document author", "nias-o:documentAuthor"),
@@ -756,7 +768,7 @@ def render_filled_markdown(
 ):
     front_matter, body = pdd_renderer._read_front_matter_and_body(profile_path)
     review_graph, combined_graph = _parse_inputs(input_path, evidence_paths)
-    display_graph = _load_display_graph(review_graph)
+    display_graph = _load_display_graph(combined_graph)
 
     if render_mode == "final":
         try:

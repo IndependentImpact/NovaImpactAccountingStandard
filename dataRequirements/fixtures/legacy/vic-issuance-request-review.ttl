@@ -21,7 +21,11 @@
 
 <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-field-review-1>
     a nias-o:DocumentFieldReview ;
-    nias-o:fieldKey "summary_impact" ;
+    nias-o:reviewTarget [
+        a nias-o:ReviewTarget ;
+        nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/test/vic-issuance-request-1> ;
+        nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/test/vic-issuance-request-1/anchors/vic.impactSummary>
+    ] ;
     nias-o:fieldTitle "Impact Summary" ;
     nias-o:fieldPrompt "The impact, as per the verified monitoring report:" ;
     nias-o:originalResponse "123.45 tCO2e avoided during Q1 2026." ;

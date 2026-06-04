@@ -158,7 +158,29 @@ def _build_field_review_nodes(payload, review_id):
             "@id": field_id,
             "@type": [f"{NIAS}DocumentFieldReview"],
         }
-        _optional_literal(node, f"{NIAS}fieldKey", raw_field.get(f"{NIAS}fieldKey"))
+
+        raw_target = _first_map(raw_field.get(f"{NIAS}reviewTarget"))
+        target_id = _iri(
+            raw_target.get("@id"),
+            f"{field_id}/review-target",
+        )
+        target_node = {
+            "@id": target_id,
+            "@type": [f"{NIAS}ReviewTarget"],
+        }
+        _optional_iri(
+            target_node,
+            f"{NIAS}reviewedArtifact",
+            raw_target.get(f"{NIAS}reviewedArtifact")
+            or raw_field.get(f"{NIAS}reviewedArtifact"),
+        )
+        _optional_iri(
+            target_node,
+            f"{NIAS}reviewedAnchor",
+            raw_target.get(f"{NIAS}reviewedAnchor")
+            or raw_field.get(f"{NIAS}reviewedAnchor"),
+        )
+        node[f"{NIAS}reviewTarget"] = _iri_value(target_id)
         _optional_literal(node, f"{NIAS}fieldTitle", raw_field.get(f"{NIAS}fieldTitle"))
         _optional_literal(node, f"{NIAS}fieldPrompt", raw_field.get(f"{NIAS}fieldPrompt"))
         _optional_literal(node, f"{NIAS}originalResponse", raw_field.get(f"{NIAS}originalResponse"))
@@ -168,7 +190,7 @@ def _build_field_review_nodes(payload, review_id):
             f"{NIAS}reviewerFeedback",
             raw_field.get(f"{NIAS}reviewerFeedback"),
         )
-        nodes.append(node)
+        nodes.extend([node, target_node])
     return references, nodes
 
 

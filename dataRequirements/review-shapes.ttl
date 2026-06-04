@@ -8,7 +8,8 @@
 nias-o:ReviewShapes a owl:Ontology ;
     dcterms:title "Nova Impact Accounting Standard - Review SHACL Shapes"@en ;
     dcterms:description "Generic and specialized document review shapes for validation and verification workflow screens."@en ;
-    owl:imports nias-o:DocumentShapes .
+    owl:imports nias-o:ArtifactAnchorShapes,
+        nias-o:DocumentShapes .
 
 nias-o:FinalReviewDecisionPropertyShape a sh:PropertyShape ;
     sh:path nias-o:finalReviewDecision ;
@@ -29,37 +30,38 @@ nias-o:FieldReviewDecisionPropertyShape a sh:PropertyShape ;
     ) ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
-    sh:message "A field review decision must be one of the legacy review decision concepts."@en .
+    sh:message "A review finding decision must be one of the review decision concepts."@en .
 
 nias-o:DocumentFieldReviewShape a sh:NodeShape ;
     sh:targetClass nias-o:DocumentFieldReview ;
     sh:property [
-        sh:path nias-o:fieldKey ;
-        sh:datatype xsd:string ;
+        sh:path nias-o:reviewTarget ;
+        sh:class nias-o:ReviewTarget ;
+        sh:node nias-o:ReviewTargetShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A field review must include the reviewed field key."@en ;
+        sh:message "A review finding must identify the reviewed artifact and anchor."@en ;
     ] ;
     sh:property [
         sh:path nias-o:fieldTitle ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A field review must include the reviewed field title."@en ;
+        sh:message "A review finding must include a short reviewed item title."@en ;
     ] ;
     sh:property [
         sh:path nias-o:fieldPrompt ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A field review must include the original field prompt."@en ;
+        sh:message "A review finding must include the review prompt or criterion."@en ;
     ] ;
     sh:property [
         sh:path nias-o:originalResponse ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A field review must include the original response."@en ;
+        sh:message "A review finding must include the reviewed response or anchored content."@en ;
     ] ;
     sh:property nias-o:FieldReviewDecisionPropertyShape ;
     sh:property [
@@ -67,7 +69,7 @@ nias-o:DocumentFieldReviewShape a sh:NodeShape ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "A field review must include reviewer feedback."@en ;
+        sh:message "A review finding must include reviewer feedback."@en ;
     ] .
 
 nias-o:DocumentReviewShape a sh:NodeShape ;
@@ -85,7 +87,7 @@ nias-o:DocumentReviewShape a sh:NodeShape ;
         sh:class nias-o:DocumentFieldReview ;
         sh:node nias-o:DocumentFieldReviewShape ;
         sh:minCount 1 ;
-        sh:message "A document review must include at least one field review."@en ;
+        sh:message "A document review must include at least one anchor review finding."@en ;
     ] ;
     sh:property nias-o:FinalReviewDecisionPropertyShape .
 
