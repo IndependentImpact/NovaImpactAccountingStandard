@@ -110,6 +110,8 @@ void main() {
       }
     }
   });
+
+  test('wrong reviewed document link blocks PDD-CIR', () {
     final workflow = PddWorkflowState();
     workflow.submit(
       PddWorkflowStep.pddA,
