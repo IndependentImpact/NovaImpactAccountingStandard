@@ -203,6 +203,29 @@ older local scripts:
 
 - `dataRequirements/document-rendering/config/validation-verification-export.yaml`
 
+## Monitoring Report Build
+
+```bash
+OUT_ROOT=/tmp/nias-shape2flutter/monitoring-report \
+dataRequirements/shape2flutter/build-monitoring-report.sh
+```
+
+This generates a separate Monitoring Report Flutter form bundle:
+
+- `/tmp/nias-shape2flutter/monitoring-report/schema/forms.jsonld`
+- `/tmp/nias-shape2flutter/monitoring-report/flutter/*.dart`
+
+Preview it with:
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/monitoring-report/schema \
+  --build-dir /tmp/nias-shape2flutter/monitoring-report/flutter \
+  --preview-dir /tmp/nias-shape2flutter/monitoring-report/preview \
+  --port 8083 \
+  --no-browser
+```
+
 ## Validation And Verification Build
 
 ```bash
