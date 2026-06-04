@@ -329,6 +329,11 @@ Deterministic monitoring outputs:
 - `monitoring-report.metadata.jsonld`
 - `monitoring-report.validation.json`
 
+`monitoring-report.metadata.jsonld` now includes concrete
+`nias:artifactAnchor` entries for the canonical monitoring sections so linked
+review and verification packages can target exact rendered Monitoring Report
+anchors instead of legacy field identifiers.
+
 Run the full local workflow regression command:
 
 ```bash

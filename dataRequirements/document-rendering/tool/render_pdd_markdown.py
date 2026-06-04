@@ -1060,7 +1060,7 @@ def _sha256_file(path: Path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
+def _load_anchor_definitions(path: Path):
     graph = Graph()
     graph.parse(str(path), format="turtle")
     definitions = []
@@ -1083,6 +1083,10 @@ def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
             }
         )
     return sorted(definitions, key=lambda item: item["renderOrder"])
+
+
+def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
+    return _load_anchor_definitions(path)
 
 
 def _markdown_section_for_heading(markdown: str, title: str):
@@ -1113,10 +1117,14 @@ def _markdown_section_for_heading(markdown: str, title: str):
     return "\n".join(lines[start_index:end_index]).strip() + "\n"
 
 
-def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
+def _artifact_anchors(
+    rendered_markdown: str,
+    document_id: str,
+    definitions_path: Path,
+):
     artifact_id = f"urn:nias:{document_id}"
     anchors = []
-    for definition in _load_pdd_anchor_definitions():
+    for definition in _load_anchor_definitions(definitions_path):
         section_markdown = _markdown_section_for_heading(
             rendered_markdown,
             definition["title"],
@@ -1146,6 +1154,14 @@ def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
             anchor["nias:sourcePath"] = {"@id": definition["sourcePath"]}
         anchors.append(anchor)
     return anchors
+
+
+def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
+    return _artifact_anchors(
+        rendered_markdown,
+        document_id,
+        DEFAULT_PDD_ANCHOR_DEFINITIONS,
+    )
 
 
 def _resolve_pandoc_bin():

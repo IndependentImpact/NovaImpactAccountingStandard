@@ -17,6 +17,9 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_PROFILE = (
     REPO_ROOT / "dataRequirements/document-rendering/monitoring-report-rendering-profile.md"
 )
+DEFAULT_MONITORING_ANCHOR_DEFINITIONS = (
+    REPO_ROOT / "dataRequirements/mappings/monitoring-anchor-definitions.ttl"
+)
 DEFAULT_STRUCTURAL_SHAPES = [
     REPO_ROOT / "dataRequirements/common-shapes.ttl",
     REPO_ROOT / "dataRequirements/document-reference-shapes.ttl",
@@ -586,6 +589,11 @@ def export_rendered_outputs(
         )
 
     if render_mode == "final":
+        artifact_anchors = pdd_renderer._artifact_anchors(
+            rendered_markdown,
+            document_id,
+            DEFAULT_MONITORING_ANCHOR_DEFINITIONS,
+        )
         metadata_path = output_dir / f"{basename}.metadata.jsonld"
         metadata_payload = {
             "@context": {
@@ -600,6 +608,7 @@ def export_rendered_outputs(
             "nias:renderMode": render_mode,
             "nias:reportType": "monitoring",
             "nias:artifacts": artifacts,
+            "nias:artifactAnchor": artifact_anchors,
         }
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",

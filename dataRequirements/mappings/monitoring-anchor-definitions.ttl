@@ -1,0 +1,53 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/monitoring-anchor-definitions/> a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Monitoring Report Anchor Definitions"@en ;
+    dcterms:description "Canonical stable anchor definitions for the rendered Monitoring Report body. These anchors are schema-level targets used to emit concrete artifact anchors for each Monitoring Report version and to link validation findings to exact monitoring sections."@en .
+
+nias-o:monitoring-package-summary a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.packageSummary" ;
+    dcterms:title "Monitoring Report"@en ;
+    nias-o:sourceShape nias-o:MonitoringReportShape ;
+    nias-o:renderOrder 100 .
+
+nias-o:monitoring-document-envelope a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.documentEnvelope" ;
+    dcterms:title "Report Envelope"@en ;
+    nias-o:sourceShape nias-o:MonitoringReportShape ;
+    nias-o:renderOrder 110 .
+
+nias-o:monitoring-period a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.period" ;
+    dcterms:title "Monitoring Period"@en ;
+    nias-o:sourceShape nias-o:DateTimeIntervalShape ;
+    nias-o:sourcePath nias-o:forPeriod ;
+    nias-o:renderOrder 120 .
+
+nias-o:monitoring-observation a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.observation" ;
+    dcterms:title "Measured Impact Observation"@en ;
+    nias-o:sourceShape nias-o:IndicatorObservationShape ;
+    nias-o:sourcePath nias-o:reportedObservation ;
+    nias-o:renderOrder 130 .
+
+nias-o:monitoring-datasets a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.datasets" ;
+    dcterms:title "Dataset Evidence"@en ;
+    nias-o:sourceShape nias-o:DatasetShape ;
+    nias-o:sourcePath nias-o:usesDataset ;
+    nias-o:renderOrder 140 .
+
+nias-o:monitoring-resources a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.resources" ;
+    dcterms:title "Calculation Resources"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:renderOrder 150 .
+
+nias-o:monitoring-workflow-evidence a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.workflowEvidence" ;
+    dcterms:title "Appendix A. Workflow Evidence"@en ;
+    nias-o:sourceShape nias-o:WorkflowDocumentSubmissionShape ;
+    nias-o:sourcePath nias-o:hasWorkflowSubmission ;
+    nias-o:renderOrder 160 .
