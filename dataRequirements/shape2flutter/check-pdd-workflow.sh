@@ -8,6 +8,7 @@ SHAPE2FLUTTER_BIN="${SHAPE2FLUTTER_BIN:-/Users/christiaanpauw/shape2flutter/shap
 OUT_BASE="${NIAS_TMP_DIR:-/tmp}"
 OUT_BASE="${OUT_BASE%/}"
 OUT_ROOT="${OUT_ROOT:-$OUT_BASE/nias-shape2flutter/pdd-workflow}"
+PDD_DESIGN_OUT_ROOT="${PDD_DESIGN_OUT_ROOT:-$OUT_BASE/nias-shape2flutter/pdd-design}"
 PYTHON_BIN="${PYTHON3_BIN:-python3}"
 RUN_WORKFLOW_SHELL_CHECK="${RUN_WORKFLOW_SHELL_CHECK:-true}"
 
@@ -35,12 +36,25 @@ log_step "Run PDD Markdown rendering regression tests"
   -p "test_pdd_*.py" \
   -q
 
-log_step "Build PDD shape2flutter artifacts"
+log_step "Build PDD Design shape2flutter artifacts"
+SHAPE2FLUTTER_BIN="$SHAPE2FLUTTER_BIN" \
+OUT_ROOT="$PDD_DESIGN_OUT_ROOT" \
+  "$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-design.sh"
+
+log_step "Compile PDD Design shape2flutter preview without serving"
+"$SHAPE2FLUTTER_BIN" preview \
+  --schema-dir "$PDD_DESIGN_OUT_ROOT/schema" \
+  --build-dir "$PDD_DESIGN_OUT_ROOT/flutter" \
+  --preview-dir "$PDD_DESIGN_OUT_ROOT/preview" \
+  --serve=false \
+  --no-browser
+
+log_step "Build combined PDD workflow shape2flutter artifacts"
 SHAPE2FLUTTER_BIN="$SHAPE2FLUTTER_BIN" \
 OUT_ROOT="$OUT_ROOT" \
   "$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"
 
-log_step "Compile PDD shape2flutter preview without serving"
+log_step "Compile combined PDD workflow shape2flutter preview without serving"
 "$SHAPE2FLUTTER_BIN" preview \
   --schema-dir "$OUT_ROOT/schema" \
   --build-dir "$OUT_ROOT/flutter" \

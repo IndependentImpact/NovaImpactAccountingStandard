@@ -347,6 +347,11 @@ Acceptance criteria:
 
 ### Phase 2: Split PDD Design from PDD validation and PDD-CIR
 
+Status note 2026-06-05: the PDD Design UI bundle split is in place through
+`pdd-design-ui-shapes.ttl` and `build-pdd-design.sh`. The combined
+`pdd-workflow-ui-shapes.ttl` bundle remains available for the local demo shell.
+Renderer/export boundary cleanup remains tracked below.
+
 Deliverables:
 
 - Create a PDD Design workflow YAML with only PDD-A, PDD-B, and PDD-C.

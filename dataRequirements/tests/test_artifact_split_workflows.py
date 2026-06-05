@@ -88,8 +88,9 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
             ["VerifiedImpactCertificateIssuanceRequestReviewShape"],
         )
 
-    def test_split_validation_and_verification_ui_bundle_files_exist(self):
+    def test_split_ui_bundle_files_exist(self):
         expected = {
+            "pdd-design-ui-shapes.ttl",
             "validation-report-ui-shapes.ttl",
             "verification-report-ui-shapes.ttl",
         }
@@ -97,6 +98,39 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
         for filename in expected:
             with self.subTest(filename=filename):
                 self.assertTrue((SHAPE2FLUTTER_ROOT / filename).exists())
+
+    def test_pdd_design_ui_bundle_contains_only_pdd_capture_forms(self):
+        bundle = (SHAPE2FLUTTER_ROOT / "pdd-design-ui-shapes.ttl").read_text(
+            encoding="utf-8"
+        )
+
+        for expected_shape in [
+            "PddSectionAUiShape",
+            "PddSectionBUiShape",
+            "PddSectionCUiShape",
+        ]:
+            with self.subTest(expected_shape=expected_shape):
+                self.assertIn(expected_shape, bundle)
+
+        for excluded_shape in [
+            "PddCertificateIssuanceRequestUiShape",
+            "PddSectionAValidationReviewUiShape",
+            "PddSectionBValidationReviewUiShape",
+            "PddSectionCValidationReviewUiShape",
+            "DocumentFieldReviewUiShape",
+            "ReviewTargetUiShape",
+        ]:
+            with self.subTest(excluded_shape=excluded_shape):
+                self.assertNotIn(excluded_shape, bundle)
+
+    def test_pdd_design_build_script_uses_pdd_design_bundle(self):
+        design_script = (SHAPE2FLUTTER_ROOT / "build-pdd-design.sh").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("pdd-design-ui-shapes.ttl", design_script)
+        self.assertIn("pdd-design", design_script)
+        self.assertNotIn("pdd-workflow-ui-shapes.ttl", design_script)
 
     def test_validation_and_verification_build_scripts_use_split_bundles(self):
         validation_script = (
