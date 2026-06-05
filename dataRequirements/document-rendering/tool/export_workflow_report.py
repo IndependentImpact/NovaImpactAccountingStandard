@@ -52,6 +52,7 @@ IDENTITY_FIELD_ALIASES = {
         "reviewedConsensusTimestamp",
         "reviewedSubmissionTimestamp",
     ),
+    "reviewedDlrContentCid": ("linkedDlrContentCid",),
 }
 
 

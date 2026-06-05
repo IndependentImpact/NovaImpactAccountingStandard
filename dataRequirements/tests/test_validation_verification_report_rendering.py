@@ -453,6 +453,19 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
             self.assertEqual(validation_payload["reportType"], "verification")
+            metadata_payload = json.loads(metadata.read_text(encoding="utf-8"))
+            self.assertEqual(metadata_payload["nias:artifactContentCid"], "bafyverificationartifactcid")
+            self.assertEqual(metadata_payload["nias:reviewedArtifactType"], "monitoring-report")
+            self.assertEqual(
+                metadata_payload["nias:reviewedArtifactContentCid"],
+                "bafymonitoringartifactcontentcid",
+            )
+            self.assertEqual(metadata_payload["nias:reviewedSubmissionTopicId"], "0.0.1001")
+            self.assertEqual(
+                metadata_payload["nias:reviewedSubmissionConsensusTimestamp"],
+                "2026-05-24T10:00:00Z",
+            )
+            self.assertEqual(metadata_payload["nias:reviewedDlrContentCid"], "bafydlrcontentcid")
 
     def test_final_rendering_requires_reviewed_artifact_identity_fields(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -491,6 +504,126 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             self.assertNotEqual(completed.returncode, 0)
             self.assertIn(
                 "reviewedArtifactContentCid is required in final render mode.",
+                completed.stderr,
+            )
+
+    def test_final_verification_rendering_requires_reviewed_mr_content_cid(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            invalid = tmp_path / "vv-missing-reviewed-monitoring-content-cid.jsonld"
+            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            review = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+            )
+            review.pop(
+                "https://nova.org.za/novaimpactaccountingstandard/reviewedArtifactContentCid",
+                None,
+            )
+            invalid.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    *self._base_command(),
+                    "--report-type",
+                    "verification",
+                    "--input-jsonld",
+                    str(invalid),
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--render-mode",
+                    "final",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn(
+                "reviewedArtifactContentCid is required in final render mode.",
+                completed.stderr,
+            )
+
+    def test_final_verification_rendering_requires_reviewed_mr_submission_topic_id(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            invalid = tmp_path / "vv-missing-reviewed-monitoring-topic-id.jsonld"
+            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            review = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+            )
+            review.pop(
+                "https://nova.org.za/novaimpactaccountingstandard/reviewedSubmissionTopicId",
+                None,
+            )
+            invalid.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    *self._base_command(),
+                    "--report-type",
+                    "verification",
+                    "--input-jsonld",
+                    str(invalid),
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--render-mode",
+                    "final",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn(
+                "reviewedSubmissionTopicId is required in final render mode.",
+                completed.stderr,
+            )
+
+    def test_final_verification_rendering_requires_reviewed_mr_submission_consensus_timestamp(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            invalid = tmp_path / "vv-missing-reviewed-monitoring-timestamp.jsonld"
+            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            review = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+            )
+            review.pop(
+                "https://nova.org.za/novaimpactaccountingstandard/reviewedSubmissionConsensusTimestamp",
+                None,
+            )
+            invalid.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    *self._base_command(),
+                    "--report-type",
+                    "verification",
+                    "--input-jsonld",
+                    str(invalid),
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--render-mode",
+                    "final",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn(
+                "reviewedSubmissionConsensusTimestamp is required in final render mode.",
                 completed.stderr,
             )
 
@@ -533,6 +666,50 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "reviewedDlrContentCid is required in final render mode.",
                 completed.stderr,
             )
+
+    def test_final_verification_rendering_accepts_linked_dlr_content_cid_alias(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            aliased = tmp_path / "vv-linked-dlr-cid-alias.jsonld"
+            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            review = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+            )
+            reviewed_dlr_key = "https://nova.org.za/novaimpactaccountingstandard/reviewedDlrContentCid"
+            linked_dlr_key = "https://nova.org.za/novaimpactaccountingstandard/linkedDlrContentCid"
+            review[linked_dlr_key] = review.pop(reviewed_dlr_key)
+            aliased.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+            output_dir = tmp_path / "output"
+            subprocess.run(
+                [
+                    *self._base_command(),
+                    "--report-type",
+                    "verification",
+                    "--input-jsonld",
+                    str(aliased),
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--render-mode",
+                    "final",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "markdown",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            metadata_payload = json.loads(
+                (output_dir / "verification-report.metadata.jsonld").read_text(encoding="utf-8")
+            )
+            self.assertEqual(metadata_payload["nias:reviewedDlrContentCid"], "bafydlrcontentcid")
 
 
 if __name__ == "__main__":

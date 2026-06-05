@@ -167,6 +167,12 @@ def _first_node_text(graph: Graph, subject, predicate) -> str | None:
     return _node_text(_first_value(graph, subject, predicate))
 
 
+def _reviewed_dlr_content_cid(graph: Graph, review) -> str | None:
+    return _first_node_text(
+        graph, review, URIRef(f"{NIAS}reviewedDlrContentCid")
+    ) or _first_node_text(graph, review, URIRef(f"{NIAS}linkedDlrContentCid"))
+
+
 def _review_identity_metadata(graph: Graph, report_type: str) -> dict:
     reviews = _review_nodes(graph, report_type)
     if not reviews:
@@ -189,11 +195,13 @@ def _review_identity_metadata(graph: Graph, report_type: str) -> dict:
         "reviewedArtifactSchemaVersionLabel",
         "reviewedSubmissionTopicId",
         "reviewedSubmissionConsensusTimestamp",
-        "reviewedDlrContentCid",
     ):
         value = _first_node_text(graph, review, URIRef(f"{NIAS}{field}"))
         if value:
             metadata[f"nias:{field}"] = value
+    reviewed_dlr_cid = _reviewed_dlr_content_cid(graph, review)
+    if reviewed_dlr_cid:
+        metadata["nias:reviewedDlrContentCid"] = reviewed_dlr_cid
     return metadata
 
 
@@ -208,6 +216,12 @@ def _ensure_final_review_identity_fields(graph: Graph, report_type: str):
         required.append("reviewedDlrContentCid")
     for review in _review_nodes(graph, report_type):
         for field in required:
+            if field == "reviewedDlrContentCid":
+                if not _reviewed_dlr_content_cid(graph, review):
+                    raise ValueError(
+                        "reviewedDlrContentCid is required in final render mode."
+                    )
+                continue
             if not _first_node_text(graph, review, URIRef(f"{NIAS}{field}")):
                 raise ValueError(f"{field} is required in final render mode.")
 
