@@ -67,6 +67,22 @@ class PddBlankTemplateTests(unittest.TestCase):
         self.assertIn("Document IPFS URI", appendix)
         self.assertIn("Authenticity proof", appendix)
 
+    def test_blank_template_derives_predicate_map_rows(self):
+        rendered = self._render_template()
+        appendix = rendered.split("## Appendix B. Field-To-Predicate Map", 1)[1].split(
+            "## Appendix C. Source Graph And Hash Evidence", 1
+        )[0]
+        self.assertNotIn("Predicate map appendix", appendix)
+        self.assertIn(
+            "| Project title | https://nova.org.za/novaimpactaccountingstandard/title |",
+            appendix,
+        )
+        self.assertIn("| Declared impact description | https://schema.org/description |", appendix)
+        self.assertIn(
+            "| Stakeholder modalities | https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities |",
+            appendix,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

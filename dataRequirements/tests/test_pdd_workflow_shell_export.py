@@ -60,6 +60,10 @@ class PddWorkflowShellExportTests(unittest.TestCase):
             self.assertIn("Increase carbon sequestration.", markdown)
             self.assertIn("Community workshop and household survey.", markdown)
             self.assertNotIn("- Community workshop and household survey.", markdown)
+            self.assertIn(
+                "| Project title | https://nova.org.za/novaimpactaccountingstandard/title |",
+                markdown,
+            )
 
     def test_draft_export_preserves_repeated_form_values(self):
         with tempfile.TemporaryDirectory() as tmpdir:

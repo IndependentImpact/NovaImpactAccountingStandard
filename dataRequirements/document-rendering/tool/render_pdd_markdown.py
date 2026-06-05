@@ -56,6 +56,11 @@ DIRECTIVE_PATTERN = re.compile(r"^\{\{ render: ([a-zA-Z0-9_.-]+) \}\}$")
 WORKFLOW_ROW_PATTERN = re.compile(
     r"^\|[^|]+\|\s*`([^`]+)`\s*/\s*`[^`]+`\s*\|[^|]+\|\s*`\{\{ render: ([^\s}]+) \}\}`\s*\|$"
 )
+PREDICATE_MAP_LOCATIONS = (
+    ("Project title", NIAS.title),
+    ("Declared impact description", SCHEMA.description),
+    ("Stakeholder modalities", NIAS.stakeholderEngagementModalities),
+)
 
 
 def _read_front_matter_and_body(path: Path):
@@ -101,6 +106,10 @@ def _two_column_table(rows):
     for label, value in rows:
         lines.append(f"| {_escape_table_cell(label)} | {_escape_table_cell(value)} |")
     return lines
+
+
+def _predicate_map_rows():
+    return [(label, str(predicate)) for label, predicate in PREDICATE_MAP_LOCATIONS]
 
 
 def _heading_anchor(title):
@@ -348,11 +357,7 @@ def _render_blank_directive(directive: str, profile_body: str):
     if directive == "pdd.sectionB.dataParameterTables":
         return _render_blank_data_parameter_table()
     if directive == "predicateMapAppendix":
-        return _two_column_table(
-            [
-                ("Predicate map appendix", "**[optional]** _[to be populated]_"),
-            ]
-        )
+        return _two_column_table(_predicate_map_rows())
     if directive == "sourceEvidenceAppendix":
         return _two_column_table(
             [
@@ -945,16 +950,7 @@ def _render_filled_directive(
         )
 
     if directive == "predicateMapAppendix":
-        return _two_column_table(
-            [
-                ("Project title", "https://nova.org.za/novaimpactaccountingstandard/title"),
-                ("Declared impact description", "https://schema.org/description"),
-                (
-                    "Stakeholder modalities",
-                    "https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities",
-                ),
-            ]
-        )
+        return _two_column_table(_predicate_map_rows())
 
     if directive == "sourceEvidenceAppendix":
         return _two_column_table([("Source graph identifier", source_artifact)])

@@ -83,6 +83,21 @@ class PddFilledRenderingTests(unittest.TestCase):
         self.assertIn("| Document schema IRI | PDDxA-1.0.0 |", appendix)
         self.assertIn("| Validation status | draft (validation not enforced) |", appendix)
 
+    def test_filled_rendering_derives_predicate_map_rows(self):
+        rendered = self._render_filled()
+        appendix = rendered.split("## Appendix B. Field-To-Predicate Map", 1)[1].split(
+            "## Appendix C. Source Graph And Hash Evidence", 1
+        )[0]
+        self.assertIn(
+            "| Project title | https://nova.org.za/novaimpactaccountingstandard/title |",
+            appendix,
+        )
+        self.assertIn("| Declared impact description | https://schema.org/description |", appendix)
+        self.assertIn(
+            "| Stakeholder modalities | https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities |",
+            appendix,
+        )
+
     def test_filled_rendering_body_has_no_raw_json(self):
         rendered = self._render_filled()
         body = rendered.split("\n---\n", 1)[1]
