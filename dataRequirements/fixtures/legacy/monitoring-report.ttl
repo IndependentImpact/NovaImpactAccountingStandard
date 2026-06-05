@@ -26,6 +26,7 @@
     nias-o:calculationCode <https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-code-1> ;
     nias-o:impactResultResource <https://nova.org.za/novaimpactaccountingstandard/test/mr-impact-result-1> ;
     nias-o:calculationReport <https://nova.org.za/novaimpactaccountingstandard/test/mr-calculation-report-1> ;
+    nias-o:linkedDlrContentCid "bafydlrcontentcid" ;
     nias-o:requestedIssuanceAccountId "0.0.3003" .
 
 <https://nova.org.za/novaimpactaccountingstandard/test/mr-period-1>

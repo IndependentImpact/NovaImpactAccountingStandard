@@ -88,6 +88,34 @@ class MonitoringReportHandoffExportTests(unittest.TestCase):
                 f"{NIAS}test/pdd-version-2",
             )
 
+    def test_monitoring_final_export_requires_aligned_pdd_identity(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            monitoring_json = tmp_path / "monitoring-report-form.json"
+            output = tmp_path / "monitoring-report.md"
+            payload = _monitoring_form_payload()
+            del payload[f"{NIAS}alignedPddContentCid"]
+            monitoring_json.write_text(json.dumps(payload), encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--monitoring-json",
+                    str(monitoring_json),
+                    "--render-mode",
+                    "final",
+                    "--output",
+                    str(output),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn("alignedPddContentCid is required.", completed.stderr)
+
 
 def _monitoring_form_payload():
     return {
@@ -105,6 +133,13 @@ def _monitoring_form_payload():
             },
         },
         f"{NIAS}alignedWithPDD": f"{NIAS}test/pdd-version-2",
+        f"{NIAS}artifactContentCid": "bafymonitoringartifactcontentcid",
+        f"{NIAS}artifactSchemaCid": "bafymonitoringschemacid",
+        f"{NIAS}artifactSchemaVersionLabel": "nias:mr-schema:main:2026-07-01:bafymoni",
+        f"{NIAS}alignedPddContentCid": "bafypddartifactcontentcid",
+        f"{NIAS}alignedPddSubmissionTopicId": "0.0.1000",
+        f"{NIAS}alignedPddSubmissionConsensusTimestamp": "2026-06-20T00:00:00Z",
+        f"{NIAS}linkedDlrContentCid": "bafydlrcontentcid",
         f"{NIAS}reportedIndicatorLabel": "Households served",
         f"{NIAS}forPeriod": {
             f"{TIME}hasBeginning": {

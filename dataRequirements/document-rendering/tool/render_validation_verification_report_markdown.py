@@ -155,6 +155,63 @@ def _review_nodes(graph: Graph, report_type: str | None = None):
     return sorted(nodes, key=lambda item: _display_value(graph, item))
 
 
+def _node_text(node) -> str | None:
+    if node is None:
+        return None
+    if isinstance(node, Literal):
+        return str(node.toPython())
+    return str(node)
+
+
+def _first_node_text(graph: Graph, subject, predicate) -> str | None:
+    return _node_text(_first_value(graph, subject, predicate))
+
+
+def _review_identity_metadata(graph: Graph, report_type: str) -> dict:
+    reviews = _review_nodes(graph, report_type)
+    if not reviews:
+        return {}
+    review = reviews[0]
+    metadata = {}
+    for field in (
+        "artifactContentCid",
+        "artifactSchemaCid",
+        "artifactSchemaVersionLabel",
+        "artifactAuthor",
+        "workflowSubject",
+        "submissionTopicId",
+        "submissionConsensusTimestamp",
+        "submissionEventKey",
+        "submissionMessageUrl",
+        "reviewedArtifactType",
+        "reviewedArtifactContentCid",
+        "reviewedArtifactSchemaCid",
+        "reviewedArtifactSchemaVersionLabel",
+        "reviewedSubmissionTopicId",
+        "reviewedSubmissionConsensusTimestamp",
+        "reviewedDlrContentCid",
+    ):
+        value = _first_node_text(graph, review, URIRef(f"{NIAS}{field}"))
+        if value:
+            metadata[f"nias:{field}"] = value
+    return metadata
+
+
+def _ensure_final_review_identity_fields(graph: Graph, report_type: str):
+    required = [
+        "reviewedArtifactType",
+        "reviewedArtifactContentCid",
+        "reviewedSubmissionTopicId",
+        "reviewedSubmissionConsensusTimestamp",
+    ]
+    if report_type == "verification":
+        required.append("reviewedDlrContentCid")
+    for review in _review_nodes(graph, report_type):
+        for field in required:
+            if not _first_node_text(graph, review, URIRef(f"{NIAS}{field}")):
+                raise ValueError(f"{field} is required in final render mode.")
+
+
 def _review_kind(graph: Graph, review):
     if (review, RDF.type, NIAS.VerifiedImpactCertificateIssuanceRequestReview) in graph:
         return "Verification review"
@@ -774,6 +831,7 @@ def render_filled_markdown(
         try:
             _validate_structural_review_graph(review_graph)
             _validate_vvs_graph(combined_graph, report_type)
+            _ensure_final_review_identity_fields(review_graph, report_type)
         except ModuleNotFoundError as exc:
             raise RuntimeError(
                 "Final render mode requires pySHACL. Install dependency `pyshacl`."
@@ -829,6 +887,7 @@ def export_rendered_outputs(
     generated_at: str,
     render_mode: str,
     report_type: str,
+    combined_graph: Graph | None = None,
 ):
     output_dir.mkdir(parents=True, exist_ok=True)
     document_hash = pdd_renderer._sha256_text(rendered_markdown)
@@ -892,6 +951,8 @@ def export_rendered_outputs(
             "nias:reportType": report_type,
             "nias:artifacts": artifacts,
         }
+        if combined_graph is not None:
+            metadata_payload.update(_review_identity_metadata(combined_graph, report_type))
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -972,6 +1033,9 @@ def main():
 
     if args.output_dir:
         output_targets = args.output_target or ["markdown"]
+        combined_graph = None
+        if args.input_jsonld:
+            _, combined_graph = _parse_inputs(args.input_jsonld, args.evidence_jsonld)
         try:
             export_rendered_outputs(
                 rendered_markdown=rendered,
@@ -981,6 +1045,7 @@ def main():
                 generated_at=generated_at,
                 render_mode=args.render_mode,
                 report_type=args.report_type,
+                combined_graph=combined_graph,
             )
         except (RuntimeError, ValueError) as exc:
             parser.exit(1, f"{exc}\n")

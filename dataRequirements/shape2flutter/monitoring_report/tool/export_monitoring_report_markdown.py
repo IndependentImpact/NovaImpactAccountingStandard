@@ -12,6 +12,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import load_export_config, run_renderer_with_payload
+from export_workflow_report import (
+    schema_version_label,
+    submission_event_key,
+    submission_message_url,
+)
 from nias_local_env import load_repo_env
 
 load_repo_env(REPO_ROOT)
@@ -95,6 +100,13 @@ def _optional_iri(node, predicate, value):
     value = _string(value)
     if value:
         node[predicate] = _iri_value(value)
+
+
+def _required_string(value, field_name):
+    text = _string(value)
+    if text:
+        return text
+    raise ValueError(f"{field_name} is required.")
 
 
 def _node_id(suffix):
@@ -308,7 +320,7 @@ def _build_workflow_nodes(args, payload, report_id, generated_at):
         )
     _optional_literal(message_node, f"{HEDERA}hasMessageContent", message.get(f"{HEDERA}hasMessageContent"))
 
-    return submission_id, [
+    return submission_id, topic_id, timestamp, [
         submission_node,
         {"@id": workflow_id, "@type": [f"{NIAS}Workflow"]},
         {
@@ -330,7 +342,7 @@ def _build_workflow_nodes(args, payload, report_id, generated_at):
 def build_monitoring_package(args, generated_at):
     payload = _load_json(args.monitoring_json)
     report_id = _monitoring_report_id(args, payload)
-    submission_id, workflow_nodes = _build_workflow_nodes(
+    submission_id, submission_topic_id, submission_consensus_timestamp, workflow_nodes = _build_workflow_nodes(
         args, payload, report_id, generated_at
     )
     period_id, period_nodes = _build_interval_nodes(
@@ -353,6 +365,53 @@ def build_monitoring_package(args, generated_at):
         _first_map(payload.get(f"{NIAS}calculationReport")),
         f"{report_id}/calculation-report",
     )
+    artifact_content_cid = _string(payload.get(f"{NIAS}artifactContentCid"), args.artifact_content_cid)
+    artifact_schema_cid = _string(payload.get(f"{NIAS}artifactSchemaCid"), args.artifact_schema_cid)
+    artifact_schema_version_label = _string(
+        payload.get(f"{NIAS}artifactSchemaVersionLabel"),
+        args.artifact_schema_version_label
+        or schema_version_label(
+            schema_family="mr-schema",
+            track=args.schema_track,
+            generated_at=generated_at,
+            schema_cid=artifact_schema_cid,
+        ),
+    )
+    aligned_pdd_content_cid = _string(
+        payload.get(f"{NIAS}alignedPddContentCid"), args.aligned_pdd_content_cid
+    )
+    aligned_pdd_submission_topic_id = _string(
+        payload.get(f"{NIAS}alignedPddSubmissionTopicId"), args.aligned_pdd_submission_topic_id
+    )
+    aligned_pdd_submission_consensus_timestamp = _string(
+        payload.get(f"{NIAS}alignedPddSubmissionConsensusTimestamp"),
+        args.aligned_pdd_submission_consensus_timestamp,
+    )
+    linked_dlr_content_cid = _string(
+        payload.get(f"{NIAS}linkedDlrContentCid"), args.linked_dlr_content_cid
+    )
+
+    if args.render_mode == "final":
+        artifact_content_cid = _required_string(
+            artifact_content_cid, "artifactContentCid"
+        )
+        artifact_schema_cid = _required_string(artifact_schema_cid, "artifactSchemaCid")
+        artifact_schema_version_label = _required_string(
+            artifact_schema_version_label, "artifactSchemaVersionLabel"
+        )
+        aligned_pdd_content_cid = _required_string(
+            aligned_pdd_content_cid, "alignedPddContentCid"
+        )
+        aligned_pdd_submission_topic_id = _required_string(
+            aligned_pdd_submission_topic_id, "alignedPddSubmissionTopicId"
+        )
+        aligned_pdd_submission_consensus_timestamp = _required_string(
+            aligned_pdd_submission_consensus_timestamp,
+            "alignedPddSubmissionConsensusTimestamp",
+        )
+        linked_dlr_content_cid = _required_string(
+            linked_dlr_content_cid, "linkedDlrContentCid"
+        )
 
     report_node = {
         "@id": report_id,
@@ -371,7 +430,34 @@ def build_monitoring_package(args, generated_at):
         f"{NIAS}calculationCode": _iri_value(calculation_code_id),
         f"{NIAS}impactResultResource": _iri_value(impact_result_id),
         f"{NIAS}calculationReport": _iri_value(calculation_report_id),
+        f"{NIAS}artifactContentCid": _literal_value(artifact_content_cid),
+        f"{NIAS}artifactSchemaCid": _literal_value(artifact_schema_cid),
+        f"{NIAS}artifactSchemaVersionLabel": _literal_value(artifact_schema_version_label),
+        f"{NIAS}artifactAuthor": _iri_value(args.document_author),
+        f"{NIAS}workflowSubject": _iri_value(args.workflow_subject),
+        f"{NIAS}submissionTopicId": _literal_value(submission_topic_id),
+        f"{NIAS}submissionConsensusTimestamp": _literal_value(
+            submission_consensus_timestamp
+        ),
+        f"{NIAS}submissionEventKey": _literal_value(
+            submission_event_key(submission_topic_id, submission_consensus_timestamp)
+        ),
+        f"{NIAS}submissionMessageUrl": _literal_value(
+            submission_message_url(submission_topic_id, submission_consensus_timestamp)
+        ),
     }
+    _optional_literal(report_node, f"{NIAS}alignedPddContentCid", aligned_pdd_content_cid)
+    _optional_literal(
+        report_node,
+        f"{NIAS}alignedPddSubmissionTopicId",
+        aligned_pdd_submission_topic_id,
+    )
+    _optional_literal(
+        report_node,
+        f"{NIAS}alignedPddSubmissionConsensusTimestamp",
+        aligned_pdd_submission_consensus_timestamp,
+    )
+    _optional_literal(report_node, f"{NIAS}linkedDlrContentCid", linked_dlr_content_cid)
     _optional_iri(
         report_node,
         f"{NIAS}alignedWithPDD",
@@ -421,6 +507,15 @@ def main():
     parser.add_argument("--document-author", default=f"{NIAS}users/monitoring-party-1")
     parser.add_argument("--resource-ipfs-uri")
     parser.add_argument("--aligned-pdd")
+    parser.add_argument("--artifact-content-cid", default="bafymonitoringartifactcid")
+    parser.add_argument("--artifact-schema-cid", default="bafymonitoringschemacid")
+    parser.add_argument("--artifact-schema-version-label")
+    parser.add_argument("--schema-track", default="main")
+    parser.add_argument("--submission-consensus-timestamp")
+    parser.add_argument("--aligned-pdd-content-cid")
+    parser.add_argument("--aligned-pdd-submission-topic-id")
+    parser.add_argument("--aligned-pdd-submission-consensus-timestamp")
+    parser.add_argument("--linked-dlr-content-cid")
     parser.add_argument("--auth-proof", default=f"{NIAS}none")
     parser.add_argument("--is-encrypted", default="false")
     parser.add_argument("--workflow", default=f"{NIAS}workflows/monitoring-report")

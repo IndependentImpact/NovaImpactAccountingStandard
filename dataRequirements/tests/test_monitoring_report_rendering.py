@@ -160,6 +160,18 @@ class MonitoringReportRenderingTests(unittest.TestCase):
             metadata_payload = json.loads(metadata.read_text(encoding="utf-8"))
             self.assertEqual(metadata_payload["nias:reportType"], "monitoring")
             self.assertEqual(
+                metadata_payload["nias:artifactContentCid"],
+                "bafymonitoringartifactcontentcid",
+            )
+            self.assertEqual(
+                metadata_payload["nias:alignedPddContentCid"],
+                "bafypddartifactcontentcid",
+            )
+            self.assertEqual(
+                metadata_payload["nias:linkedDlrContentCid"],
+                "bafydlrcontentcid",
+            )
+            self.assertEqual(
                 [artifact["artifact"] for artifact in metadata_payload["nias:artifacts"]],
                 ["markdown"],
             )
@@ -199,6 +211,42 @@ class MonitoringReportRenderingTests(unittest.TestCase):
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
             self.assertEqual(validation_payload["reportType"], "monitoring")
+
+    def test_final_rendering_requires_linked_dlr_content_cid(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            invalid = tmp_path / "monitoring-missing-dlr.jsonld"
+            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            report = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-report"
+            )
+            report.pop(
+                "https://nova.org.za/novaimpactaccountingstandard/linkedDlrContentCid",
+                None,
+            )
+            invalid.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    *self._base_command(),
+                    "--input-jsonld",
+                    str(invalid),
+                    "--render-mode",
+                    "final",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn(
+                "A monitoring report must include the linked DLR content CID.",
+                completed.stderr,
+            )
 
 
 if __name__ == "__main__":

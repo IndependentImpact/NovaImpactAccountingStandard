@@ -5,14 +5,60 @@
       "https://jellyfiiish.xyz/ns/Document",
       "https://nova.org.za/novaimpactaccountingstandard/MonitoringReport"
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
+    "https://nova.org.za/novaimpactaccountingstandard/alignedPddContentCid": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0"
+        "@value": "bafypddartifactcontentcid"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+    "https://nova.org.za/novaimpactaccountingstandard/alignedPddSubmissionConsensusTimestamp": [
       {
-        "@value": false
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-03-15T12:00:00Z"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/alignedPddSubmissionTopicId": [
+      {
+        "@value": "0.0.1000"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/alignedWithPDD": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-version-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactContentCid": [
+      {
+        "@value": "bafymonitoringartifactcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaCid": [
+      {
+        "@value": "bafymonitoringschemacid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaVersionLabel": [
+      {
+        "@value": "nias:mr-schema:main:2026-04-01:bafymoni"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/calculationCode": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/calculation-code"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/calculationReport": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/calculation-report"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/documentAuthor": [
@@ -20,9 +66,49 @@
         "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/forPeriod": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-period"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/hasWorkflowSubmission": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-submission"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/impactResultResource": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/impact-result"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+      {
+        "@value": false
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/linkedDlrContentCid": [
+      {
+        "@value": "bafydlrcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reportedIndicatorLabel": [
+      {
+        "@value": "Tonnes of CO2e avoided"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/reportedObservation": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/impact-observation"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/requestedIssuanceAccountId": [
+      {
+        "@value": "0.0.3003"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/resourceIpfsUri": [
@@ -31,29 +117,25 @@
         "@value": "ipfs://bafymonitoringreport"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/hasWorkflowSubmission": [
+    "https://nova.org.za/novaimpactaccountingstandard/submissionConsensusTimestamp": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-submission"
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-04-01T00:00:00Z"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/alignedWithPDD": [
+    "https://nova.org.za/novaimpactaccountingstandard/submissionEventKey": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-version-1"
+        "@value": "0.0.1001@2026-04-01T00:00:00Z"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/reportedIndicatorLabel": [
+    "https://nova.org.za/novaimpactaccountingstandard/submissionMessageUrl": [
       {
-        "@value": "Tonnes of CO2e avoided"
+        "@value": "/api/v1/topics/0.0.1001/messages/2026-04-01T00:00:00Z"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/forPeriod": [
+    "https://nova.org.za/novaimpactaccountingstandard/submissionTopicId": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-period"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/reportedObservation": [
-      {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/impact-observation"
+        "@value": "0.0.1001"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/usesDataset": [
@@ -61,24 +143,9 @@
         "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/dataset-1"
       }
     ],
-    "https://nova.org.za/novaimpactaccountingstandard/calculationCode": [
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/calculation-code"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/impactResultResource": [
-      {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/impact-result"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/calculationReport": [
-      {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/calculation-report"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/requestedIssuanceAccountId": [
-      {
-        "@value": "0.0.3003"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-1"
       }
     ]
   },
@@ -127,9 +194,9 @@
     "@type": [
       "http://independentimpact.org/indicator-owl/IndicatorObservation"
     ],
-    "http://independentimpact.org/indicator-owl/observesIndicator": [
+    "http://independentimpact.org/indicator-owl/hasUnit": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/indicator-co2e-avoided"
+        "@id": "http://qudt.org/vocab/unit/TONNE"
       }
     ],
     "http://independentimpact.org/indicator-owl/obsValue": [
@@ -137,9 +204,9 @@
         "@value": 123.45
       }
     ],
-    "http://independentimpact.org/indicator-owl/hasUnit": [
+    "http://independentimpact.org/indicator-owl/observesIndicator": [
       {
-        "@id": "http://qudt.org/vocab/unit/TONNE"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/indicator-co2e-avoided"
       }
     ],
     "http://independentimpact.org/indicator-owl/timePeriod": [
@@ -249,6 +316,16 @@
         "@id": "https://nova.org.za/novaimpactaccountingstandard/workflows/monitoring-report"
       }
     ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentRecipient": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/registry-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentSubmittedBy": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1"
+      }
+    ],
     "https://nova.org.za/novaimpactaccountingstandard/workflowStep": [
       {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/workflow-steps/monitoring-report"
@@ -257,16 +334,6 @@
     "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
       {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-1"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentSubmittedBy": [
-      {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1"
-      }
-    ],
-    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentRecipient": [
-      {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/registry-1"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/workflowSubmissionConsensusMessage": [
@@ -320,9 +387,10 @@
     "@type": [
       "https://hashgraphontology.xyz/core/TopicMessage"
     ],
-    "https://hashgraphontology.xyz/core/inTopic": [
+    "https://hashgraphontology.xyz/core/hasConsensusTimestamp": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/topic-1"
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-04-01T00:00:00Z"
       }
     ],
     "https://hashgraphontology.xyz/core/hasSequenceNumber": [
@@ -331,10 +399,9 @@
         "@value": 41
       }
     ],
-    "https://hashgraphontology.xyz/core/hasConsensusTimestamp": [
+    "https://hashgraphontology.xyz/core/inTopic": [
       {
-        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
-        "@value": "2026-04-01T00:00:00Z"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/topic-1"
       }
     ]
   }

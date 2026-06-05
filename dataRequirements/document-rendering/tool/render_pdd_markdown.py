@@ -97,6 +97,40 @@ def _value_or_unavailable(node):
     return node if node is not None else Literal("Unavailable")
 
 
+def _node_text(node):
+    if node is None:
+        return None
+    if isinstance(node, Literal):
+        return str(node.toPython())
+    return str(node)
+
+
+def _first_node_text(graph: Graph, subject, predicate):
+    return _node_text(_first_value(graph, subject, predicate))
+
+
+def _pdd_identity_metadata(graph: Graph):
+    section_a = _first_subject_of_type(graph, NIAS.PddSectionAReport)
+    if section_a is None:
+        return {}
+    metadata = {}
+    for field in (
+        "artifactContentCid",
+        "artifactSchemaCid",
+        "artifactSchemaVersionLabel",
+        "artifactAuthor",
+        "workflowSubject",
+        "submissionTopicId",
+        "submissionConsensusTimestamp",
+        "submissionEventKey",
+        "submissionMessageUrl",
+    ):
+        value = _first_node_text(graph, section_a, URIRef(f"{NIAS}{field}"))
+        if value:
+            metadata[f"nias:{field}"] = value
+    return metadata
+
+
 def _escape_table_cell(value):
     return str(value).replace("|", "\\|").replace("\n", "<br>")
 
@@ -1536,6 +1570,7 @@ def export_rendered_outputs(
     source_artifact: str,
     generated_at: str,
     render_mode: str,
+    input_graph: Graph | None = None,
 ):
     output_dir.mkdir(parents=True, exist_ok=True)
     document_hash = _sha256_text(rendered_markdown)
@@ -1601,6 +1636,8 @@ def export_rendered_outputs(
             "nias:artifacts": artifacts,
             "nias:artifactAnchor": artifact_anchors,
         }
+        if input_graph is not None:
+            metadata_payload.update(_pdd_identity_metadata(input_graph))
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -1679,6 +1716,11 @@ def main():
                 source_artifact=source_artifact,
                 generated_at=generated_at,
                 render_mode=args.render_mode,
+                input_graph=(
+                    Graph().parse(str(args.input_jsonld), format="json-ld")
+                    if args.input_jsonld
+                    else None
+                ),
             )
         except (RuntimeError, ValueError) as exc:
             parser.exit(1, f"{exc}\n")

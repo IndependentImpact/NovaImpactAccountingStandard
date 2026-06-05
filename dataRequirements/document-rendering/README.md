@@ -12,6 +12,9 @@ The rendering boundary has three layers:
 The renderer stays independent of Fluree, IPFS, and Hedera deployment concerns.
 It consumes canonical data and produces deterministic document artifacts.
 
+Linked-artifact identity boundaries are normatively defined in:
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
 ## Shared Workflow Export Engine
 
 Workflow-shell handoff exporters now share a config-backed export engine:
@@ -123,6 +126,12 @@ Final exports also emit:
 rendered PDD body sections. Validation review packages should reference these
 artifact anchor IRIs through `nias:reviewTarget` rather than using legacy field
 keys.
+
+Final-mode metadata sidecars also carry linked-artifact identity fields such as
+`nias:artifactContentCid`, `nias:artifactSchemaCid`,
+`nias:artifactSchemaVersionLabel`, `nias:artifactAuthor`,
+`nias:submissionTopicId`, and `nias:submissionConsensusTimestamp` where
+available in the canonical package input.
 
 Blank-template and filled-data PDF outputs are still actual PDF files. The
 renderer prefers Pandoc, but falls back to a minimal valid PDF renderer if

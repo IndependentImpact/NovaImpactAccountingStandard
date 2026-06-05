@@ -13,6 +13,27 @@ import yaml
 NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
 
 
+def _short_cid(value: str | None, length: int = 8) -> str:
+    if not value:
+        return "unknown"
+    cid = value.strip().removeprefix("ipfs://")
+    return cid[:length] if cid else "unknown"
+
+
+def schema_version_label(*, schema_family: str, track: str, generated_at: str, schema_cid: str) -> str:
+    date_text = (generated_at or "").strip()[:10] or "unknown-date"
+    track_text = (track or "").strip() or "default"
+    return f"nias:{schema_family}:{track_text}:{date_text}:{_short_cid(schema_cid)}"
+
+
+def submission_event_key(topic_id: str, consensus_timestamp: str) -> str:
+    return f"{topic_id}@{consensus_timestamp}"
+
+
+def submission_message_url(topic_id: str, consensus_timestamp: str) -> str:
+    return f"/api/v1/topics/{topic_id}/messages/{consensus_timestamp}"
+
+
 def load_export_config(path: Path) -> dict:
     try:
         config = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

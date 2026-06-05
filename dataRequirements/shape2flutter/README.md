@@ -25,6 +25,10 @@ launch/export paths for PDD Design, Validation, Monitoring Report, and
 Verification activities that exchange linked artifacts. PDD Design, Validation,
 Monitoring, and Verification now have separate generated UI shape bundles.
 
+Linked-artifact identity requirements and reviewed-artifact boundary decisions
+are normatively defined in:
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
 ### Run The Current Combined PDD Demo
 
 Use this when you want to exercise the current local PDD workflow shell with

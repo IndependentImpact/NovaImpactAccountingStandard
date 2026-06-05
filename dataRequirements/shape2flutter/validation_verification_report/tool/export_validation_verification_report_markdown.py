@@ -14,6 +14,8 @@ sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import (
     load_export_config,
     run_renderer_with_payload,
+    submission_event_key,
+    submission_message_url,
 )
 from nias_local_env import load_repo_env
 
@@ -150,6 +152,14 @@ def _required_hedera_account_id(node, predicate, value, field_name):
     if not HEDERA_ACCOUNT_ID_PATTERN.fullmatch(account_id):
         raise ValueError(f"{field_name} must match shard.realm.num.")
     node[predicate] = _literal_value(account_id)
+
+
+def _first_review_target(payload):
+    fields = _as_list(payload.get(f"{NIAS}fieldReview"))
+    if not fields:
+        return {}
+    first_field = _first_map(fields[0])
+    return _first_map(first_field.get(f"{NIAS}reviewTarget"))
 
 
 def _node_id(suffix):
@@ -468,7 +478,7 @@ def _build_workflow_nodes(args, payload, review_id, index, generated_at):
         )
     _optional_literal(message_node, f"{HEDERA}hasMessageContent", message.get(f"{HEDERA}hasMessageContent"))
 
-    return submission_id, [
+    return submission_id, topic_id, timestamp, [
         submission_node,
         {"@id": workflow_id, "@type": [f"{NIAS}Workflow"]},
         {
@@ -507,9 +517,50 @@ def build_review_package(args, generated_at):
         field_refs, field_nodes, support_nodes = _build_field_review_nodes(
             args, payload, review_id, generated_at
         )
-        submission_id, workflow_nodes = _build_workflow_nodes(
+        submission_id, submission_topic_id, submission_consensus_timestamp, workflow_nodes = _build_workflow_nodes(
             args, payload, review_id, index, generated_at
         )
+        review_target = _first_review_target(payload)
+        reviewed_artifact_content_cid = _string(
+            payload.get(f"{NIAS}reviewedArtifactContentCid")
+        )
+        if not reviewed_artifact_content_cid:
+            reviewed_artifact_content_cid = _string(
+                review_target.get(f"{NIAS}reviewedArtifactContentCid")
+            )
+        reviewed_artifact_schema_cid = _string(
+            payload.get(f"{NIAS}reviewedArtifactSchemaCid")
+        ) or _string(review_target.get(f"{NIAS}reviewedArtifactSchemaCid"))
+        reviewed_artifact_schema_version_label = _string(
+            payload.get(f"{NIAS}reviewedArtifactSchemaVersionLabel")
+        ) or _string(review_target.get(f"{NIAS}reviewedArtifactSchemaVersionLabel"))
+        reviewed_submission_topic_id = _string(
+            payload.get(f"{NIAS}reviewedSubmissionTopicId")
+        ) or _string(review_target.get(f"{NIAS}reviewedSubmissionTopicId"))
+        reviewed_submission_consensus_timestamp = _string(
+            payload.get(f"{NIAS}reviewedSubmissionConsensusTimestamp")
+        ) or _string(review_target.get(f"{NIAS}reviewedSubmissionConsensusTimestamp"))
+        reviewed_dlr_content_cid = _string(
+            payload.get(f"{NIAS}reviewedDlrContentCid")
+        ) or _string(review_target.get(f"{NIAS}reviewedDlrContentCid"))
+        artifact_content_cid = _string(payload.get(f"{NIAS}artifactContentCid"), f"bafy{args.report_type}artifactcid{index}")
+        artifact_schema_cid = _string(payload.get(f"{NIAS}artifactSchemaCid"), f"bafy{args.report_type}schemacid")
+        artifact_schema_version_label = _string(
+            payload.get(f"{NIAS}artifactSchemaVersionLabel"),
+            f"nias:{args.report_type}-schema:main:{generated_at[:10]}:{artifact_schema_cid[:8]}",
+        )
+        artifact_author = _string(payload.get(f"{NIAS}artifactAuthor"), args.document_author)
+        workflow_subject = _string(payload.get(f"{NIAS}workflowSubject"), args.workflow_subject)
+
+        if args.render_mode == "final":
+            _required_string(reviewed_artifact_content_cid, "reviewedArtifactContentCid")
+            _required_string(reviewed_submission_topic_id, "reviewedSubmissionTopicId")
+            _required_string(
+                reviewed_submission_consensus_timestamp,
+                "reviewedSubmissionConsensusTimestamp",
+            )
+            if args.report_type == "verification":
+                _required_string(reviewed_dlr_content_cid, "reviewedDlrContentCid")
 
         schema = args.document_schema or REVIEW_SCHEMAS[args.report_type]
         review_node = {
@@ -524,7 +575,47 @@ def build_review_package(args, generated_at):
                 datatype=f"{XSD}anyURI",
             ),
             f"{NIAS}hasWorkflowSubmission": _iri_value(submission_id),
+            f"{NIAS}artifactContentCid": _literal_value(artifact_content_cid),
+            f"{NIAS}artifactSchemaCid": _literal_value(artifact_schema_cid),
+            f"{NIAS}artifactSchemaVersionLabel": _literal_value(artifact_schema_version_label),
+            f"{NIAS}artifactAuthor": _iri_value(artifact_author),
+            f"{NIAS}workflowSubject": _iri_value(workflow_subject),
+            f"{NIAS}submissionTopicId": _literal_value(submission_topic_id),
+            f"{NIAS}submissionConsensusTimestamp": _literal_value(submission_consensus_timestamp),
+            f"{NIAS}submissionEventKey": _literal_value(
+                submission_event_key(submission_topic_id, submission_consensus_timestamp)
+            ),
+            f"{NIAS}submissionMessageUrl": _literal_value(
+                submission_message_url(submission_topic_id, submission_consensus_timestamp)
+            ),
+            f"{NIAS}reviewedArtifactType": _literal_value(
+                "pdd" if args.report_type == "validation" else "monitoring-report"
+            ),
         }
+        if reviewed_artifact_content_cid:
+            review_node[f"{NIAS}reviewedArtifactContentCid"] = _literal_value(
+                reviewed_artifact_content_cid
+            )
+        if reviewed_artifact_schema_cid:
+            review_node[f"{NIAS}reviewedArtifactSchemaCid"] = _literal_value(
+                reviewed_artifact_schema_cid
+            )
+        if reviewed_artifact_schema_version_label:
+            review_node[f"{NIAS}reviewedArtifactSchemaVersionLabel"] = _literal_value(
+                reviewed_artifact_schema_version_label
+            )
+        if reviewed_submission_topic_id:
+            review_node[f"{NIAS}reviewedSubmissionTopicId"] = _literal_value(
+                reviewed_submission_topic_id
+            )
+        if reviewed_submission_consensus_timestamp:
+            review_node[f"{NIAS}reviewedSubmissionConsensusTimestamp"] = _literal_value(
+                reviewed_submission_consensus_timestamp
+            )
+        if reviewed_dlr_content_cid:
+            review_node[f"{NIAS}reviewedDlrContentCid"] = _literal_value(
+                reviewed_dlr_content_cid
+            )
         if field_refs:
             review_node[f"{NIAS}fieldReview"] = field_refs
         _required_review_decision(
