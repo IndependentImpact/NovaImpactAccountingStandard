@@ -25,3 +25,4 @@ upstream_alignment_fields:
   - alignedPddSubmissionConsensusTimestamp
 dlr_linkage_fields:
   - linkedDlrContentCid
+shape_enforced_dlr_field: linkedDlrContentCid

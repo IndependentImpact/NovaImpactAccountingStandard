@@ -26,5 +26,8 @@ reviewed_artifact_identity_fields:
   - reviewedArtifactSchemaVersionLabel
   - reviewedSubmissionTopicId
   - reviewedSubmissionConsensusTimestamp
+shape_enforced_reviewed_identity_fields:
+  - reviewedArtifactType
+  - reviewedArtifactContentCid
 dlr_linkage_fields:
   - reviewedDlrContentCid

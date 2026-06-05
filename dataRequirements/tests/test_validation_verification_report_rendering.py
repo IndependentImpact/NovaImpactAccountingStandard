@@ -502,8 +502,10 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 cwd=REPO_ROOT,
             )
             self.assertNotEqual(completed.returncode, 0)
+            # reviewedArtifactContentCid is now shape-enforced; the structural
+            # SHACL check fires before the renderer's final-mode guard.
             self.assertIn(
-                "reviewedArtifactContentCid is required in final render mode.",
+                "reviewedArtifactContentCid",
                 completed.stderr,
             )
 
@@ -542,8 +544,10 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 cwd=REPO_ROOT,
             )
             self.assertNotEqual(completed.returncode, 0)
+            # reviewedArtifactContentCid is now shape-enforced; the structural
+            # SHACL check fires before the renderer's final-mode guard.
             self.assertIn(
-                "reviewedArtifactContentCid is required in final render mode.",
+                "reviewedArtifactContentCid",
                 completed.stderr,
             )
 

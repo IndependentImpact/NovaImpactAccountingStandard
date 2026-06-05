@@ -26,3 +26,6 @@ reviewed_artifact_identity_fields:
   - reviewedArtifactSchemaVersionLabel
   - reviewedSubmissionTopicId
   - reviewedSubmissionConsensusTimestamp
+shape_enforced_reviewed_identity_fields:
+  - reviewedArtifactType
+  - reviewedArtifactContentCid

@@ -184,8 +184,111 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
                 cwd=REPO_ROOT,
             )
             self.assertNotEqual(completed.returncode, 0)
-            self.assertIn("reviewedArtifactContentCid is required in final render mode.", completed.stderr)
+            # reviewedArtifactContentCid is now shape-enforced; the structural
+            # SHACL check fires before the renderer's final-mode guard.
+            self.assertIn("reviewedArtifactContentCid", completed.stderr)
+
+    def test_final_render_rejects_missing_dlr_reference(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            invalid = tmp / "invalid-vv-dlr.jsonld"
+            payload = json.loads((FIXTURES / "validation-verification-report-input.jsonld").read_text())
+            review = next(
+                node
+                for node in payload
+                if node.get("@id")
+                == "https://nova.org.za/novaimpactaccountingstandard/test/vv-verification-review-1"
+            )
+            review.pop(
+                "https://nova.org.za/novaimpactaccountingstandard/reviewedDlrContentCid",
+                None,
+            )
+            invalid.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(VV_RENDERER),
+                    "--report-type",
+                    "verification",
+                    "--input-jsonld",
+                    str(invalid),
+                    "--evidence-jsonld",
+                    str(FIXTURES / "validation-verification-report-evidence.jsonld"),
+                    "--render-mode",
+                    "final",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                cwd=REPO_ROOT,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn("reviewedDlrContentCid is required in final render mode.", completed.stderr)
+
+    def test_shacl_rejects_review_in_ui_only_state(self):
+        from pyshacl import validate
+        from rdflib import Graph
+
+        shapes_graph = Graph()
+        for ttl in [
+            REPO_ROOT / "dataRequirements/common-shapes.ttl",
+            REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl",
+            REPO_ROOT / "dataRequirements/document-shapes.ttl",
+            REPO_ROOT / "dataRequirements/document-reference-shapes.ttl",
+            REPO_ROOT / "dataRequirements/review-shapes.ttl",
+        ]:
+            shapes_graph.parse(str(ttl))
+
+        ontology_graph = Graph()
+        for ttl in [
+            REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
+            REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
+        ]:
+            ontology_graph.parse(str(ttl))
+
+        # Build a minimal review document that has field reviews but no
+        # hasWorkflowSubmission (UI-only state — the reviewer filled in
+        # findings but the document was never submitted to the canonical
+        # workflow pipeline).
+        data_graph = Graph()
+        data_graph.parse(
+            data="""
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/test/ui-only-review-1>
+    a data:Document, nias-o:GenericDocumentReview ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/test/reviewer-1> ;
+    nias-o:authProof nias-o:none ;
+    nias-o:resourceIpfsUri "ipfs://bafyuionlyreview"^^xsd:anyURI ;
+    nias-o:fieldReview <https://nova.org.za/novaimpactaccountingstandard/test/ui-field-review-1> ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafyuionlyreviewedcid" ;
+    nias-o:finalReviewDecision nias-cs:review-approve .
+""",
+            format="turtle",
+        )
+
+        conforms, _, _ = validate(
+            data_graph=data_graph,
+            shacl_graph=shapes_graph,
+            ont_graph=ontology_graph,
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        self.assertFalse(
+            conforms,
+            msg="A review document without hasWorkflowSubmission (UI-only state) must not conform.",
+        )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
+
