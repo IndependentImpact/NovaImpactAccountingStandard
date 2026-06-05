@@ -13,6 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import load_export_config, run_renderer_with_payload
 from export_workflow_report import (
+    normalize_identity_field_names,
     schema_version_label,
     submission_event_key,
     submission_message_url,
@@ -340,7 +341,7 @@ def _build_workflow_nodes(args, payload, report_id, generated_at):
 
 
 def build_monitoring_package(args, generated_at):
-    payload = _load_json(args.monitoring_json)
+    payload = normalize_identity_field_names(_load_json(args.monitoring_json))
     report_id = _monitoring_report_id(args, payload)
     submission_id, submission_topic_id, submission_consensus_timestamp, workflow_nodes = _build_workflow_nodes(
         args, payload, report_id, generated_at
@@ -373,7 +374,7 @@ def build_monitoring_package(args, generated_at):
         or schema_version_label(
             schema_family="mr-schema",
             track=args.schema_track,
-            generated_at=generated_at,
+            generated_at=submission_consensus_timestamp,
             schema_cid=artifact_schema_cid,
         ),
     )

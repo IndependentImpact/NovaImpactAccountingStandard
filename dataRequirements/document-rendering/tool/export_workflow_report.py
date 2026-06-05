@@ -12,6 +12,68 @@ import yaml
 
 NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
 
+ARTIFACT_IDENTITY_FIELDS = (
+    "artifactContentCid",
+    "artifactSchemaCid",
+    "artifactSchemaVersionLabel",
+    "artifactAuthor",
+    "workflowSubject",
+    "submissionTopicId",
+    "submissionConsensusTimestamp",
+)
+REVIEWED_ARTIFACT_IDENTITY_FIELDS = (
+    "reviewedArtifactType",
+    "reviewedArtifactContentCid",
+    "reviewedArtifactSchemaCid",
+    "reviewedArtifactSchemaVersionLabel",
+    "reviewedSubmissionTopicId",
+    "reviewedSubmissionConsensusTimestamp",
+)
+UPSTREAM_ALIGNMENT_FIELDS = (
+    "alignedPddContentCid",
+    "alignedPddSubmissionTopicId",
+    "alignedPddSubmissionConsensusTimestamp",
+)
+DLR_LINKAGE_FIELDS = (
+    "linkedDlrContentCid",
+    "reviewedDlrContentCid",
+)
+DERIVED_SUBMISSION_FIELDS = (
+    "submissionEventKey",
+    "submissionMessageUrl",
+)
+
+IDENTITY_FIELD_ALIASES = {
+    "artifactSchemaVersionLabel": ("artifactSchemaLabel", "schemaVersionLabel"),
+    "submissionTopicId": ("topicId", "submissionTopic"),
+    "submissionConsensusTimestamp": ("consensusTimestamp", "submissionTimestamp"),
+    "reviewedSubmissionTopicId": ("reviewedTopicId", "reviewedSubmissionTopic"),
+    "reviewedSubmissionConsensusTimestamp": (
+        "reviewedConsensusTimestamp",
+        "reviewedSubmissionTimestamp",
+    ),
+}
+
+
+def _nias_field(name: str) -> str:
+    return f"{NIAS}{name}"
+
+
+def normalize_identity_field_names(payload: dict) -> dict:
+    if not isinstance(payload, dict):
+        return payload
+    normalized = dict(payload)
+    for canonical, aliases in IDENTITY_FIELD_ALIASES.items():
+        canonical_key = _nias_field(canonical)
+        if canonical_key in normalized:
+            continue
+        for alias in aliases:
+            alias_key = _nias_field(alias)
+            if alias_key in normalized:
+                normalized[canonical_key] = normalized[alias_key]
+                break
+    return normalized
+
 
 def _short_cid(value: str | None, length: int = 8) -> str:
     if not value:

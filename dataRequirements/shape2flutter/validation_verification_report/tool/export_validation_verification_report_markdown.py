@@ -13,7 +13,9 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import (
     load_export_config,
+    normalize_identity_field_names,
     run_renderer_with_payload,
+    schema_version_label,
     submission_event_key,
     submission_message_url,
 )
@@ -512,7 +514,7 @@ def build_review_package(args, generated_at):
             graph.append(node)
 
     for index, review_path in enumerate(args.review_json, start=1):
-        payload = _load_json(review_path)
+        payload = normalize_identity_field_names(_load_json(review_path))
         review_id = _review_id(args, payload, index)
         field_refs, field_nodes, support_nodes = _build_field_review_nodes(
             args, payload, review_id, generated_at
@@ -520,7 +522,7 @@ def build_review_package(args, generated_at):
         submission_id, submission_topic_id, submission_consensus_timestamp, workflow_nodes = _build_workflow_nodes(
             args, payload, review_id, index, generated_at
         )
-        review_target = _first_review_target(payload)
+        review_target = normalize_identity_field_names(_first_review_target(payload))
         reviewed_artifact_content_cid = _string(
             payload.get(f"{NIAS}reviewedArtifactContentCid")
         )
@@ -547,7 +549,12 @@ def build_review_package(args, generated_at):
         artifact_schema_cid = _string(payload.get(f"{NIAS}artifactSchemaCid"), f"bafy{args.report_type}schemacid")
         artifact_schema_version_label = _string(
             payload.get(f"{NIAS}artifactSchemaVersionLabel"),
-            f"nias:{args.report_type}-schema:main:{generated_at[:10]}:{artifact_schema_cid[:8]}",
+            schema_version_label(
+                schema_family=f"{args.report_type}-schema",
+                track="main",
+                generated_at=submission_consensus_timestamp,
+                schema_cid=artifact_schema_cid,
+            ),
         )
         artifact_author = _string(payload.get(f"{NIAS}artifactAuthor"), args.document_author)
         workflow_subject = _string(payload.get(f"{NIAS}workflowSubject"), args.workflow_subject)
