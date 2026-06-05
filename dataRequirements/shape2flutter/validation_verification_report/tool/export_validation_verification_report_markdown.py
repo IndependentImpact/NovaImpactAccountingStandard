@@ -38,6 +38,17 @@ REVIEW_SCHEMAS = {
     "validation": f"{NIAS}document-schema/GenericDocumentReview-5.0.0",
     "verification": f"{NIAS}document-schema/DRVICIR-1.0.0",
 }
+REVIEW_DECISIONS = {
+    f"{NIAS}review-approve",
+    f"{NIAS}review-forward-action-request",
+    f"{NIAS}review-corrective-action-request",
+    f"{NIAS}review-reject",
+}
+FINAL_REVIEW_DECISIONS = {
+    f"{NIAS}review-approve",
+    f"{NIAS}review-reject",
+}
+HEDERA_ACCOUNT_ID_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
 
 
 def _load_json(path: Path):
@@ -105,6 +116,40 @@ def _optional_iri(node, predicate, value):
     value = _string(value)
     if value:
         node[predicate] = _iri_value(value)
+
+
+def _required_string(value, field_name):
+    text = _string(value)
+    if text:
+        return text
+    raise ValueError(f"{field_name} is required.")
+
+
+def _required_iri(node, predicate, value, field_name):
+    node[predicate] = _iri_value(_required_string(value, field_name))
+
+
+def _required_literal(node, predicate, value, field_name, datatype=None):
+    node[predicate] = _literal_value(
+        _required_string(value, field_name),
+        datatype=datatype,
+    )
+
+
+def _required_review_decision(node, predicate, value, field_name, allowed_values):
+    decision = _required_string(value, field_name)
+    if decision not in allowed_values:
+        raise ValueError(
+            f"{field_name} must be one of: {', '.join(sorted(allowed_values))}."
+        )
+    node[predicate] = _iri_value(decision)
+
+
+def _required_hedera_account_id(node, predicate, value, field_name):
+    account_id = _required_string(value, field_name)
+    if not HEDERA_ACCOUNT_ID_PATTERN.fullmatch(account_id):
+        raise ValueError(f"{field_name} must match shard.realm.num.")
+    node[predicate] = _literal_value(account_id)
 
 
 def _node_id(suffix):
@@ -299,25 +344,49 @@ def _build_field_review_nodes(args, payload, review_id, generated_at):
             raw_target.get(f"{NIAS}reviewedAnchor")
             or raw_field.get(f"{NIAS}reviewedAnchor")
         )
-        _optional_iri(
+        _required_iri(
             target_node,
             f"{NIAS}reviewedArtifact",
             reviewed_artifact,
+            f"Field review {index} reviewedArtifact",
         )
-        _optional_iri(
+        _required_iri(
             target_node,
             f"{NIAS}reviewedAnchor",
             reviewed_anchor,
+            f"Field review {index} reviewedAnchor",
         )
         node[f"{NIAS}reviewTarget"] = _iri_value(target_id)
-        _optional_literal(node, f"{NIAS}fieldTitle", raw_field.get(f"{NIAS}fieldTitle"))
-        _optional_literal(node, f"{NIAS}fieldPrompt", raw_field.get(f"{NIAS}fieldPrompt"))
-        _optional_literal(node, f"{NIAS}originalResponse", raw_field.get(f"{NIAS}originalResponse"))
-        _optional_iri(node, f"{NIAS}reviewerDecision", raw_field.get(f"{NIAS}reviewerDecision"))
-        _optional_literal(
+        _required_literal(
+            node,
+            f"{NIAS}fieldTitle",
+            raw_field.get(f"{NIAS}fieldTitle"),
+            f"Field review {index} fieldTitle",
+        )
+        _required_literal(
+            node,
+            f"{NIAS}fieldPrompt",
+            raw_field.get(f"{NIAS}fieldPrompt"),
+            f"Field review {index} fieldPrompt",
+        )
+        _required_literal(
+            node,
+            f"{NIAS}originalResponse",
+            raw_field.get(f"{NIAS}originalResponse"),
+            f"Field review {index} originalResponse",
+        )
+        _required_review_decision(
+            node,
+            f"{NIAS}reviewerDecision",
+            raw_field.get(f"{NIAS}reviewerDecision"),
+            f"Field review {index} reviewerDecision",
+            REVIEW_DECISIONS,
+        )
+        _required_literal(
             node,
             f"{NIAS}reviewerFeedback",
             raw_field.get(f"{NIAS}reviewerFeedback"),
+            f"Field review {index} reviewerFeedback",
         )
         nodes.extend([node, target_node])
         support_nodes.extend(
@@ -456,12 +525,19 @@ def build_review_package(args, generated_at):
         }
         if field_refs:
             review_node[f"{NIAS}fieldReview"] = field_refs
-        _optional_iri(review_node, f"{NIAS}finalReviewDecision", payload.get(f"{NIAS}finalReviewDecision"))
+        _required_review_decision(
+            review_node,
+            f"{NIAS}finalReviewDecision",
+            payload.get(f"{NIAS}finalReviewDecision"),
+            "finalReviewDecision",
+            FINAL_REVIEW_DECISIONS,
+        )
         if args.report_type == "verification":
-            _optional_literal(
+            _required_hedera_account_id(
                 review_node,
                 f"{NIAS}requestedIssuanceAccountId",
                 payload.get(f"{NIAS}requestedIssuanceAccountId"),
+                "requestedIssuanceAccountId",
             )
 
         add_nodes(review_node, *field_nodes, *support_nodes, *workflow_nodes)

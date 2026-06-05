@@ -312,6 +312,121 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                 f"{NIAS}workflows/verification-report",
             )
 
+    def test_validation_review_missing_reviewed_artifact_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}fieldReview"][0][f"{NIAS}reviewTarget"][f"{NIAS}reviewedArtifact"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "Field review 1 reviewedArtifact is required.",
+        )
+
+    def test_validation_review_missing_reviewed_anchor_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}fieldReview"][0][f"{NIAS}reviewTarget"][f"{NIAS}reviewedAnchor"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "Field review 1 reviewedAnchor is required.",
+        )
+
+    def test_validation_review_missing_field_title_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}fieldReview"][0][f"{NIAS}fieldTitle"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "Field review 1 fieldTitle is required.",
+        )
+
+    def test_validation_review_missing_reviewer_feedback_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}fieldReview"][0][f"{NIAS}reviewerFeedback"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "Field review 1 reviewerFeedback is required.",
+        )
+
+    def test_validation_review_missing_final_decision_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}finalReviewDecision"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "finalReviewDecision is required.",
+        )
+
+    def test_verification_review_missing_account_id_fails(self):
+        payload = _review_form_payload("verification")
+        del payload[f"{NIAS}requestedIssuanceAccountId"]
+        self._assert_export_fails(
+            payload,
+            "verification",
+            VERIFICATION_WRAPPER,
+            "requestedIssuanceAccountId is required.",
+        )
+
+    def test_verification_review_invalid_account_format_fails(self):
+        payload = _review_form_payload("verification")
+        payload[f"{NIAS}requestedIssuanceAccountId"] = "invalid-account"
+        self._assert_export_fails(
+            payload,
+            "verification",
+            VERIFICATION_WRAPPER,
+            "requestedIssuanceAccountId must match shard.realm.num.",
+        )
+
+    def _assert_export_fails(self, payload, report_type, script, expected_message):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            review_json = tmp_path / f"{report_type}-review-form.json"
+            output = tmp_path / f"{report_type}-report.md"
+
+            review_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(script),
+                    "--review-json",
+                    str(review_json),
+                    "--review-id",
+                    f"{NIAS}test/{report_type}-review",
+                    "--evidence-jsonld",
+                    str(EVIDENCE),
+                    "--document-author",
+                    (
+                        f"{NIAS}test/validator-1"
+                        if report_type == "validation"
+                        else f"{NIAS}test/verifier-1"
+                    ),
+                    "--resource-ipfs-uri",
+                    f"ipfs://bafy{report_type}review",
+                    "--workflow-step-label",
+                    f"{report_type.title()} review",
+                    "--generated-at",
+                    "2026-05-28T00:00:00Z",
+                    "--render-mode",
+                    "final",
+                    "--output",
+                    str(output),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+            )
+
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn(expected_message, completed.stderr)
+
 
 def _review_form_payload(report_type):
     reviewer = "validator-1" if report_type == "validation" else "verifier-1"
