@@ -17,6 +17,8 @@ artifact_identity_fields:
   - workflowSubject
   - submissionTopicId
   - submissionConsensusTimestamp
+  - submissionEventKey
+  - submissionMessageUrl
 reviewed_artifact_identity_fields:
   - reviewedArtifactType
   - reviewedArtifactContentCid

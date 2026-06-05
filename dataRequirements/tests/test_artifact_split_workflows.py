@@ -32,6 +32,33 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
 
         self.assertEqual(len(workflow_ids), len(set(workflow_ids)))
 
+    def test_all_workflows_declare_common_artifact_identity_fields(self):
+        expected_common_fields = {
+            "artifactContentCid",
+            "artifactSchemaCid",
+            "artifactSchemaVersionLabel",
+            "artifactAuthor",
+            "workflowSubject",
+            "submissionTopicId",
+            "submissionConsensusTimestamp",
+            "submissionEventKey",
+            "submissionMessageUrl",
+        }
+
+        for filename in [
+            "pdd-design.yaml",
+            "validation-report.yaml",
+            "monitoring-report.yaml",
+            "verification-report.yaml",
+        ]:
+            with self.subTest(filename=filename):
+                workflow = self._workflow(filename)
+                self.assertTrue(
+                    expected_common_fields.issubset(
+                        set(workflow["artifact_identity_fields"])
+                    )
+                )
+
     def test_pdd_design_workflow_contains_only_pdd_capture_steps(self):
         workflow = self._workflow("pdd-design.yaml")
 

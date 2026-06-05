@@ -17,6 +17,8 @@ artifact_identity_fields:
   - workflowSubject
   - submissionTopicId
   - submissionConsensusTimestamp
+  - submissionEventKey
+  - submissionMessageUrl
 upstream_alignment_fields:
   - alignedPddContentCid
   - alignedPddSubmissionTopicId
