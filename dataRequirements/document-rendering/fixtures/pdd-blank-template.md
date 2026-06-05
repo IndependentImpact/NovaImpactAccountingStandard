@@ -243,7 +243,9 @@ Each data or monitoring parameter renders as one table under this subsection.
 
 | Field | Value |
 | --- | --- |
-| Predicate map appendix | **[optional]** _[to be populated]_ |
+| Project title | https://nova.org.za/novaimpactaccountingstandard/title |
+| Declared impact description | https://schema.org/description |
+| Stakeholder modalities | https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities |
 
 
 \newpage

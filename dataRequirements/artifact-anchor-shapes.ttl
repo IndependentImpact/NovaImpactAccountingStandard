@@ -101,6 +101,11 @@ nias-o:ArtifactAnchorShape a sh:NodeShape ;
 nias-o:ReviewedArtifactPropertyShape a sh:PropertyShape ;
     sh:path nias-o:reviewedArtifact ;
     sh:nodeKind sh:IRI ;
+    sh:class data:Document ;
+    sh:node [
+        sh:class data:Document ;
+        sh:message "A review target must point to a reviewed artifact typed as a data:Document."@en
+    ] ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:message "A review target must identify the exact reviewed artifact version."@en .
@@ -108,6 +113,18 @@ nias-o:ReviewedArtifactPropertyShape a sh:PropertyShape ;
 nias-o:ReviewedAnchorPropertyShape a sh:PropertyShape ;
     sh:path nias-o:reviewedAnchor ;
     sh:nodeKind sh:IRI ;
+    sh:class nias-o:ArtifactAnchor ;
+    sh:node [
+        sh:class nias-o:ArtifactAnchor ;
+        sh:property [
+            sh:path dcterms:isPartOf ;
+            sh:nodeKind sh:IRI ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:message "A reviewed anchor must identify the exact artifact version it belongs to."@en
+        ] ;
+        sh:message "A review target must point to a reviewed anchor typed as a nias-o:ArtifactAnchor."@en
+    ] ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:message "A review target must identify the exact reviewed artifact anchor."@en .
@@ -115,4 +132,16 @@ nias-o:ReviewedAnchorPropertyShape a sh:PropertyShape ;
 nias-o:ReviewTargetShape a sh:NodeShape ;
     sh:targetClass nias-o:ReviewTarget ;
     sh:property nias-o:ReviewedArtifactPropertyShape ;
-    sh:property nias-o:ReviewedAnchorPropertyShape .
+    sh:property nias-o:ReviewedAnchorPropertyShape ;
+    sh:sparql [
+        sh:message "A reviewed anchor must belong to the reviewed artifact via dcterms:isPartOf."@en ;
+        sh:select """
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:reviewedArtifact ?artifact ;
+                      nias-o:reviewedAnchor ?anchor .
+                FILTER NOT EXISTS { ?anchor dcterms:isPartOf ?artifact }
+            }
+        """
+    ] .

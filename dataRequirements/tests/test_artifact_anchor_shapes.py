@@ -17,6 +17,7 @@ ONTOLOGY_FILES = [
 
 VALID_ANCHOR_GRAPH = """
 @prefix claimont: <http://w3id.org/claimont#> .
+@prefix data: <https://jellyfiiish.xyz/ns/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -28,6 +29,9 @@ VALID_ANCHOR_GRAPH = """
     nias-o:sourceShape nias-o:PddSectionAReportShape ;
     nias-o:sourcePath claimont:hasSubject ;
     nias-o:renderOrder 110 .
+
+<https://example.org/artifacts/pdd-alpha-v1>
+    a data:Document .
 
 <https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose>
     a nias-o:ArtifactAnchor ;
@@ -52,6 +56,60 @@ INVALID_REVIEW_TARGET_GRAPH = """
 <https://example.org/review-targets/pdd-alpha-project-purpose>
     a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact <https://example.org/artifacts/pdd-alpha-v1> .
+"""
+
+
+INVALID_REVIEWED_ARTIFACT_CLASS_GRAPH = """
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+
+<https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose>
+    a nias-o:ArtifactAnchor ;
+    <http://purl.org/dc/terms/isPartOf> <https://example.org/artifacts/pdd-alpha-v1> .
+
+<https://example.org/review-targets/pdd-alpha-project-purpose>
+    a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact <https://example.org/artifacts/pdd-alpha-v1> ;
+    nias-o:reviewedAnchor <https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose> .
+"""
+
+
+INVALID_REVIEWED_ANCHOR_CLASS_GRAPH = """
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+
+<https://example.org/artifacts/pdd-alpha-v1>
+    a data:Document .
+
+<https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose>
+    dcterms:isPartOf <https://example.org/artifacts/pdd-alpha-v1> .
+
+<https://example.org/review-targets/pdd-alpha-project-purpose>
+    a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact <https://example.org/artifacts/pdd-alpha-v1> ;
+    nias-o:reviewedAnchor <https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose> .
+"""
+
+
+INVALID_REVIEW_TARGET_PART_OF_GRAPH = """
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+
+<https://example.org/artifacts/pdd-alpha-v1>
+    a data:Document .
+
+<https://example.org/artifacts/pdd-beta-v1>
+    a data:Document .
+
+<https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose>
+    a nias-o:ArtifactAnchor ;
+    dcterms:isPartOf <https://example.org/artifacts/pdd-beta-v1> .
+
+<https://example.org/review-targets/pdd-alpha-project-purpose>
+    a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact <https://example.org/artifacts/pdd-alpha-v1> ;
+    nias-o:reviewedAnchor <https://example.org/artifacts/pdd-alpha-v1/anchors/pdd.sectionA.projectPurpose> .
 """
 
 
@@ -96,6 +154,32 @@ class ArtifactAnchorShapeTests(unittest.TestCase):
         conforms, _, validation_text = self._validate_turtle(INVALID_REVIEW_TARGET_GRAPH)
         self.assertFalse(conforms, msg="Review target without anchor should fail.")
         self.assertIn("reviewedAnchor", validation_text)
+
+    def test_review_target_requires_reviewed_artifact_document_class(self):
+        conforms, _, validation_text = self._validate_turtle(
+            INVALID_REVIEWED_ARTIFACT_CLASS_GRAPH
+        )
+        self.assertFalse(conforms, msg="Review target without a typed document should fail.")
+        self.assertIn("data:Document", validation_text)
+
+    def test_review_target_requires_reviewed_anchor_artifact_anchor_class(self):
+        conforms, _, validation_text = self._validate_turtle(
+            INVALID_REVIEWED_ANCHOR_CLASS_GRAPH
+        )
+        self.assertFalse(
+            conforms, msg="Review target without a typed artifact anchor should fail."
+        )
+        self.assertIn("ArtifactAnchor", validation_text)
+
+    def test_review_target_requires_anchor_part_of_reviewed_artifact(self):
+        conforms, _, validation_text = self._validate_turtle(
+            INVALID_REVIEW_TARGET_PART_OF_GRAPH
+        )
+        self.assertFalse(
+            conforms,
+            msg="Review target with a mismatched reviewed artifact and anchor should fail.",
+        )
+        self.assertIn("dcterms:isPartOf", validation_text)
 
 
 if __name__ == "__main__":

@@ -114,5 +114,5 @@ Final monitoring exports should produce:
 - `monitoring-report.validation.json`
 
 The Markdown/PDF/HTML outputs are human-readable projections. The sidecar files
-carry machine-readable provenance, validation, source graph, hash, and artifact
-metadata.
+carry machine-readable provenance, validation, source graph, hash, canonical
+artifact anchors, and artifact metadata.

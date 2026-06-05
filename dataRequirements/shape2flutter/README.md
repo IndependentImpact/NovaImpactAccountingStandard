@@ -240,8 +240,12 @@ dataRequirements/shape2flutter/build-validation-report.sh
 dataRequirements/shape2flutter/build-verification-report.sh
 ```
 
-Both scripts still use the shared `validation-verification-ui-shapes.ttl`
-bundle, but they write generated artifacts to activity-specific output roots:
+Each script now uses its own UI bundle:
+
+- `build-validation-report.sh` → `validation-report-ui-shapes.ttl`
+- `build-verification-report.sh` → `verification-report-ui-shapes.ttl`
+
+They write generated artifacts to activity-specific output roots:
 
 - `/tmp/nias-shape2flutter/validation-report/schema/forms.jsonld`
 - `/tmp/nias-shape2flutter/validation-report/flutter/*.dart`

@@ -126,7 +126,7 @@ validation-verification-report-input.jsonld
 validation-verification-report-input.jsonld
 
 ### Input SHA-256
-98241774c8cecda29727edb5a5c5149b55762d98b47923534f213effb6e14246
+07fd463791d737634f1d11a3130928842c0d0018b600cea0cbf0548716281efa
 
 ### Evidence JSON-LD 1
 validation-verification-report-evidence.jsonld

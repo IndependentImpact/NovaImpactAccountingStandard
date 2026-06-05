@@ -268,6 +268,11 @@ nias-o:PddSectionCReport a owl:Class ;
     rdfs:subClassOf nias-o:ProjectDesignDocument ;
     skos:definition "A PDD report covering Section C monitoring and procedural content. Any planned future monitoring or sampling procedures described here may be modelled as a linked prov:Plan."@en .
 
+nias-o:PddReport a owl:Class ;
+    rdfs:label "PddReport"@en ;
+    rdfs:subClassOf nias-o:ProjectDesignDocument ;
+    skos:definition "A canonical composite Project Design Document content resource that keeps PDD Section A, B, and C as explicit ordered subcomponents within one published PDD content artifact."@en .
+
 nias-o:PddCertificateIssuanceRequest a owl:Class ;
     rdfs:label "PddCertificateIssuanceRequest"@en ;
     rdfs:subClassOf data:Document,
@@ -653,6 +658,24 @@ nias-o:hasMonitoringReport a owl:ObjectProperty ;
     rdfs:domain aiao:Project ;
     rdfs:range nias-o:MonitoringReport ;
     skos:definition "A monitoring report associated with a project."@en .
+
+nias-o:hasPddSectionA a owl:ObjectProperty ;
+    rdfs:label "hasPddSectionA"@en ;
+    rdfs:domain nias-o:PddReport ;
+    rdfs:range nias-o:PddSectionAReport ;
+    skos:definition "Links a composite PDD content resource to its Section A subcomponent."@en .
+
+nias-o:hasPddSectionB a owl:ObjectProperty ;
+    rdfs:label "hasPddSectionB"@en ;
+    rdfs:domain nias-o:PddReport ;
+    rdfs:range nias-o:PddSectionBReport ;
+    skos:definition "Links a composite PDD content resource to its Section B subcomponent."@en .
+
+nias-o:hasPddSectionC a owl:ObjectProperty ;
+    rdfs:label "hasPddSectionC"@en ;
+    rdfs:domain nias-o:PddReport ;
+    rdfs:range nias-o:PddSectionCReport ;
+    skos:definition "Links a composite PDD content resource to its Section C subcomponent."@en .
 
 nias-o:renderHeading a owl:DatatypeProperty ;
     rdfs:label "renderHeading"@en ;

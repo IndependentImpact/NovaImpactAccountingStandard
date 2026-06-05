@@ -5,12 +5,21 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from pyshacl import validate
+from rdflib import Graph
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py"
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
 INPUT = FIXTURES / "monitoring-report-input.jsonld"
 INVALID_STRUCTURAL = FIXTURES / "monitoring-report-invalid-structural.jsonld"
+ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+ONTOLOGY_FILES = [
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
+]
+SHA256_HASH_PATTERN = r"^sha256:[a-f0-9]{64}$"
 
 
 class MonitoringReportRenderingTests(unittest.TestCase):
@@ -150,6 +159,41 @@ class MonitoringReportRenderingTests(unittest.TestCase):
 
             metadata_payload = json.loads(metadata.read_text(encoding="utf-8"))
             self.assertEqual(metadata_payload["nias:reportType"], "monitoring")
+            self.assertEqual(
+                [artifact["artifact"] for artifact in metadata_payload["nias:artifacts"]],
+                ["markdown"],
+            )
+            anchors = metadata_payload["nias:artifactAnchor"]
+            self.assertEqual(len(anchors), 7)
+            self.assertEqual(anchors[0]["nias:anchorKey"], "monitoring.packageSummary")
+            self.assertEqual(anchors[-1]["nias:anchorKey"], "monitoring.workflowEvidence")
+            for anchor in anchors:
+                with self.subTest(anchor=anchor["nias:anchorKey"]):
+                    self.assertEqual(anchor["@type"], "nias:ArtifactAnchor")
+                    self.assertEqual(
+                        anchor["dcterms:isPartOf"]["@id"],
+                        metadata_payload["@id"],
+                    )
+                    self.assertRegex(anchor["nias:contentHash"], SHA256_HASH_PATTERN)
+
+            metadata_graph = Graph()
+            metadata_graph.parse(metadata, format="json-ld")
+            shape_graph = Graph()
+            shape_graph.parse(ARTIFACT_ANCHOR_SHAPES)
+            ontology_graph = Graph()
+            for ontology_path in ONTOLOGY_FILES:
+                ontology_graph.parse(ontology_path)
+            conforms, _, validation_text = validate(
+                data_graph=metadata_graph,
+                shacl_graph=shape_graph,
+                ont_graph=ontology_graph,
+                inference="none",
+                abort_on_first=False,
+                allow_infos=False,
+                allow_warnings=False,
+                advanced=True,
+            )
+            self.assertTrue(conforms, msg=validation_text)
 
             validation_payload = json.loads(validation.read_text(encoding="utf-8"))
             self.assertEqual(validation_payload["status"], "passed")

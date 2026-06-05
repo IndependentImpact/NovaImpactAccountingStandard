@@ -56,6 +56,11 @@ DIRECTIVE_PATTERN = re.compile(r"^\{\{ render: ([a-zA-Z0-9_.-]+) \}\}$")
 WORKFLOW_ROW_PATTERN = re.compile(
     r"^\|[^|]+\|\s*`([^`]+)`\s*/\s*`[^`]+`\s*\|[^|]+\|\s*`\{\{ render: ([^\s}]+) \}\}`\s*\|$"
 )
+PREDICATE_MAP_LOCATIONS = (
+    ("Project title", NIAS.title),
+    ("Declared impact description", SCHEMA.description),
+    ("Stakeholder modalities", NIAS.stakeholderEngagementModalities),
+)
 
 
 def _read_front_matter_and_body(path: Path):
@@ -101,6 +106,10 @@ def _two_column_table(rows):
     for label, value in rows:
         lines.append(f"| {_escape_table_cell(label)} | {_escape_table_cell(value)} |")
     return lines
+
+
+def _predicate_map_rows():
+    return [(label, str(predicate)) for label, predicate in PREDICATE_MAP_LOCATIONS]
 
 
 def _heading_anchor(title):
@@ -348,11 +357,7 @@ def _render_blank_directive(directive: str, profile_body: str):
     if directive == "pdd.sectionB.dataParameterTables":
         return _render_blank_data_parameter_table()
     if directive == "predicateMapAppendix":
-        return _two_column_table(
-            [
-                ("Predicate map appendix", "**[optional]** _[to be populated]_"),
-            ]
-        )
+        return _two_column_table(_predicate_map_rows())
     if directive == "sourceEvidenceAppendix":
         return _two_column_table(
             [
@@ -945,16 +950,7 @@ def _render_filled_directive(
         )
 
     if directive == "predicateMapAppendix":
-        return _two_column_table(
-            [
-                ("Project title", "https://nova.org.za/novaimpactaccountingstandard/title"),
-                ("Declared impact description", "https://schema.org/description"),
-                (
-                    "Stakeholder modalities",
-                    "https://nova.org.za/novaimpactaccountingstandard/stakeholderEngagementModalities",
-                ),
-            ]
-        )
+        return _two_column_table(_predicate_map_rows())
 
     if directive == "sourceEvidenceAppendix":
         return _two_column_table([("Source graph identifier", source_artifact)])
@@ -1060,7 +1056,7 @@ def _sha256_file(path: Path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
+def _load_anchor_definitions(path: Path):
     graph = Graph()
     graph.parse(str(path), format="turtle")
     definitions = []
@@ -1071,7 +1067,7 @@ def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
         source_path = graph.value(subject, NIAS.sourcePath)
         render_order = graph.value(subject, NIAS.renderOrder)
         if key is None or title is None or source_shape is None or render_order is None:
-            raise ValueError(f"PDD anchor definition {subject} is incomplete.")
+            raise ValueError(f"Anchor definition {subject} is incomplete.")
         definitions.append(
             {
                 "id": str(subject),
@@ -1083,6 +1079,10 @@ def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
             }
         )
     return sorted(definitions, key=lambda item: item["renderOrder"])
+
+
+def _load_pdd_anchor_definitions(path: Path = DEFAULT_PDD_ANCHOR_DEFINITIONS):
+    return _load_anchor_definitions(path)
 
 
 def _markdown_section_for_heading(markdown: str, title: str):
@@ -1100,7 +1100,7 @@ def _markdown_section_for_heading(markdown: str, title: str):
         break
 
     if start_index is None or heading_level is None:
-        raise ValueError(f"Rendered PDD is missing anchor heading: {title}")
+        raise ValueError(f"Rendered document is missing anchor heading: {title}")
 
     end_index = len(lines)
     next_heading_pattern = re.compile(r"^(#{1,6})\s+.+$")
@@ -1113,10 +1113,14 @@ def _markdown_section_for_heading(markdown: str, title: str):
     return "\n".join(lines[start_index:end_index]).strip() + "\n"
 
 
-def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
+def _artifact_anchors(
+    rendered_markdown: str,
+    document_id: str,
+    definitions_path: Path,
+):
     artifact_id = f"urn:nias:{document_id}"
     anchors = []
-    for definition in _load_pdd_anchor_definitions():
+    for definition in _load_anchor_definitions(definitions_path):
         section_markdown = _markdown_section_for_heading(
             rendered_markdown,
             definition["title"],
@@ -1146,6 +1150,14 @@ def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
             anchor["nias:sourcePath"] = {"@id": definition["sourcePath"]}
         anchors.append(anchor)
     return anchors
+
+
+def _pdd_artifact_anchors(rendered_markdown: str, document_id: str):
+    return _artifact_anchors(
+        rendered_markdown,
+        document_id,
+        DEFAULT_PDD_ANCHOR_DEFINITIONS,
+    )
 
 
 def _resolve_pandoc_bin():

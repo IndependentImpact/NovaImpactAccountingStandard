@@ -1,0 +1,305 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix ind: <http://independentimpact.org/indicator-owl/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-ui: <https://nova.org.za/novaimpactaccountingstandard/shape2flutter/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix ui: <https://shape2flutter.dev/vocab/ui#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-ui:VerificationReportUiShapes a owl:Ontology ;
+    dcterms:title "NIAS verification report shape2flutter UI shapes"@en ;
+    dcterms:description "Flattened UI-facing SHACL views for shape2flutter generation for verification report workflows. Canonical constraints remain in dataRequirements/*.ttl."@en .
+
+nias-ui:TimeInstantUiShape a sh:NodeShape ;
+    sh:targetClass time:Instant ;
+    sh:property [
+        sh:path time:inXSDDateTimeStamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Date and time" ;
+        ui:widget ui:dateTime ;
+        ui:order 1 ;
+    ] .
+
+nias-ui:DateTimeIntervalUiShape a sh:NodeShape ;
+    sh:targetClass time:Interval ;
+    sh:property [
+        sh:path time:hasBeginning ;
+        sh:node nias-ui:TimeInstantUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Start" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path time:hasEnd ;
+        sh:node nias-ui:TimeInstantUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "End" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] .
+
+nias-ui:HederaTopicMessageUiShape a sh:NodeShape ;
+    sh:targetClass hedera:TopicMessage ;
+    sh:property [
+        sh:path hedera:inTopic ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus topic" ;
+        ui:help "IRI for the Hedera consensus topic." ;
+        ui:widget ui:text ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasSequenceNumber ;
+        sh:datatype xsd:integer ;
+        sh:maxCount 1 ;
+        ui:label "Sequence number" ;
+        ui:widget ui:number ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus timestamp" ;
+        ui:widget ui:dateTime ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path hedera:hasMessageContent ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        ui:label "Message content" ;
+        ui:widget ui:textarea ;
+        ui:order 4 ;
+    ] .
+
+nias-ui:WorkflowDocumentSubmissionUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:WorkflowDocumentSubmission ;
+    sh:property [
+        sh:path nias-o:submittedDocument ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Submitted document" ;
+        ui:widget ui:text ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflow ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowStep ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow step" ;
+        ui:widget ui:text ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubject ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow subject" ;
+        ui:widget ui:text ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentSubmittedBy ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Submitted by" ;
+        ui:widget ui:text ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowDocumentRecipient ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Recipient" ;
+        ui:widget ui:text ;
+        ui:order 6 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubmissionConsensusMessage ;
+        sh:node nias-ui:HederaTopicMessageUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Consensus message" ;
+        ui:widget ui:subform ;
+        ui:order 7 ;
+    ] .
+
+nias-ui:DocumentReferenceUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentReference ;
+    sh:property [
+        sh:path nias-o:documentMessageId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Message ID" ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "IPFS URI" ;
+        ui:widget ui:ipfs ;
+        ui:order 2 ;
+    ] .
+
+nias-ui:ResourceArtifactUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ResourceArtifact ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "IPFS URI" ;
+        ui:widget ui:ipfs ;
+        ui:order 1 ;
+    ] .
+
+nias-ui:ReviewTargetUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:ReviewTarget ;
+    sh:property [
+        sh:path nias-o:reviewedArtifact ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed artifact IRI" ;
+        ui:help "IRI of the exact PDD, monitoring report, or other reviewed artifact version." ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedAnchor ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed anchor IRI" ;
+        ui:help "IRI of the concrete artifact anchor being reviewed." ;
+        ui:order 2 ;
+    ] .
+
+nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:DocumentFieldReview ;
+    sh:property [
+        sh:path nias-o:reviewTarget ;
+        sh:node nias-ui:ReviewTargetUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Review target" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldTitle ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed item title" ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldPrompt ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Review prompt" ;
+        ui:widget ui:textarea ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:originalResponse ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed content" ;
+        ui:widget ui:textarea ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewerDecision ;
+        sh:in (
+            nias-cs:review-approve
+            nias-cs:review-forward-action-request
+            nias-cs:review-corrective-action-request
+            nias-cs:review-reject
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewer decision" ;
+        ui:widget ui:radio ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewerFeedback ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewer feedback" ;
+        ui:widget ui:textarea ;
+        ui:order 6 ;
+    ] .
+
+nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:node nias-ui:DocumentFieldReviewUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 99 ;
+        ui:label "Anchor reviews" ;
+        ui:widget ui:subform ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Final review decision" ;
+        ui:widget ui:radio ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:requestedIssuanceAccountId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Issuance account ID" ;
+        ui:help "Hedera account in shard.realm.num format." ;
+        ui:order 4 ;
+    ] .
