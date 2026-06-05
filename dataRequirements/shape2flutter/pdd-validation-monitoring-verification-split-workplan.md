@@ -387,6 +387,15 @@ Acceptance criteria:
 
 ### Phase 4: Add Monitoring Report UI and renderer flow
 
+Status note 2026-06-05: Phase 4 is complete. All deliverables are in place:
+`monitoring-report-ui-shapes.ttl`, `workflows/monitoring-report.yaml`,
+`build-monitoring-report.sh`, `monitoring_report/tool/export_monitoring_report_markdown.py`,
+`monitoring-report-rendering-profile.md`, `render_monitoring_report_markdown.py`,
+`monitoring-report-export.yaml`. Regression fixtures
+(`monitoring-report-blank-template.md`, `monitoring-report-rendered.md`) and
+fixture-matching tests are in `test_monitoring_report_rendering.py`. All
+acceptance criteria are met.
+
 Deliverables:
 
 - Add `monitoring-report-ui-shapes.ttl` for `MonitoringReportShape` and nested
@@ -404,6 +413,23 @@ Acceptance criteria:
 - Monitoring Report output has its own deterministic filenames and sidecars.
 
 ### Phase 5: Split Verification Report from validation and align it to Monitoring Report
+
+Status note 2026-06-05: Phase 5 is complete. `verification-report-ui-shapes.ttl`,
+`workflows/verification-report.yaml`, `build-verification-report.sh`, and
+`verification_report/tool/export_verification_report_markdown.py` are all in
+place. The verification exporter delegates to the shared
+`export_validation_verification_report_markdown.py` with `--report-type
+verification`, providing a separate verifier startup path without requiring the
+validation UI. Verification final-mode validates against Monitoring Report and
+VVS evidence; the metadata sidecar records `reviewedArtifactType=monitoring-report`
+and `reviewedDlrContentCid`.
+
+VIC-IR decision: `VerifiedImpactCertificateIssuanceRequestReviewShape` remains
+in the verification bundle. The VIC-IR review is the verification artifact: the
+verifier reviews a Monitoring Report and its DLR evidence and then records a
+VIC issuance recommendation as part of the same verification package. A separate
+VIC-IR issuance workflow (Phase 6 gate) will query approved verification reports
+rather than embed issuance logic into the verification form itself.
 
 Deliverables:
 

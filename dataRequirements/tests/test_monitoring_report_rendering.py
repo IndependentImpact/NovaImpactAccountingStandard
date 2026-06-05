@@ -14,6 +14,8 @@ SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_monitoring
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
 INPUT = FIXTURES / "monitoring-report-input.jsonld"
 INVALID_STRUCTURAL = FIXTURES / "monitoring-report-invalid-structural.jsonld"
+BLANK_TEMPLATE_FIXTURE = FIXTURES / "monitoring-report-blank-template.md"
+RENDERED_FIXTURE = FIXTURES / "monitoring-report-rendered.md"
 ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
 ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
@@ -58,6 +60,12 @@ class MonitoringReportRenderingTests(unittest.TestCase):
         )
         return completed.stdout
 
+    def test_blank_template_matches_fixture(self):
+        self.assertEqual(
+            self._render_blank(),
+            BLANK_TEMPLATE_FIXTURE.read_text(encoding="utf-8"),
+        )
+
     def test_blank_template_contains_expected_monitoring_sections(self):
         rendered = self._render_blank()
 
@@ -68,6 +76,12 @@ class MonitoringReportRenderingTests(unittest.TestCase):
         self.assertIn("## Dataset Evidence", rendered)
         self.assertIn("## Calculation Resources", rendered)
         self.assertIn("**[required]**", rendered)
+
+    def test_draft_rendering_matches_fixture(self):
+        self.assertEqual(
+            self._render_draft(),
+            RENDERED_FIXTURE.read_text(encoding="utf-8"),
+        )
 
     def test_draft_rendering_contains_monitoring_content(self):
         rendered = self._render_draft()
