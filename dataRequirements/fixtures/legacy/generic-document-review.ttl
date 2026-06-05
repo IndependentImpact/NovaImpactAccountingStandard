@@ -17,6 +17,8 @@
     nias-o:resourceIpfsUri "ipfs://bafygenericreview"^^xsd:anyURI ;
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/generic-review-submission-1> ;
     nias-o:fieldReview <https://nova.org.za/novaimpactaccountingstandard/test/generic-field-review-1> ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafygenericrevieweddocument" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/test/generic-field-review-1>

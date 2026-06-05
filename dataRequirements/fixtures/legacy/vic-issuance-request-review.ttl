@@ -17,6 +17,8 @@
     nias-o:resourceIpfsUri "ipfs://bafydrvicir"^^xsd:anyURI ;
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-submission-1> ;
     nias-o:fieldReview <https://nova.org.za/novaimpactaccountingstandard/test/dr-vicir-field-review-1> ;
+    nias-o:reviewedArtifactType "monitoring-report" ;
+    nias-o:reviewedArtifactContentCid "bafyvicissuancerequest" ;
     nias-o:finalReviewDecision nias-cs:review-approve ;
     nias-o:requestedIssuanceAccountId "0.0.3003" .
 

@@ -9,3 +9,25 @@ steps:
     form: VerifiedImpactCertificateIssuanceRequestReviewShape
 outputs:
   - verification-report
+artifact_identity_fields:
+  - artifactContentCid
+  - artifactSchemaCid
+  - artifactSchemaVersionLabel
+  - artifactAuthor
+  - workflowSubject
+  - submissionTopicId
+  - submissionConsensusTimestamp
+  - submissionEventKey
+  - submissionMessageUrl
+reviewed_artifact_identity_fields:
+  - reviewedArtifactType
+  - reviewedArtifactContentCid
+  - reviewedArtifactSchemaCid
+  - reviewedArtifactSchemaVersionLabel
+  - reviewedSubmissionTopicId
+  - reviewedSubmissionConsensusTimestamp
+shape_enforced_reviewed_identity_fields:
+  - reviewedArtifactType
+  - reviewedArtifactContentCid
+dlr_linkage_fields:
+  - reviewedDlrContentCid

@@ -25,6 +25,36 @@ launch/export paths for PDD Design, Validation, Monitoring Report, and
 Verification activities that exchange linked artifacts. PDD Design, Validation,
 Monitoring, and Verification now have separate generated UI shape bundles.
 
+Linked-artifact identity requirements and reviewed-artifact boundary decisions
+are normatively defined in:
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
+## Linked-Artifact Handoff Contract (Item 1)
+
+UI payloads are capture-only. Canonical identity for PDD, Validation,
+Monitoring, and Verification artifacts is established by exported JSON-LD
+packages and their metadata sidecars.
+
+Export/handoff payloads must use the standardized field vocabulary:
+
+- common artifact identity:
+  `artifactContentCid`, `artifactSchemaCid`, `artifactSchemaVersionLabel`,
+  `artifactAuthor`, `workflowSubject`, `submissionTopicId`,
+  `submissionConsensusTimestamp`
+- reviewed-artifact identity:
+  `reviewedArtifactType`, `reviewedArtifactContentCid`,
+  `reviewedArtifactSchemaCid`, `reviewedArtifactSchemaVersionLabel`,
+  `reviewedSubmissionTopicId`, `reviewedSubmissionConsensusTimestamp`
+- upstream alignment:
+  `alignedPddContentCid`, `alignedPddSubmissionTopicId`,
+  `alignedPddSubmissionConsensusTimestamp`
+- DLR linkage:
+  `linkedDlrContentCid`, `reviewedDlrContentCid`
+
+Before Fluree/IPFS/Hedera integration, the local source of truth is the
+canonical JSON-LD package plus simulated submission-event fixture. Flutter/UI
+state, generated previews, and renderer-only output are not canonical records.
+
 ### Run The Current Combined PDD Demo
 
 Use this when you want to exercise the current local PDD workflow shell with
@@ -192,8 +222,9 @@ Workflow step definitions are tracked in:
 - `dataRequirements/shape2flutter/workflows/monitoring-report.yaml`
 - `dataRequirements/shape2flutter/workflows/verification-report.yaml`
 
-The existing combined preview definitions remain available while the generated
-UIs are being split:
+The existing combined preview definitions are retained as legacy/demo
+compatibility paths while the split activity workflows are the primary startup
+mode:
 
 - `dataRequirements/shape2flutter/workflows/pdd.yaml`
 - `dataRequirements/shape2flutter/workflows/validation-verification.yaml`

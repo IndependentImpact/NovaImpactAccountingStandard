@@ -14,3 +14,13 @@ steps:
     form: PddSectionCStakeholderEngagementShape
 outputs:
   - pdd
+artifact_identity_fields:
+  - artifactContentCid
+  - artifactSchemaCid
+  - artifactSchemaVersionLabel
+  - artifactAuthor
+  - workflowSubject
+  - submissionTopicId
+  - submissionConsensusTimestamp
+  - submissionEventKey
+  - submissionMessageUrl
