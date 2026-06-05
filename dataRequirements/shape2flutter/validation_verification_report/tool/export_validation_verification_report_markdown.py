@@ -494,6 +494,8 @@ def build_review_package(args, generated_at):
     def add_nodes(*nodes):
         for node in nodes:
             node_id = node.get("@id")
+            if node_id is None:
+                raise ValueError("Generated review-package nodes must include @id.")
             if node_id in seen:
                 continue
             seen.add(node_id)
