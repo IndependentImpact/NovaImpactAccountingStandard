@@ -15,6 +15,55 @@ It consumes canonical data and produces deterministic document artifacts.
 Linked-artifact identity boundaries are normatively defined in:
 `dataRequirements/linked-artifact-boundary-decisions.md`.
 
+## Linked-Artifact Identity Contract (Item 1)
+
+Final-mode metadata sidecars and handoff packages use a standardized field
+vocabulary.
+
+Common artifact identity fields:
+
+- `artifactContentCid`
+- `artifactSchemaCid`
+- `artifactSchemaVersionLabel`
+- `artifactAuthor`
+- `workflowSubject`
+- `submissionTopicId`
+- `submissionConsensusTimestamp`
+- optional derived fields: `submissionEventKey`, `submissionMessageUrl`
+
+Reviewed-artifact identity fields:
+
+- `reviewedArtifactType`
+- `reviewedArtifactContentCid`
+- `reviewedArtifactSchemaCid`
+- `reviewedArtifactSchemaVersionLabel`
+- `reviewedSubmissionTopicId`
+- `reviewedSubmissionConsensusTimestamp`
+
+Upstream alignment fields:
+
+- `alignedPddContentCid`
+- `alignedPddSubmissionTopicId`
+- `alignedPddSubmissionConsensusTimestamp`
+
+DLR linkage fields:
+
+- `linkedDlrContentCid`
+- `reviewedDlrContentCid`
+
+Final-mode required linked-identity fields by activity:
+
+- PDD: artifact identity + submission identity
+- Validation Report: reviewed PDD artifact identity + reviewed submission
+  identity
+- Monitoring Report: aligned PDD identity + `linkedDlrContentCid`
+- Verification Report: reviewed Monitoring Report identity +
+  `reviewedDlrContentCid`
+
+Before Fluree/IPFS/Hedera integration, the local source of truth is the
+canonical JSON-LD package plus simulated submission-event fixture (not UI state
+or renderer-only output).
+
 ## Shared Workflow Export Engine
 
 Workflow-shell handoff exporters now share a config-backed export engine:

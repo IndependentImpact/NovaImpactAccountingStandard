@@ -29,6 +29,32 @@ Linked-artifact identity requirements and reviewed-artifact boundary decisions
 are normatively defined in:
 `dataRequirements/linked-artifact-boundary-decisions.md`.
 
+## Linked-Artifact Handoff Contract (Item 1)
+
+UI payloads are capture-only. Canonical identity for PDD, Validation,
+Monitoring, and Verification artifacts is established by exported JSON-LD
+packages and their metadata sidecars.
+
+Export/handoff payloads must use the standardized field vocabulary:
+
+- common artifact identity:
+  `artifactContentCid`, `artifactSchemaCid`, `artifactSchemaVersionLabel`,
+  `artifactAuthor`, `workflowSubject`, `submissionTopicId`,
+  `submissionConsensusTimestamp`
+- reviewed-artifact identity:
+  `reviewedArtifactType`, `reviewedArtifactContentCid`,
+  `reviewedArtifactSchemaCid`, `reviewedArtifactSchemaVersionLabel`,
+  `reviewedSubmissionTopicId`, `reviewedSubmissionConsensusTimestamp`
+- upstream alignment:
+  `alignedPddContentCid`, `alignedPddSubmissionTopicId`,
+  `alignedPddSubmissionConsensusTimestamp`
+- DLR linkage:
+  `linkedDlrContentCid`, `reviewedDlrContentCid`
+
+Before Fluree/IPFS/Hedera integration, the local source of truth is the
+canonical JSON-LD package plus simulated submission-event fixture. Flutter/UI
+state, generated previews, and renderer-only output are not canonical records.
+
 ### Run The Current Combined PDD Demo
 
 Use this when you want to exercise the current local PDD workflow shell with
