@@ -6,6 +6,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = REPO_ROOT / "dataRequirements/shape2flutter/workflows"
+SHAPE2FLUTTER_ROOT = REPO_ROOT / "dataRequirements/shape2flutter"
 
 
 class ArtifactSplitWorkflowTests(unittest.TestCase):
@@ -86,6 +87,29 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
             [step["form"] for step in workflow["steps"]],
             ["VerifiedImpactCertificateIssuanceRequestReviewShape"],
         )
+
+    def test_split_validation_and_verification_ui_bundle_files_exist(self):
+        expected = {
+            "validation-report-ui-shapes.ttl",
+            "verification-report-ui-shapes.ttl",
+        }
+
+        for filename in expected:
+            with self.subTest(filename=filename):
+                self.assertTrue((SHAPE2FLUTTER_ROOT / filename).exists())
+
+    def test_validation_and_verification_build_scripts_use_split_bundles(self):
+        validation_script = (
+            SHAPE2FLUTTER_ROOT / "build-validation-report.sh"
+        ).read_text(encoding="utf-8")
+        verification_script = (
+            SHAPE2FLUTTER_ROOT / "build-verification-report.sh"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("validation-report-ui-shapes.ttl", validation_script)
+        self.assertNotIn("validation-verification-ui-shapes.ttl", validation_script)
+        self.assertIn("verification-report-ui-shapes.ttl", verification_script)
+        self.assertNotIn("validation-verification-ui-shapes.ttl", verification_script)
 
 
 if __name__ == "__main__":
