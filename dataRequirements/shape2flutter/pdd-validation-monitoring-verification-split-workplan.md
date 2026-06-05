@@ -448,6 +448,14 @@ Acceptance criteria:
 
 ### Phase 6: Rebuild issuance gates as linked-artifact queries
 
+Status note 2026-06-05: Phase 6 is complete. The linked-artifact gate contract
+is documented in `pdd-workflow-gate.md`, and local gate regression coverage in
+`dataRequirements/tests/test_pdd_workflow_gate.py` now evaluates candidate
+`DocumentReference` sets per section, accepts valid latest reviewed artifacts,
+and reports stale linked-artifact failures when references resolve to superseded
+PDD versions. This keeps local demo gating query-shaped while preserving the
+same contract for Fluree/service integration.
+
 Deliverables:
 
 - Replace in-memory PDD-CIR gate logic with query-shaped gate contracts.
@@ -467,6 +475,16 @@ Acceptance criteria:
 - Gate failures identify missing or stale linked artifacts.
 
 ### Phase 7: Update docs, tests, and generated fixtures
+
+Status note 2026-06-05: Phase 7 is complete. `dataRequirements/shape2flutter/README.md`
+and `dataRequirements/document-rendering/README.md` include per-activity quick
+starts plus the combined local demo workflow command path. Split-workflow and
+rendering regression coverage is in `test_artifact_split_workflows.py`,
+`test_validation_verification_report_rendering.py`,
+`test_monitoring_report_rendering.py`, and linked-artifact gate tests in
+`test_pdd_workflow_gate.py` / `test_linked_artifact_identity.py`. Legacy
+combined workflow commands remain explicitly documented as demo compatibility
+paths.
 
 Deliverables:
 

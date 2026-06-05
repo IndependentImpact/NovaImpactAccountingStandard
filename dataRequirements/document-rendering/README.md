@@ -76,6 +76,8 @@ Workflow-shell handoff exporters now share a config-backed export engine:
   `dataRequirements/document-rendering/config/monitoring-report-export.yaml`
 - Verification mapping config:
   `dataRequirements/document-rendering/config/verification-report-export.yaml`
+- Legacy combined demo config:
+  `dataRequirements/document-rendering/config/validation-verification-export.yaml`
 
 The input/UI side still emits structured workflow payloads, and the output side
 ingests them through deterministic handoff adapters. Final-mode PDD rendering

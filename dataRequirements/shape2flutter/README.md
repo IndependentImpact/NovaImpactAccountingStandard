@@ -222,8 +222,9 @@ Workflow step definitions are tracked in:
 - `dataRequirements/shape2flutter/workflows/monitoring-report.yaml`
 - `dataRequirements/shape2flutter/workflows/verification-report.yaml`
 
-The existing combined preview definitions remain available while the generated
-UIs are being split:
+The existing combined preview definitions are retained as legacy/demo
+compatibility paths while the split activity workflows are the primary startup
+mode:
 
 - `dataRequirements/shape2flutter/workflows/pdd.yaml`
 - `dataRequirements/shape2flutter/workflows/validation-verification.yaml`
