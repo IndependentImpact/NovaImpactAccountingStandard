@@ -92,7 +92,7 @@ Validation Report
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
-| **[required]** _[REQ-*]_ | _[validation or verification]_ | _[PDD/DLR/MR anchor]_ | _[SHACL shape]_ | _[not assessed]_ |
+| **[required]** _[REQ-*]_ | _[validation or verification]_ | _[exact anchor key and title]_ | _[SHACL shape]_ | _[not assessed]_ |
 
 
 \newpage

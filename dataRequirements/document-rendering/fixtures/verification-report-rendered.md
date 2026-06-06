@@ -89,18 +89,18 @@ validation-verification-report-input.jsonld
 
 | Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
 | --- | --- | --- | --- | --- | --- |
-| vv-verification-review-1 | monitoring-report | monitoring.report.impactSummary | Approve | The verified impact summary is consistent with the monitoring report review. | 87.5 tCO2e avoided during the monitoring period. |
+| vv-verification-review-1 | monitoring-report | monitoring.observation | Approve | The verified impact summary is consistent with the monitoring report review. | 87.5 tCO2e avoided during the monitoring period. |
 
 
 ## VVS Requirement Coverage Summary
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
-| REQ-CROSS-001 | verification | MonitoringReport | ReqCross001Shape | draft evidence present (1) |
-| REQ-DLR-001 | verification | DataLineageReport | ReqDlr001Shape | draft evidence present (1) |
-| REQ-DLR-002 | verification | DataLineageReport | ReqDlr002Shape | draft evidence present (1) |
-| REQ-MR-001 | verification | MonitoringReport | ReqMr001Shape | draft evidence present (1) |
-| REQ-MR-002 | verification | MonitoringReport | ReqMr002Shape | draft evidence present (1) |
+| REQ-CROSS-001 | verification | pdd.sectionB.declaredImpacts - B.2 Declared Impacts; monitoring.packageSummary - Monitoring Report; monitoring.observation - Measured Impact Observation | ReqCross001Shape | draft evidence present (1) |
+| REQ-DLR-001 | verification | pdd.sectionB.dataParameterTables - B.5 Data And Parameter Requirements; dlr.rawDataset - Raw Dataset Artifact; dlr.dataTransferCode - Data Transfer Code Artifact | ReqDlr001Shape | draft evidence present (1) |
+| REQ-DLR-002 | verification | pdd.sectionB.dataParameterTables - B.5 Data And Parameter Requirements; dlr.finalDataset - Final Dataset Artifact | ReqDlr002Shape | draft evidence present (1) |
+| REQ-MR-001 | verification | pdd.sectionB.declaredImpacts - B.2 Declared Impacts; monitoring.observation - Measured Impact Observation | ReqMr001Shape | draft evidence present (1) |
+| REQ-MR-002 | verification | monitoring.resources - Calculation Resources | ReqMr002Shape | draft evidence present (1) |
 
 
 \newpage
@@ -128,7 +128,7 @@ validation-verification-report-input.jsonld
 validation-verification-report-input.jsonld
 
 ### Input SHA-256
-86dbc5903c25e929a162586bbf8fd94e8cd89ff82d42f04d1ee77e98cad85c19
+95a14b699019b4bdaac0ef411d46d84a062c574476af15a08727a4b601437c10
 
 ### Evidence JSON-LD 1
 validation-verification-report-evidence.jsonld

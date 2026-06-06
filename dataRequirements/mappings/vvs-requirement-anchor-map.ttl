@@ -1,0 +1,154 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-map: <https://nova.org.za/novaimpactaccountingstandard/mappings/requirement-anchor/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/requirement-anchor/> a owl:Ontology ;
+    dcterms:title "NIAS VVS exact requirement-to-anchor mapping"@en ;
+    dcterms:description "Explicit mapping resources linking active VVS requirements to exact reusable artifact anchor definitions, review mandates, artifact families, and implementing SHACL shapes."@en .
+
+nias-map:req-pdd-001-section-a a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-001 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-a ;
+    nias-o:mappedShape nias-o:ReqPdd001Shape ;
+    nias-o:evidenceExpectation "The validation reviewer checks the submitted PDD Section A report for the project developer, project subject, and project title." ;
+    dcterms:description "PDD Section A contains the structural project-design fields required by REQ-PDD-001."@en .
+
+nias-map:req-pdd-001-technologies-and-measures a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-001 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-a-technologies-and-measures ;
+    nias-o:mappedShape nias-o:ReqPdd001Shape ;
+    nias-o:evidenceExpectation "The validation reviewer checks that the project subject declares at least one technology or measure as the project activity." ;
+    dcterms:description "The technologies and measures anchor gives REQ-PDD-001 a precise visible location for the required project activity."@en .
+
+nias-map:req-pdd-002-methodology-references a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-002 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-methodology-references ;
+    nias-o:mappedShape nias-o:ReqPdd002Shape ;
+    nias-o:evidenceExpectation "The validation reviewer checks that PDD Section B references at least one quantification methodology." ;
+    dcterms:description "REQ-PDD-002 requires methodology references for declared impacts."@en .
+
+nias-map:req-pdd-002-declared-impacts a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-002 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-declared-impacts ;
+    nias-o:mappedShape nias-o:ReqPdd002Shape ;
+    nias-o:evidenceExpectation "The validation reviewer checks that PDD Section B includes declared impacts and the required benefit classification for each declared impact." ;
+    dcterms:description "REQ-PDD-002 is assessed at the declared impacts anchor for impact completeness."@en .
+
+nias-map:req-pdd-003-section-c a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-003 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-c ;
+    nias-o:mappedShape nias-o:ReqPdd003Shape ;
+    nias-o:evidenceExpectation "The validation reviewer checks that PDD Section C declares conformance to the canonical PDDxC document schema." ;
+    dcterms:description "REQ-PDD-003 is anchored at the PDD Section C document-schema declaration."@en .
+
+nias-map:req-dlr-001-pdd-data-parameters a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-data-parameter-tables ;
+    nias-o:mappedShape nias-o:ReqDlr001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer uses the validated PDD data and parameter table as the baseline for DLR lineage evidence." ;
+    dcterms:description "The PDD data and parameter table is the ex-ante baseline used during REQ-DLR-001 verification."@en .
+
+nias-map:req-dlr-001-raw-dataset a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "data-lineage-report" ;
+    nias-o:mappedAnchor nias-o:dlr-raw-dataset ;
+    nias-o:mappedShape nias-o:ReqDlr001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the DLR identifies the raw source dataset artifact with a content-addressed URI." ;
+    dcterms:description "REQ-DLR-001 requires a traceable source dataset artifact."@en .
+
+nias-map:req-dlr-001-data-transfer-code a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "data-lineage-report" ;
+    nias-o:mappedAnchor nias-o:dlr-data-transfer-code ;
+    nias-o:mappedShape nias-o:ReqDlr001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the DLR identifies the data transfer or collection method artifact with a content-addressed URI." ;
+    dcterms:description "REQ-DLR-001 requires traceable data transfer code as collection-method evidence."@en .
+
+nias-map:req-dlr-002-pdd-data-parameters a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-DLR-002 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-data-parameter-tables ;
+    nias-o:mappedShape nias-o:ReqDlr002Shape ;
+    nias-o:evidenceExpectation "The verification reviewer uses the validated PDD data and parameter table as the baseline that the final dataset must support." ;
+    dcterms:description "The PDD data and parameter table is the ex-ante baseline used during REQ-DLR-002 verification."@en .
+
+nias-map:req-dlr-002-final-dataset a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-DLR-002 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "data-lineage-report" ;
+    nias-o:mappedAnchor nias-o:dlr-final-dataset ;
+    nias-o:mappedShape nias-o:ReqDlr002Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the DLR identifies the final post-transfer and post-cleaning dataset artifact with a content-addressed URI." ;
+    dcterms:description "REQ-DLR-002 is assessed at the DLR final dataset anchor."@en .
+
+nias-map:req-mr-001-pdd-declared-impacts a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-MR-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-declared-impacts ;
+    nias-o:mappedShape nias-o:ReqMr001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer uses the validated PDD declared impacts as the baseline for measured monitoring observations." ;
+    dcterms:description "REQ-MR-001 compares monitoring observations against the validated PDD impact declarations."@en .
+
+nias-map:req-mr-001-monitoring-observation a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-MR-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-observation ;
+    nias-o:mappedShape nias-o:ReqMr001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the Monitoring Report includes at least one measured observation with an observed value and unit." ;
+    dcterms:description "REQ-MR-001 is assessed at the Monitoring Report measured impact observation anchor."@en .
+
+nias-map:req-mr-002-monitoring-resources a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-MR-002 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-resources ;
+    nias-o:mappedShape nias-o:ReqMr002Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks the requested issuance account identifier rendered with the Monitoring Report calculation resources." ;
+    dcterms:description "The current Monitoring Report renderer exposes requestedIssuanceAccountId in the calculation resources section, so REQ-MR-002 maps to that anchor."@en .
+
+nias-map:req-cross-001-pdd-declared-impacts a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-b-declared-impacts ;
+    nias-o:mappedShape nias-o:ReqCross001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer uses the validated PDD declared impacts as the ex-ante side of the cross-artifact trace." ;
+    dcterms:description "REQ-CROSS-001 links ex-ante PDD declared impacts to ex-post Monitoring Report observations."@en .
+
+nias-map:req-cross-001-monitoring-package-summary a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-package-summary ;
+    nias-o:mappedShape nias-o:ReqCross001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the Monitoring Report identifies the validated PDD version it is aligned with." ;
+    dcterms:description "The Monitoring Report package summary exposes the aligned PDD version used for cross-artifact traceability."@en .
+
+nias-map:req-cross-001-monitoring-observation a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-observation ;
+    nias-o:mappedShape nias-o:ReqCross001Shape ;
+    nias-o:evidenceExpectation "The verification reviewer checks that the Monitoring Report observation is the ex-post measurement side of the cross-artifact trace." ;
+    dcterms:description "REQ-CROSS-001 is assessed against measured Monitoring Report observations as the ex-post side of the trace."@en .

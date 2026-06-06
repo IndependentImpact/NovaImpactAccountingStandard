@@ -1350,6 +1350,10 @@ nias-o:RequirementMapping a owl:Class ;
     rdfs:label "RequirementMapping"@en ;
     skos:definition "An explicit mapping resource linking a VVS requirement to one or more artifact anchors (PDD sections, DLR nodes, MR nodes) at which validation or verification is assessed."@en .
 
+nias-o:RequirementCoverageProof a owl:Class ;
+    rdfs:label "RequirementCoverageProof"@en ;
+    skos:definition "A materialized proof row showing that a submitted artifact anchor and review finding satisfy a mapped VVS requirement anchor."@en .
+
 # ---------------------------------------------------------------------------
 # Validation & Verification Standard (VVS) - properties
 # ---------------------------------------------------------------------------
@@ -1383,6 +1387,144 @@ nias-o:hasEvidenceRequirement a owl:ObjectProperty ;
     rdfs:domain nias-o:ValidationVerificationRequirement ;
     rdfs:range nias-o:EvidenceRequirement ;
     skos:definition "Links a validation or verification requirement to an associated evidence requirement."@en .
+
+nias-o:mappedRequirement a owl:ObjectProperty ;
+    rdfs:label "mappedRequirement"@en ;
+    rdfs:domain nias-o:RequirementMapping ;
+    rdfs:range nias-o:ValidationVerificationRequirement ;
+    skos:definition "Links a requirement mapping resource to the VVS requirement it covers."@en .
+
+nias-o:mappedAnchor a owl:ObjectProperty ;
+    rdfs:label "mappedAnchor"@en ;
+    rdfs:domain nias-o:RequirementMapping ;
+    rdfs:range nias-o:AnchorDefinition ;
+    skos:definition "Links a requirement mapping resource to the exact reusable artifact anchor definition where the requirement is assessed."@en .
+
+nias-o:mappedShape a owl:ObjectProperty ;
+    rdfs:label "mappedShape"@en ;
+    rdfs:domain nias-o:RequirementMapping ;
+    rdfs:range sh:Shape ;
+    skos:definition "Links a requirement mapping resource to the SHACL shape that implements the mapped requirement."@en .
+
+nias-o:targetArtifactType a owl:DatatypeProperty ;
+    rdfs:label "targetArtifactType"@en ;
+    rdfs:domain nias-o:RequirementMapping ;
+    rdfs:range xsd:string ;
+    skos:definition "Identifies the reviewed artifact family for a requirement-to-anchor mapping, such as pdd, monitoring-report, or data-lineage-report."@en .
+
+nias-o:evidenceExpectation a owl:DatatypeProperty ;
+    rdfs:label "evidenceExpectation"@en ;
+    rdfs:domain nias-o:RequirementMapping ;
+    rdfs:range xsd:string ;
+    skos:definition "Human-readable note describing the evidence expected at a mapped artifact anchor."@en .
+
+nias-o:coverageRequirementMapping a owl:ObjectProperty ;
+    rdfs:label "coverageRequirementMapping"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:RequirementMapping ;
+    skos:definition "Links a requirement coverage proof to the exact requirement-to-anchor mapping it materializes."@en .
+
+nias-o:coverageRequirement a owl:ObjectProperty ;
+    rdfs:label "coverageRequirement"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:ValidationVerificationRequirement ;
+    skos:definition "Links a requirement coverage proof to the VVS requirement it covers."@en .
+
+nias-o:coverageShape a owl:ObjectProperty ;
+    rdfs:label "coverageShape"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range sh:Shape ;
+    skos:definition "Links a requirement coverage proof to the SHACL shape that implements the covered requirement."@en .
+
+nias-o:coverageAnchorDefinition a owl:ObjectProperty ;
+    rdfs:label "coverageAnchorDefinition"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:AnchorDefinition ;
+    skos:definition "Links a requirement coverage proof to the schema-level anchor definition used by the mapping."@en .
+
+nias-o:coverageArtifactAnchor a owl:ObjectProperty ;
+    rdfs:label "coverageArtifactAnchor"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:ArtifactAnchor ;
+    skos:definition "Links a requirement coverage proof to the concrete submitted artifact anchor that was reviewed."@en .
+
+nias-o:coverageReviewedArtifact a owl:ObjectProperty ;
+    rdfs:label "coverageReviewedArtifact"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range data:Document ;
+    skos:definition "Links a requirement coverage proof to the exact submitted artifact version reviewed."@en .
+
+nias-o:coverageReviewField a owl:ObjectProperty ;
+    rdfs:label "coverageReviewField"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:DocumentFieldReview ;
+    skos:definition "Links a requirement coverage proof to the review finding that assessed the submitted artifact anchor."@en .
+
+nias-o:coverageReviewDecision a owl:ObjectProperty ;
+    rdfs:label "coverageReviewDecision"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range nias-o:ReviewDecision ;
+    skos:definition "Copies the review decision from the review finding into the materialized coverage proof row."@en .
+
+nias-o:coverageRequirementId a owl:DatatypeProperty ;
+    rdfs:label "coverageRequirementId"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Stable VVS requirement identifier copied into a requirement coverage proof row."@en .
+
+nias-o:coverageAnchorKey a owl:DatatypeProperty ;
+    rdfs:label "coverageAnchorKey"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Stable schema anchor key copied into a requirement coverage proof row."@en .
+
+nias-o:coverageAnchorTitle a owl:DatatypeProperty ;
+    rdfs:label "coverageAnchorTitle"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Human-readable schema anchor title copied into a requirement coverage proof row."@en .
+
+nias-o:coverageReviewedArtifactType a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedArtifactType"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Reviewed artifact family for a requirement coverage proof, such as pdd, monitoring-report, or data-lineage-report."@en .
+
+nias-o:coverageReviewedArtifactContentCid a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedArtifactContentCid"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Content CID of the submitted artifact version reviewed by a requirement coverage proof."@en .
+
+nias-o:coverageReviewedArtifactSchemaCid a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedArtifactSchemaCid"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Schema CID of the submitted artifact version reviewed by a requirement coverage proof."@en .
+
+nias-o:coverageReviewedArtifactSchemaVersionLabel a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedArtifactSchemaVersionLabel"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Schema version label of the submitted artifact version reviewed by a requirement coverage proof."@en .
+
+nias-o:coverageReviewedContent a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedContent"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Reviewed content excerpt copied from the review finding into a requirement coverage proof row."@en .
+
+nias-o:coverageReviewedContentHash a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewedContentHash"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Content hash of the submitted artifact anchor covered by a requirement coverage proof."@en .
+
+nias-o:coverageReviewerFeedback a owl:DatatypeProperty ;
+    rdfs:label "coverageReviewerFeedback"@en ;
+    rdfs:domain nias-o:RequirementCoverageProof ;
+    rdfs:range xsd:string ;
+    skos:definition "Reviewer feedback copied from the review finding into a requirement coverage proof row."@en .
 
 nias-o:requirementId a owl:DatatypeProperty ;
     rdfs:label "requirementId"@en ;

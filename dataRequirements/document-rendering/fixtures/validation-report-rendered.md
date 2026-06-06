@@ -96,9 +96,9 @@ validation-verification-report-input.jsonld
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
-| REQ-PDD-001 | validation | PddSectionAReport | ReqPdd001Shape | draft evidence present (1) |
-| REQ-PDD-002 | validation | PddSectionBReport | ReqPdd002Shape | draft evidence present (1) |
-| REQ-PDD-003 | validation | PddSectionCReport | ReqPdd003Shape | draft evidence present (1) |
+| REQ-PDD-001 | validation | pdd.sectionA - Section A. Description Of Project; pdd.sectionA.technologiesAndMeasures - A.3 Technologies And Measures | ReqPdd001Shape | draft evidence present (1) |
+| REQ-PDD-002 | validation | pdd.sectionB.methodologyReferences - B.1 Methodology References; pdd.sectionB.declaredImpacts - B.2 Declared Impacts | ReqPdd002Shape | draft evidence present (1) |
+| REQ-PDD-003 | validation | pdd.sectionC - Section C. Stakeholder Engagement | ReqPdd003Shape | draft evidence present (1) |
 
 
 \newpage
@@ -126,7 +126,7 @@ validation-verification-report-input.jsonld
 validation-verification-report-input.jsonld
 
 ### Input SHA-256
-86dbc5903c25e929a162586bbf8fd94e8cd89ff82d42f04d1ee77e98cad85c19
+95a14b699019b4bdaac0ef411d46d84a062c574476af15a08727a4b601437c10
 
 ### Evidence JSON-LD 1
 validation-verification-report-evidence.jsonld

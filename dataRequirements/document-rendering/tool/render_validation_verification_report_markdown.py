@@ -19,9 +19,21 @@ DEFAULT_PROFILE = (
 )
 DEFAULT_VVS_REQUIREMENTS = REPO_ROOT / "glossary/ValidationVerificationStandard.ttl"
 DEFAULT_VVS_SHAPES = REPO_ROOT / "dataRequirements/vvs-requirement-shapes.ttl"
+DEFAULT_VVS_REQUIREMENT_ANCHOR_MAP = (
+    REPO_ROOT / "dataRequirements/mappings/vvs-requirement-anchor-map.ttl"
+)
+DEFAULT_REQUIREMENT_COVERAGE_PROOF_SHAPES = (
+    REPO_ROOT / "dataRequirements/requirement-coverage-proof-shapes.ttl"
+)
+DEFAULT_ANCHOR_DEFINITIONS = [
+    REPO_ROOT / "dataRequirements/mappings/pdd-anchor-definitions.ttl",
+    REPO_ROOT / "dataRequirements/mappings/monitoring-anchor-definitions.ttl",
+    REPO_ROOT / "dataRequirements/mappings/dlr-anchor-definitions.ttl",
+]
+DEFAULT_ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
 DEFAULT_STRUCTURAL_SHAPES = [
     REPO_ROOT / "dataRequirements/common-shapes.ttl",
-    REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl",
+    DEFAULT_ARTIFACT_ANCHOR_SHAPES,
     REPO_ROOT / "dataRequirements/document-shapes.ttl",
     REPO_ROOT / "dataRequirements/document-reference-shapes.ttl",
     REPO_ROOT / "dataRequirements/review-shapes.ttl",
@@ -133,6 +145,10 @@ def _report_package_title(report_type: str):
 
 def _report_basename(report_type: str):
     return f"{report_type}-report"
+
+
+def _report_mandate(report_type: str):
+    return NIAS.validation if report_type == "validation" else NIAS.verification
 
 
 def _review_nodes(graph: Graph, report_type: str | None = None):
@@ -347,7 +363,7 @@ def _render_blank_directive(directive: str, report_type: str):
         return [
             "| Requirement | Mandate | Anchor | Shape | Evidence status |",
             "| --- | --- | --- | --- | --- |",
-            "| **[required]** _[REQ-*]_ | _[validation or verification]_ | _[PDD/DLR/MR anchor]_ | _[SHACL shape]_ | _[not assessed]_ |",
+            "| **[required]** _[REQ-*]_ | _[validation or verification]_ | _[exact anchor key and title]_ | _[SHACL shape]_ | _[not assessed]_ |",
         ]
     if directive == "workflow.consensusEvidence":
         return [
@@ -665,12 +681,56 @@ def _active_requirements(requirement_graph: Graph, report_type: str):
     return [item[1] for item in sorted(active)]
 
 
-def _requirement_anchor(requirement_graph: Graph, requirement, report_type: str):
+def _anchor_sort_key(mapping_graph: Graph, anchor_graph: Graph, mapping):
+    anchor = _first_value(mapping_graph, mapping, NIAS.mappedAnchor)
+    artifact_type = _display_value(mapping_graph, _first_value(mapping_graph, mapping, NIAS.targetArtifactType))
+    artifact_order = {
+        "pdd": 0,
+        "data-lineage-report": 1,
+        "monitoring-report": 2,
+    }.get(artifact_type, 99)
+    render_order = _first_value(anchor_graph, anchor, NIAS.renderOrder)
+    try:
+        order = int(render_order.toPython()) if render_order is not None else 999999
+    except (TypeError, ValueError):
+        order = 999999
+    anchor_key = _display_value(anchor_graph, _first_value(anchor_graph, anchor, NIAS.anchorKey))
+    return (artifact_order, artifact_type, order, anchor_key)
+
+
+def _display_exact_anchor(anchor_graph: Graph, anchor):
+    if anchor is None:
+        return "Unavailable"
+    anchor_key = _first_value(anchor_graph, anchor, NIAS.anchorKey)
+    title = _first_value(anchor_graph, anchor, DCTERMS.title)
+    if anchor_key is not None and title is not None:
+        return f"{_display_value(anchor_graph, anchor_key)} - {_display_value(anchor_graph, title)}"
+    if anchor_key is not None:
+        return _display_value(anchor_graph, anchor_key)
+    if title is not None:
+        return _display_value(anchor_graph, title)
+    return _display_value(anchor_graph, anchor)
+
+
+def _requirement_exact_anchors(mapping_graph: Graph, anchor_graph: Graph, requirement, report_type: str):
+    selected_mandate = NIAS.validation if report_type == "validation" else NIAS.verification
+    mappings = [
+        mapping
+        for mapping in mapping_graph.subjects(NIAS.mappedRequirement, requirement)
+        if (mapping, NIAS.reviewMandate, selected_mandate) in mapping_graph
+    ]
     anchors = []
-    predicate = NIAS.validatedAt if report_type == "validation" else NIAS.verifiedBy
-    for anchor in requirement_graph.objects(requirement, predicate):
-        anchors.append(_display_value(requirement_graph, anchor))
-    return ", ".join(anchors) if anchors else "Unavailable"
+    seen = set()
+    for mapping in sorted(
+        mappings,
+        key=lambda item: _anchor_sort_key(mapping_graph, anchor_graph, item),
+    ):
+        anchor = _first_value(mapping_graph, mapping, NIAS.mappedAnchor)
+        if anchor is None or anchor in seen:
+            continue
+        anchors.append(_display_exact_anchor(anchor_graph, anchor))
+        seen.add(anchor)
+    return "; ".join(anchors) if anchors else "Unavailable"
 
 
 def _requirement_target_classes(shape_graph: Graph, shape):
@@ -682,6 +742,9 @@ def _render_vvs_requirement_coverage(combined_graph: Graph, render_mode: str, re
     requirement_graph.parse(str(DEFAULT_VVS_REQUIREMENTS), format="turtle")
     shape_graph = Graph()
     shape_graph.parse(str(DEFAULT_VVS_SHAPES), format="turtle")
+    mapping_graph = Graph()
+    mapping_graph.parse(str(DEFAULT_VVS_REQUIREMENT_ANCHOR_MAP), format="turtle")
+    anchor_graph = _load_graph(DEFAULT_ANCHOR_DEFINITIONS, fmt="turtle")
     requirement_graph += shape_graph
 
     lines = [
@@ -714,12 +777,368 @@ def _render_vvs_requirement_coverage(combined_graph: Graph, render_mode: str, re
             "| {requirement_id} | {mandate} | {anchor} | {shape} | {status} |".format(
                 requirement_id=_escape(requirement_id),
                 mandate=_escape(mandate),
-                anchor=_escape(_requirement_anchor(requirement_graph, requirement, report_type)),
+                anchor=_escape(
+                    _requirement_exact_anchors(
+                        mapping_graph,
+                        anchor_graph,
+                        requirement,
+                        report_type,
+                    )
+                ),
                 shape=_escape(_display_value(requirement_graph, shape)),
                 status=_escape(evidence_status),
             )
         )
     return lines
+
+
+def _mappings_by_anchor_key(mapping_graph: Graph, anchor_graph: Graph, report_type: str):
+    selected_mandate = _report_mandate(report_type)
+    mappings = {}
+    for mapping in mapping_graph.subjects(RDF.type, NIAS.RequirementMapping):
+        if (mapping, NIAS.reviewMandate, selected_mandate) not in mapping_graph:
+            continue
+        anchor = _first_value(mapping_graph, mapping, NIAS.mappedAnchor)
+        anchor_key = _first_value(anchor_graph, anchor, NIAS.anchorKey)
+        if anchor_key is None:
+            continue
+        mappings.setdefault(str(anchor_key), []).append(mapping)
+    for anchor_key in mappings:
+        mappings[anchor_key].sort(key=str)
+    return mappings
+
+
+def _artifact_anchor_key(graph: Graph, artifact_anchor):
+    anchor_key = _first_value(graph, artifact_anchor, NIAS.anchorKey)
+    if anchor_key is not None:
+        return str(anchor_key)
+    anchor_definition = _first_value(graph, artifact_anchor, NIAS.anchorDefinition)
+    anchor_key = _first_value(graph, anchor_definition, NIAS.anchorKey)
+    return str(anchor_key) if anchor_key is not None else None
+
+
+def _required_coverage_value(value, message: str):
+    if value is None or (isinstance(value, Literal) and str(value).strip() == ""):
+        raise ValueError(message)
+    return value
+
+
+def _reviewed_artifact_identity_value(
+    graph: Graph,
+    review,
+    reviewed_artifact,
+    artifact_field: str,
+    reviewed_artifact_field: str,
+):
+    artifact_value = _first_value(graph, reviewed_artifact, URIRef(f"{NIAS}{artifact_field}"))
+    if artifact_value is not None:
+        return artifact_value
+    return _first_value(graph, review, URIRef(f"{NIAS}{reviewed_artifact_field}"))
+
+
+def _reviewed_content_hash(graph: Graph, artifact_anchor, reviewed_content):
+    existing_hash = _first_value(graph, artifact_anchor, NIAS.contentHash)
+    if existing_hash is not None:
+        return existing_hash
+    return Literal(f"sha256:{pdd_renderer._sha256_text(_node_text(reviewed_content) or '')}")
+
+
+def _copy_subject_triples(
+    source_graph: Graph,
+    target_graph: Graph,
+    subject,
+    *,
+    excluded_predicates=None,
+):
+    excluded = set(excluded_predicates or [])
+    for _, predicate, object_node in source_graph.triples((subject, None, None)):
+        if predicate in excluded:
+            continue
+        target_graph.add((subject, predicate, object_node))
+
+
+def _safe_proof_suffix(mapping, field_review):
+    raw = f"{_local_name(mapping)}-{_local_name(field_review)}"
+    normalized = re.sub(r"[^A-Za-z0-9_.-]+", "-", raw).strip("-")
+    digest = pdd_renderer._sha256_text(f"{mapping}|{field_review}")[:12]
+    return f"{normalized}-{digest}"
+
+
+def _add_requirement_coverage_proof(
+    coverage_graph: Graph,
+    proof_set,
+    document_id: str,
+    source_graph: Graph,
+    requirement_graph: Graph,
+    mapping_graph: Graph,
+    anchor_graph: Graph,
+    report_type: str,
+    review,
+    field_review,
+    review_target,
+    artifact_anchor,
+    reviewed_artifact,
+    mapping,
+):
+    mandate = _report_mandate(report_type)
+    requirement = _required_coverage_value(
+        _first_value(mapping_graph, mapping, NIAS.mappedRequirement),
+        f"{mapping} has no mapped requirement.",
+    )
+    schema_anchor = _required_coverage_value(
+        _first_value(mapping_graph, mapping, NIAS.mappedAnchor),
+        f"{mapping} has no mapped anchor.",
+    )
+    shape = _required_coverage_value(
+        _first_value(mapping_graph, mapping, NIAS.mappedShape),
+        f"{mapping} has no mapped SHACL shape.",
+    )
+    requirement_id = _required_coverage_value(
+        _first_value(requirement_graph, requirement, NIAS.requirementId),
+        f"{requirement} has no requirement ID.",
+    )
+    anchor_key = _required_coverage_value(
+        _first_value(anchor_graph, schema_anchor, NIAS.anchorKey),
+        f"{schema_anchor} has no anchor key.",
+    )
+    anchor_title = _required_coverage_value(
+        _first_value(anchor_graph, schema_anchor, DCTERMS.title),
+        f"{schema_anchor} has no anchor title.",
+    )
+    reviewed_artifact_type = _required_coverage_value(
+        _first_value(mapping_graph, mapping, NIAS.targetArtifactType),
+        f"{mapping} has no target artifact type.",
+    )
+    reviewed_content = _required_coverage_value(
+        _first_value(source_graph, field_review, NIAS.originalResponse),
+        f"{field_review} has no reviewed content.",
+    )
+    review_decision = _required_coverage_value(
+        _first_value(source_graph, field_review, NIAS.reviewerDecision),
+        f"{field_review} has no reviewer decision.",
+    )
+    reviewer_feedback = _required_coverage_value(
+        _first_value(source_graph, field_review, NIAS.reviewerFeedback),
+        f"{field_review} has no reviewer feedback.",
+    )
+    content_cid = _required_coverage_value(
+        _reviewed_artifact_identity_value(
+            source_graph,
+            review,
+            reviewed_artifact,
+            "artifactContentCid",
+            "reviewedArtifactContentCid",
+        ),
+        f"{reviewed_artifact} has no reviewed artifact content CID.",
+    )
+    schema_cid = _required_coverage_value(
+        _reviewed_artifact_identity_value(
+            source_graph,
+            review,
+            reviewed_artifact,
+            "artifactSchemaCid",
+            "reviewedArtifactSchemaCid",
+        ),
+        f"{reviewed_artifact} has no reviewed artifact schema CID.",
+    )
+    schema_version_label = _required_coverage_value(
+        _reviewed_artifact_identity_value(
+            source_graph,
+            review,
+            reviewed_artifact,
+            "artifactSchemaVersionLabel",
+            "reviewedArtifactSchemaVersionLabel",
+        ),
+        f"{reviewed_artifact} has no reviewed artifact schema version label.",
+    )
+    content_hash = _reviewed_content_hash(source_graph, artifact_anchor, reviewed_content)
+
+    proof = URIRef(
+        f"urn:nias:{document_id}:requirement-coverage:"
+        f"{_safe_proof_suffix(mapping, field_review)}"
+    )
+
+    for subject_graph, subject in [
+        (mapping_graph, mapping),
+        (requirement_graph, requirement),
+        (anchor_graph, schema_anchor),
+    ]:
+        _copy_subject_triples(subject_graph, coverage_graph, subject)
+
+    _copy_subject_triples(
+        source_graph,
+        coverage_graph,
+        artifact_anchor,
+        excluded_predicates={NIAS.anchorDefinition, NIAS.contentHash},
+    )
+    _copy_subject_triples(source_graph, coverage_graph, reviewed_artifact)
+    _copy_subject_triples(source_graph, coverage_graph, review_target)
+    _copy_subject_triples(source_graph, coverage_graph, field_review)
+    _copy_subject_triples(source_graph, coverage_graph, review)
+
+    coverage_graph.add((mapping, RDF.type, NIAS.RequirementMapping))
+    coverage_graph.add((requirement, RDF.type, NIAS.ValidationVerificationRequirement))
+    coverage_graph.add((schema_anchor, RDF.type, NIAS.AnchorDefinition))
+    coverage_graph.add((artifact_anchor, RDF.type, NIAS.ArtifactAnchor))
+    coverage_graph.add((artifact_anchor, NIAS.anchorDefinition, schema_anchor))
+    coverage_graph.add((artifact_anchor, NIAS.anchorKey, Literal(str(anchor_key))))
+    coverage_graph.add((artifact_anchor, NIAS.contentHash, content_hash))
+    coverage_graph.add((artifact_anchor, DCTERMS.isPartOf, reviewed_artifact))
+    coverage_graph.add((reviewed_artifact, RDF.type, DATA.Document))
+    coverage_graph.add((reviewed_artifact, NIAS.artifactContentCid, content_cid))
+    coverage_graph.add((reviewed_artifact, NIAS.artifactSchemaCid, schema_cid))
+    coverage_graph.add(
+        (reviewed_artifact, NIAS.artifactSchemaVersionLabel, schema_version_label)
+    )
+    coverage_graph.add((review_target, RDF.type, NIAS.ReviewTarget))
+    coverage_graph.add((review_target, NIAS.reviewedArtifact, reviewed_artifact))
+    coverage_graph.add((review_target, NIAS.reviewedAnchor, artifact_anchor))
+    coverage_graph.add((field_review, RDF.type, NIAS.DocumentFieldReview))
+    coverage_graph.add((field_review, NIAS.reviewTarget, review_target))
+    coverage_graph.add((review, NIAS.fieldReview, field_review))
+    coverage_graph.add((review, NIAS.reviewMandate, mandate))
+
+    coverage_graph.add((proof_set, DCTERMS.hasPart, proof))
+    coverage_graph.add((proof, DCTERMS.isPartOf, proof_set))
+    coverage_graph.add((proof, RDF.type, NIAS.RequirementCoverageProof))
+    coverage_graph.add((proof, NIAS.coverageRequirementMapping, mapping))
+    coverage_graph.add((proof, NIAS.coverageRequirement, requirement))
+    coverage_graph.add((proof, NIAS.coverageRequirementId, Literal(str(requirement_id))))
+    coverage_graph.add((proof, NIAS.reviewMandate, mandate))
+    coverage_graph.add((proof, NIAS.coverageShape, shape))
+    coverage_graph.add((proof, NIAS.coverageAnchorDefinition, schema_anchor))
+    coverage_graph.add((proof, NIAS.coverageAnchorKey, Literal(str(anchor_key))))
+    coverage_graph.add((proof, NIAS.coverageAnchorTitle, Literal(str(anchor_title))))
+    coverage_graph.add((proof, NIAS.coverageArtifactAnchor, artifact_anchor))
+    coverage_graph.add((proof, NIAS.coverageReviewedArtifact, reviewed_artifact))
+    coverage_graph.add(
+        (proof, NIAS.coverageReviewedArtifactType, Literal(str(reviewed_artifact_type)))
+    )
+    coverage_graph.add((proof, NIAS.coverageReviewedArtifactContentCid, content_cid))
+    coverage_graph.add((proof, NIAS.coverageReviewedArtifactSchemaCid, schema_cid))
+    coverage_graph.add(
+        (
+            proof,
+            NIAS.coverageReviewedArtifactSchemaVersionLabel,
+            schema_version_label,
+        )
+    )
+    coverage_graph.add((proof, NIAS.coverageReviewField, field_review))
+    coverage_graph.add((proof, NIAS.coverageReviewedContent, reviewed_content))
+    coverage_graph.add((proof, NIAS.coverageReviewedContentHash, content_hash))
+    coverage_graph.add((proof, NIAS.coverageReviewDecision, review_decision))
+    coverage_graph.add((proof, NIAS.coverageReviewerFeedback, reviewer_feedback))
+    return proof
+
+
+def build_requirement_coverage_proof_graph(
+    combined_graph: Graph,
+    document_id: str,
+    source_artifact: str,
+    generated_at: str,
+    render_mode: str,
+    report_type: str,
+):
+    requirement_graph = Graph()
+    requirement_graph.parse(str(DEFAULT_VVS_REQUIREMENTS), format="turtle")
+    mapping_graph = Graph()
+    mapping_graph.parse(str(DEFAULT_VVS_REQUIREMENT_ANCHOR_MAP), format="turtle")
+    anchor_graph = _load_graph(DEFAULT_ANCHOR_DEFINITIONS, fmt="turtle")
+    mappings_by_key = _mappings_by_anchor_key(mapping_graph, anchor_graph, report_type)
+
+    coverage_graph = Graph()
+    coverage_graph.bind("data", DATA)
+    coverage_graph.bind("dcterms", DCTERMS)
+    coverage_graph.bind("nias", NIAS)
+    coverage_graph.bind("rdf", RDF)
+    proof_set = URIRef(f"urn:nias:{document_id}:requirement-coverage")
+    coverage_graph.add((proof_set, RDF.type, NIAS.RequirementCoverageProofSet))
+    coverage_graph.add((proof_set, DCTERMS.identifier, Literal(document_id)))
+    coverage_graph.add((proof_set, DCTERMS.source, Literal(source_artifact)))
+    coverage_graph.add((proof_set, DCTERMS.created, Literal(generated_at)))
+    coverage_graph.add((proof_set, URIRef(f"{NIAS}renderMode"), Literal(render_mode)))
+    coverage_graph.add((proof_set, URIRef(f"{NIAS}reportType"), Literal(report_type)))
+
+    proof_nodes = []
+    for review, field_review in _all_field_review_nodes(combined_graph, report_type):
+        review_target = _first_value(combined_graph, field_review, NIAS.reviewTarget)
+        artifact_anchor = _first_value(combined_graph, review_target, NIAS.reviewedAnchor)
+        reviewed_artifact = _first_value(
+            combined_graph,
+            review_target,
+            NIAS.reviewedArtifact,
+        )
+        anchor_key = _artifact_anchor_key(combined_graph, artifact_anchor)
+        if not anchor_key:
+            continue
+        for mapping in mappings_by_key.get(anchor_key, []):
+            proof_nodes.append(
+                _add_requirement_coverage_proof(
+                    coverage_graph,
+                    proof_set,
+                    document_id,
+                    combined_graph,
+                    requirement_graph,
+                    mapping_graph,
+                    anchor_graph,
+                    report_type,
+                    review,
+                    field_review,
+                    review_target,
+                    artifact_anchor,
+                    reviewed_artifact,
+                    mapping,
+                )
+            )
+    return coverage_graph, proof_nodes
+
+
+def _validate_requirement_coverage_graph(coverage_graph: Graph):
+    from pyshacl import validate
+
+    shapes_graph = _load_graph(
+        [
+            DEFAULT_ARTIFACT_ANCHOR_SHAPES,
+            DEFAULT_REQUIREMENT_COVERAGE_PROOF_SHAPES,
+        ],
+        fmt="turtle",
+    )
+    ontology_graph = _load_graph(DEFAULT_ONTOLOGIES, fmt="turtle")
+    conforms, _, validation_text = validate(
+        data_graph=coverage_graph,
+        shacl_graph=shapes_graph,
+        ont_graph=ontology_graph,
+        inference="none",
+        abort_on_first=False,
+        allow_infos=False,
+        allow_warnings=False,
+        advanced=True,
+    )
+    if not conforms:
+        raise ValueError(
+            "Final render mode produced invalid requirement coverage proof sidecar.\n"
+            f"{validation_text}"
+        )
+    return validation_text
+
+
+def _coverage_jsonld_context():
+    return {
+        "data": str(DATA),
+        "dcterms": str(DCTERMS),
+        "nias": str(NIAS),
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    }
+
+
+def _serialize_coverage_jsonld(coverage_graph: Graph):
+    serialized = coverage_graph.serialize(
+        format="json-ld",
+        context=_coverage_jsonld_context(),
+        auto_compact=True,
+        indent=2,
+    )
+    return json.dumps(json.loads(serialized), indent=2, sort_keys=True) + "\n"
 
 
 def _render_workflow_evidence(graph: Graph, report_type: str):
@@ -950,6 +1369,35 @@ def export_rendered_outputs(
         )
 
     if render_mode == "final":
+        coverage_sidecar = None
+        if combined_graph is not None:
+            try:
+                coverage_graph, proof_nodes = build_requirement_coverage_proof_graph(
+                    combined_graph=combined_graph,
+                    document_id=document_id,
+                    source_artifact=source_artifact,
+                    generated_at=generated_at,
+                    render_mode=render_mode,
+                    report_type=report_type,
+                )
+                _validate_requirement_coverage_graph(coverage_graph)
+            except ModuleNotFoundError as exc:
+                raise RuntimeError(
+                    "Final render mode requires pySHACL. Install dependency `pyshacl`."
+                ) from exc
+
+            coverage_path = output_dir / f"{basename}.requirement-coverage.jsonld"
+            coverage_path.write_text(
+                _serialize_coverage_jsonld(coverage_graph),
+                encoding="utf-8",
+            )
+            coverage_sidecar = {
+                "artifact": "requirement-coverage-proof",
+                "path": coverage_path.name,
+                "proofCount": len(proof_nodes),
+                "sha256": pdd_renderer._sha256_file(coverage_path),
+            }
+
         metadata_path = output_dir / f"{basename}.metadata.jsonld"
         metadata_payload = {
             "@context": {
@@ -967,6 +1415,8 @@ def export_rendered_outputs(
         }
         if combined_graph is not None:
             metadata_payload.update(_review_identity_metadata(combined_graph, report_type))
+        if coverage_sidecar is not None:
+            metadata_payload["nias:requirementCoverageProofSidecar"] = coverage_sidecar
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -982,6 +1432,8 @@ def export_rendered_outputs(
             "generatedAt": generated_at,
             "artifacts": artifacts,
         }
+        if coverage_sidecar is not None:
+            validation_payload["requirementCoverageProofSidecar"] = coverage_sidecar
         validation_path.write_text(
             json.dumps(validation_payload, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",

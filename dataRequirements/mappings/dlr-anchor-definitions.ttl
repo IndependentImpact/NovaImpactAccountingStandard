@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/mappings/dlr-anchor-definitions/> a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Data Lineage Report Anchor Definitions"@en ;
+    dcterms:description "Canonical stable anchor definitions for Data Lineage Report evidence. These anchors are schema-level targets used to link verification findings to exact lineage steps and resource artifacts."@en .
+
+nias-o:dlr-package-summary a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.packageSummary" ;
+    dcterms:title "Data Lineage Report"@en ;
+    nias-o:sourceShape nias-o:DataLineageReportShape ;
+    nias-o:renderOrder 100 .
+
+nias-o:dlr-document-envelope a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.documentEnvelope" ;
+    dcterms:title "Report Envelope"@en ;
+    nias-o:sourceShape nias-o:DataLineageReportShape ;
+    nias-o:renderOrder 110 .
+
+nias-o:dlr-monitoring-period a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.monitoringPeriod" ;
+    dcterms:title "Monitoring Period"@en ;
+    nias-o:sourceShape nias-o:DateTimeIntervalShape ;
+    nias-o:sourcePath nias-o:forPeriod ;
+    nias-o:renderOrder 120 .
+
+nias-o:dlr-raw-dataset a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.rawDataset" ;
+    dcterms:title "Raw Dataset Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:rawDatasetArtifact ;
+    nias-o:renderOrder 130 .
+
+nias-o:dlr-data-transfer-report a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.dataTransferReport" ;
+    dcterms:title "Data Transfer Report Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:dataTransferReport ;
+    nias-o:renderOrder 140 .
+
+nias-o:dlr-data-transfer-code a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.dataTransferCode" ;
+    dcterms:title "Data Transfer Code Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:dataTransferCode ;
+    nias-o:renderOrder 150 .
+
+nias-o:dlr-data-cleaning-code a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.dataCleaningCode" ;
+    dcterms:title "Data Cleaning Code Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:dataCleaningCode ;
+    nias-o:renderOrder 160 .
+
+nias-o:dlr-data-cleaning-report a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.dataCleaningReport" ;
+    dcterms:title "Data Cleaning Report Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:dataCleaningReport ;
+    nias-o:renderOrder 170 .
+
+nias-o:dlr-final-dataset a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.finalDataset" ;
+    dcterms:title "Final Dataset Artifact"@en ;
+    nias-o:sourceShape nias-o:ResourceArtifactShape ;
+    nias-o:sourcePath nias-o:finalDatasetArtifact ;
+    nias-o:renderOrder 180 .
+
+nias-o:dlr-workflow-evidence a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "dlr.workflowEvidence" ;
+    dcterms:title "Workflow Evidence"@en ;
+    nias-o:sourceShape nias-o:WorkflowDocumentSubmissionShape ;
+    nias-o:sourcePath nias-o:hasWorkflowSubmission ;
+    nias-o:renderOrder 190 .
