@@ -29,6 +29,8 @@
         nias-o:reviewerDecision nias-cs:review-approve ;
         nias-o:reviewerFeedback "The title is clear and consistent with the submitted project."
     ] ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddsectiona" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a-review>

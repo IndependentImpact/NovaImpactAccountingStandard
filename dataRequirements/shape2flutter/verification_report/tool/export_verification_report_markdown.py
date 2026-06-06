@@ -11,6 +11,8 @@ SHARED_EXPORTER = (
     Path(__file__).resolve().parents[2]
     / "validation_verification_report/tool/export_validation_verification_report_markdown.py"
 )
+WORKFLOW_ID = f"{NIAS}workflows/verification-report"
+SOURCE_ARTIFACT_ID = "verification-report-workflow"
 
 
 def main():
@@ -26,9 +28,9 @@ def main():
         "--report-type",
         "verification",
         "--workflow",
-        f"{NIAS}workflows/verification-report",
+        WORKFLOW_ID,
         "--source-artifact-id",
-        "verification-report-workflow",
+        SOURCE_ARTIFACT_ID,
         *sys.argv[1:],
     ]
     os.execv(sys.executable, command)

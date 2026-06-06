@@ -4,6 +4,10 @@
 
 This specification defines how to evolve the current NIAS Turtle assets from section-specific validation logic toward a requirement-centric Validation & Verification Standard (VVS), while preserving existing SHACL validation behavior.
 
+Linked-artifact identity and reviewed-artifact boundary rules used by these
+workflows are defined in
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
 The target state is:
 
 1. scoring vocabularies remain controlled concepts;

@@ -12,6 +12,58 @@ The rendering boundary has three layers:
 The renderer stays independent of Fluree, IPFS, and Hedera deployment concerns.
 It consumes canonical data and produces deterministic document artifacts.
 
+Linked-artifact identity boundaries are normatively defined in:
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
+## Linked-Artifact Identity Contract (Item 1)
+
+Final-mode metadata sidecars and handoff packages use a standardized field
+vocabulary.
+
+Common artifact identity fields:
+
+- `artifactContentCid`
+- `artifactSchemaCid`
+- `artifactSchemaVersionLabel`
+- `artifactAuthor`
+- `workflowSubject`
+- `submissionTopicId`
+- `submissionConsensusTimestamp`
+- optional derived fields: `submissionEventKey`, `submissionMessageUrl`
+
+Reviewed-artifact identity fields:
+
+- `reviewedArtifactType`
+- `reviewedArtifactContentCid`
+- `reviewedArtifactSchemaCid`
+- `reviewedArtifactSchemaVersionLabel`
+- `reviewedSubmissionTopicId`
+- `reviewedSubmissionConsensusTimestamp`
+
+Upstream alignment fields:
+
+- `alignedPddContentCid`
+- `alignedPddSubmissionTopicId`
+- `alignedPddSubmissionConsensusTimestamp`
+
+DLR linkage fields:
+
+- `linkedDlrContentCid`
+- `reviewedDlrContentCid`
+
+Final-mode required linked-identity fields by activity:
+
+- PDD: artifact identity + submission identity
+- Validation Report: reviewed PDD artifact identity + reviewed submission
+  identity
+- Monitoring Report: aligned PDD identity + `linkedDlrContentCid`
+- Verification Report: reviewed Monitoring Report identity +
+  `reviewedDlrContentCid`
+
+Before Fluree/IPFS/Hedera integration, the local source of truth is the
+canonical JSON-LD package plus simulated submission-event fixture (not UI state
+or renderer-only output).
+
 ## Shared Workflow Export Engine
 
 Workflow-shell handoff exporters now share a config-backed export engine:
@@ -24,6 +76,8 @@ Workflow-shell handoff exporters now share a config-backed export engine:
   `dataRequirements/document-rendering/config/monitoring-report-export.yaml`
 - Verification mapping config:
   `dataRequirements/document-rendering/config/verification-report-export.yaml`
+- Legacy combined demo config:
+  `dataRequirements/document-rendering/config/validation-verification-export.yaml`
 
 The input/UI side still emits structured workflow payloads, and the output side
 ingests them through deterministic handoff adapters. Final-mode PDD rendering
@@ -123,6 +177,12 @@ Final exports also emit:
 rendered PDD body sections. Validation review packages should reference these
 artifact anchor IRIs through `nias:reviewTarget` rather than using legacy field
 keys.
+
+Final-mode metadata sidecars also carry linked-artifact identity fields such as
+`nias:artifactContentCid`, `nias:artifactSchemaCid`,
+`nias:artifactSchemaVersionLabel`, `nias:artifactAuthor`,
+`nias:submissionTopicId`, and `nias:submissionConsensusTimestamp` where
+available in the canonical package input.
 
 Blank-template and filled-data PDF outputs are still actual PDF files. The
 renderer prefers Pandoc, but falls back to a minimal valid PDF renderer if

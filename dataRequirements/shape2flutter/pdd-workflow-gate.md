@@ -13,7 +13,7 @@ same workflow subject.
 The gate receives:
 
 - A candidate `nias-o:PddCertificateIssuanceRequest` document.
-- The three `nias-o:DocumentReference` values on:
+- One or more `nias-o:DocumentReference` values on:
   - `nias-o:pddSectionAValidationReview`.
   - `nias-o:pddSectionBValidationReview`.
   - `nias-o:pddSectionCValidationReview`.
@@ -46,11 +46,15 @@ For each section reference, the workflow shell or Fluree-backed service must:
 6. Confirm the PDD-CIR, the review document, and the reviewed PDD document have
    the same `nias-o:workflowSubject` in their `nias-o:hasWorkflowSubmission`
    records.
-7. Confirm the three resolved review documents are distinct.
+7. Confirm the reviewed PDD document is the latest known artifact for that
+   workflow subject and section schema (stale links fail).
+8. Confirm the three resolved review documents are distinct.
 
-The gate fails if any reference is missing, unresolved, ambiguous, rejected,
-incomplete, linked to the wrong section schema, linked to a different workflow
-subject, or duplicated across sections.
+The gate must accept multiple candidate references per section and pass when at
+least one candidate resolves to an approved, current review for the expected
+section. The gate fails if references are missing, unresolved, ambiguous,
+rejected, stale, incomplete, linked to the wrong section schema, linked to a
+different workflow subject, or duplicated across sections.
 
 ## Runtime Result
 

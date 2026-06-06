@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 from pathlib import Path
 
 
@@ -157,6 +158,38 @@ class PddWorkflowShellExportTests(unittest.TestCase):
                 "Final render mode requires SHACL-conformant input.",
                 completed.stderr,
             )
+
+    def test_final_export_writes_identity_fields_in_metadata_sidecar(self):
+        from dataRequirements.shape2flutter.pdd_workflow_shell.tool.export_pdd_workflow_markdown import (
+            build_renderer_payload,
+        )
+
+        args = SimpleNamespace(
+            artifact_schema_cid="bafypddschemacid",
+            artifact_content_cid="bafypddartifactcontentcid",
+            artifact_schema_version_label=None,
+            schema_track="main",
+            submission_topic_id="0.0.1000",
+            submission_consensus_timestamp="2026-05-20T10:00:00Z",
+        )
+        payload = build_renderer_payload(
+            _pdd_a_payload(),
+            _pdd_b_payload(),
+            _pdd_c_payload(),
+            args,
+            "2026-05-20T10:00:00Z",
+        )
+        section_a = next(
+            node
+            for node in payload["@graph"]
+            if node.get("@id") == f"{NIAS}reports/pdd-section-a"
+        )
+        self.assertIn(f"{NIAS}artifactContentCid", section_a)
+        self.assertIn(f"{NIAS}artifactSchemaCid", section_a)
+        self.assertIn(f"{NIAS}artifactSchemaVersionLabel", section_a)
+        self.assertIn(f"{NIAS}artifactAuthor", section_a)
+        self.assertIn(f"{NIAS}submissionTopicId", section_a)
+        self.assertIn(f"{NIAS}submissionConsensusTimestamp", section_a)
 
 
 def _pdd_a_payload(repeated=False):

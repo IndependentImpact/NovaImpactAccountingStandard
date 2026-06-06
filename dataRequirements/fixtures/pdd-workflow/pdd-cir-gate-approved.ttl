@@ -83,6 +83,8 @@
         nias-o:reviewerDecision nias-cs:review-approve ;
         nias-o:reviewerFeedback "The field is acceptable."
     ] ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddsectiona" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-b-review>
@@ -108,6 +110,8 @@
         nias-o:reviewerDecision nias-cs:review-approve ;
         nias-o:reviewerFeedback "The field is acceptable."
     ] ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddsectionb" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-c-review>
@@ -133,6 +137,8 @@
         nias-o:reviewerDecision nias-cs:review-approve ;
         nias-o:reviewerFeedback "The field is acceptable."
     ] ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddsectionc" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a>

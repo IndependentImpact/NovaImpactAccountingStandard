@@ -89,6 +89,20 @@ nias-o:DocumentReviewShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:message "A document review must include at least one anchor review finding."@en ;
     ] ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactType ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document review must identify the type of the reviewed artifact (e.g. pdd, monitoring-report)."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactContentCid ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A document review must record the content CID of the exact reviewed artifact version."@en ;
+    ] ;
     sh:property nias-o:FinalReviewDecisionPropertyShape .
 
 nias-o:GenericDocumentReviewShape a sh:NodeShape ;

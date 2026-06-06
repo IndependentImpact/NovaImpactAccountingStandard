@@ -4,11 +4,12 @@ This directory contains UI-facing SHACL views for generating Flutter forms from
 NIAS workflow screen shapes.
 
 The canonical SHACL constraints remain in `dataRequirements/*.ttl`. The
-`validation-verification-ui-shapes.ttl` file flattens inherited/composed shapes
-and adds `ui:` hints so `shape2flutter` can generate usable first-pass forms.
-The `pdd-workflow-ui-shapes.ttl` file currently does the same for the combined
-local PDD workflow preview: PDD creation, validation review, and PDD certificate
-issuance request forms.
+activity-specific UI shape bundles flatten inherited/composed shapes and add
+`ui:` hints so `shape2flutter` can generate usable first-pass forms. The
+`pdd-design-ui-shapes.ttl` file contains developer-side PDD-A/B/C capture
+forms only. The `pdd-workflow-ui-shapes.ttl` file remains available for the
+combined local PDD workflow preview: PDD creation, validation review, and PDD
+certificate issuance request forms.
 
 For the planned PDD creation and validation workflow, see
 [`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
@@ -21,8 +22,38 @@ and Verification Report activities, see
 
 The repository currently supports a combined PDD workflow shell plus separate
 launch/export paths for PDD Design, Validation, Monitoring Report, and
-Verification activities that exchange linked artifacts. Validation and
-Verification still share one generated UI shape bundle internally.
+Verification activities that exchange linked artifacts. PDD Design, Validation,
+Monitoring, and Verification now have separate generated UI shape bundles.
+
+Linked-artifact identity requirements and reviewed-artifact boundary decisions
+are normatively defined in:
+`dataRequirements/linked-artifact-boundary-decisions.md`.
+
+## Linked-Artifact Handoff Contract (Item 1)
+
+UI payloads are capture-only. Canonical identity for PDD, Validation,
+Monitoring, and Verification artifacts is established by exported JSON-LD
+packages and their metadata sidecars.
+
+Export/handoff payloads must use the standardized field vocabulary:
+
+- common artifact identity:
+  `artifactContentCid`, `artifactSchemaCid`, `artifactSchemaVersionLabel`,
+  `artifactAuthor`, `workflowSubject`, `submissionTopicId`,
+  `submissionConsensusTimestamp`
+- reviewed-artifact identity:
+  `reviewedArtifactType`, `reviewedArtifactContentCid`,
+  `reviewedArtifactSchemaCid`, `reviewedArtifactSchemaVersionLabel`,
+  `reviewedSubmissionTopicId`, `reviewedSubmissionConsensusTimestamp`
+- upstream alignment:
+  `alignedPddContentCid`, `alignedPddSubmissionTopicId`,
+  `alignedPddSubmissionConsensusTimestamp`
+- DLR linkage:
+  `linkedDlrContentCid`, `reviewedDlrContentCid`
+
+Before Fluree/IPFS/Hedera integration, the local source of truth is the
+canonical JSON-LD package plus simulated submission-event fixture. Flutter/UI
+state, generated previews, and renderer-only output are not canonical records.
 
 ### Run The Current Combined PDD Demo
 
@@ -44,19 +75,18 @@ dataRequirements/shape2flutter/check-pdd-workflow.sh
 ### Run PDD Design Forms Only
 
 Use this when you only need developer-side PDD capture. Today these forms are
-generated from the combined PDD workflow shape bundle; use the PDD Section A,
-PDD Section B, and PDD Section C screens and ignore the validation/PDD-CIR
-screens.
+generated from the PDD Design shape bundle and include only the PDD Section A,
+PDD Section B, and PDD Section C capture screens.
 
 ```bash
-dataRequirements/shape2flutter/build-pdd-workflow.sh
+dataRequirements/shape2flutter/build-pdd-design.sh
 ```
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \
-  --schema-dir /tmp/nias-shape2flutter/pdd-workflow/schema \
-  --build-dir /tmp/nias-shape2flutter/pdd-workflow/flutter \
-  --preview-dir /tmp/nias-shape2flutter/pdd-workflow/preview \
+  --schema-dir /tmp/nias-shape2flutter/pdd-design/schema \
+  --build-dir /tmp/nias-shape2flutter/pdd-design/flutter \
+  --preview-dir /tmp/nias-shape2flutter/pdd-design/preview \
   --port 8080 \
   --no-browser
 ```
@@ -192,8 +222,9 @@ Workflow step definitions are tracked in:
 - `dataRequirements/shape2flutter/workflows/monitoring-report.yaml`
 - `dataRequirements/shape2flutter/workflows/verification-report.yaml`
 
-The existing combined preview definitions remain available while the generated
-UIs are being split:
+The existing combined preview definitions are retained as legacy/demo
+compatibility paths while the split activity workflows are the primary startup
+mode:
 
 - `dataRequirements/shape2flutter/workflows/pdd.yaml`
 - `dataRequirements/shape2flutter/workflows/validation-verification.yaml`
@@ -363,13 +394,44 @@ The handoff script passes repeatable `--evidence-jsonld` graphs through to the
 report renderer; final mode requires VVS-targeted evidence in the review package
 or evidence graphs.
 
-## PDD Workflow Build
+## PDD Design Build
+
+```bash
+dataRequirements/shape2flutter/build-pdd-design.sh
+```
+
+By default this writes generated PDD Design artifacts outside the repository:
+
+- `/tmp/nias-shape2flutter/pdd-design/schema/forms.jsonld`
+- `/tmp/nias-shape2flutter/pdd-design/flutter/*.dart`
+
+Override paths when needed:
+
+```bash
+SHAPE2FLUTTER_BIN=/Users/christiaanpauw/shape2flutter/shape2flutter \
+OUT_ROOT=/tmp/nias-shape2flutter/pdd-design \
+dataRequirements/shape2flutter/build-pdd-design.sh
+```
+
+Preview the PDD Design forms:
+
+```bash
+/Users/christiaanpauw/shape2flutter/shape2flutter preview \
+  --schema-dir /tmp/nias-shape2flutter/pdd-design/schema \
+  --build-dir /tmp/nias-shape2flutter/pdd-design/flutter \
+  --preview-dir /tmp/nias-shape2flutter/pdd-design/preview \
+  --port 8080 \
+  --no-browser
+```
+
+## Combined PDD Workflow Build
 
 ```bash
 dataRequirements/shape2flutter/build-pdd-workflow.sh
 ```
 
-By default this writes generated artifacts outside the repository:
+By default this writes generated combined workflow artifacts outside the
+repository:
 
 - `/tmp/nias-shape2flutter/pdd-workflow/schema/forms.jsonld`
 - `/tmp/nias-shape2flutter/pdd-workflow/flutter/*.dart`
@@ -382,10 +444,10 @@ OUT_ROOT=/tmp/nias-shape2flutter/pdd-workflow \
 dataRequirements/shape2flutter/build-pdd-workflow.sh
 ```
 
-## PDD Workflow Preview
+## Combined PDD Workflow Preview
 
-After running the PDD workflow build script, launch the Flutter web preview from
-the generated schema and Dart files:
+After running the combined PDD workflow build script, launch the Flutter web
+preview from the generated schema and Dart files:
 
 ```bash
 /Users/christiaanpauw/shape2flutter/shape2flutter preview \

@@ -2,6 +2,7 @@
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -9,6 +10,9 @@ sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
 from export_workflow_report import (
     load_export_config,
     run_renderer_with_payload,
+    schema_version_label,
+    submission_event_key,
+    submission_message_url,
 )
 from nias_local_env import load_repo_env
 
@@ -25,6 +29,7 @@ DCTERMS = "http://purl.org/dc/terms/"
 IND = "http://independentimpact.org/indicator-owl/"
 RDFS = "http://www.w3.org/2000/01/rdf-schema#"
 SCHEMA = "https://schema.org/"
+HEDERA = "https://hashgraphontology.xyz/core/"
 
 IRI_VALUE_FIELDS = {
     f"{NIAS}publicPrivateClassification",
@@ -131,7 +136,7 @@ def _resource_nodes(values, prefix, extra_fields):
     return references, nodes
 
 
-def build_renderer_payload(pdd_a, pdd_b, pdd_c):
+def build_renderer_payload(pdd_a, pdd_b, pdd_c, args, generated_at: str):
     pdd_a_content = _first(pdd_a.get(f"{NIAS}reportContent"))
     project = _first(pdd_a_content.get(f"{CLAIM}hasSubject"))
 
@@ -255,6 +260,23 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
             }
         )
 
+    artifact_schema_cid = args.artifact_schema_cid
+    artifact_content_cid = args.artifact_content_cid
+    submission_topic_id = args.submission_topic_id
+    submission_consensus_timestamp = args.submission_consensus_timestamp or generated_at
+    artifact_schema_version_label = (
+        args.artifact_schema_version_label
+        or schema_version_label(
+            schema_family="pdd-schema",
+            track=args.schema_track,
+            generated_at=submission_consensus_timestamp,
+            schema_cid=artifact_schema_cid,
+        )
+    )
+    submission_id = _node_id("submissions/pdd-artifact-version")
+    message_id = _node_id("submissions/pdd-artifact-version/message")
+    topic_id = _node_id(f"topics/{submission_topic_id}")
+
     graph = [
         {
             "@id": _node_id("projects/pdd-alpha"),
@@ -322,6 +344,24 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
             f"{DCTERMS}conformsTo": _as_node_reference(
                 pdd_a_content.get(f"{DCTERMS}conformsTo"), "document-schema/PDDxA-1.0.0"
             ),
+            f"{NIAS}artifactContentCid": artifact_content_cid,
+            f"{NIAS}artifactSchemaCid": artifact_schema_cid,
+            f"{NIAS}artifactSchemaVersionLabel": artifact_schema_version_label,
+            f"{NIAS}artifactAuthor": _generated_node_id(
+                pdd_a_content.get(f"{CLAIM}isMadeBy"), "users/project-developer-1"
+            ),
+            f"{NIAS}workflowSubject": _generated_node_id(
+                project.get("@id"), "projects/pdd-alpha"
+            ),
+            f"{NIAS}submissionTopicId": submission_topic_id,
+            f"{NIAS}submissionConsensusTimestamp": submission_consensus_timestamp,
+            f"{NIAS}submissionEventKey": submission_event_key(
+                submission_topic_id, submission_consensus_timestamp
+            ),
+            f"{NIAS}submissionMessageUrl": submission_message_url(
+                submission_topic_id, submission_consensus_timestamp
+            ),
+            f"{NIAS}hasWorkflowSubmission": {"@id": submission_id},
         },
         *(
             impact_nodes
@@ -400,6 +440,32 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
                 f"{NIAS}stakeholderCommentConsideration", ""
             ),
         },
+        {
+            "@id": submission_id,
+            "@type": "nias:WorkflowDocumentSubmission",
+            f"{NIAS}submittedDocument": {"@id": _node_id("reports/pdd-section-a")},
+            f"{NIAS}workflow": {"@id": f"{NIAS}workflows/pdd-design"},
+            f"{NIAS}workflowStep": {"@id": f"{NIAS}workflow-steps/pdd-design"},
+            f"{NIAS}workflowSubject": {"@id": _node_id("projects/pdd-alpha")},
+            f"{NIAS}workflowDocumentSubmittedBy": {
+                "@id": _generated_node_id(
+                    pdd_a_content.get(f"{CLAIM}isMadeBy"), "users/project-developer-1"
+                )
+            },
+            f"{NIAS}workflowDocumentRecipient": {"@id": f"{NIAS}registry/nova-registry"},
+            f"{NIAS}workflowSubmissionConsensusMessage": {"@id": message_id},
+        },
+        {
+            "@id": topic_id,
+            "@type": "hedera:ConsensusTopic",
+            f"{HEDERA}hasTopicId": submission_topic_id,
+        },
+        {
+            "@id": message_id,
+            "@type": "hedera:TopicMessage",
+            f"{HEDERA}inTopic": {"@id": topic_id},
+            f"{HEDERA}hasConsensusTimestamp": submission_consensus_timestamp,
+        },
     ]
 
     return {
@@ -412,6 +478,7 @@ def build_renderer_payload(pdd_a, pdd_b, pdd_c):
             "nias": NIAS,
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
             "schema": SCHEMA,
+            "hedera": HEDERA,
         },
         "@graph": graph,
     }
@@ -453,6 +520,13 @@ def main():
         default="workflow-shell",
         help="Source artifact identifier passed through to renderer metadata.",
     )
+    parser.add_argument("--generated-at")
+    parser.add_argument("--artifact-content-cid", default="bafypddartifactcontentcid")
+    parser.add_argument("--artifact-schema-cid", default="bafypddschemacid")
+    parser.add_argument("--artifact-schema-version-label")
+    parser.add_argument("--schema-track", default="main")
+    parser.add_argument("--submission-topic-id", default="0.0.1001")
+    parser.add_argument("--submission-consensus-timestamp")
     args = parser.parse_args()
 
     pdd_a = _load_json(args.pdd_a_json)
@@ -460,7 +534,8 @@ def main():
     pdd_c = _load_json(args.pdd_c_json)
     export_config = load_export_config(EXPORT_CONFIG)
 
-    renderer_payload = build_renderer_payload(pdd_a, pdd_b, pdd_c)
+    generated_at = args.generated_at or datetime.now(timezone.utc).isoformat()
+    renderer_payload = build_renderer_payload(pdd_a, pdd_b, pdd_c, args, generated_at)
     run_renderer_with_payload(
         repo_root=REPO_ROOT,
         config=export_config,
@@ -471,6 +546,7 @@ def main():
         output=args.output,
         output_dir=args.output_dir,
         output_targets=args.output_target,
+        extra_renderer_args=["--generated-at", generated_at],
     )
 
 

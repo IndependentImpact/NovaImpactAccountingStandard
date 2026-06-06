@@ -322,6 +322,16 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
             "Field review 1 reviewedArtifact is required.",
         )
 
+    def test_validation_review_missing_reviewed_submission_topic_id_fails(self):
+        payload = _review_form_payload("validation")
+        del payload[f"{NIAS}reviewedSubmissionTopicId"]
+        self._assert_export_fails(
+            payload,
+            "validation",
+            SCRIPT,
+            "reviewedSubmissionTopicId is required.",
+        )
+
     def test_validation_review_missing_reviewed_anchor_fails(self):
         payload = _review_form_payload("validation")
         del payload[f"{NIAS}fieldReview"][0][f"{NIAS}reviewTarget"][f"{NIAS}reviewedAnchor"]
@@ -380,6 +390,16 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
             "verification",
             VERIFICATION_WRAPPER,
             "requestedIssuanceAccountId must match shard.realm.num.",
+        )
+
+    def test_verification_review_missing_reviewed_dlr_content_cid_fails(self):
+        payload = _review_form_payload("verification")
+        del payload[f"{NIAS}reviewedDlrContentCid"]
+        self._assert_export_fails(
+            payload,
+            "verification",
+            VERIFICATION_WRAPPER,
+            "reviewedDlrContentCid is required.",
         )
 
     def _assert_export_fails(self, payload, report_type, script, expected_message):
@@ -467,9 +487,21 @@ def _review_form_payload(report_type):
             }
         ],
         f"{NIAS}finalReviewDecision": f"{NIAS}review-approve",
+        f"{NIAS}artifactContentCid": f"bafy{report_type}artifactcid",
+        f"{NIAS}artifactSchemaCid": f"bafy{report_type}schemacid",
+        f"{NIAS}artifactSchemaVersionLabel": f"nias:{report_type}-schema:main:2026-05-28:bafy{report_type[:4]}",
+        f"{NIAS}reviewedArtifactType": "pdd" if report_type == "validation" else "monitoring-report",
+        f"{NIAS}reviewedArtifactContentCid": (
+            "bafypddartifactcontentcid"
+            if report_type == "validation"
+            else "bafymonitoringartifactcontentcid"
+        ),
+        f"{NIAS}reviewedSubmissionTopicId": "0.0.1001",
+        f"{NIAS}reviewedSubmissionConsensusTimestamp": "2026-05-27T10:00:00Z",
     }
     if report_type == "verification":
         payload[f"{NIAS}requestedIssuanceAccountId"] = "0.0.3003"
+        payload[f"{NIAS}reviewedDlrContentCid"] = "bafydlrcontentcid"
     return payload
 
 

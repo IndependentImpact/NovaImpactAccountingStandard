@@ -347,6 +347,11 @@ Acceptance criteria:
 
 ### Phase 2: Split PDD Design from PDD validation and PDD-CIR
 
+Status note 2026-06-05: the PDD Design UI bundle split is in place through
+`pdd-design-ui-shapes.ttl` and `build-pdd-design.sh`. The combined
+`pdd-workflow-ui-shapes.ttl` bundle remains available for the local demo shell.
+Renderer/export boundary cleanup remains tracked below.
+
 Deliverables:
 
 - Create a PDD Design workflow YAML with only PDD-A, PDD-B, and PDD-C.
@@ -382,6 +387,15 @@ Acceptance criteria:
 
 ### Phase 4: Add Monitoring Report UI and renderer flow
 
+Status note 2026-06-05: Phase 4 is complete. All deliverables are in place:
+`monitoring-report-ui-shapes.ttl`, `workflows/monitoring-report.yaml`,
+`build-monitoring-report.sh`, `monitoring_report/tool/export_monitoring_report_markdown.py`,
+`monitoring-report-rendering-profile.md`, `render_monitoring_report_markdown.py`,
+`monitoring-report-export.yaml`. Regression fixtures
+(`monitoring-report-blank-template.md`, `monitoring-report-rendered.md`) and
+fixture-matching tests are in `test_monitoring_report_rendering.py`. All
+acceptance criteria are met.
+
 Deliverables:
 
 - Add `monitoring-report-ui-shapes.ttl` for `MonitoringReportShape` and nested
@@ -400,6 +414,23 @@ Acceptance criteria:
 
 ### Phase 5: Split Verification Report from validation and align it to Monitoring Report
 
+Status note 2026-06-05: Phase 5 is complete. `verification-report-ui-shapes.ttl`,
+`workflows/verification-report.yaml`, `build-verification-report.sh`, and
+`verification_report/tool/export_verification_report_markdown.py` are all in
+place. The verification exporter delegates to the shared
+`export_validation_verification_report_markdown.py` with `--report-type
+verification`, providing a separate verifier startup path without requiring the
+validation UI. Verification final-mode validates against Monitoring Report and
+VVS evidence; the metadata sidecar records `reviewedArtifactType=monitoring-report`
+and `reviewedDlrContentCid`.
+
+VIC-IR decision: `VerifiedImpactCertificateIssuanceRequestReviewShape` remains
+in the verification bundle. The VIC-IR review is the verification artifact: the
+verifier reviews a Monitoring Report and its DLR evidence and then records a
+VIC issuance recommendation as part of the same verification package. A separate
+VIC-IR issuance workflow (Phase 6 gate) will query approved verification reports
+rather than embed issuance logic into the verification form itself.
+
 Deliverables:
 
 - Create verification-specific workflow YAML and startup commands.
@@ -416,6 +447,14 @@ Acceptance criteria:
 - Verification Report output references the exact Monitoring Report reviewed.
 
 ### Phase 6: Rebuild issuance gates as linked-artifact queries
+
+Status note 2026-06-05: Phase 6 is complete. The linked-artifact gate contract
+is documented in `pdd-workflow-gate.md`, and local gate regression coverage in
+`dataRequirements/tests/test_pdd_workflow_gate.py` now evaluates candidate
+`DocumentReference` sets per section, accepts valid latest reviewed artifacts,
+and reports stale linked-artifact failures when references resolve to superseded
+PDD versions. This keeps local demo gating query-shaped while preserving the
+same contract for Fluree/service integration.
 
 Deliverables:
 
@@ -436,6 +475,16 @@ Acceptance criteria:
 - Gate failures identify missing or stale linked artifacts.
 
 ### Phase 7: Update docs, tests, and generated fixtures
+
+Status note 2026-06-05: Phase 7 is complete. `dataRequirements/shape2flutter/README.md`
+and `dataRequirements/document-rendering/README.md` include per-activity quick
+starts plus the combined local demo workflow command path. Split-workflow and
+rendering regression coverage is in `test_artifact_split_workflows.py`,
+`test_validation_verification_report_rendering.py`,
+`test_monitoring_report_rendering.py`, and linked-artifact gate tests in
+`test_pdd_workflow_gate.py` / `test_linked_artifact_identity.py`. Legacy
+combined workflow commands remain explicitly documented as demo compatibility
+paths.
 
 Deliverables:
 

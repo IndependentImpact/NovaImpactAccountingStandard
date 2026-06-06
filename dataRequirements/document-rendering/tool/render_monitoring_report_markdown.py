@@ -109,6 +109,61 @@ def _monitoring_reports(graph: Graph):
     return sorted(graph.subjects(RDF.type, NIAS.MonitoringReport), key=lambda item: _display_value(graph, item))
 
 
+def _node_text(node) -> str | None:
+    if node is None:
+        return None
+    if isinstance(node, Literal):
+        return str(node.toPython())
+    return str(node)
+
+
+def _first_node_text(graph: Graph, subject, predicate) -> str | None:
+    return _node_text(_first_value(graph, subject, predicate))
+
+
+def _monitoring_identity_metadata(graph: Graph) -> dict:
+    reports = _monitoring_reports(graph)
+    if not reports:
+        return {}
+    report = reports[0]
+    metadata = {}
+    for field in (
+        "artifactContentCid",
+        "artifactSchemaCid",
+        "artifactSchemaVersionLabel",
+        "artifactAuthor",
+        "workflowSubject",
+        "submissionTopicId",
+        "submissionConsensusTimestamp",
+        "submissionEventKey",
+        "submissionMessageUrl",
+        "alignedPddContentCid",
+        "alignedPddSubmissionTopicId",
+        "alignedPddSubmissionConsensusTimestamp",
+        "linkedDlrContentCid",
+    ):
+        value = _first_node_text(graph, report, URIRef(f"{NIAS}{field}"))
+        if value:
+            metadata[f"nias:{field}"] = value
+    return metadata
+
+
+def _ensure_final_identity_fields(graph: Graph):
+    reports = _monitoring_reports(graph)
+    if not reports:
+        return
+    report = reports[0]
+    required_fields = (
+        "alignedPddContentCid",
+        "alignedPddSubmissionTopicId",
+        "alignedPddSubmissionConsensusTimestamp",
+        "linkedDlrContentCid",
+    )
+    for field in required_fields:
+        if not _first_node_text(graph, report, URIRef(f"{NIAS}{field}")):
+            raise ValueError(f"{field} is required in final render mode.")
+
+
 def _load_display_graph(data_graph: Graph):
     display_graph = Graph()
     for triple in data_graph:
@@ -492,6 +547,7 @@ def render_filled_markdown(
     if render_mode == "final":
         try:
             _validate_structural_monitoring_graph(report_graph)
+            _ensure_final_identity_fields(report_graph)
         except ModuleNotFoundError as exc:
             raise RuntimeError(
                 "Final render mode requires pySHACL. Install dependency `pyshacl`."
@@ -541,6 +597,7 @@ def export_rendered_outputs(
     source_artifact: str,
     generated_at: str,
     render_mode: str,
+    report_graph: Graph | None = None,
 ):
     output_dir.mkdir(parents=True, exist_ok=True)
     document_hash = pdd_renderer._sha256_text(rendered_markdown)
@@ -610,6 +667,8 @@ def export_rendered_outputs(
             "nias:artifacts": artifacts,
             "nias:artifactAnchor": artifact_anchors,
         }
+        if report_graph is not None:
+            metadata_payload.update(_monitoring_identity_metadata(report_graph))
         metadata_path.write_text(
             json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -691,6 +750,7 @@ def main():
                 source_artifact=source_artifact,
                 generated_at=generated_at,
                 render_mode=args.render_mode,
+                report_graph=_load_jsonld_graph(args.input_jsonld) if args.input_jsonld else None,
             )
         except (RuntimeError, ValueError) as exc:
             parser.exit(1, f"{exc}\n")
