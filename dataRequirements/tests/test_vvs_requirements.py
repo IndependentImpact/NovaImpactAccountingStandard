@@ -15,6 +15,7 @@ from pathlib import Path
 
 from pyshacl import validate
 from rdflib import Graph, URIRef
+from rdflib.namespace import DCTERMS, RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -22,6 +23,7 @@ NIAS_BASE = "https://nova.org.za/novaimpactaccountingstandard/"
 VVS_BASE = f"{NIAS_BASE}vvs/"
 
 VVS_SHAPES_FILE = REPO_ROOT / "dataRequirements/vvs-requirement-shapes.ttl"
+ARTIFACT_ANCHOR_SHAPES_FILE = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
 
 ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
@@ -34,6 +36,12 @@ MAPPING_FILES = [
     MAPPINGS_DIR / "pdd-requirement-map.ttl",
     MAPPINGS_DIR / "dlr-requirement-map.ttl",
     MAPPINGS_DIR / "mr-requirement-map.ttl",
+]
+EXACT_ANCHOR_MAPPING_FILE = MAPPINGS_DIR / "vvs-requirement-anchor-map.ttl"
+ANCHOR_DEFINITION_FILES = [
+    MAPPINGS_DIR / "pdd-anchor-definitions.ttl",
+    MAPPINGS_DIR / "monitoring-anchor-definitions.ttl",
+    MAPPINGS_DIR / "dlr-anchor-definitions.ttl",
 ]
 DEPRECATION_MAP_FILE = MAPPINGS_DIR / "vvs-deprecation-map.ttl"
 
@@ -376,6 +384,245 @@ class VvsRequirementMappingsIntegrityTest(unittest.TestCase):
                         "Phase 3 anchor class."
                     ),
                 )
+
+
+class VvsRequirementAnchorMappingsIntegrityTest(unittest.TestCase):
+    """Exact requirement-to-anchor mapping integrity checks."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.requirement_mapping = URIRef(f"{NIAS_BASE}RequirementMapping")
+        cls.anchor_definition = URIRef(f"{NIAS_BASE}AnchorDefinition")
+        cls.validation_requirement = URIRef(f"{NIAS_BASE}ValidationRequirement")
+        cls.verification_requirement = URIRef(f"{NIAS_BASE}VerificationRequirement")
+
+        cls.mapped_requirement = URIRef(f"{NIAS_BASE}mappedRequirement")
+        cls.mapped_anchor = URIRef(f"{NIAS_BASE}mappedAnchor")
+        cls.mapped_shape = URIRef(f"{NIAS_BASE}mappedShape")
+        cls.review_mandate = URIRef(f"{NIAS_BASE}reviewMandate")
+        cls.target_artifact_type = URIRef(f"{NIAS_BASE}targetArtifactType")
+        cls.implemented_by_shape = URIRef(f"{NIAS_BASE}implementedByShape")
+        cls.requirement_status = URIRef(f"{NIAS_BASE}requirementStatus")
+        cls.active_status = URIRef(f"{VVS_BASE}active")
+        cls.anchor_key = URIRef(f"{NIAS_BASE}anchorKey")
+        cls.render_order = URIRef(f"{NIAS_BASE}renderOrder")
+        cls.source_shape = URIRef(f"{NIAS_BASE}sourceShape")
+
+        cls.validation_mandate = URIRef(f"{NIAS_BASE}validation")
+        cls.verification_mandate = URIRef(f"{NIAS_BASE}verification")
+        cls.allowed_mandates = {
+            cls.validation_mandate,
+            cls.verification_mandate,
+        }
+        cls.allowed_artifact_types = {
+            "pdd",
+            "monitoring-report",
+            "data-lineage-report",
+        }
+        cls.coarse_anchor_classes = {
+            URIRef(f"{NIAS_BASE}PddSectionAReport"),
+            URIRef(f"{NIAS_BASE}PddSectionBReport"),
+            URIRef(f"{NIAS_BASE}PddSectionCReport"),
+            URIRef(f"{NIAS_BASE}DataLineageReport"),
+            URIRef(f"{NIAS_BASE}MonitoringReport"),
+        }
+
+        cls.vvs_graph = Graph()
+        cls.vvs_graph.parse(REPO_ROOT / "glossary/ValidationVerificationStandard.ttl")
+
+        cls.mapping_graph = Graph()
+        cls.mapping_graph.parse(EXACT_ANCHOR_MAPPING_FILE)
+
+        cls.anchor_graph = _load_graph(ANCHOR_DEFINITION_FILES)
+
+    def _active_requirements(self):
+        return {
+            requirement
+            for requirement, _, _ in self.vvs_graph.triples(
+                (None, self.requirement_status, self.active_status)
+            )
+        }
+
+    def _mapping_subjects(self):
+        return set(self.mapping_graph.subjects(RDF.type, self.requirement_mapping))
+
+    def _mappings_for_requirement(self, requirement, mandate=None):
+        mappings = set(
+            self.mapping_graph.subjects(self.mapped_requirement, requirement)
+        )
+        if mandate is None:
+            return mappings
+        return {
+            mapping
+            for mapping in mappings
+            if (mapping, self.review_mandate, mandate) in self.mapping_graph
+        }
+
+    def _single_value(self, subject, predicate):
+        values = list(self.mapping_graph.objects(subject, predicate))
+        self.assertEqual(
+            len(values),
+            1,
+            msg=f"{subject} must declare exactly one {predicate}.",
+        )
+        return values[0]
+
+    def test_exact_anchor_mapping_file_parses_without_errors(self):
+        self.assertGreater(
+            len(self.mapping_graph),
+            0,
+            msg="vvs-requirement-anchor-map.ttl must not be empty",
+        )
+
+    def test_anchor_definition_graph_conforms_to_anchor_shapes(self):
+        conforms, _, validation_text = validate(
+            data_graph=self.anchor_graph,
+            shacl_graph=_load_graph([ARTIFACT_ANCHOR_SHAPES_FILE]),
+            ont_graph=_load_graph(ONTOLOGY_FILES),
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        self.assertTrue(conforms, msg=validation_text)
+
+    def test_every_mapping_declares_required_fields(self):
+        required_properties = [
+            self.mapped_requirement,
+            self.review_mandate,
+            self.target_artifact_type,
+            self.mapped_anchor,
+            self.mapped_shape,
+        ]
+        mappings = self._mapping_subjects()
+        self.assertGreater(len(mappings), 0, "At least one exact mapping is required.")
+        for mapping in mappings:
+            with self.subTest(mapping=mapping):
+                for predicate in required_properties:
+                    self._single_value(mapping, predicate)
+
+    def test_every_active_requirement_has_exact_anchor_mapping(self):
+        mapped_requirements = set(
+            self.mapping_graph.objects(None, self.mapped_requirement)
+        )
+        self.assertEqual(
+            self._active_requirements() - mapped_requirements,
+            set(),
+            msg="Every active VVS requirement must have at least one exact anchor mapping.",
+        )
+
+    def test_active_requirement_types_have_expected_mandate_coverage(self):
+        validation_requirements = {
+            requirement
+            for requirement in self._active_requirements()
+            if (requirement, RDF.type, self.validation_requirement) in self.vvs_graph
+        }
+        verification_requirements = {
+            requirement
+            for requirement in self._active_requirements()
+            if (requirement, RDF.type, self.verification_requirement) in self.vvs_graph
+        }
+
+        for requirement in validation_requirements:
+            with self.subTest(requirement=requirement, mandate="validation"):
+                self.assertTrue(
+                    self._mappings_for_requirement(
+                        requirement,
+                        self.validation_mandate,
+                    ),
+                    msg=f"{requirement} must have at least one validation exact-anchor mapping.",
+                )
+
+        for requirement in verification_requirements:
+            with self.subTest(requirement=requirement, mandate="verification"):
+                self.assertTrue(
+                    self._mappings_for_requirement(
+                        requirement,
+                        self.verification_mandate,
+                    ),
+                    msg=f"{requirement} must have at least one verification exact-anchor mapping.",
+                )
+
+    def test_mapped_requirements_are_active_and_shape_linked(self):
+        active_requirements = self._active_requirements()
+        for mapping in self._mapping_subjects():
+            requirement = self._single_value(mapping, self.mapped_requirement)
+            mapped_shape = self._single_value(mapping, self.mapped_shape)
+            mapping_mandate = self._single_value(mapping, self.review_mandate)
+            with self.subTest(mapping=mapping):
+                self.assertIn(
+                    requirement,
+                    active_requirements,
+                    msg=f"{mapping} references inactive or unknown requirement {requirement}.",
+                )
+                self.assertIn(
+                    (requirement, self.implemented_by_shape, mapped_shape),
+                    self.vvs_graph,
+                    msg=(
+                        f"{mapping} must use the same SHACL shape that "
+                        f"{requirement} declares with nias-o:implementedByShape."
+                    ),
+                )
+                self.assertIn(
+                    mapping_mandate,
+                    set(self.vvs_graph.objects(requirement, self.review_mandate)),
+                    msg=(
+                        f"{mapping} mandate {mapping_mandate} must match a "
+                        f"nias-o:reviewMandate declared by {requirement}."
+                    ),
+                )
+
+    def test_mapped_anchors_are_known_anchor_definitions(self):
+        for mapping in self._mapping_subjects():
+            anchor = self._single_value(mapping, self.mapped_anchor)
+            with self.subTest(mapping=mapping, anchor=anchor):
+                self.assertIn(
+                    (anchor, RDF.type, self.anchor_definition),
+                    self.anchor_graph,
+                    msg=f"{mapping} points to unknown anchor definition {anchor}.",
+                )
+                self.assertNotIn(
+                    anchor,
+                    self.coarse_anchor_classes,
+                    msg=f"{mapping} must point to an exact AnchorDefinition, not a coarse artifact class.",
+                )
+                for predicate in [
+                    self.anchor_key,
+                    DCTERMS.title,
+                    self.render_order,
+                    self.source_shape,
+                ]:
+                    self.assertIn(
+                        (anchor, predicate, None),
+                        self.anchor_graph,
+                        msg=f"Mapped anchor {anchor} must declare {predicate}.",
+                    )
+
+    def test_mapping_mandates_and_artifact_types_are_controlled(self):
+        for mapping in self._mapping_subjects():
+            mandate = self._single_value(mapping, self.review_mandate)
+            artifact_type = self._single_value(mapping, self.target_artifact_type)
+            with self.subTest(mapping=mapping):
+                self.assertIn(mandate, self.allowed_mandates)
+                self.assertIn(str(artifact_type), self.allowed_artifact_types)
+
+    def test_no_duplicate_requirement_mandate_anchor_mappings(self):
+        seen = set()
+        for mapping in self._mapping_subjects():
+            key = (
+                self._single_value(mapping, self.mapped_requirement),
+                self._single_value(mapping, self.review_mandate),
+                self._single_value(mapping, self.target_artifact_type),
+                self._single_value(mapping, self.mapped_anchor),
+            )
+            with self.subTest(mapping=mapping):
+                self.assertNotIn(
+                    key,
+                    seen,
+                    msg=f"Duplicate exact requirement-anchor mapping tuple: {key}",
+                )
+                seen.add(key)
 
 
 class VvsRequirementDeprecationIntegrityTest(unittest.TestCase):

@@ -1,0 +1,670 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-map: <https://nova.org.za/novaimpactaccountingstandard/mappings/requirement-anchor/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix trace: <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+trace:pdd-submission-v1 a data:Document ;
+    dcterms:title "Submitted PDD composite artifact v1" ;
+    nias-o:artifactContentCid "bafytracepddcontentcid" ;
+    nias-o:artifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:artifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:submissionTopicId "0.0.1000" ;
+    nias-o:submissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:resourceIpfsUri "ipfs://bafytracepddcontentcid"^^xsd:anyURI .
+
+trace:dlr-submission-v1 a data:Document ;
+    dcterms:title "Submitted Data Lineage Report artifact v1" ;
+    nias-o:artifactContentCid "bafytracedlrcontentcid" ;
+    nias-o:artifactSchemaCid "bafytracedlrschemacid" ;
+    nias-o:artifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:submissionTopicId "0.0.2000" ;
+    nias-o:submissionConsensusTimestamp "2026-06-15T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:resourceIpfsUri "ipfs://bafytracedlrcontentcid"^^xsd:anyURI .
+
+trace:monitoring-submission-v1 a data:Document ;
+    dcterms:title "Submitted Monitoring Report artifact v1" ;
+    nias-o:artifactContentCid "bafytracemrcontentcid" ;
+    nias-o:artifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:artifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:submissionTopicId "0.0.3000" ;
+    nias-o:submissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:resourceIpfsUri "ipfs://bafytracemrcontentcid"^^xsd:anyURI .
+
+trace:proof-req-pdd-001-section-a a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-001-section-a ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-001 ;
+    nias-o:coverageRequirementId "REQ-PDD-001" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-a ;
+    nias-o:coverageAnchorKey "pdd.sectionA" ;
+    nias-o:coverageAnchorTitle "Section A. Description Of Project" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-section-a ;
+    nias-o:coverageReviewedContent "The submitted PDD identifies the project title, developer, and project-design subject." ;
+    nias-o:coverageReviewedContentHash "sha256:1111111111111111111111111111111111111111111111111111111111111111" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The section is sufficient for REQ-PDD-001." .
+
+trace:proof-req-pdd-001-technologies a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-001-technologies-and-measures ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-001 ;
+    nias-o:coverageRequirementId "REQ-PDD-001" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-a-technologies-and-measures ;
+    nias-o:coverageAnchorKey "pdd.sectionA.technologiesAndMeasures" ;
+    nias-o:coverageAnchorTitle "A.3 Technologies And Measures" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA.technologiesAndMeasures> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-technologies ;
+    nias-o:coverageReviewedContent "The PDD declares a solar irrigation technology or measure." ;
+    nias-o:coverageReviewedContentHash "sha256:2222222222222222222222222222222222222222222222222222222222222222" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The activity declaration is sufficient for REQ-PDD-001." .
+
+trace:proof-req-pdd-002-methodology a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-002-methodology-references ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-002 ;
+    nias-o:coverageRequirementId "REQ-PDD-002" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd002Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-methodology-references ;
+    nias-o:coverageAnchorKey "pdd.sectionB.methodologyReferences" ;
+    nias-o:coverageAnchorTitle "B.1 Methodology References" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.methodologyReferences> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-methodology ;
+    nias-o:coverageReviewedContent "The PDD references NIAS-METH-001 for the declared impact." ;
+    nias-o:coverageReviewedContentHash "sha256:3333333333333333333333333333333333333333333333333333333333333333" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Methodology evidence is sufficient for REQ-PDD-002." .
+
+trace:proof-req-pdd-002-declared-impacts a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-002-declared-impacts ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-002 ;
+    nias-o:coverageRequirementId "REQ-PDD-002" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd002Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-declared-impacts ;
+    nias-o:coverageAnchorKey "pdd.sectionB.declaredImpacts" ;
+    nias-o:coverageAnchorTitle "B.2 Declared Impacts" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-declared-impacts ;
+    nias-o:coverageReviewedContent "The PDD declares one beneficial GHG impact with required classification." ;
+    nias-o:coverageReviewedContentHash "sha256:4444444444444444444444444444444444444444444444444444444444444444" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Declared impact evidence is sufficient for REQ-PDD-002." .
+
+trace:proof-req-pdd-003-section-c a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-003-section-c ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-003 ;
+    nias-o:coverageRequirementId "REQ-PDD-003" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd003Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-c ;
+    nias-o:coverageAnchorKey "pdd.sectionC" ;
+    nias-o:coverageAnchorTitle "Section C. Stakeholder Engagement" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionC> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-section-c ;
+    nias-o:coverageReviewedContent "The PDD Section C content conforms to PDDxC-4.0.0." ;
+    nias-o:coverageReviewedContentHash "sha256:6666666666666666666666666666666666666666666666666666666666666666" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Section C schema evidence is sufficient for REQ-PDD-003." .
+
+trace:proof-req-dlr-001-pdd-data-parameters a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-dlr-001-pdd-data-parameters ;
+    nias-o:coverageRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:coverageRequirementId "REQ-DLR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqDlr001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-data-parameter-tables ;
+    nias-o:coverageAnchorKey "pdd.sectionB.dataParameterTables" ;
+    nias-o:coverageAnchorTitle "B.5 Data And Parameter Requirements" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.dataParameterTables> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:verification-review-pdd-data-parameters ;
+    nias-o:coverageReviewedContent "The validated PDD data parameter table defines the monitored dataset requirements." ;
+    nias-o:coverageReviewedContentHash "sha256:5555555555555555555555555555555555555555555555555555555555555555" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The baseline supports REQ-DLR-001 and REQ-DLR-002." .
+
+trace:proof-req-dlr-001-raw-dataset a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-dlr-001-raw-dataset ;
+    nias-o:coverageRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:coverageRequirementId "REQ-DLR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqDlr001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:dlr-raw-dataset ;
+    nias-o:coverageAnchorKey "dlr.rawDataset" ;
+    nias-o:coverageAnchorTitle "Raw Dataset Artifact" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.rawDataset> ;
+    nias-o:coverageReviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "data-lineage-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracedlrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracedlrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-dlr-raw-dataset ;
+    nias-o:coverageReviewedContent "The DLR links the raw dataset artifact at ipfs://bafytracerawdataset." ;
+    nias-o:coverageReviewedContentHash "sha256:7777777777777777777777777777777777777777777777777777777777777777" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Raw dataset evidence is sufficient for REQ-DLR-001." .
+
+trace:proof-req-dlr-001-data-transfer-code a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-dlr-001-data-transfer-code ;
+    nias-o:coverageRequirement nias-vvs:REQ-DLR-001 ;
+    nias-o:coverageRequirementId "REQ-DLR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqDlr001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:dlr-data-transfer-code ;
+    nias-o:coverageAnchorKey "dlr.dataTransferCode" ;
+    nias-o:coverageAnchorTitle "Data Transfer Code Artifact" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.dataTransferCode> ;
+    nias-o:coverageReviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "data-lineage-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracedlrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracedlrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-dlr-data-transfer-code ;
+    nias-o:coverageReviewedContent "The DLR links the data transfer code artifact at ipfs://bafytracetransfercode." ;
+    nias-o:coverageReviewedContentHash "sha256:8888888888888888888888888888888888888888888888888888888888888888" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Transfer code evidence is sufficient for REQ-DLR-001." .
+
+trace:proof-req-dlr-002-pdd-data-parameters a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-dlr-002-pdd-data-parameters ;
+    nias-o:coverageRequirement nias-vvs:REQ-DLR-002 ;
+    nias-o:coverageRequirementId "REQ-DLR-002" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqDlr002Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-data-parameter-tables ;
+    nias-o:coverageAnchorKey "pdd.sectionB.dataParameterTables" ;
+    nias-o:coverageAnchorTitle "B.5 Data And Parameter Requirements" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.dataParameterTables> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:verification-review-pdd-data-parameters ;
+    nias-o:coverageReviewedContent "The validated PDD data parameter table defines the monitored dataset requirements." ;
+    nias-o:coverageReviewedContentHash "sha256:5555555555555555555555555555555555555555555555555555555555555555" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The baseline supports REQ-DLR-001 and REQ-DLR-002." .
+
+trace:proof-req-dlr-002-final-dataset a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-dlr-002-final-dataset ;
+    nias-o:coverageRequirement nias-vvs:REQ-DLR-002 ;
+    nias-o:coverageRequirementId "REQ-DLR-002" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqDlr002Shape ;
+    nias-o:coverageAnchorDefinition nias-o:dlr-final-dataset ;
+    nias-o:coverageAnchorKey "dlr.finalDataset" ;
+    nias-o:coverageAnchorTitle "Final Dataset Artifact" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.finalDataset> ;
+    nias-o:coverageReviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "data-lineage-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracedlrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracedlrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-dlr-final-dataset ;
+    nias-o:coverageReviewedContent "The DLR links the final dataset artifact at ipfs://bafytracefinaldataset." ;
+    nias-o:coverageReviewedContentHash "sha256:9999999999999999999999999999999999999999999999999999999999999999" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Final dataset evidence is sufficient for REQ-DLR-002." .
+
+trace:proof-req-mr-001-pdd-declared-impacts a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-mr-001-pdd-declared-impacts ;
+    nias-o:coverageRequirement nias-vvs:REQ-MR-001 ;
+    nias-o:coverageRequirementId "REQ-MR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqMr001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-declared-impacts ;
+    nias-o:coverageAnchorKey "pdd.sectionB.declaredImpacts" ;
+    nias-o:coverageAnchorTitle "B.2 Declared Impacts" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:verification-review-pdd-declared-impacts ;
+    nias-o:coverageReviewedContent "The validated PDD declared impact is the ex-ante baseline for the measured monitoring observation." ;
+    nias-o:coverageReviewedContentHash "sha256:4444444444444444444444444444444444444444444444444444444444444444" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The baseline supports REQ-MR-001 and REQ-CROSS-001." .
+
+trace:proof-req-mr-001-monitoring-observation a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-mr-001-monitoring-observation ;
+    nias-o:coverageRequirement nias-vvs:REQ-MR-001 ;
+    nias-o:coverageRequirementId "REQ-MR-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqMr001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-observation ;
+    nias-o:coverageAnchorKey "monitoring.observation" ;
+    nias-o:coverageAnchorTitle "Measured Impact Observation" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.observation> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-observation ;
+    nias-o:coverageReviewedContent "The Monitoring Report records an observed impact quantity with a consistent unit." ;
+    nias-o:coverageReviewedContentHash "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Observation evidence is sufficient for REQ-MR-001 and REQ-CROSS-001." .
+
+trace:proof-req-mr-002-monitoring-resources a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-mr-002-monitoring-resources ;
+    nias-o:coverageRequirement nias-vvs:REQ-MR-002 ;
+    nias-o:coverageRequirementId "REQ-MR-002" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqMr002Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-resources ;
+    nias-o:coverageAnchorKey "monitoring.resources" ;
+    nias-o:coverageAnchorTitle "Calculation Resources" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.resources> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-resources ;
+    nias-o:coverageReviewedContent "The Monitoring Report records requested issuance account 0.0.3003 with calculation resources." ;
+    nias-o:coverageReviewedContentHash "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Resource evidence is sufficient for REQ-MR-002." .
+
+trace:proof-req-cross-001-pdd-declared-impacts a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-cross-001-pdd-declared-impacts ;
+    nias-o:coverageRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:coverageRequirementId "REQ-CROSS-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqCross001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-b-declared-impacts ;
+    nias-o:coverageAnchorKey "pdd.sectionB.declaredImpacts" ;
+    nias-o:coverageAnchorTitle "B.2 Declared Impacts" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:verification-review-pdd-declared-impacts ;
+    nias-o:coverageReviewedContent "The validated PDD declared impact is the ex-ante baseline for the measured monitoring observation." ;
+    nias-o:coverageReviewedContentHash "sha256:4444444444444444444444444444444444444444444444444444444444444444" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "The baseline supports REQ-MR-001 and REQ-CROSS-001." .
+
+trace:proof-req-cross-001-monitoring-package-summary a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-cross-001-monitoring-package-summary ;
+    nias-o:coverageRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:coverageRequirementId "REQ-CROSS-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqCross001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-package-summary ;
+    nias-o:coverageAnchorKey "monitoring.packageSummary" ;
+    nias-o:coverageAnchorTitle "Monitoring Report" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.packageSummary> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-package-summary ;
+    nias-o:coverageReviewedContent "The Monitoring Report identifies the validated PDD content CID bafytracepddcontentcid." ;
+    nias-o:coverageReviewedContentHash "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Package summary evidence is sufficient for REQ-CROSS-001." .
+
+trace:proof-req-cross-001-monitoring-observation a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-cross-001-monitoring-observation ;
+    nias-o:coverageRequirement nias-vvs:REQ-CROSS-001 ;
+    nias-o:coverageRequirementId "REQ-CROSS-001" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqCross001Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-observation ;
+    nias-o:coverageAnchorKey "monitoring.observation" ;
+    nias-o:coverageAnchorTitle "Measured Impact Observation" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.observation> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-observation ;
+    nias-o:coverageReviewedContent "The Monitoring Report records an observed impact quantity with a consistent unit." ;
+    nias-o:coverageReviewedContentHash "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Observation evidence is sufficient for REQ-MR-001 and REQ-CROSS-001." .
+
+trace:pdd-section-a-node a nias-o:PddSectionAReport .
+trace:pdd-section-b-node a nias-o:PddSectionBReport .
+trace:pdd-section-c-node a nias-o:PddSectionCReport .
+trace:dlr-node a nias-o:DataLineageReport .
+trace:monitoring-node a nias-o:MonitoringReport .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-a ;
+    nias-o:anchorKey "pdd.sectionA" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-a-node ;
+    nias-o:renderHeading "Section A. Description Of Project" ;
+    nias-o:contentHash "sha256:1111111111111111111111111111111111111111111111111111111111111111" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA.technologiesAndMeasures>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-a-technologies-and-measures ;
+    nias-o:anchorKey "pdd.sectionA.technologiesAndMeasures" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-a-node ;
+    nias-o:sourcePath nias-o:technologyOrMeasure ;
+    nias-o:renderHeading "A.3 Technologies And Measures" ;
+    nias-o:contentHash "sha256:2222222222222222222222222222222222222222222222222222222222222222" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.methodologyReferences>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-b-methodology-references ;
+    nias-o:anchorKey "pdd.sectionB.methodologyReferences" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-b-node ;
+    nias-o:sourcePath nias-o:usesMethodology ;
+    nias-o:renderHeading "B.1 Methodology References" ;
+    nias-o:contentHash "sha256:3333333333333333333333333333333333333333333333333333333333333333" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-b-declared-impacts ;
+    nias-o:anchorKey "pdd.sectionB.declaredImpacts" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-b-node ;
+    nias-o:sourcePath nias-o:hasDeclaredImpact ;
+    nias-o:renderHeading "B.2 Declared Impacts" ;
+    nias-o:contentHash "sha256:4444444444444444444444444444444444444444444444444444444444444444" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.dataParameterTables>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-b-data-parameter-tables ;
+    nias-o:anchorKey "pdd.sectionB.dataParameterTables" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-b-node ;
+    nias-o:sourcePath nias-o:dataParameterRequirement ;
+    nias-o:renderHeading "B.5 Data And Parameter Requirements" ;
+    nias-o:contentHash "sha256:5555555555555555555555555555555555555555555555555555555555555555" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionC>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-c ;
+    nias-o:anchorKey "pdd.sectionC" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-c-node ;
+    nias-o:renderHeading "Section C. Stakeholder Engagement" ;
+    nias-o:contentHash "sha256:6666666666666666666666666666666666666666666666666666666666666666" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.rawDataset>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:dlr-raw-dataset ;
+    nias-o:anchorKey "dlr.rawDataset" ;
+    dcterms:isPartOf trace:dlr-submission-v1 ;
+    nias-o:sourceNode trace:dlr-node ;
+    nias-o:sourcePath nias-o:rawDatasetArtifact ;
+    nias-o:renderHeading "Raw Dataset Artifact" ;
+    nias-o:contentHash "sha256:7777777777777777777777777777777777777777777777777777777777777777" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.dataTransferCode>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:dlr-data-transfer-code ;
+    nias-o:anchorKey "dlr.dataTransferCode" ;
+    dcterms:isPartOf trace:dlr-submission-v1 ;
+    nias-o:sourceNode trace:dlr-node ;
+    nias-o:sourcePath nias-o:dataTransferCode ;
+    nias-o:renderHeading "Data Transfer Code Artifact" ;
+    nias-o:contentHash "sha256:8888888888888888888888888888888888888888888888888888888888888888" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.finalDataset>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:dlr-final-dataset ;
+    nias-o:anchorKey "dlr.finalDataset" ;
+    dcterms:isPartOf trace:dlr-submission-v1 ;
+    nias-o:sourceNode trace:dlr-node ;
+    nias-o:sourcePath nias-o:finalDatasetArtifact ;
+    nias-o:renderHeading "Final Dataset Artifact" ;
+    nias-o:contentHash "sha256:9999999999999999999999999999999999999999999999999999999999999999" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.packageSummary>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:monitoring-package-summary ;
+    nias-o:anchorKey "monitoring.packageSummary" ;
+    dcterms:isPartOf trace:monitoring-submission-v1 ;
+    nias-o:sourceNode trace:monitoring-node ;
+    nias-o:renderHeading "Monitoring Report" ;
+    nias-o:contentHash "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.observation>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:monitoring-observation ;
+    nias-o:anchorKey "monitoring.observation" ;
+    dcterms:isPartOf trace:monitoring-submission-v1 ;
+    nias-o:sourceNode trace:monitoring-node ;
+    nias-o:sourcePath nias-o:reportedObservation ;
+    nias-o:renderHeading "Measured Impact Observation" ;
+    nias-o:contentHash "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.resources>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:monitoring-resources ;
+    nias-o:anchorKey "monitoring.resources" ;
+    dcterms:isPartOf trace:monitoring-submission-v1 ;
+    nias-o:sourceNode trace:monitoring-node ;
+    nias-o:renderHeading "Calculation Resources" ;
+    nias-o:contentHash "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" .
+
+trace:validation-review-v1 a nias-o:GenericDocumentReview ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:fieldReview
+        trace:validation-review-pdd-section-a,
+        trace:validation-review-pdd-technologies,
+        trace:validation-review-pdd-methodology,
+        trace:validation-review-pdd-declared-impacts,
+        trace:validation-review-pdd-section-c .
+
+trace:verification-review-v1 a nias-o:GenericDocumentReview ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:fieldReview
+        trace:verification-review-pdd-declared-impacts,
+        trace:verification-review-pdd-data-parameters,
+        trace:verification-review-dlr-raw-dataset,
+        trace:verification-review-dlr-data-transfer-code,
+        trace:verification-review-dlr-final-dataset,
+        trace:verification-review-monitoring-package-summary,
+        trace:verification-review-monitoring-observation,
+        trace:verification-review-monitoring-resources .
+
+trace:validation-review-pdd-section-a a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-section-a ;
+    nias-o:fieldTitle "PDD Section A" ;
+    nias-o:fieldPrompt "Validate PDD Section A structural content." ;
+    nias-o:originalResponse "The submitted PDD identifies the project title, developer, and project-design subject." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "The section is sufficient for REQ-PDD-001." .
+
+trace:validation-review-pdd-technologies a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-technologies-validation ;
+    nias-o:fieldTitle "PDD technologies and measures" ;
+    nias-o:fieldPrompt "Validate that at least one project activity is declared." ;
+    nias-o:originalResponse "The PDD declares a solar irrigation technology or measure." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "The activity declaration is sufficient for REQ-PDD-001." .
+
+trace:validation-review-pdd-methodology a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-methodology ;
+    nias-o:fieldTitle "PDD methodology references" ;
+    nias-o:fieldPrompt "Validate quantification methodology references." ;
+    nias-o:originalResponse "The PDD references NIAS-METH-001 for the declared impact." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Methodology evidence is sufficient for REQ-PDD-002." .
+
+trace:validation-review-pdd-declared-impacts a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-declared-impacts-validation ;
+    nias-o:fieldTitle "PDD declared impacts" ;
+    nias-o:fieldPrompt "Validate declared impact completeness." ;
+    nias-o:originalResponse "The PDD declares one beneficial GHG impact with required classification." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Declared impact evidence is sufficient for REQ-PDD-002." .
+
+trace:validation-review-pdd-section-c a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-section-c ;
+    nias-o:fieldTitle "PDD Section C" ;
+    nias-o:fieldPrompt "Validate Section C schema conformance." ;
+    nias-o:originalResponse "The PDD Section C content conforms to PDDxC-4.0.0." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Section C schema evidence is sufficient for REQ-PDD-003." .
+
+trace:verification-review-pdd-declared-impacts a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-declared-impacts-verification ;
+    nias-o:fieldTitle "Validated PDD declared impacts" ;
+    nias-o:fieldPrompt "Verify the monitoring observation against the validated PDD declared impact." ;
+    nias-o:originalResponse "The validated PDD declared impact is the ex-ante baseline for the measured monitoring observation." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "The baseline supports REQ-MR-001 and REQ-CROSS-001." .
+
+trace:verification-review-pdd-data-parameters a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-data-parameters ;
+    nias-o:fieldTitle "Validated PDD data parameter table" ;
+    nias-o:fieldPrompt "Verify DLR evidence against the validated data parameter requirements." ;
+    nias-o:originalResponse "The validated PDD data parameter table defines the monitored dataset requirements." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "The baseline supports REQ-DLR-001 and REQ-DLR-002." .
+
+trace:verification-review-dlr-raw-dataset a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-dlr-raw-dataset ;
+    nias-o:fieldTitle "DLR raw dataset" ;
+    nias-o:fieldPrompt "Verify raw source dataset traceability." ;
+    nias-o:originalResponse "The DLR links the raw dataset artifact at ipfs://bafytracerawdataset." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Raw dataset evidence is sufficient for REQ-DLR-001." .
+
+trace:verification-review-dlr-data-transfer-code a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-dlr-data-transfer-code ;
+    nias-o:fieldTitle "DLR data transfer code" ;
+    nias-o:fieldPrompt "Verify data transfer or collection method traceability." ;
+    nias-o:originalResponse "The DLR links the data transfer code artifact at ipfs://bafytracetransfercode." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Transfer code evidence is sufficient for REQ-DLR-001." .
+
+trace:verification-review-dlr-final-dataset a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-dlr-final-dataset ;
+    nias-o:fieldTitle "DLR final dataset" ;
+    nias-o:fieldPrompt "Verify final dataset artifact traceability." ;
+    nias-o:originalResponse "The DLR links the final dataset artifact at ipfs://bafytracefinaldataset." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Final dataset evidence is sufficient for REQ-DLR-002." .
+
+trace:verification-review-monitoring-package-summary a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-monitoring-package-summary ;
+    nias-o:fieldTitle "Monitoring report package summary" ;
+    nias-o:fieldPrompt "Verify that the Monitoring Report identifies the validated PDD version." ;
+    nias-o:originalResponse "The Monitoring Report identifies the validated PDD content CID bafytracepddcontentcid." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Package summary evidence is sufficient for REQ-CROSS-001." .
+
+trace:verification-review-monitoring-observation a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-monitoring-observation ;
+    nias-o:fieldTitle "Monitoring measured observation" ;
+    nias-o:fieldPrompt "Verify measured impact observation completeness." ;
+    nias-o:originalResponse "The Monitoring Report records an observed impact quantity with a consistent unit." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Observation evidence is sufficient for REQ-MR-001 and REQ-CROSS-001." .
+
+trace:verification-review-monitoring-resources a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-monitoring-resources ;
+    nias-o:fieldTitle "Monitoring calculation resources" ;
+    nias-o:fieldPrompt "Verify requested issuance account and calculation resources." ;
+    nias-o:originalResponse "The Monitoring Report records requested issuance account 0.0.3003 with calculation resources." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Resource evidence is sufficient for REQ-MR-002." .
+
+trace:target-pdd-section-a a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA> .
+
+trace:target-pdd-technologies-validation a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA.technologiesAndMeasures> .
+
+trace:target-pdd-methodology a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.methodologyReferences> .
+
+trace:target-pdd-declared-impacts-validation a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts> .
+
+trace:target-pdd-section-c a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionC> .
+
+trace:target-pdd-declared-impacts-verification a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.declaredImpacts> .
+
+trace:target-pdd-data-parameters a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionB.dataParameterTables> .
+
+trace:target-dlr-raw-dataset a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.rawDataset> .
+
+trace:target-dlr-data-transfer-code a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.dataTransferCode> .
+
+trace:target-dlr-final-dataset a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:dlr-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.finalDataset> .
+
+trace:target-monitoring-package-summary a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.packageSummary> .
+
+trace:target-monitoring-observation a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.observation> .
+
+trace:target-monitoring-resources a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.resources> .

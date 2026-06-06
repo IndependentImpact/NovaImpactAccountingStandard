@@ -6,6 +6,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from pyshacl import validate
+from rdflib import Graph, Namespace
+from rdflib.namespace import RDF
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = (
@@ -25,6 +29,23 @@ VALIDATION_BLANK_FIXTURE = FIXTURES / "validation-report-blank-template.md"
 VERIFICATION_BLANK_FIXTURE = FIXTURES / "verification-report-blank-template.md"
 VALIDATION_RENDERED_FIXTURE = FIXTURES / "validation-report-rendered.md"
 VERIFICATION_RENDERED_FIXTURE = FIXTURES / "verification-report-rendered.md"
+ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+REQUIREMENT_COVERAGE_PROOF_SHAPES = (
+    REPO_ROOT / "dataRequirements/requirement-coverage-proof-shapes.ttl"
+)
+ONTOLOGY_FILES = [
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
+    REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
+]
+
+NIAS = Namespace("https://nova.org.za/novaimpactaccountingstandard/")
+
+
+def _load_graph(paths):
+    graph = Graph()
+    for path in paths:
+        graph.parse(path)
+    return graph
 
 
 class ValidationVerificationReportRenderingTests(unittest.TestCase):
@@ -66,6 +87,26 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             cwd=REPO_ROOT,
         )
         return completed.stdout
+
+    def _assert_coverage_sidecar_conforms(self, sidecar_path: Path):
+        coverage_graph = Graph().parse(sidecar_path, format="json-ld")
+        conforms, _, validation_text = validate(
+            data_graph=coverage_graph,
+            shacl_graph=_load_graph(
+                [
+                    ARTIFACT_ANCHOR_SHAPES,
+                    REQUIREMENT_COVERAGE_PROOF_SHAPES,
+                ]
+            ),
+            ont_graph=_load_graph(ONTOLOGY_FILES),
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        self.assertTrue(conforms, msg=validation_text)
+        return coverage_graph
 
     def test_validation_blank_template_matches_fixture(self):
         self.assertEqual(
@@ -115,7 +156,10 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         self.assertIn("| vv-validation-review-1 | Validation review | Approve | 1 |", rendered)
         self.assertIn("pdd.sectionB.declaredImpacts", rendered)
         self.assertNotIn("vv-verification-review-1", rendered)
-        self.assertIn("| REQ-PDD-001 | validation | PddSectionAReport |", rendered)
+        self.assertIn(
+            "| REQ-PDD-001 | validation | pdd.sectionA - Section A. Description Of Project; pdd.sectionA.technologiesAndMeasures - A.3 Technologies And Measures |",
+            rendered,
+        )
         self.assertNotIn("REQ-MR-001", rendered)
         self.assertIn("Validate PDD impact declaration", rendered)
 
@@ -125,9 +169,12 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         self.assertRegex(rendered, r"#### Anchor reviews\s+1\s")
         self.assertNotIn("vv-validation-review-1 | Validation review", rendered)
         self.assertIn("| vv-verification-review-1 | Verification review | Approve | 1 |", rendered)
-        self.assertIn("monitoring.report.impactSummary", rendered)
+        self.assertIn("monitoring.observation", rendered)
         self.assertNotIn("REQ-PDD-001", rendered)
-        self.assertIn("| REQ-MR-001 | verification | MonitoringReport |", rendered)
+        self.assertIn(
+            "| REQ-MR-001 | verification | pdd.sectionB.declaredImpacts - B.2 Declared Impacts; monitoring.observation - Measured Impact Observation |",
+            rendered,
+        )
         self.assertIn("Verify monitoring report and VIC issuance request", rendered)
 
     def test_workflow_and_document_envelope_render_in_appendix_only(self):
@@ -167,7 +214,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         )
         self.assertIn("renderMode: final", completed.stdout)
         self.assertIn("reportType: validation", completed.stdout)
-        self.assertIn("| REQ-PDD-003 | validation | PddSectionCReport | ReqPdd003Shape | passed |", completed.stdout)
+        self.assertIn("| REQ-PDD-003 | validation | pdd.sectionC - Section C. Stakeholder Engagement | ReqPdd003Shape | passed |", completed.stdout)
         self.assertNotIn("REQ-MR-001", completed.stdout)
 
     def test_final_verification_rendering_accepts_conformant_input(self):
@@ -195,7 +242,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         )
         self.assertIn("renderMode: final", completed.stdout)
         self.assertIn("reportType: verification", completed.stdout)
-        self.assertIn("| REQ-MR-001 | verification | MonitoringReport | ReqMr001Shape | passed |", completed.stdout)
+        self.assertIn("| REQ-MR-001 | verification | pdd.sectionB.declaredImpacts - B.2 Declared Impacts; monitoring.observation - Measured Impact Observation | ReqMr001Shape | passed |", completed.stdout)
         self.assertNotIn("REQ-PDD-001", completed.stdout)
 
     def test_final_validation_rendering_ignores_invalid_verification_evidence(self):
@@ -364,12 +411,14 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             pdf = output_dir / "validation-report.pdf"
             html = output_dir / "validation-report.html"
             metadata = output_dir / "validation-report.metadata.jsonld"
+            coverage = output_dir / "validation-report.requirement-coverage.jsonld"
             validation = output_dir / "validation-report.validation.json"
 
             self.assertTrue(markdown.exists())
             self.assertTrue(pdf.exists())
             self.assertTrue(html.exists())
             self.assertTrue(metadata.exists())
+            self.assertTrue(coverage.exists())
             self.assertTrue(validation.exists())
 
             self.assertIn(
@@ -400,11 +449,47 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 metadata_payload["nias:reviewedSubmissionTopicId"],
                 "0.0.1000",
             )
+            self.assertEqual(
+                metadata_payload["nias:requirementCoverageProofSidecar"]["path"],
+                "validation-report.requirement-coverage.jsonld",
+            )
+            self.assertEqual(
+                metadata_payload["nias:requirementCoverageProofSidecar"]["proofCount"],
+                1,
+            )
 
             validation_payload = json.loads(validation.read_text(encoding="utf-8"))
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
             self.assertEqual(validation_payload["reportType"], "validation")
+            self.assertEqual(
+                validation_payload["requirementCoverageProofSidecar"]["path"],
+                "validation-report.requirement-coverage.jsonld",
+            )
+
+            coverage_graph = self._assert_coverage_sidecar_conforms(coverage)
+            proofs = list(
+                coverage_graph.subjects(RDF.type, NIAS.RequirementCoverageProof)
+            )
+            self.assertEqual(len(proofs), 1)
+            proof = proofs[0]
+            self.assertEqual(
+                str(coverage_graph.value(proof, NIAS.coverageRequirementId)),
+                "REQ-PDD-002",
+            )
+            self.assertEqual(
+                str(coverage_graph.value(proof, NIAS.coverageAnchorKey)),
+                "pdd.sectionB.declaredImpacts",
+            )
+            self.assertEqual(
+                str(
+                    coverage_graph.value(
+                        proof,
+                        NIAS.coverageReviewedArtifactContentCid,
+                    )
+                ),
+                "bafypddartifactcontentcid",
+            )
 
     def test_final_verification_export_writes_verification_named_targets(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -438,10 +523,12 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
 
             markdown = output_dir / "verification-report.md"
             metadata = output_dir / "verification-report.metadata.jsonld"
+            coverage = output_dir / "verification-report.requirement-coverage.jsonld"
             validation = output_dir / "verification-report.validation.json"
 
             self.assertTrue(markdown.exists())
             self.assertTrue(metadata.exists())
+            self.assertTrue(coverage.exists())
             self.assertTrue(validation.exists())
             self.assertFalse((output_dir / "validation-report.md").exists())
             self.assertIn(
@@ -466,6 +553,34 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "2026-05-24T10:00:00Z",
             )
             self.assertEqual(metadata_payload["nias:reviewedDlrContentCid"], "bafydlrcontentcid")
+            self.assertEqual(
+                metadata_payload["nias:requirementCoverageProofSidecar"]["path"],
+                "verification-report.requirement-coverage.jsonld",
+            )
+            self.assertEqual(
+                metadata_payload["nias:requirementCoverageProofSidecar"]["proofCount"],
+                2,
+            )
+
+            coverage_graph = self._assert_coverage_sidecar_conforms(coverage)
+            proofs = list(
+                coverage_graph.subjects(RDF.type, NIAS.RequirementCoverageProof)
+            )
+            self.assertEqual(len(proofs), 2)
+            self.assertEqual(
+                {
+                    str(coverage_graph.value(proof, NIAS.coverageRequirementId))
+                    for proof in proofs
+                },
+                {"REQ-CROSS-001", "REQ-MR-001"},
+            )
+            self.assertEqual(
+                {
+                    str(coverage_graph.value(proof, NIAS.coverageAnchorKey))
+                    for proof in proofs
+                },
+                {"monitoring.observation"},
+            )
 
     def test_final_rendering_requires_reviewed_artifact_identity_fields(self):
         with tempfile.TemporaryDirectory() as tmpdir:

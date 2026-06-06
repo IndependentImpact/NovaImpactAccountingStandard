@@ -1,0 +1,304 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:RequirementCoverageProofShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Requirement Coverage Proof SHACL Shapes"@en ;
+    dcterms:description "SHACL constraints for materialized VVS requirement coverage proof rows. A proof row connects a VVS requirement mapping to a concrete submitted artifact anchor and the review finding that assessed it."@en ;
+    owl:imports nias-o:ArtifactAnchorShapes .
+
+nias-o:RequirementCoverageProofShape a sh:NodeShape ;
+    sh:targetClass nias-o:RequirementCoverageProof ;
+    sh:property [
+        sh:path nias-o:coverageRequirementMapping ;
+        sh:class nias-o:RequirementMapping ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify exactly one requirement-to-anchor mapping."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageRequirement ;
+        sh:class nias-o:ValidationVerificationRequirement ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify exactly one covered VVS requirement."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageRequirementId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the covered VVS requirement ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewMandate ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( nias-cs:validation nias-cs:verification ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the validation or verification mandate."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageShape ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the SHACL shape that implements the requirement."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageAnchorDefinition ;
+        sh:class nias-o:AnchorDefinition ;
+        sh:node nias-o:AnchorDefinitionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the schema-level anchor definition."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageAnchorKey ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[A-Za-z][A-Za-z0-9-]*(\\.[A-Za-z0-9][A-Za-z0-9-]*)*$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the schema anchor key."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageAnchorTitle ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the schema anchor title."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageArtifactAnchor ;
+        sh:class nias-o:ArtifactAnchor ;
+        sh:node nias-o:ArtifactAnchorShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the concrete submitted artifact anchor."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedArtifact ;
+        sh:class data:Document ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the exact submitted artifact version reviewed."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedArtifactType ;
+        sh:datatype xsd:string ;
+        sh:in ( "pdd" "data-lineage-report" "monitoring-report" ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the reviewed artifact family."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedArtifactContentCid ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewed artifact content CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedArtifactSchemaCid ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewed artifact schema CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedArtifactSchemaVersionLabel ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewed artifact schema version label."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewField ;
+        sh:class nias-o:DocumentFieldReview ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must identify the review finding that assessed the anchor."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedContent ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewed content excerpt."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewedContentHash ;
+        sh:datatype xsd:string ;
+        sh:pattern "^(sha256:)?[A-Fa-f0-9]{64}$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewed anchor content hash."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewDecision ;
+        sh:nodeKind sh:IRI ;
+        sh:in (
+            nias-cs:review-approve
+            nias-cs:review-forward-action-request
+            nias-cs:review-corrective-action-request
+            nias-cs:review-reject
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the review finding decision."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:coverageReviewerFeedback ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A requirement coverage proof must copy the reviewer feedback."@en
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof must match its exact requirement-to-anchor mapping."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageRequirementMapping ?mapping ;
+                      nias-o:coverageRequirement ?requirement ;
+                      nias-o:reviewMandate ?mandate ;
+                      nias-o:coverageShape ?shape ;
+                      nias-o:coverageAnchorDefinition ?anchorDefinition .
+                FILTER NOT EXISTS {
+                    ?mapping nias-o:mappedRequirement ?requirement ;
+                             nias-o:reviewMandate ?mandate ;
+                             nias-o:mappedShape ?shape ;
+                             nias-o:mappedAnchor ?anchorDefinition .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof requirement ID must match the covered VVS requirement."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageRequirement ?requirement ;
+                      nias-o:coverageRequirementId ?requirementId .
+                FILTER NOT EXISTS {
+                    ?requirement nias-o:requirementId ?requirementId .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof anchor key and title must match the schema anchor definition."@en ;
+        sh:select """
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageAnchorDefinition ?anchorDefinition ;
+                      nias-o:coverageAnchorKey ?anchorKey ;
+                      nias-o:coverageAnchorTitle ?anchorTitle .
+                FILTER NOT EXISTS {
+                    ?anchorDefinition nias-o:anchorKey ?anchorKey ;
+                                      dcterms:title ?definitionTitle .
+                    FILTER (str(?definitionTitle) = str(?anchorTitle))
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof artifact anchor must instantiate the mapped schema anchor on the reviewed artifact."@en ;
+        sh:select """
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageAnchorDefinition ?anchorDefinition ;
+                      nias-o:coverageArtifactAnchor ?artifactAnchor ;
+                      nias-o:coverageReviewedArtifact ?reviewedArtifact ;
+                      nias-o:coverageAnchorKey ?anchorKey .
+                FILTER NOT EXISTS {
+                    ?artifactAnchor nias-o:anchorDefinition ?anchorDefinition ;
+                                    nias-o:anchorKey ?anchorKey ;
+                                    dcterms:isPartOf ?reviewedArtifact .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof reviewed artifact identity must match the submitted artifact metadata."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageReviewedArtifact ?reviewedArtifact ;
+                      nias-o:coverageReviewedArtifactContentCid ?contentCid ;
+                      nias-o:coverageReviewedArtifactSchemaCid ?schemaCid ;
+                      nias-o:coverageReviewedArtifactSchemaVersionLabel ?schemaVersionLabel .
+                FILTER NOT EXISTS {
+                    ?reviewedArtifact nias-o:artifactContentCid ?contentCid ;
+                                      nias-o:artifactSchemaCid ?schemaCid ;
+                                      nias-o:artifactSchemaVersionLabel ?schemaVersionLabel .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof review field must target the same artifact and concrete artifact anchor."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageReviewField ?fieldReview ;
+                      nias-o:coverageReviewedArtifact ?reviewedArtifact ;
+                      nias-o:coverageArtifactAnchor ?artifactAnchor .
+                FILTER NOT EXISTS {
+                    ?fieldReview nias-o:reviewTarget ?reviewTarget .
+                    ?reviewTarget nias-o:reviewedArtifact ?reviewedArtifact ;
+                                  nias-o:reviewedAnchor ?artifactAnchor .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof mandate must match the review document that owns the review field."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageReviewField ?fieldReview ;
+                      nias-o:reviewMandate ?mandate .
+                FILTER NOT EXISTS {
+                    ?review nias-o:fieldReview ?fieldReview ;
+                            nias-o:reviewMandate ?mandate .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof reviewed content, decision, and feedback must match the review finding."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageReviewField ?fieldReview ;
+                      nias-o:coverageReviewedContent ?reviewedContent ;
+                      nias-o:coverageReviewDecision ?reviewDecision ;
+                      nias-o:coverageReviewerFeedback ?reviewerFeedback .
+                FILTER NOT EXISTS {
+                    ?fieldReview nias-o:originalResponse ?reviewedContent ;
+                                 nias-o:reviewerDecision ?reviewDecision ;
+                                 nias-o:reviewerFeedback ?reviewerFeedback .
+                }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "A requirement coverage proof reviewed content hash must match the concrete artifact anchor content hash."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:coverageArtifactAnchor ?artifactAnchor ;
+                      nias-o:coverageReviewedContentHash ?contentHash .
+                FILTER NOT EXISTS {
+                    ?artifactAnchor nias-o:contentHash ?contentHash .
+                }
+            }
+        """
+    ] .

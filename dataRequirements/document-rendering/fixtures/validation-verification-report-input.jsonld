@@ -395,7 +395,7 @@
     ],
     "https://nova.org.za/novaimpactaccountingstandard/reviewedAnchor": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.report.impactSummary"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.observation"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/reviewedArtifact": [
@@ -557,6 +557,21 @@
     "@type": [
       "https://jellyfiiish.xyz/ns/Document"
     ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactContentCid": [
+      {
+        "@value": "bafypddartifactcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaCid": [
+      {
+        "@value": "bafypddschemacid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaVersionLabel": [
+      {
+        "@value": "nias:pdd-schema:main:2026-05-20:bafypdds"
+      }
+    ],
     "https://nova.org.za/novaimpactaccountingstandard/authProof": [
       {
         "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
@@ -590,13 +605,13 @@
     ]
   },
   {
-    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/pdd.sectionB.declaredImpacts",
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/pdd-section-b-declared-impacts",
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/AnchorDefinition"
     ],
     "http://purl.org/dc/terms/title": [
       {
-        "@value": "Impact declaration"
+        "@value": "B.2 Declared Impacts"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorKey": [
@@ -606,12 +621,17 @@
     ],
     "https://nova.org.za/novaimpactaccountingstandard/renderOrder": [
       {
-        "@value": 210
+        "@value": 220
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/sourceShape": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/PddSectionBReportShape"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/ImpactRequirementShape"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/sourcePath": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/hasDeclaredImpact"
       }
     ]
   },
@@ -627,12 +647,17 @@
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorDefinition": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/pdd.sectionB.declaredImpacts"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/pdd-section-b-declared-impacts"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorKey": [
       {
         "@value": "pdd.sectionB.declaredImpacts"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/contentHash": [
+      {
+        "@value": "sha256:7204a77ac4b0add7569bbe8cb37c44da635cc5db0d005c29fad449db2fe6ad32"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/sourceNode": [
@@ -645,6 +670,21 @@
     "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report",
     "@type": [
       "https://jellyfiiish.xyz/ns/Document"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactContentCid": [
+      {
+        "@value": "bafymonitoringartifactcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaCid": [
+      {
+        "@value": "bafymonitoringschemacid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaVersionLabel": [
+      {
+        "@value": "nias:mr-schema:main:2026-05-24:bafymoni"
+      }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/authProof": [
       {
@@ -679,33 +719,38 @@
     ]
   },
   {
-    "@id": "https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/monitoring.report.impactSummary",
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/monitoring-observation",
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/AnchorDefinition"
     ],
     "http://purl.org/dc/terms/title": [
       {
-        "@value": "Impact summary"
+        "@value": "Measured Impact Observation"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorKey": [
       {
-        "@value": "monitoring.report.impactSummary"
+        "@value": "monitoring.observation"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/renderOrder": [
       {
-        "@value": 110
+        "@value": 130
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/sourceShape": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/MonitoringReportShape"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/IndicatorObservationShape"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/sourcePath": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/reportedObservation"
       }
     ]
   },
   {
-    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.report.impactSummary",
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/monitoring-report/anchors/monitoring.observation",
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/ArtifactAnchor"
     ],
@@ -716,12 +761,17 @@
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorDefinition": [
       {
-        "@id": "https://nova.org.za/novaimpactaccountingstandard/test/anchor-definitions/monitoring.report.impactSummary"
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/monitoring-observation"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/anchorKey": [
       {
-        "@value": "monitoring.report.impactSummary"
+        "@value": "monitoring.observation"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/contentHash": [
+      {
+        "@value": "sha256:c1371f3fe29d71c92f238ee20a088c3f2da46088ca374f91d33c1fde50fdfc00"
       }
     ],
     "https://nova.org.za/novaimpactaccountingstandard/sourceNode": [
