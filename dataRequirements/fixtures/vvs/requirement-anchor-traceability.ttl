@@ -17,13 +17,11 @@ trace:pdd-submission-v1 a data:Document ;
     nias-o:artifactContentCid "bafytracepddcontentcid" ;
     nias-o:artifactSchemaCid "bafytracepddschemacid" ;
     nias-o:artifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:documentAuthor trace:project-developer-1 ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDD-Composite-1.0.0> ;
     nias-o:hasWorkflowSubmission trace:pdd-workflow-submission-v1 ;
     nias-o:isEncrypted false ;
-    nias-o:submissionEventKey "0.0.1000@2026-06-01T10:00:00Z" ;
-    nias-o:submissionMessageUrl "/api/v1/topics/0.0.1000/messages/2026-06-01T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.1000" ;
     nias-o:submissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
@@ -36,13 +34,11 @@ trace:dlr-submission-v1 a data:Document,
     nias-o:artifactContentCid "bafytracedlrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracedlrschemacid" ;
     nias-o:artifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:documentAuthor trace:data-manager-1 ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DataLineageReport-4.0.0> ;
     nias-o:hasWorkflowSubmission trace:dlr-workflow-submission-v1 ;
     nias-o:isEncrypted false ;
-    nias-o:submissionEventKey "0.0.2000@2026-06-15T10:00:00Z" ;
-    nias-o:submissionMessageUrl "/api/v1/topics/0.0.2000/messages/2026-06-15T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.2000" ;
     nias-o:submissionConsensusTimestamp "2026-06-15T10:00:00Z"^^xsd:dateTimeStamp ;
@@ -59,14 +55,12 @@ trace:monitoring-submission-v1 a data:Document,
     nias-o:artifactContentCid "bafytracemrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracemrschemacid" ;
     nias-o:artifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:documentAuthor trace:monitoring-party-1 ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0> ;
     nias-o:hasWorkflowSubmission trace:monitoring-workflow-submission-v1 ;
     nias-o:isEncrypted false ;
     nias-o:linkedDlrContentCid "bafytracedlrcontentcid" ;
-    nias-o:submissionEventKey "0.0.3000@2026-07-01T10:00:00Z" ;
-    nias-o:submissionMessageUrl "/api/v1/topics/0.0.3000/messages/2026-07-01T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.3000" ;
     nias-o:submissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
@@ -588,7 +582,7 @@ trace:validation-review-v1 a data:Document,
     nias-o:artifactContentCid "bafytracevalidationcontentcid" ;
     nias-o:artifactSchemaCid "bafytracevalidationschemacid" ;
     nias-o:artifactSchemaVersionLabel "GenericDocumentReview-5.0.0" ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:documentAuthor trace:validator-1 ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
     nias-o:fieldReview
@@ -609,8 +603,6 @@ trace:validation-review-v1 a data:Document,
     nias-o:reviewedSubmissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:reviewedSubmissionTopicId "0.0.1000" ;
     nias-o:submissionConsensusTimestamp "2026-06-05T10:00:00Z"^^xsd:dateTimeStamp ;
-    nias-o:submissionEventKey "0.0.4000@2026-06-05T10:00:00Z" ;
-    nias-o:submissionMessageUrl "/api/v1/topics/0.0.4000/messages/2026-06-05T10:00:00Z" ;
     nias-o:submissionTopicId "0.0.4000" ;
     nias-o:workflowSubject trace:project-1 .
 
@@ -622,7 +614,7 @@ trace:verification-review-v1 a data:Document,
     nias-o:artifactContentCid "bafytraceverificationcontentcid" ;
     nias-o:artifactSchemaCid "bafytraceverificationschemacid" ;
     nias-o:artifactSchemaVersionLabel "DRVICIR-1.0.0" ;
-    nias-o:authProof nias-o:none ;
+    nias-o:authProof nias-cs:none ;
     nias-o:documentAuthor trace:verifier-1 ;
     nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DRVICIR-1.0.0> ;
     nias-o:fieldReview
@@ -648,8 +640,6 @@ trace:verification-review-v1 a data:Document,
     nias-o:reviewedSubmissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:reviewedSubmissionTopicId "0.0.3000" ;
     nias-o:submissionConsensusTimestamp "2026-07-10T11:00:00Z"^^xsd:dateTimeStamp ;
-    nias-o:submissionEventKey "0.0.5000@2026-07-10T11:00:00Z" ;
-    nias-o:submissionMessageUrl "/api/v1/topics/0.0.5000/messages/2026-07-10T11:00:00Z" ;
     nias-o:submissionTopicId "0.0.5000" ;
     nias-o:workflowSubject trace:project-1 .
 
