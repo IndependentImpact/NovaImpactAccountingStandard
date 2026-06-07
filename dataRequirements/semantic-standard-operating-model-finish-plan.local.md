@@ -190,14 +190,36 @@ Implemented:
 
 ### 7. Release Verification
 
-- [ ] Add one command, script, or unittest target that verifies the full semantic
+- [x] Add one command, script, or unittest target that verifies the full semantic
   standard package locally.
-- [ ] The verification target should parse ontology and concept schemes.
-- [ ] The verification target should validate canonical SHACL shapes.
-- [ ] The verification target should resolve requirement-anchor mappings.
-- [ ] The verification target should validate end-to-end fixtures.
-- [ ] The verification target should render reports and validate JSON-LD proof
+- [x] The verification target should parse ontology and concept schemes.
+- [x] The verification target should validate canonical SHACL shapes.
+- [x] The verification target should resolve requirement-anchor mappings.
+- [x] The verification target should validate end-to-end fixtures.
+- [x] The verification target should render reports and validate JSON-LD proof
   sidecars.
+
+Implemented:
+
+- Added `dataRequirements/check-semantic-standard-release.sh` as a single local
+  release verification entry point.
+- The script composes existing semantic-package suites for:
+  - ontology + concept scheme parsing/conformance;
+  - canonical SHACL validation;
+  - requirement-anchor mapping integrity + traceability;
+  - end-to-end fixture validation;
+  - report rendering and proof-sidecar validation.
+- Added
+  `dataRequirements/tests/test_semantic_standard_release_verification_command.py`
+  to verify the command entry point is executable, declares the expected suite,
+  and is documented in the release package document.
+- Updated
+  `dataRequirements/releases/1.0.0/semantic-standard-release-package.md` with
+  the verification entry point and exact composed unittest command.
+- Current verification:
+  - `python -m unittest dataRequirements.tests.test_semantic_standard_release_verification_command -q`
+  - `dataRequirements/check-semantic-standard-release.sh`
+  - `python -m unittest discover -s dataRequirements/tests -p 'test_*.py' -q`
 
 ## Working Notes
 
