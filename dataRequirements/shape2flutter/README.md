@@ -25,9 +25,18 @@ launch/export paths for PDD Design, Validation, Monitoring Report, and
 Verification activities that exchange linked artifacts. PDD Design, Validation,
 Monitoring, and Verification now have separate generated UI shape bundles.
 
+Each primary workflow YAML declares a `canonical_bundle` block. That block is
+the local contract between shape2flutter and the semantic standard: it names the
+UI-facing adapter bundle, the canonical ontology/SHACL/mapping sources projected
+by that bundle, and marks generated UI output as `downstream-generated`.
+Generated Flutter files and emitted form schemas are operational outputs, not
+normative standard artifacts.
+
 Linked-artifact identity requirements and reviewed-artifact boundary decisions
 are normatively defined in:
-`dataRequirements/linked-artifact-boundary-decisions.md`.
+`dataRequirements/linked-artifact-boundary-decisions.md`. The corresponding
+SHACL identity contract is
+`dataRequirements/artifact-identity-contract-shapes.ttl`.
 
 ## Linked-Artifact Handoff Contract (Item 1)
 

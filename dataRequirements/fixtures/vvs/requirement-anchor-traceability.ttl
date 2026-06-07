@@ -9,27 +9,33 @@
 
 trace:pdd-submission-v1 a data:Document ;
     dcterms:title "Submitted PDD composite artifact v1" ;
+    nias-o:artifactAuthor trace:project-developer-1 ;
     nias-o:artifactContentCid "bafytracepddcontentcid" ;
     nias-o:artifactSchemaCid "bafytracepddschemacid" ;
     nias-o:artifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.1000" ;
     nias-o:submissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:resourceIpfsUri "ipfs://bafytracepddcontentcid"^^xsd:anyURI .
 
 trace:dlr-submission-v1 a data:Document ;
     dcterms:title "Submitted Data Lineage Report artifact v1" ;
+    nias-o:artifactAuthor trace:data-manager-1 ;
     nias-o:artifactContentCid "bafytracedlrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracedlrschemacid" ;
     nias-o:artifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.2000" ;
     nias-o:submissionConsensusTimestamp "2026-06-15T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:resourceIpfsUri "ipfs://bafytracedlrcontentcid"^^xsd:anyURI .
 
 trace:monitoring-submission-v1 a data:Document ;
     dcterms:title "Submitted Monitoring Report artifact v1" ;
+    nias-o:artifactAuthor trace:monitoring-party-1 ;
     nias-o:artifactContentCid "bafytracemrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracemrschemacid" ;
     nias-o:artifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.3000" ;
     nias-o:submissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:resourceIpfsUri "ipfs://bafytracemrcontentcid"^^xsd:anyURI .

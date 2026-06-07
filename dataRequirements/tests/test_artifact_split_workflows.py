@@ -2,16 +2,34 @@ import unittest
 from pathlib import Path
 
 import yaml
+from rdflib import Graph, Namespace, URIRef
+from rdflib.namespace import RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = REPO_ROOT / "dataRequirements/shape2flutter/workflows"
 SHAPE2FLUTTER_ROOT = REPO_ROOT / "dataRequirements/shape2flutter"
 
+NIAS = Namespace("https://nova.org.za/novaimpactaccountingstandard/")
+SH = Namespace("http://www.w3.org/ns/shacl#")
+
+PRIMARY_WORKFLOW_BUNDLES = {
+    "pdd-design.yaml": "dataRequirements/shape2flutter/pdd-design-ui-shapes.ttl",
+    "validation-report.yaml": "dataRequirements/shape2flutter/validation-report-ui-shapes.ttl",
+    "monitoring-report.yaml": "dataRequirements/shape2flutter/monitoring-report-ui-shapes.ttl",
+    "verification-report.yaml": "dataRequirements/shape2flutter/verification-report-ui-shapes.ttl",
+}
+
 
 class ArtifactSplitWorkflowTests(unittest.TestCase):
     def _workflow(self, filename: str) -> dict:
         return yaml.safe_load((WORKFLOWS / filename).read_text(encoding="utf-8"))
+
+    def _canonical_source_graph(self, workflow: dict) -> Graph:
+        graph = Graph()
+        for relative_path in workflow["canonical_bundle"]["canonical_shape_sources"]:
+            graph.parse(REPO_ROOT / relative_path, format="turtle")
+        return graph
 
     def test_split_workflow_files_exist(self):
         expected = {
@@ -71,7 +89,7 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
             [
                 "PddSectionAReportShape",
                 "PddSectionBReportShape",
-                "PddSectionCStakeholderEngagementShape",
+                "PddSectionCShape",
             ],
         )
         self.assertFalse(
@@ -118,6 +136,7 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
     def test_split_ui_bundle_files_exist(self):
         expected = {
             "pdd-design-ui-shapes.ttl",
+            "monitoring-report-ui-shapes.ttl",
             "validation-report-ui-shapes.ttl",
             "verification-report-ui-shapes.ttl",
         }
@@ -171,6 +190,63 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
         self.assertNotIn("validation-verification-ui-shapes.ttl", validation_script)
         self.assertIn("verification-report-ui-shapes.ttl", verification_script)
         self.assertNotIn("validation-verification-ui-shapes.ttl", verification_script)
+
+    def test_primary_workflows_declare_canonical_bundle_contract(self):
+        for filename, expected_ui_bundle in PRIMARY_WORKFLOW_BUNDLES.items():
+            with self.subTest(filename=filename):
+                workflow = self._workflow(filename)
+                canonical_bundle = workflow["canonical_bundle"]
+
+                self.assertEqual(
+                    canonical_bundle["ui_shape_bundle"],
+                    expected_ui_bundle,
+                )
+                self.assertEqual(
+                    canonical_bundle["generated_output_status"],
+                    "downstream-generated",
+                )
+                self.assertGreater(
+                    len(canonical_bundle["canonical_shape_sources"]),
+                    0,
+                )
+
+    def test_primary_workflow_canonical_sources_exist_and_parse(self):
+        for filename in PRIMARY_WORKFLOW_BUNDLES:
+            workflow = self._workflow(filename)
+            for relative_path in workflow["canonical_bundle"]["canonical_shape_sources"]:
+                with self.subTest(filename=filename, relative_path=relative_path):
+                    path = REPO_ROOT / relative_path
+                    self.assertTrue(path.exists())
+                    self.assertNotIn("/generated/", relative_path)
+                    graph = Graph()
+                    graph.parse(path, format="turtle")
+                    self.assertGreater(len(graph), 0)
+
+    def test_primary_workflow_forms_are_backed_by_canonical_node_shapes(self):
+        for filename in PRIMARY_WORKFLOW_BUNDLES:
+            workflow = self._workflow(filename)
+            canonical_graph = self._canonical_source_graph(workflow)
+
+            for step in workflow["steps"]:
+                shape = URIRef(f"{NIAS}{step['form']}")
+                with self.subTest(filename=filename, form=step["form"]):
+                    self.assertIn(
+                        (shape, RDF.type, SH.NodeShape),
+                        canonical_graph,
+                        msg=(
+                            f"{step['form']} must be defined as a sh:NodeShape "
+                            "in the workflow's canonical_shape_sources."
+                        ),
+                    )
+
+    def test_primary_workflow_ui_bundles_exist_and_parse(self):
+        for filename, relative_path in PRIMARY_WORKFLOW_BUNDLES.items():
+            with self.subTest(filename=filename, relative_path=relative_path):
+                path = REPO_ROOT / relative_path
+                self.assertTrue(path.exists())
+                graph = Graph()
+                graph.parse(path, format="turtle")
+                self.assertGreater(len(graph), 0)
 
 
 if __name__ == "__main__":

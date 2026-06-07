@@ -150,6 +150,130 @@
     ]
   },
   {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-version-1",
+    "@type": [
+      "https://jellyfiiish.xyz/ns/Document"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-developer-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactContentCid": [
+      {
+        "@value": "bafypddartifactcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaCid": [
+      {
+        "@value": "bafypddschemacid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/artifactSchemaVersionLabel": [
+      {
+        "@value": "nias:pdd-schema:main:2026-03-15:bafypdds"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/authProof": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/none"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentAuthor": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-developer-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/documentSchema": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/PDD-Composite-1.0.0"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/hasWorkflowSubmission": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-submission"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/isEncrypted": [
+      {
+        "@value": false
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/resourceIpfsUri": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "ipfs://bafypddartifactcontentcid"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submissionConsensusTimestamp": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-03-15T12:00:00Z"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submissionEventKey": [
+      {
+        "@value": "0.0.1000@2026-03-15T12:00:00Z"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submissionMessageUrl": [
+      {
+        "@value": "/api/v1/topics/0.0.1000/messages/2026-03-15T12:00:00Z"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submissionTopicId": [
+      {
+        "@value": "0.0.1000"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-1"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-submission",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowDocumentSubmission"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/submittedDocument": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-version-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflow": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/workflows/pdd-design"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentRecipient": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/registry-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowDocumentSubmittedBy": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-developer-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowStep": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/workflow-steps/pdd-design"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubject": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/workflowSubmissionConsensusMessage": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-message"
+      }
+    ]
+  },
+  {
     "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-period",
     "@type": [
       "http://www.w3.org/2006/time#Interval"
@@ -349,6 +473,12 @@
     ]
   },
   {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/workflows/pdd-design",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/Workflow"
+    ]
+  },
+  {
     "@id": "https://nova.org.za/novaimpactaccountingstandard/workflow-steps/monitoring-report",
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/WorkflowStep"
@@ -360,7 +490,24 @@
     ]
   },
   {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/workflow-steps/pdd-design",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/WorkflowStep"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Submit PDD"
+      }
+    ]
+  },
+  {
     "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/monitoring-party-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PlatformUser"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/project-developer-1",
     "@type": [
       "https://nova.org.za/novaimpactaccountingstandard/PlatformUser"
     ]
@@ -372,6 +519,17 @@
     ]
   },
   {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-topic",
+    "@type": [
+      "https://hashgraphontology.xyz/core/ConsensusTopic"
+    ],
+    "https://hashgraphontology.xyz/core/hasTopicId": [
+      {
+        "@value": "0.0.1000"
+      }
+    ]
+  },
+  {
     "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/topic-1",
     "@type": [
       "https://hashgraphontology.xyz/core/ConsensusTopic"
@@ -379,6 +537,29 @@
     "https://hashgraphontology.xyz/core/hasTopicId": [
       {
         "@value": "0.0.1001"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-message",
+    "@type": [
+      "https://hashgraphontology.xyz/core/TopicMessage"
+    ],
+    "https://hashgraphontology.xyz/core/hasConsensusTimestamp": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+        "@value": "2026-03-15T12:00:00Z"
+      }
+    ],
+    "https://hashgraphontology.xyz/core/hasSequenceNumber": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 40
+      }
+    ],
+    "https://hashgraphontology.xyz/core/inTopic": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/rendering/pdd-topic"
       }
     ]
   },

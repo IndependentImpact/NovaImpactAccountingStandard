@@ -2,6 +2,22 @@ workflow_id: https://nova.org.za/novaimpactaccountingstandard/workflows/pdd-desi
 title: PDD Design Workflow
 artifact_type: pdd
 owner_role: project-developer
+canonical_bundle:
+  ui_shape_bundle: dataRequirements/shape2flutter/pdd-design-ui-shapes.ttl
+  generated_output_status: downstream-generated
+  canonical_shape_sources:
+    - glossary/NovaImpactAccountingStandardOntology.ttl
+    - glossary/NovaImpactAccountingStandardGlossary.ttl
+    - dataRequirements/common-shapes.ttl
+    - dataRequirements/document-reference-shapes.ttl
+    - dataRequirements/document-shapes.ttl
+    - dataRequirements/report-shapes.ttl
+    - dataRequirements/project-design-shapes.ttl
+    - dataRequirements/impact-declaration-shapes.ttl
+    - dataRequirements/stakeholder-engagement-shapes.ttl
+    - dataRequirements/artifact-anchor-shapes.ttl
+    - dataRequirements/artifact-identity-contract-shapes.ttl
+    - dataRequirements/mappings/pdd-anchor-definitions.ttl
 steps:
   - id: pddA
     label: PDD Section A
@@ -11,7 +27,7 @@ steps:
     form: PddSectionBReportShape
   - id: pddC
     label: PDD Section C
-    form: PddSectionCStakeholderEngagementShape
+    form: PddSectionCShape
 outputs:
   - pdd
 artifact_identity_fields:
