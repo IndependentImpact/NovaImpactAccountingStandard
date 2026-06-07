@@ -1,9 +1,13 @@
+@prefix aiao: <http://w3id.org/aiao#> .
 @prefix data: <https://jellyfiiish.xyz/ns/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hedera: <https://hashgraphontology.xyz/core/> .
+@prefix infocomm: <http://w3id.org/infocomm#> .
 @prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-map: <https://nova.org.za/novaimpactaccountingstandard/mappings/requirement-anchor/> .
 @prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
 @prefix nias-vvs: <https://nova.org.za/novaimpactaccountingstandard/vvs/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix trace: <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -13,28 +17,56 @@ trace:pdd-submission-v1 a data:Document ;
     nias-o:artifactContentCid "bafytracepddcontentcid" ;
     nias-o:artifactSchemaCid "bafytracepddschemacid" ;
     nias-o:artifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:authProof nias-o:none ;
+    nias-o:documentAuthor trace:project-developer-1 ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDD-Composite-1.0.0> ;
+    nias-o:hasWorkflowSubmission trace:pdd-workflow-submission-v1 ;
+    nias-o:isEncrypted false ;
+    nias-o:submissionEventKey "0.0.1000@2026-06-01T10:00:00Z" ;
+    nias-o:submissionMessageUrl "/api/v1/topics/0.0.1000/messages/2026-06-01T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.1000" ;
     nias-o:submissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:resourceIpfsUri "ipfs://bafytracepddcontentcid"^^xsd:anyURI .
 
-trace:dlr-submission-v1 a data:Document ;
+trace:dlr-submission-v1 a data:Document,
+        nias-o:DataLineageReport ;
     dcterms:title "Submitted Data Lineage Report artifact v1" ;
     nias-o:artifactAuthor trace:data-manager-1 ;
     nias-o:artifactContentCid "bafytracedlrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracedlrschemacid" ;
     nias-o:artifactSchemaVersionLabel "DataLineageReport-4.0.0" ;
+    nias-o:authProof nias-o:none ;
+    nias-o:documentAuthor trace:data-manager-1 ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DataLineageReport-4.0.0> ;
+    nias-o:hasWorkflowSubmission trace:dlr-workflow-submission-v1 ;
+    nias-o:isEncrypted false ;
+    nias-o:submissionEventKey "0.0.2000@2026-06-15T10:00:00Z" ;
+    nias-o:submissionMessageUrl "/api/v1/topics/0.0.2000/messages/2026-06-15T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.2000" ;
     nias-o:submissionConsensusTimestamp "2026-06-15T10:00:00Z"^^xsd:dateTimeStamp ;
     nias-o:resourceIpfsUri "ipfs://bafytracedlrcontentcid"^^xsd:anyURI .
 
-trace:monitoring-submission-v1 a data:Document ;
+trace:monitoring-submission-v1 a data:Document,
+        nias-o:MonitoringReport ;
     dcterms:title "Submitted Monitoring Report artifact v1" ;
+    nias-o:alignedPddContentCid "bafytracepddcontentcid" ;
+    nias-o:alignedPddSubmissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:alignedPddSubmissionTopicId "0.0.1000" ;
+    nias-o:alignedWithPDD trace:pdd-submission-v1 ;
     nias-o:artifactAuthor trace:monitoring-party-1 ;
     nias-o:artifactContentCid "bafytracemrcontentcid" ;
     nias-o:artifactSchemaCid "bafytracemrschemacid" ;
     nias-o:artifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:authProof nias-o:none ;
+    nias-o:documentAuthor trace:monitoring-party-1 ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/MonitoringReport-6.0.0> ;
+    nias-o:hasWorkflowSubmission trace:monitoring-workflow-submission-v1 ;
+    nias-o:isEncrypted false ;
+    nias-o:linkedDlrContentCid "bafytracedlrcontentcid" ;
+    nias-o:submissionEventKey "0.0.3000@2026-07-01T10:00:00Z" ;
+    nias-o:submissionMessageUrl "/api/v1/topics/0.0.3000/messages/2026-07-01T10:00:00Z" ;
     nias-o:workflowSubject trace:project-1 ;
     nias-o:submissionTopicId "0.0.3000" ;
     nias-o:submissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
@@ -376,6 +408,56 @@ trace:proof-req-cross-001-monitoring-observation a nias-o:RequirementCoveragePro
     nias-o:coverageReviewDecision nias-cs:review-approve ;
     nias-o:coverageReviewerFeedback "Observation evidence is sufficient for REQ-MR-001 and REQ-CROSS-001." .
 
+trace:validation-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSet ;
+    dcterms:identifier "trace-validation-review-v1" ;
+    dcterms:source "requirement-anchor-traceability.ttl" ;
+    dcterms:created "2026-06-05T10:05:00Z"^^xsd:dateTimeStamp ;
+    nias-o:renderMode "final" ;
+    nias-o:reportType "validation" ;
+    dcterms:hasPart
+        trace:proof-req-pdd-001-section-a,
+        trace:proof-req-pdd-001-technologies,
+        trace:proof-req-pdd-002-methodology,
+        trace:proof-req-pdd-002-declared-impacts,
+        trace:proof-req-pdd-003-section-c .
+
+trace:verification-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSet ;
+    dcterms:identifier "trace-verification-review-v1" ;
+    dcterms:source "requirement-anchor-traceability.ttl" ;
+    dcterms:created "2026-07-10T11:05:00Z"^^xsd:dateTimeStamp ;
+    nias-o:renderMode "final" ;
+    nias-o:reportType "verification" ;
+    dcterms:hasPart
+        trace:proof-req-dlr-001-pdd-data-parameters,
+        trace:proof-req-dlr-001-raw-dataset,
+        trace:proof-req-dlr-001-data-transfer-code,
+        trace:proof-req-dlr-002-pdd-data-parameters,
+        trace:proof-req-dlr-002-final-dataset,
+        trace:proof-req-mr-001-pdd-declared-impacts,
+        trace:proof-req-mr-001-monitoring-observation,
+        trace:proof-req-mr-002-monitoring-resources,
+        trace:proof-req-cross-001-pdd-declared-impacts,
+        trace:proof-req-cross-001-monitoring-package-summary,
+        trace:proof-req-cross-001-monitoring-observation .
+
+trace:proof-req-pdd-001-section-a dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-001-technologies dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-002-methodology dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-002-declared-impacts dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-003-section-c dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+
+trace:proof-req-dlr-001-pdd-data-parameters dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-dlr-001-raw-dataset dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-dlr-001-data-transfer-code dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-dlr-002-pdd-data-parameters dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-dlr-002-final-dataset dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-mr-001-pdd-declared-impacts dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-mr-001-monitoring-observation dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-mr-002-monitoring-resources dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-cross-001-pdd-declared-impacts dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-cross-001-monitoring-package-summary dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-cross-001-monitoring-observation dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+
 trace:pdd-section-a-node a nias-o:PddSectionAReport .
 trace:pdd-section-b-node a nias-o:PddSectionBReport .
 trace:pdd-section-c-node a nias-o:PddSectionCReport .
@@ -498,17 +580,51 @@ trace:monitoring-node a nias-o:MonitoringReport .
     nias-o:renderHeading "Calculation Resources" ;
     nias-o:contentHash "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" .
 
-trace:validation-review-v1 a nias-o:GenericDocumentReview ;
-    nias-o:reviewMandate nias-cs:validation ;
+trace:validation-review-v1 a data:Document,
+        nias-o:GenericDocumentReview ;
+    dcterms:title "Validation report v1" ;
+    dcterms:hasPart trace:validation-coverage-proof-sidecar-v1 ;
+    nias-o:artifactAuthor trace:validator-1 ;
+    nias-o:artifactContentCid "bafytracevalidationcontentcid" ;
+    nias-o:artifactSchemaCid "bafytracevalidationschemacid" ;
+    nias-o:artifactSchemaVersionLabel "GenericDocumentReview-5.0.0" ;
+    nias-o:authProof nias-o:none ;
+    nias-o:documentAuthor trace:validator-1 ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
     nias-o:fieldReview
         trace:validation-review-pdd-section-a,
         trace:validation-review-pdd-technologies,
         trace:validation-review-pdd-methodology,
         trace:validation-review-pdd-declared-impacts,
-        trace:validation-review-pdd-section-c .
+        trace:validation-review-pdd-section-c ;
+    nias-o:finalReviewDecision nias-cs:review-approve ;
+    nias-o:hasWorkflowSubmission trace:validation-review-workflow-submission-v1 ;
+    nias-o:isEncrypted false ;
+    nias-o:resourceIpfsUri "ipfs://bafytracevalidationcontentcid"^^xsd:anyURI ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:reviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:reviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:reviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedSubmissionConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:reviewedSubmissionTopicId "0.0.1000" ;
+    nias-o:submissionConsensusTimestamp "2026-06-05T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:submissionEventKey "0.0.4000@2026-06-05T10:00:00Z" ;
+    nias-o:submissionMessageUrl "/api/v1/topics/0.0.4000/messages/2026-06-05T10:00:00Z" ;
+    nias-o:submissionTopicId "0.0.4000" ;
+    nias-o:workflowSubject trace:project-1 .
 
-trace:verification-review-v1 a nias-o:GenericDocumentReview ;
-    nias-o:reviewMandate nias-cs:verification ;
+trace:verification-review-v1 a data:Document,
+        nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
+    dcterms:title "Verification report v1" ;
+    dcterms:hasPart trace:verification-coverage-proof-sidecar-v1 ;
+    nias-o:artifactAuthor trace:verifier-1 ;
+    nias-o:artifactContentCid "bafytraceverificationcontentcid" ;
+    nias-o:artifactSchemaCid "bafytraceverificationschemacid" ;
+    nias-o:artifactSchemaVersionLabel "DRVICIR-1.0.0" ;
+    nias-o:authProof nias-o:none ;
+    nias-o:documentAuthor trace:verifier-1 ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/DRVICIR-1.0.0> ;
     nias-o:fieldReview
         trace:verification-review-pdd-declared-impacts,
         trace:verification-review-pdd-data-parameters,
@@ -517,7 +633,25 @@ trace:verification-review-v1 a nias-o:GenericDocumentReview ;
         trace:verification-review-dlr-final-dataset,
         trace:verification-review-monitoring-package-summary,
         trace:verification-review-monitoring-observation,
-        trace:verification-review-monitoring-resources .
+        trace:verification-review-monitoring-resources ;
+    nias-o:finalReviewDecision nias-cs:review-approve ;
+    nias-o:hasWorkflowSubmission trace:verification-review-workflow-submission-v1 ;
+    nias-o:isEncrypted false ;
+    nias-o:requestedIssuanceAccountId "0.0.3003" ;
+    nias-o:resourceIpfsUri "ipfs://bafytraceverificationcontentcid"^^xsd:anyURI ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:reviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:reviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:reviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:reviewedArtifactType "monitoring-report" ;
+    nias-o:reviewedDlrContentCid "bafytracedlrcontentcid" ;
+    nias-o:reviewedSubmissionConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:reviewedSubmissionTopicId "0.0.3000" ;
+    nias-o:submissionConsensusTimestamp "2026-07-10T11:00:00Z"^^xsd:dateTimeStamp ;
+    nias-o:submissionEventKey "0.0.5000@2026-07-10T11:00:00Z" ;
+    nias-o:submissionMessageUrl "/api/v1/topics/0.0.5000/messages/2026-07-10T11:00:00Z" ;
+    nias-o:submissionTopicId "0.0.5000" ;
+    nias-o:workflowSubject trace:project-1 .
 
 trace:validation-review-pdd-section-a a nias-o:DocumentFieldReview ;
     nias-o:reviewTarget trace:target-pdd-section-a ;
@@ -674,3 +808,127 @@ trace:target-monitoring-observation a nias-o:ReviewTarget ;
 trace:target-monitoring-resources a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
     nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.resources> .
+
+trace:project-1 a aiao:Project ;
+    dcterms:title "Simulated solar irrigation impact project" ;
+    dcterms:hasPart
+        trace:pdd-submission-v1,
+        trace:validation-review-v1,
+        trace:monitoring-submission-v1,
+        trace:dlr-submission-v1,
+        trace:verification-review-v1,
+        trace:validation-coverage-proof-sidecar-v1,
+        trace:verification-coverage-proof-sidecar-v1 .
+
+trace:project-developer-1 a nias-o:PlatformUser .
+trace:data-manager-1 a nias-o:PlatformUser .
+trace:monitoring-party-1 a nias-o:PlatformUser .
+trace:validator-1 a nias-o:PlatformUser .
+trace:verifier-1 a nias-o:PlatformUser .
+trace:registry-1 a infocomm:CommunicationParty .
+
+trace:pdd-workflow-v1 a nias-o:Workflow .
+trace:validation-review-workflow-v1 a nias-o:Workflow .
+trace:monitoring-workflow-v1 a nias-o:Workflow .
+trace:dlr-workflow-v1 a nias-o:Workflow .
+trace:verification-review-workflow-v1 a nias-o:Workflow .
+
+trace:pdd-workflow-step-v1 a nias-o:WorkflowStep ;
+    rdfs:label "Submit composite PDD" .
+
+trace:validation-review-workflow-step-v1 a nias-o:WorkflowStep ;
+    rdfs:label "Submit validation review" .
+
+trace:monitoring-workflow-step-v1 a nias-o:WorkflowStep ;
+    rdfs:label "Submit monitoring report" .
+
+trace:dlr-workflow-step-v1 a nias-o:WorkflowStep ;
+    rdfs:label "Submit data lineage report" .
+
+trace:verification-review-workflow-step-v1 a nias-o:WorkflowStep ;
+    rdfs:label "Submit verification review" .
+
+trace:pdd-topic-v1 a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.1000" .
+
+trace:dlr-topic-v1 a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.2000" .
+
+trace:monitoring-topic-v1 a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.3000" .
+
+trace:validation-review-topic-v1 a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.4000" .
+
+trace:verification-review-topic-v1 a hedera:ConsensusTopic ;
+    hedera:hasTopicId "0.0.5000" .
+
+trace:pdd-message-v1 a hedera:TopicMessage ;
+    hedera:hasConsensusTimestamp "2026-06-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    hedera:hasSequenceNumber 1 ;
+    hedera:inTopic trace:pdd-topic-v1 .
+
+trace:dlr-message-v1 a hedera:TopicMessage ;
+    hedera:hasConsensusTimestamp "2026-06-15T10:00:00Z"^^xsd:dateTimeStamp ;
+    hedera:hasSequenceNumber 2 ;
+    hedera:inTopic trace:dlr-topic-v1 .
+
+trace:monitoring-message-v1 a hedera:TopicMessage ;
+    hedera:hasConsensusTimestamp "2026-07-01T10:00:00Z"^^xsd:dateTimeStamp ;
+    hedera:hasSequenceNumber 3 ;
+    hedera:inTopic trace:monitoring-topic-v1 .
+
+trace:validation-review-message-v1 a hedera:TopicMessage ;
+    hedera:hasConsensusTimestamp "2026-06-05T10:00:00Z"^^xsd:dateTimeStamp ;
+    hedera:hasSequenceNumber 4 ;
+    hedera:inTopic trace:validation-review-topic-v1 .
+
+trace:verification-review-message-v1 a hedera:TopicMessage ;
+    hedera:hasConsensusTimestamp "2026-07-10T11:00:00Z"^^xsd:dateTimeStamp ;
+    hedera:hasSequenceNumber 5 ;
+    hedera:inTopic trace:verification-review-topic-v1 .
+
+trace:pdd-workflow-submission-v1 a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument trace:pdd-submission-v1 ;
+    nias-o:workflow trace:pdd-workflow-v1 ;
+    nias-o:workflowDocumentRecipient trace:registry-1 ;
+    nias-o:workflowDocumentSubmittedBy trace:project-developer-1 ;
+    nias-o:workflowStep trace:pdd-workflow-step-v1 ;
+    nias-o:workflowSubject trace:project-1 ;
+    nias-o:workflowSubmissionConsensusMessage trace:pdd-message-v1 .
+
+trace:validation-review-workflow-submission-v1 a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument trace:validation-review-v1 ;
+    nias-o:workflow trace:validation-review-workflow-v1 ;
+    nias-o:workflowDocumentRecipient trace:registry-1 ;
+    nias-o:workflowDocumentSubmittedBy trace:validator-1 ;
+    nias-o:workflowStep trace:validation-review-workflow-step-v1 ;
+    nias-o:workflowSubject trace:project-1 ;
+    nias-o:workflowSubmissionConsensusMessage trace:validation-review-message-v1 .
+
+trace:monitoring-workflow-submission-v1 a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument trace:monitoring-submission-v1 ;
+    nias-o:workflow trace:monitoring-workflow-v1 ;
+    nias-o:workflowDocumentRecipient trace:registry-1 ;
+    nias-o:workflowDocumentSubmittedBy trace:monitoring-party-1 ;
+    nias-o:workflowStep trace:monitoring-workflow-step-v1 ;
+    nias-o:workflowSubject trace:project-1 ;
+    nias-o:workflowSubmissionConsensusMessage trace:monitoring-message-v1 .
+
+trace:dlr-workflow-submission-v1 a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument trace:dlr-submission-v1 ;
+    nias-o:workflow trace:dlr-workflow-v1 ;
+    nias-o:workflowDocumentRecipient trace:registry-1 ;
+    nias-o:workflowDocumentSubmittedBy trace:data-manager-1 ;
+    nias-o:workflowStep trace:dlr-workflow-step-v1 ;
+    nias-o:workflowSubject trace:project-1 ;
+    nias-o:workflowSubmissionConsensusMessage trace:dlr-message-v1 .
+
+trace:verification-review-workflow-submission-v1 a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument trace:verification-review-v1 ;
+    nias-o:workflow trace:verification-review-workflow-v1 ;
+    nias-o:workflowDocumentRecipient trace:registry-1 ;
+    nias-o:workflowDocumentSubmittedBy trace:verifier-1 ;
+    nias-o:workflowStep trace:verification-review-workflow-step-v1 ;
+    nias-o:workflowSubject trace:project-1 ;
+    nias-o:workflowSubmissionConsensusMessage trace:verification-review-message-v1 .
