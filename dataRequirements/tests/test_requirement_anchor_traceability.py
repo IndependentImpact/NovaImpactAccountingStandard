@@ -3,16 +3,23 @@ from pathlib import Path
 
 from pyshacl import validate
 from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import DCTERMS, RDF
+from rdflib.namespace import DCTERMS, RDF, SH
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 FIXTURE = REPO_ROOT / "dataRequirements/fixtures/vvs/requirement-anchor-traceability.ttl"
 ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+ARTIFACT_IDENTITY_CONTRACT_SHAPES = (
+    REPO_ROOT / "dataRequirements/artifact-identity-contract-shapes.ttl"
+)
+COMMON_SHAPES = REPO_ROOT / "dataRequirements/common-shapes.ttl"
+DOCUMENT_SHAPES = REPO_ROOT / "dataRequirements/document-shapes.ttl"
+DOCUMENT_REFERENCE_SHAPES = REPO_ROOT / "dataRequirements/document-reference-shapes.ttl"
 REQUIREMENT_COVERAGE_PROOF_SHAPES = (
     REPO_ROOT / "dataRequirements/requirement-coverage-proof-shapes.ttl"
 )
+REVIEW_SHAPES = REPO_ROOT / "dataRequirements/review-shapes.ttl"
 EXACT_MAPPING = REPO_ROOT / "dataRequirements/mappings/vvs-requirement-anchor-map.ttl"
 ANCHOR_DEFINITION_FILES = [
     REPO_ROOT / "dataRequirements/mappings/pdd-anchor-definitions.ttl",
@@ -34,6 +41,11 @@ TRACE = Namespace(
 PDD_ARTIFACT = URIRef(f"{TRACE}pdd-submission-v1")
 DLR_ARTIFACT = URIRef(f"{TRACE}dlr-submission-v1")
 MONITORING_ARTIFACT = URIRef(f"{TRACE}monitoring-submission-v1")
+PROJECT = URIRef(f"{TRACE}project-1")
+VALIDATION_REPORT = URIRef(f"{TRACE}validation-review-v1")
+VERIFICATION_REPORT = URIRef(f"{TRACE}verification-review-v1")
+VALIDATION_PROOF_SIDECAR = URIRef(f"{TRACE}validation-coverage-proof-sidecar-v1")
+VERIFICATION_PROOF_SIDECAR = URIRef(f"{TRACE}verification-coverage-proof-sidecar-v1")
 
 
 def _load_graph(paths):
@@ -41,6 +53,31 @@ def _load_graph(paths):
     for path in paths:
         graph.parse(path)
     return graph
+
+
+def _shape_graph_with_targets(paths, targets):
+    graph = _load_graph(paths)
+    for shape, target in targets:
+        graph.add((shape, URIRef(f"{SH}targetNode"), target))
+    return graph
+
+
+def _outbound_subgraph(graph: Graph, roots, depth: int = 3):
+    subset = Graph()
+    frontier = set(roots)
+    visited = set()
+    for _ in range(depth + 1):
+        next_frontier = set()
+        for subject in frontier:
+            if subject in visited:
+                continue
+            visited.add(subject)
+            for predicate, obj in graph.predicate_objects(subject):
+                subset.add((subject, predicate, obj))
+                if isinstance(obj, URIRef):
+                    next_frontier.add(obj)
+        frontier = next_frontier
+    return subset
 
 
 class RequirementAnchorTraceabilityFixtureTest(unittest.TestCase):
@@ -139,6 +176,150 @@ class RequirementAnchorTraceabilityFixtureTest(unittest.TestCase):
                     NIAS.submissionConsensusTimestamp,
                 ]:
                     self.assertIn((artifact, predicate, None), self.fixture_graph)
+
+    def test_project_package_contains_complete_end_to_end_fixture_set(self):
+        expected_members = {
+            PDD_ARTIFACT,
+            VALIDATION_REPORT,
+            MONITORING_ARTIFACT,
+            DLR_ARTIFACT,
+            VERIFICATION_REPORT,
+            VALIDATION_PROOF_SIDECAR,
+            VERIFICATION_PROOF_SIDECAR,
+        }
+        self.assertIn(
+            (PROJECT, RDF.type, URIRef("http://w3id.org/aiao#Project")),
+            self.fixture_graph,
+        )
+        self.assertSetEqual(
+            set(self.fixture_graph.objects(PROJECT, DCTERMS.hasPart)),
+            expected_members,
+        )
+
+    def test_end_to_end_traceability_chain_is_materialized(self):
+        self.assertEqual(
+            self._single_value(self.fixture_graph, PDD_ARTIFACT, NIAS.workflowSubject),
+            PROJECT,
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                VALIDATION_REPORT,
+                NIAS.reviewedArtifactContentCid,
+            ),
+            self._single_value(self.fixture_graph, PDD_ARTIFACT, NIAS.artifactContentCid),
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                MONITORING_ARTIFACT,
+                NIAS.alignedWithPDD,
+            ),
+            PDD_ARTIFACT,
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                MONITORING_ARTIFACT,
+                NIAS.linkedDlrContentCid,
+            ),
+            self._single_value(self.fixture_graph, DLR_ARTIFACT, NIAS.artifactContentCid),
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                VERIFICATION_REPORT,
+                NIAS.reviewedArtifactContentCid,
+            ),
+            self._single_value(
+                self.fixture_graph,
+                MONITORING_ARTIFACT,
+                NIAS.artifactContentCid,
+            ),
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                VERIFICATION_REPORT,
+                NIAS.reviewedDlrContentCid,
+            ),
+            self._single_value(self.fixture_graph, DLR_ARTIFACT, NIAS.artifactContentCid),
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                VALIDATION_REPORT,
+                NIAS.finalReviewDecision,
+            ),
+            URIRef(f"{NIAS}review-approve"),
+        )
+        self.assertEqual(
+            self._single_value(
+                self.fixture_graph,
+                VERIFICATION_REPORT,
+                NIAS.requestedIssuanceAccountId,
+            ),
+            Literal("0.0.3003"),
+        )
+
+    def test_project_package_documents_and_reviews_conform(self):
+        package_graph = _outbound_subgraph(
+            self.fixture_graph,
+            [
+                PDD_ARTIFACT,
+                DLR_ARTIFACT,
+                MONITORING_ARTIFACT,
+                VALIDATION_REPORT,
+                VERIFICATION_REPORT,
+            ],
+        )
+        shape_graph = _shape_graph_with_targets(
+            [
+                COMMON_SHAPES,
+                DOCUMENT_SHAPES,
+                DOCUMENT_REFERENCE_SHAPES,
+            ],
+            [
+                (NIAS.DocumentShape, PDD_ARTIFACT),
+                (NIAS.DocumentShape, DLR_ARTIFACT),
+                (NIAS.DocumentShape, MONITORING_ARTIFACT),
+                (NIAS.DocumentShape, VALIDATION_REPORT),
+                (NIAS.DocumentShape, VERIFICATION_REPORT),
+            ],
+        )
+        conforms, _, validation_text = validate(
+            data_graph=package_graph,
+            shacl_graph=shape_graph,
+            ont_graph=_load_graph(ONTOLOGY_FILES),
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        self.assertTrue(conforms, msg=validation_text)
+
+    def test_traceability_fixture_extends_identity_contract_for_package_chain(self):
+        shape_graph = _shape_graph_with_targets(
+            [ARTIFACT_IDENTITY_CONTRACT_SHAPES],
+            [
+                (NIAS.SubmittedArtifactIdentityShape, PDD_ARTIFACT),
+                (NIAS.SubmittedArtifactIdentityShape, DLR_ARTIFACT),
+                (NIAS.MonitoringArtifactIdentityShape, MONITORING_ARTIFACT),
+                (NIAS.ReviewedArtifactIdentityShape, VALIDATION_REPORT),
+            ],
+        )
+        conforms, _, validation_text = validate(
+            data_graph=self.fixture_graph,
+            shacl_graph=shape_graph,
+            ont_graph=_load_graph(ONTOLOGY_FILES),
+            inference="none",
+            abort_on_first=False,
+            allow_infos=False,
+            allow_warnings=False,
+            advanced=True,
+        )
+        self.assertTrue(conforms, msg=validation_text)
 
     def test_every_exact_mapping_traces_to_reviewed_submitted_content(self):
         mappings = set(self.mapping_graph.subjects(RDF.type, NIAS.RequirementMapping))
@@ -283,6 +464,26 @@ class RequirementAnchorTraceabilityFixtureTest(unittest.TestCase):
                     1,
                     msg=f"{mapping} must have exactly one materialized coverage proof.",
                 )
+
+    def test_requirement_coverage_sidecars_partition_validation_and_verification_proofs(self):
+        sidecars = {
+            VALIDATION_PROOF_SIDECAR: NIAS.validation,
+            VERIFICATION_PROOF_SIDECAR: NIAS.verification,
+        }
+        for sidecar, mandate in sidecars.items():
+            with self.subTest(sidecar=sidecar):
+                expected_proofs = {
+                    proof
+                    for proof in self.fixture_graph.subjects(
+                        RDF.type,
+                        NIAS.RequirementCoverageProof,
+                    )
+                    if (proof, NIAS.reviewMandate, mandate) in self.fixture_graph
+                }
+                actual_proofs = set(self.fixture_graph.objects(sidecar, DCTERMS.hasPart))
+                self.assertSetEqual(actual_proofs, expected_proofs)
+                for proof in actual_proofs:
+                    self.assertIn((proof, DCTERMS.isPartOf, sidecar), self.fixture_graph)
 
     def test_coverage_proof_shape_rejects_inconsistent_copied_values(self):
         proof = URIRef(f"{TRACE}proof-req-pdd-002-declared-impacts")
