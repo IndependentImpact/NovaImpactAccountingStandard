@@ -154,15 +154,39 @@ Implemented:
 
 ### 6. Rendering Contract
 
-- [ ] Verify PDD rendering consumes canonical anchors and identity metadata.
-- [ ] Verify validation report rendering consumes canonical anchors and emits
+- [x] Verify PDD rendering consumes canonical anchors and identity metadata.
+- [x] Verify validation report rendering consumes canonical anchors and emits
   proof sidecars.
-- [ ] Verify Monitoring Report rendering consumes canonical anchors and identity
+- [x] Verify Monitoring Report rendering consumes canonical anchors and identity
   metadata.
-- [ ] Verify verification report rendering consumes canonical anchors and emits
+- [x] Verify verification report rendering consumes canonical anchors and emits
   proof sidecars.
-- [ ] Confirm filled forms can render to markdown and PDF without hidden manual
+- [x] Confirm filled forms can render to markdown and PDF without hidden manual
   mappings.
+
+Implemented:
+
+- Extended `dataRequirements/tests/test_pdd_output_compilation.py` to verify
+  final PDD metadata anchor keys are emitted in canonical
+  `pdd-anchor-definitions.ttl` render order.
+- Extended `dataRequirements/tests/test_monitoring_report_rendering.py` to
+  verify final Monitoring Report metadata anchor keys are emitted from canonical
+  `monitoring-anchor-definitions.ttl` and to verify filled final exports produce
+  both markdown and PDF outputs.
+- Extended
+  `dataRequirements/tests/test_validation_verification_report_rendering.py` to
+  verify validation/verification proof sidecar anchor keys resolve through the
+  canonical `vvs-requirement-anchor-map.ttl` + anchor definition bundles, and to
+  verify filled verification exports produce both markdown and PDF outputs.
+- Existing identity metadata coverage for PDD/monitoring/validation/verification
+  remains verified in
+  `dataRequirements/tests/test_linked_artifact_identity.py`.
+- Current verification:
+  - `python -m unittest dataRequirements.tests.test_pdd_output_compilation -q`
+  - `python -m unittest dataRequirements.tests.test_monitoring_report_rendering -q`
+  - `python -m unittest dataRequirements.tests.test_validation_verification_report_rendering -q`
+  - `python -m unittest dataRequirements.tests.test_linked_artifact_identity -q`
+  - `python -m unittest discover -s dataRequirements/tests -p 'test_*.py' -q`
 
 ### 7. Release Verification
 

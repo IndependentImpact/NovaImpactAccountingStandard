@@ -7,7 +7,8 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Graph
+from rdflib import Graph, Namespace
+from rdflib.namespace import RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -17,13 +18,27 @@ INVALID_INPUT = (
     REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld"
 )
 ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+PDD_ANCHOR_DEFINITIONS = REPO_ROOT / "dataRequirements/mappings/pdd-anchor-definitions.ttl"
 ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
 ]
+NIAS = Namespace("https://nova.org.za/novaimpactaccountingstandard/")
 
 
 class PddOutputCompilationTests(unittest.TestCase):
+    def _canonical_anchor_keys(self, definitions_path: Path):
+        graph = Graph()
+        graph.parse(definitions_path, format="turtle")
+        records = []
+        for anchor in graph.subjects(RDF.type, NIAS.AnchorDefinition):
+            key = graph.value(anchor, NIAS.anchorKey)
+            order = graph.value(anchor, NIAS.renderOrder)
+            if key is None:
+                continue
+            records.append((int(order.toPython()) if order is not None else 999999, str(key)))
+        return [key for _, key in sorted(records)]
+
     def _write_fake_pandoc(self, path: Path):
         path.write_text(
             "\n".join(
@@ -129,14 +144,9 @@ class PddOutputCompilationTests(unittest.TestCase):
             }
             self.assertEqual(artifact_types, {"markdown", "pdf", "website"})
             anchors = metadata_payload["nias:artifactAnchor"]
-            self.assertEqual(len(anchors), 17)
             self.assertEqual(
-                anchors[0]["nias:anchorKey"],
-                "pdd.sectionA",
-            )
-            self.assertEqual(
-                anchors[-1]["nias:anchorKey"],
-                "pdd.sectionC.stakeholderCommentConsideration",
+                [anchor["nias:anchorKey"] for anchor in anchors],
+                self._canonical_anchor_keys(PDD_ANCHOR_DEFINITIONS),
             )
             for anchor in anchors:
                 with self.subTest(anchor=anchor["nias:anchorKey"]):
