@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -6,7 +7,8 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Graph
+from rdflib import Graph, Namespace
+from rdflib.namespace import RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -17,14 +19,51 @@ INVALID_STRUCTURAL = FIXTURES / "monitoring-report-invalid-structural.jsonld"
 BLANK_TEMPLATE_FIXTURE = FIXTURES / "monitoring-report-blank-template.md"
 RENDERED_FIXTURE = FIXTURES / "monitoring-report-rendered.md"
 ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.ttl"
+MONITORING_ANCHOR_DEFINITIONS = (
+    REPO_ROOT / "dataRequirements/mappings/monitoring-anchor-definitions.ttl"
+)
 ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
 ]
 SHA256_HASH_PATTERN = r"^sha256:[a-f0-9]{64}$"
+NIAS = Namespace("https://nova.org.za/novaimpactaccountingstandard/")
 
 
 class MonitoringReportRenderingTests(unittest.TestCase):
+    def _canonical_anchor_keys(self, definitions_path: Path):
+        graph = Graph()
+        graph.parse(definitions_path, format="turtle")
+        records = []
+        for anchor in graph.subjects(RDF.type, NIAS.AnchorDefinition):
+            key = graph.value(anchor, NIAS.anchorKey)
+            order = graph.value(anchor, NIAS.renderOrder)
+            if key is None:
+                continue
+            records.append((int(order.toPython()) if order is not None else 999999, str(key)))
+        return [key for _, key in sorted(records)]
+
+    def _write_fake_pandoc(self, path: Path):
+        path.write_text(
+            "\n".join(
+                [
+                    "#!/usr/bin/env python3",
+                    "import pathlib",
+                    "import sys",
+                    "args = sys.argv[1:]",
+                    "source = pathlib.Path(args[0])",
+                    "output = pathlib.Path(args[args.index('--output') + 1])",
+                    "if output.suffix == '.html':",
+                    "    output.write_text('<html><body>' + source.read_text(encoding='utf-8') + '</body></html>', encoding='utf-8')",
+                    "else:",
+                    "    output.write_bytes(source.read_text(encoding='utf-8').encode('utf-8'))",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        path.chmod(0o755)
+
     def _base_command(self):
         return [sys.executable, str(SCRIPT)]
 
@@ -190,9 +229,10 @@ class MonitoringReportRenderingTests(unittest.TestCase):
                 ["markdown"],
             )
             anchors = metadata_payload["nias:artifactAnchor"]
-            self.assertEqual(len(anchors), 7)
-            self.assertEqual(anchors[0]["nias:anchorKey"], "monitoring.packageSummary")
-            self.assertEqual(anchors[-1]["nias:anchorKey"], "monitoring.workflowEvidence")
+            self.assertEqual(
+                [anchor["nias:anchorKey"] for anchor in anchors],
+                self._canonical_anchor_keys(MONITORING_ANCHOR_DEFINITIONS),
+            )
             for anchor in anchors:
                 with self.subTest(anchor=anchor["nias:anchorKey"]):
                     self.assertEqual(anchor["@type"], "nias:ArtifactAnchor")
@@ -225,6 +265,46 @@ class MonitoringReportRenderingTests(unittest.TestCase):
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
             self.assertEqual(validation_payload["reportType"], "monitoring")
+
+    def test_final_export_supports_markdown_and_pdf_targets(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            fake_pandoc = tmp_path / "pandoc"
+            self._write_fake_pandoc(fake_pandoc)
+            output_dir = tmp_path / "exported"
+            env = os.environ.copy()
+            env["PATH"] = f"{tmp_path}{os.pathsep}{env.get('PATH', '')}"
+            env["PANDOC_BIN"] = str(fake_pandoc)
+
+            subprocess.run(
+                [
+                    *self._base_command(),
+                    "--input-jsonld",
+                    str(INPUT),
+                    "--source-artifact-id",
+                    "monitoring-report-input.jsonld",
+                    "--generated-at",
+                    "2026-05-28T00:00:00Z",
+                    "--render-mode",
+                    "final",
+                    "--output-dir",
+                    str(output_dir),
+                    "--output-target",
+                    "markdown",
+                    "--output-target",
+                    "pdf",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                cwd=REPO_ROOT,
+                env=env,
+            )
+            self.assertTrue((output_dir / "monitoring-report.md").exists())
+            pdf_bytes = (output_dir / "monitoring-report.pdf").read_bytes()
+            self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+            self.assertIn(b"%%EOF", pdf_bytes[-1024:])
 
     def test_final_rendering_requires_linked_dlr_content_cid(self):
         with tempfile.TemporaryDirectory() as tmpdir:
