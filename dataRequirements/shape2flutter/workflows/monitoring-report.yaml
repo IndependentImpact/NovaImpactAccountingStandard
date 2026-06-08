@@ -3,6 +3,23 @@ title: Monitoring Report Workflow
 artifact_type: monitoring-report
 owner_role: monitoring-party
 reviewed_artifact: pdd
+canonical_bundle:
+  ui_shape_bundle: dataRequirements/shape2flutter/monitoring-report-ui-shapes.ttl
+  generated_output_status: downstream-generated
+  canonical_shape_sources:
+    - glossary/NovaImpactAccountingStandardOntology.ttl
+    - glossary/NovaImpactAccountingStandardGlossary.ttl
+    - dataRequirements/common-shapes.ttl
+    - dataRequirements/document-reference-shapes.ttl
+    - dataRequirements/document-shapes.ttl
+    - dataRequirements/report-shapes.ttl
+    - dataRequirements/monitoring-report-shapes.ttl
+    - dataRequirements/data-lineage-shapes.ttl
+    - dataRequirements/artifact-anchor-shapes.ttl
+    - dataRequirements/artifact-identity-contract-shapes.ttl
+    - dataRequirements/mappings/pdd-anchor-definitions.ttl
+    - dataRequirements/mappings/monitoring-anchor-definitions.ttl
+    - dataRequirements/mappings/dlr-anchor-definitions.ttl
 steps:
   - id: monitoring-report
     label: Submit Monitoring Report

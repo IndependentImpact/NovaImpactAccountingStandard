@@ -33,6 +33,14 @@ ARTIFACT_ANCHOR_SHAPES = REPO_ROOT / "dataRequirements/artifact-anchor-shapes.tt
 REQUIREMENT_COVERAGE_PROOF_SHAPES = (
     REPO_ROOT / "dataRequirements/requirement-coverage-proof-shapes.ttl"
 )
+VVS_REQUIREMENT_ANCHOR_MAP = (
+    REPO_ROOT / "dataRequirements/mappings/vvs-requirement-anchor-map.ttl"
+)
+ANCHOR_DEFINITION_FILES = [
+    REPO_ROOT / "dataRequirements/mappings/pdd-anchor-definitions.ttl",
+    REPO_ROOT / "dataRequirements/mappings/monitoring-anchor-definitions.ttl",
+    REPO_ROOT / "dataRequirements/mappings/dlr-anchor-definitions.ttl",
+]
 ONTOLOGY_FILES = [
     REPO_ROOT / "glossary/NovaImpactAccountingStandardOntology.ttl",
     REPO_ROOT / "glossary/NovaImpactAccountingStandardGlossary.ttl",
@@ -107,6 +115,20 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         )
         self.assertTrue(conforms, msg=validation_text)
         return coverage_graph
+
+    def _canonical_anchor_keys_for_report(self, report_type: str):
+        mandate = NIAS.validation if report_type == "validation" else NIAS.verification
+        mapping_graph = Graph().parse(VVS_REQUIREMENT_ANCHOR_MAP, format="turtle")
+        anchor_graph = _load_graph(ANCHOR_DEFINITION_FILES)
+        keys = set()
+        for mapping in mapping_graph.subjects(RDF.type, NIAS.RequirementMapping):
+            if (mapping, NIAS.reviewMandate, mandate) not in mapping_graph:
+                continue
+            anchor = mapping_graph.value(mapping, NIAS.mappedAnchor)
+            anchor_key = anchor_graph.value(anchor, NIAS.anchorKey)
+            if anchor_key is not None:
+                keys.add(str(anchor_key))
+        return keys
 
     def test_validation_blank_template_matches_fixture(self):
         self.assertEqual(
@@ -481,6 +503,10 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 str(coverage_graph.value(proof, NIAS.coverageAnchorKey)),
                 "pdd.sectionB.declaredImpacts",
             )
+            self.assertIn(
+                str(coverage_graph.value(proof, NIAS.coverageAnchorKey)),
+                self._canonical_anchor_keys_for_report("validation"),
+            )
             self.assertEqual(
                 str(
                     coverage_graph.value(
@@ -513,6 +539,8 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     str(output_dir),
                     "--output-target",
                     "markdown",
+                    "--output-target",
+                    "pdf",
                 ],
                 check=True,
                 capture_output=True,
@@ -522,11 +550,13 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             )
 
             markdown = output_dir / "verification-report.md"
+            pdf = output_dir / "verification-report.pdf"
             metadata = output_dir / "verification-report.metadata.jsonld"
             coverage = output_dir / "verification-report.requirement-coverage.jsonld"
             validation = output_dir / "verification-report.validation.json"
 
             self.assertTrue(markdown.exists())
+            self.assertTrue(pdf.exists())
             self.assertTrue(metadata.exists())
             self.assertTrue(coverage.exists())
             self.assertTrue(validation.exists())
@@ -535,12 +565,22 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "## Verification Report",
                 markdown.read_text(encoding="utf-8"),
             )
+            pdf_bytes = pdf.read_bytes()
+            self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+            self.assertIn(b"%%EOF", pdf_bytes[-1024:])
 
             validation_payload = json.loads(validation.read_text(encoding="utf-8"))
             self.assertEqual(validation_payload["status"], "passed")
             self.assertEqual(validation_payload["renderMode"], "final")
             self.assertEqual(validation_payload["reportType"], "verification")
             metadata_payload = json.loads(metadata.read_text(encoding="utf-8"))
+            self.assertIn(
+                "pdf",
+                {
+                    artifact["artifact"]
+                    for artifact in metadata_payload["nias:artifacts"]
+                },
+            )
             self.assertEqual(metadata_payload["nias:artifactContentCid"], "bafyverificationartifactcid")
             self.assertEqual(metadata_payload["nias:reviewedArtifactType"], "monitoring-report")
             self.assertEqual(
@@ -580,6 +620,15 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     for proof in proofs
                 },
                 {"monitoring.observation"},
+            )
+            proof_anchor_keys = {
+                str(coverage_graph.value(proof, NIAS.coverageAnchorKey))
+                for proof in proofs
+            }
+            self.assertTrue(
+                proof_anchor_keys.issubset(
+                    self._canonical_anchor_keys_for_report("verification")
+                )
             )
 
     def test_final_rendering_requires_reviewed_artifact_identity_fields(self):

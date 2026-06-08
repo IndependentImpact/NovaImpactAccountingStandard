@@ -1,0 +1,240 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nias-o:ArtifactIdentityContractShapes a owl:Ontology ;
+    dcterms:title "Nova Impact Accounting Standard - Artifact Identity Contract SHACL Shapes"@en ;
+    dcterms:description "Role-specific identity contracts for submitted artifacts, reviewed artifacts, monitoring report alignment, and verification DLR linkage. These shapes are applied to known artifact-role nodes rather than every data:Document."@en ;
+    owl:imports nias-o:DocumentShapes,
+        nias-o:ReviewShapes .
+
+nias-o:SubmittedArtifactIdentityShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:artifactContentCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one content CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:artifactSchemaCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one schema CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:artifactSchemaVersionLabel ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one schema version label."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:artifactAuthor ;
+        sh:or (
+            [ sh:nodeKind sh:IRI ]
+            [ sh:datatype xsd:string ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one artifact author."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:workflowSubject ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one workflow subject."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:submissionTopicId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one Hedera topic ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:submissionConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version must identify exactly one submission consensus timestamp."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:submissionEventKey ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version may carry one derived submission event key."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:submissionMessageUrl ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:message "A submitted artifact version may carry one derived submission message URL."@en
+    ] ;
+    sh:sparql [
+        sh:message "submissionEventKey must equal submissionTopicId@submissionConsensusTimestamp when present."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:submissionTopicId ?topicId ;
+                      nias-o:submissionConsensusTimestamp ?timestamp ;
+                      nias-o:submissionEventKey ?eventKey .
+                FILTER (str(?eventKey) != concat(str(?topicId), "@", str(?timestamp)))
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "submissionMessageUrl must resolve from submissionTopicId and submissionConsensusTimestamp when present."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:submissionTopicId ?topicId ;
+                      nias-o:submissionConsensusTimestamp ?timestamp ;
+                      nias-o:submissionMessageUrl ?messageUrl .
+                FILTER (str(?messageUrl) != concat("/api/v1/topics/", str(?topicId), "/messages/", str(?timestamp)))
+            }
+        """
+    ] .
+
+nias-o:ReviewedArtifactIdentityShape a sh:NodeShape ;
+    sh:node nias-o:SubmittedArtifactIdentityShape ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactType ;
+        sh:datatype xsd:string ;
+        sh:in ( "pdd" "data-lineage-report" "monitoring-report" ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the reviewed artifact family."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactContentCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the exact reviewed artifact content CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactSchemaCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the exact reviewed artifact schema CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedArtifactSchemaVersionLabel ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the exact reviewed artifact schema version label."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedSubmissionTopicId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the reviewed submission topic ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:reviewedSubmissionConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A review artifact must identify the reviewed submission consensus timestamp."@en
+    ] ;
+    sh:sparql [
+        sh:message "A review artifact identity must match the reviewed artifact metadata referenced by its review targets."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:reviewedArtifactContentCid ?contentCid ;
+                      nias-o:reviewedArtifactSchemaCid ?schemaCid ;
+                      nias-o:reviewedArtifactSchemaVersionLabel ?schemaVersionLabel ;
+                      nias-o:reviewedSubmissionTopicId ?topicId ;
+                      nias-o:reviewedSubmissionConsensusTimestamp ?timestamp ;
+                      nias-o:fieldReview/nias-o:reviewTarget/nias-o:reviewedArtifact ?artifact .
+                FILTER NOT EXISTS {
+                    ?artifact nias-o:artifactContentCid ?contentCid ;
+                              nias-o:artifactSchemaCid ?schemaCid ;
+                              nias-o:artifactSchemaVersionLabel ?schemaVersionLabel ;
+                              nias-o:submissionTopicId ?topicId ;
+                              nias-o:submissionConsensusTimestamp ?timestamp .
+                }
+            }
+        """
+    ] .
+
+nias-o:MonitoringArtifactIdentityShape a sh:NodeShape ;
+    sh:node nias-o:SubmittedArtifactIdentityShape ;
+    sh:property [
+        sh:path nias-o:alignedPddContentCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring artifact must identify the aligned PDD content CID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:alignedPddSubmissionTopicId ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring artifact must identify the aligned PDD submission topic ID."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:alignedPddSubmissionConsensusTimestamp ;
+        sh:datatype xsd:dateTimeStamp ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring artifact must identify the aligned PDD submission consensus timestamp."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:linkedDlrContentCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A monitoring artifact must identify the linked DLR content CID."@en
+    ] ;
+    sh:sparql [
+        sh:message "A monitoring artifact alignment identity must match the PDD artifact referenced by alignedWithPDD."@en ;
+        sh:select """
+            PREFIX nias-o: <https://nova.org.za/novaimpactaccountingstandard/>
+            SELECT $this WHERE {
+                $this nias-o:alignedWithPDD ?pdd ;
+                      nias-o:alignedPddContentCid ?contentCid ;
+                      nias-o:alignedPddSubmissionTopicId ?topicId ;
+                      nias-o:alignedPddSubmissionConsensusTimestamp ?timestamp .
+                FILTER NOT EXISTS {
+                    ?pdd nias-o:artifactContentCid ?contentCid ;
+                         nias-o:submissionTopicId ?topicId ;
+                         nias-o:submissionConsensusTimestamp ?timestamp .
+                }
+            }
+        """
+    ] .
+
+nias-o:VerificationReviewIdentityShape a sh:NodeShape ;
+    sh:node nias-o:ReviewedArtifactIdentityShape ;
+    sh:property [
+        sh:path nias-o:reviewedDlrContentCid ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A verification review artifact must identify the reviewed DLR content CID."@en
+    ] .
+
