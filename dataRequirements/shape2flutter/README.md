@@ -11,13 +11,6 @@ forms only. The `pdd-workflow-ui-shapes.ttl` file remains available for the
 combined local PDD workflow preview: PDD creation, validation review, and PDD
 certificate issuance request forms.
 
-For the planned PDD creation and validation workflow, see
-[`pdd-workflow-roadmap.md`](pdd-workflow-roadmap.md).
-
-For the planned split between PDD Design, Validation Report, Monitoring Report,
-and Verification Report activities, see
-[`pdd-validation-monitoring-verification-split-workplan.md`](pdd-validation-monitoring-verification-split-workplan.md).
-
 ## Activity Startup Guide
 
 The repository currently supports a combined PDD workflow shell plus separate
