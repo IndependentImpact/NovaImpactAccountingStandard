@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-TOOL_DIR = REPO_ROOT / "dataRequirements/document-rendering/tool"
+TOOL_DIR = REPO_ROOT / "tooling/document-rendering"
 sys.path.insert(0, str(TOOL_DIR))
 from export_workflow_report import evaluate_final_gate_failures, load_export_config
 
@@ -46,7 +46,7 @@ class WorkflowExportEngineTests(unittest.TestCase):
         )
         self.assertEqual(
             validation_config["renderer_script"],
-            "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py",
+            "tooling/document-rendering/render_validation_verification_report_markdown.py",
         )
         self.assertEqual(validation_config["default_output_targets"], ["markdown"])
         self.assertEqual(
@@ -70,7 +70,7 @@ class WorkflowExportEngineTests(unittest.TestCase):
         )
         self.assertEqual(
             config["renderer_script"],
-            "dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py",
+            "tooling/document-rendering/render_monitoring_report_markdown.py",
         )
         self.assertEqual(config["payload_filename"], "monitoring-report-package.jsonld")
         self.assertEqual(config["default_output_targets"], ["markdown"])

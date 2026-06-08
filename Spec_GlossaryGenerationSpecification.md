@@ -48,7 +48,7 @@ If validation fails, output a clear error list with offending IRIs and do not em
 
 ## 6. Suggested command contract
 
-Implement a dedicated script (for example under `tooling/` or `dataRequirements/document-rendering/tool/`) with a CLI similar to:
+Implement a dedicated script (for example under `tooling/` or `tooling/document-rendering/`) with a CLI similar to:
 
 ```bash
 python <script>.py \

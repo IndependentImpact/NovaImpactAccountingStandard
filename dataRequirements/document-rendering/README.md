@@ -70,7 +70,7 @@ or renderer-only output).
 
 Workflow-shell handoff exporters now share a config-backed export engine:
 
-- engine: `dataRequirements/document-rendering/tool/export_workflow_report.py`
+- engine: `tooling/document-rendering/export_workflow_report.py`
 - PDD mapping config: `dataRequirements/document-rendering/config/pdd-export.yaml`
 - Validation mapping config:
   `dataRequirements/document-rendering/config/validation-report-export.yaml`
@@ -107,13 +107,13 @@ reports are separate linked outputs.
 Render the blank template projected from SHACL plus the rendering profile:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py
+python3 tooling/document-rendering/render_pdd_markdown.py
 ```
 
 Write the template to a file:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+python3 tooling/document-rendering/render_pdd_markdown.py \
   --output /tmp/pdd-blank.md
 ```
 
@@ -122,7 +122,7 @@ python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
 Use the fixture payload or a workflow-shell JSON-LD export:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+python3 tooling/document-rendering/render_pdd_markdown.py \
   --input-jsonld dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld \
   --source-artifact-id pdd-alpha-input.jsonld \
   --generated-at 2026-05-25T00:00:00Z \
@@ -137,7 +137,7 @@ Draft mode keeps placeholders visible and does not require SHACL conformance.
 Final mode requires a SHACL-conformant JSON-LD payload and `pyshacl`:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+python3 tooling/document-rendering/render_pdd_markdown.py \
   --input-jsonld /tmp/pdd-final.jsonld \
   --source-artifact-id pdd-final.jsonld \
   --generated-at 2026-05-26T00:00:00Z \
@@ -153,7 +153,7 @@ Use `--output-dir` together with one or more repeatable `--output-target`
 arguments:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+python3 tooling/document-rendering/render_pdd_markdown.py \
   --input-jsonld /tmp/pdd-final.jsonld \
   --source-artifact-id pdd-final.jsonld \
   --generated-at 2026-05-26T00:00:00Z \
@@ -196,7 +196,7 @@ for explicit local or release checks:
 
 ```bash
 PANDOC_PDF_ENGINE=lualatex \
-python3 dataRequirements/document-rendering/tool/render_pdd_markdown.py \
+python3 tooling/document-rendering/render_pdd_markdown.py \
   --input-jsonld /tmp/pdd-final.jsonld \
   --source-artifact-id pdd-final.jsonld \
   --generated-at 2026-05-26T00:00:00Z \
@@ -258,14 +258,14 @@ python3 -m unittest dataRequirements.tests.test_monitoring_report_rendering -q
 Render a blank Validation Report template:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+python3 tooling/document-rendering/render_validation_verification_report_markdown.py \
   --report-type validation
 ```
 
 Render a blank Verification Report template:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+python3 tooling/document-rendering/render_validation_verification_report_markdown.py \
   --report-type verification
 ```
 
@@ -273,7 +273,7 @@ Render a draft Validation Report from review JSON-LD and optional
 reviewed-artifact evidence:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+python3 tooling/document-rendering/render_validation_verification_report_markdown.py \
   --report-type validation \
   --input-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-input.jsonld \
   --evidence-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-evidence.jsonld \
@@ -317,7 +317,7 @@ requirement shapes for the selected `--report-type` over the review package plus
 repeatable `--evidence-jsonld` graphs:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py \
+python3 tooling/document-rendering/render_validation_verification_report_markdown.py \
   --report-type validation \
   --input-jsonld /tmp/vv-review-package.jsonld \
   --evidence-jsonld /tmp/vv-evidence.jsonld \
@@ -351,13 +351,13 @@ Deterministic verification outputs:
 Render a blank Monitoring Report template:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py
+python3 tooling/document-rendering/render_monitoring_report_markdown.py
 ```
 
 Render a draft Monitoring Report from JSON-LD:
 
 ```bash
-python3 dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py \
+python3 tooling/document-rendering/render_monitoring_report_markdown.py \
   --input-jsonld dataRequirements/document-rendering/fixtures/monitoring-report-input.jsonld \
   --source-artifact-id monitoring-report-input.jsonld \
   --generated-at 2026-05-28T00:00:00Z \

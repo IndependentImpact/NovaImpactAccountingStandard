@@ -72,7 +72,7 @@ Relevant locations:
 - `dataRequirements/shape2flutter/pdd_workflow_shell/tool/export_pdd_workflow_markdown.py:428`
 - `dataRequirements/shape2flutter/pdd_workflow_shell/tool/export_pdd_workflow_markdown.py:452`
 - `dataRequirements/document-rendering/config/pdd-export.yaml:5`
-- `dataRequirements/document-rendering/tool/export_workflow_report.py:26`
+- `tooling/document-rendering/export_workflow_report.py:26`
 
 ### Medium: validation and verification are combined in one UI and rendering lane
 

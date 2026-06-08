@@ -12,7 +12,7 @@ from rdflib.namespace import RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
+SCRIPT = REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"
 VALID_TTL_INPUT = REPO_ROOT / "dataRequirements/fixtures/phase7/impact-monitored-valid.ttl"
 INVALID_INPUT = (
     REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld"

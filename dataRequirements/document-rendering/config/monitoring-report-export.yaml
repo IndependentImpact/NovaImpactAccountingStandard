@@ -1,4 +1,4 @@
-renderer_script: dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py
+renderer_script: tooling/document-rendering/render_monitoring_report_markdown.py
 payload_filename: monitoring-report-package.jsonld
 default_output_targets:
   - markdown

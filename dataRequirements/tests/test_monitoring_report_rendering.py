@@ -12,7 +12,7 @@ from rdflib.namespace import RDF
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py"
+SCRIPT = REPO_ROOT / "tooling/document-rendering/render_monitoring_report_markdown.py"
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
 INPUT = FIXTURES / "monitoring-report-input.jsonld"
 INVALID_STRUCTURAL = FIXTURES / "monitoring-report-invalid-structural.jsonld"
