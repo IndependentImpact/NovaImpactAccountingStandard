@@ -9,6 +9,7 @@ markdown files from the SKOS Turtle sources in [`../glossary/`](../glossary/).
 | --- | --- |
 | `tool/generate_skos_markdown.py` | Core generator: renders any SKOS Turtle file to a markdown section with one subsection per `skos:ConceptScheme`. |
 | `generate_all.sh` | Shell script that runs the generator for every relevant Turtle source and writes the outputs listed below. |
+| `Spec_GlossaryGenerationSpecification.md` | Maintained specification for the GenerateStandardText generation contract and workflow. |
 | `02-a-Glossary.md` | Generated from `glossary/NovaImpactAccountingStandardGlossary.ttl`. |
 | `03-a-Principles.md` | Generated from `glossary/Principle.ttl`. |
 | `04-a-KnowledgeAndSkillsReputationRules.md` | Generated from `glossary/ReputationRules.ttl`. |
