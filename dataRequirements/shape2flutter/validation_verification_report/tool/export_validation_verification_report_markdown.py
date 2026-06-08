@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
-sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+sys.path.insert(0, str(REPO_ROOT / "tooling/document-rendering"))
 from export_workflow_report import (
     load_export_config,
     normalize_identity_field_names,

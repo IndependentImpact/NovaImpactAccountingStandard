@@ -8,7 +8,7 @@ from rdflib import Graph
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
+SCRIPT = REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"
 INPUT = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-input.jsonld"
 FIXTURE = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-alpha-rendered.md"
 VALID_TTL_INPUT = REPO_ROOT / "dataRequirements/fixtures/phase7/impact-monitored-valid.ttl"

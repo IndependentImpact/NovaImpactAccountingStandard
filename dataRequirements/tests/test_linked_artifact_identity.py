@@ -8,9 +8,9 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
-PDD_RENDERER = REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
-MR_RENDERER = REPO_ROOT / "dataRequirements/document-rendering/tool/render_monitoring_report_markdown.py"
-VV_RENDERER = REPO_ROOT / "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py"
+PDD_RENDERER = REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"
+MR_RENDERER = REPO_ROOT / "tooling/document-rendering/render_monitoring_report_markdown.py"
+VV_RENDERER = REPO_ROOT / "tooling/document-rendering/render_validation_verification_report_markdown.py"
 
 
 class LinkedArtifactIdentityTests(unittest.TestCase):
@@ -20,11 +20,11 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
 
         spec = importlib.util.spec_from_file_location(
             "render_pdd_markdown",
-            str(REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"),
+            str(REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"),
         )
         module = importlib.util.module_from_spec(spec)
         assert spec.loader is not None
-        sys.path.insert(0, str(REPO_ROOT / "dataRequirements/document-rendering/tool"))
+        sys.path.insert(0, str(REPO_ROOT / "tooling/document-rendering"))
         spec.loader.exec_module(module)
         graph = Graph().parse(str(FIXTURES / "pdd-alpha-input.jsonld"), format="json-ld")
         metadata = module._pdd_identity_metadata(graph)

@@ -221,7 +221,7 @@ output-side only. They are connected by a stable handoff contract:
 3. Workflow shell exporters map captured payloads into renderer-ingestible
    JSON-LD.
 4. The shared export engine in
-   `dataRequirements/document-rendering/tool/export_workflow_report.py` invokes
+   `tooling/document-rendering/export_workflow_report.py` invokes
    profile-driven renderers.
 
 Workflow step definitions are tracked in:

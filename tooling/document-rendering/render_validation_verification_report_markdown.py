@@ -12,7 +12,7 @@ from rdflib.namespace import RDF, Namespace
 import render_pdd_markdown as pdd_renderer
 
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PROFILE = (
     REPO_ROOT
     / "dataRequirements/document-rendering/validation-verification-report-rendering-profile.md"

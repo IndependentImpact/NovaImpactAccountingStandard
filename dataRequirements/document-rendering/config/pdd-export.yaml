@@ -1,4 +1,4 @@
-renderer_script: dataRequirements/document-rendering/tool/render_pdd_markdown.py
+renderer_script: tooling/document-rendering/render_pdd_markdown.py
 payload_filename: workflow-shell-render-input.jsonld
 default_output_targets:
   - markdown

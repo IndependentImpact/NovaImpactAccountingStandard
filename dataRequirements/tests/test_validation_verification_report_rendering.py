@@ -14,7 +14,7 @@ from rdflib.namespace import RDF
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = (
     REPO_ROOT
-    / "dataRequirements/document-rendering/tool/render_validation_verification_report_markdown.py"
+    / "tooling/document-rendering/render_validation_verification_report_markdown.py"
 )
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
 INPUT = FIXTURES / "validation-verification-report-input.jsonld"

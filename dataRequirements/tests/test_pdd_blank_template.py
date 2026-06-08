@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = REPO_ROOT / "dataRequirements/document-rendering/tool/render_pdd_markdown.py"
+SCRIPT = REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"
 FIXTURE = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pdd-blank-template.md"
 
 

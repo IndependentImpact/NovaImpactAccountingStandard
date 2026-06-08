@@ -373,7 +373,7 @@ Status: completed on 2026-05-25.
 
 Tasks:
 
-- Added `dataRequirements/document-rendering/tool/render_pdd_markdown.py` as a
+- Added `tooling/document-rendering/render_pdd_markdown.py` as a
   local command that projects `SHACL + rendering profile` into a blank PDD
   Markdown template.
 - Added deterministic placeholder rendering using SHACL/UI labels and
@@ -439,7 +439,7 @@ Tasks:
 - Define placeholder and warning behavior for missing draft values.
 - Include validation status in generated front matter.
 - Added `--render-mode {draft,final}` to
-  `dataRequirements/document-rendering/tool/render_pdd_markdown.py`.
+  `tooling/document-rendering/render_pdd_markdown.py`.
 - Added final-mode SHACL validation against NIAS shapes and ontology graphs,
   with explicit export failure on non-conformant input.
 - Added draft/final validation status rendering in metadata appendix output.
@@ -469,7 +469,7 @@ Tasks:
 - Include a short document ID, source hash, or version reference in the PDF
   footer.
 - Added `--output-dir` and repeatable `--output-target {markdown,pdf,html}` to
-  `dataRequirements/document-rendering/tool/render_pdd_markdown.py`.
+  `tooling/document-rendering/render_pdd_markdown.py`.
 - Added deterministic export filenames (`pdd.md`, `pdd.pdf`, `pdd.html`) with
   Pandoc-based PDF/HTML compilation.
 - Added final-export sidecars (`pdd.metadata.jsonld`, `pdd.validation.json`)
