@@ -6,9 +6,6 @@ from rdflib import Graph
 from rdflib.namespace import RDF, SKOS
 
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-
-
 def _escape_markdown_cell(value):
     return str(value).replace("|", "\\|").replace("\n", "<br>")
 
