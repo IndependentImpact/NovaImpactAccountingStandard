@@ -60,6 +60,37 @@ The package dependency order is:
 This order is for local verification and packaging. It is not a ledger bootstrap
 order.
 
+## Local Release Verification Command
+
+Run the full semantic standard release verification suite with:
+
+```bash
+dataRequirements/check-semantic-standard-release.sh
+```
+
+The script is a single local entry point that runs:
+
+- ontology and concept-scheme parsing/conformance checks;
+- canonical SHACL validation suites;
+- requirement-to-anchor mapping integrity and traceability checks;
+- end-to-end semantic fixture checks;
+- report rendering checks, including JSON-LD proof sidecar validation.
+
+Underlying command:
+
+```bash
+python3 -m unittest \
+  dataRequirements.tests.test_semantic_standard_release_package \
+  dataRequirements.tests.test_concept_schemes \
+  dataRequirements.tests.test_phase7_validation \
+  dataRequirements.tests.test_vvs_requirements \
+  dataRequirements.tests.test_requirement_anchor_traceability \
+  dataRequirements.tests.test_pdd_output_compilation \
+  dataRequirements.tests.test_monitoring_report_rendering \
+  dataRequirements.tests.test_validation_verification_report_rendering \
+  -q
+```
+
 ## UI Bundle Contract
 
 Primary shape2flutter workflow files declare a `canonical_bundle` block. This
