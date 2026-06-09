@@ -6,7 +6,8 @@
 
 nias-o:DocumentReferenceShapes a owl:Ontology ;
     dcterms:title "Nova Impact Accounting Standard - Document Reference SHACL Shapes"@en ;
-    dcterms:description "Reusable shapes for legacy message/IPFS document references and resource artifacts."@en ;
+    dcterms:description "Deprecated. Reusable shapes for legacy message/IPFS document references and resource artifacts. Migrate to using named document IRIs with nias-o:resourceConsensusMessage and nias-o:resourceIpfsUri directly on the document resource."@en ;
+    owl:deprecated true ;
     owl:imports nias-o:CommonShapes .
 
 nias-o:DocumentReferenceShape a sh:NodeShape ;
