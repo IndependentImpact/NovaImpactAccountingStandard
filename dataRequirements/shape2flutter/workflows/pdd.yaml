@@ -19,3 +19,9 @@ steps:
   - id: reviewC
     label: Validate PDD-C
     form: PddSectionCValidationReviewShape
+  - id: sectionQualitativeReview
+    label: Section Qualitative Review
+    form: GlobalQualitativeDocumentReviewShape
+  - id: documentQualitativeReview
+    label: Document Qualitative Review
+    form: GlobalQualitativeDocumentReviewShape

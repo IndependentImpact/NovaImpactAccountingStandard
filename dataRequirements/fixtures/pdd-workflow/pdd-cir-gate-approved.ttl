@@ -31,6 +31,16 @@
         nias-o:documentMessageId "0.0.1001-2026-01-06T00:00:00Z" ;
         nias-o:resourceIpfsUri "ipfs://bafypddsectioncreview"^^xsd:anyURI
     ] ;
+    nias-o:pddSectionQualitativeReview [
+        a nias-o:DocumentReference ;
+        nias-o:documentMessageId "0.0.1001-2026-01-07T00:00:00Z" ;
+        nias-o:resourceIpfsUri "ipfs://bafypddsectionqualreview"^^xsd:anyURI
+    ] ;
+    nias-o:pddDocumentLevelQualitativeReview [
+        a nias-o:DocumentReference ;
+        nias-o:documentMessageId "0.0.1001-2026-01-08T00:00:00Z" ;
+        nias-o:resourceIpfsUri "ipfs://bafypdddocqualreview"^^xsd:anyURI
+    ] ;
     nias-o:requestedIssuanceAccountId "0.0.2002" .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a>
@@ -59,6 +69,24 @@
     nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
     nias-o:authProof nias-cs:eddsa-signature ;
     nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-c> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafypddsectionqualitative"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxSectionQualitative-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-qualitative> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package>
+    a data:Document ;
+    nias-o:resourceIpfsUri "ipfs://bafypddpackage"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDx-1.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-package> .
 
 <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-a-review>
     a data:Document,
@@ -139,6 +167,64 @@
     ] ;
     nias-o:reviewedArtifactType "pdd" ;
     nias-o:reviewedArtifactContentCid "bafypddsectionc" ;
+    nias-o:finalReviewDecision nias-cs:review-approve .
+
+<https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-qualitative-review>
+    a data:Document,
+        nias-o:GlobalQualitativeDocumentReview ;
+    nias-o:resourceIpfsUri "ipfs://bafypddsectionqualreview"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-qualitative-review> ;
+    nias-o:isReviewOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative> ;
+    nias-o:fieldReview [
+        a nias-o:DocumentFieldReview ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative/anchors/pdd.sectionReview.qualitativeCompletion>
+        ] ;
+        nias-o:fieldTitle "Section qualitative summary" ;
+        nias-o:fieldPrompt "Assess section-level qualitative completeness." ;
+        nias-o:originalResponse "Section qualitative synthesis." ;
+        nias-o:reviewerDecision nias-cs:review-approve ;
+        nias-o:reviewerFeedback "Section-level qualitative checks are complete."
+    ] ;
+    nias-o:sectionQualitativeJudgement "Approved section-level qualitative coherence across mandatory sections." ;
+    nias-o:documentLevelQualitativeJudgement "Section-level review confirms no unresolved qualitative gaps." ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddsectionqualitative" ;
+    nias-o:finalReviewDecision nias-cs:review-approve .
+
+<https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-document-qualitative-review>
+    a data:Document,
+        nias-o:GlobalQualitativeDocumentReview ;
+    nias-o:resourceIpfsUri "ipfs://bafypdddocqualreview"^^xsd:anyURI ;
+    nias-o:documentSchema <https://nova.org.za/novaimpactaccountingstandard/document-schema/GenericDocumentReview-5.0.0> ;
+    nias-o:isEncrypted false ;
+    nias-o:documentAuthor <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:authProof nias-cs:eddsa-signature ;
+    nias-o:hasWorkflowSubmission <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-document-qualitative-review> ;
+    nias-o:isReviewOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package> ;
+    nias-o:fieldReview [
+        a nias-o:DocumentFieldReview ;
+        nias-o:reviewTarget [
+            a nias-o:ReviewTarget ;
+            nias-o:reviewedArtifact <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package> ;
+            nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package/anchors/pdd.documentLevel.qualitativeCompletion>
+        ] ;
+        nias-o:fieldTitle "Document qualitative synthesis" ;
+        nias-o:fieldPrompt "Assess full-document qualitative completeness." ;
+        nias-o:originalResponse "Document-level qualitative synthesis." ;
+        nias-o:reviewerDecision nias-cs:review-approve ;
+        nias-o:reviewerFeedback "Document-level qualitative checks are complete."
+    ] ;
+    nias-o:sectionQualitativeJudgement "Section-level findings are materially consistent." ;
+    nias-o:documentLevelQualitativeJudgement "Approved full-document qualitative coherence and completion." ;
+    nias-o:reviewedArtifactType "pdd" ;
+    nias-o:reviewedArtifactContentCid "bafypddpackage" ;
     nias-o:finalReviewDecision nias-cs:review-approve .
 
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-a>
@@ -261,6 +347,86 @@
         hedera:hasConsensusTimestamp "2026-01-06T00:00:00Z"^^xsd:dateTimeStamp
     ] .
 
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-qualitative>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Compile PDD section qualitative package"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-06T12:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-package>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Compile PDD package"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-07T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-section-qualitative-review>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-section-qualitative-review> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Validate section-level qualitative package"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-07T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
+<https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-document-qualitative-review>
+    a nias-o:WorkflowDocumentSubmission ;
+    nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/reviews/pdd-alpha-document-qualitative-review> ;
+    nias-o:workflow <https://nova.org.za/novaimpactaccountingstandard/workflows/pdd> ;
+    nias-o:workflowStep [
+        a nias-o:WorkflowStep ;
+        rdfs:label "Validate document-level qualitative package"
+    ] ;
+    nias-o:workflowSubject <https://nova.org.za/novaimpactaccountingstandard/projects/pdd-alpha> ;
+    nias-o:workflowDocumentSubmittedBy <https://nova.org.za/novaimpactaccountingstandard/users/pdd-validator-1> ;
+    nias-o:workflowDocumentRecipient <https://nova.org.za/novaimpactaccountingstandard/registry/nova-registry> ;
+    nias-o:workflowSubmissionConsensusMessage [
+        a hedera:TopicMessage ;
+        hedera:inTopic [
+            a hedera:ConsensusTopic ;
+            hedera:hasTopicId "0.0.1001"
+        ] ;
+        hedera:hasConsensusTimestamp "2026-01-08T00:00:00Z"^^xsd:dateTimeStamp
+    ] .
+
 <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionA.projectPurpose>
     a nias-o:AnchorDefinition ;
     nias-o:anchorKey "pdd.sectionA.projectPurpose" ;
@@ -281,6 +447,20 @@
     dcterms:title "Stakeholder comments" ;
     nias-o:sourceShape nias-o:PddSectionCReportShape ;
     nias-o:renderOrder 310 .
+
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionReview.qualitativeCompletion>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionReview.qualitativeCompletion" ;
+    dcterms:title "Section-level qualitative completion" ;
+    nias-o:sourceShape nias-o:GlobalQualitativeDocumentReviewShape ;
+    nias-o:renderOrder 340 .
+
+<https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.documentLevel.qualitativeCompletion>
+    a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.documentLevel.qualitativeCompletion" ;
+    dcterms:title "Document-level qualitative completion" ;
+    nias-o:sourceShape nias-o:GlobalQualitativeDocumentReviewShape ;
+    nias-o:renderOrder 350 .
 
 <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-a/anchors/pdd.sectionA.projectPurpose>
     a nias-o:ArtifactAnchor ;
@@ -303,6 +483,20 @@
     dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> ;
     nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-c> .
 
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative/anchors/pdd.sectionReview.qualitativeCompletion>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.sectionReview.qualitativeCompletion> ;
+    nias-o:anchorKey "pdd.sectionReview.qualitativeCompletion" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-section-qualitative> .
+
+<https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package/anchors/pdd.documentLevel.qualitativeCompletion>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition <https://nova.org.za/novaimpactaccountingstandard/anchor-definitions/pdd.documentLevel.qualitativeCompletion> ;
+    nias-o:anchorKey "pdd.documentLevel.qualitativeCompletion" ;
+    dcterms:isPartOf <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package> ;
+    nias-o:sourceNode <https://nova.org.za/novaimpactaccountingstandard/documents/pdd-alpha-package> .
+
 <https://nova.org.za/novaimpactaccountingstandard/submissions/pdd-alpha-cir>
     a nias-o:WorkflowDocumentSubmission ;
     nias-o:submittedDocument <https://nova.org.za/novaimpactaccountingstandard/requests/pdd-alpha-cir> ;
@@ -320,7 +514,7 @@
             a hedera:ConsensusTopic ;
             hedera:hasTopicId "0.0.1001"
         ] ;
-        hedera:hasConsensusTimestamp "2026-01-07T00:00:00Z"^^xsd:dateTimeStamp
+        hedera:hasConsensusTimestamp "2026-01-09T00:00:00Z"^^xsd:dateTimeStamp
     ] .
 
 <https://nova.org.za/novaimpactaccountingstandard/users/project-developer-1>

@@ -243,6 +243,11 @@ nias-o:GenericDocumentReview a owl:Class ;
     rdfs:subClassOf nias-o:DocumentReview ;
     skos:definition "A generic document review workflow document that can review any submitted document."@en .
 
+nias-o:GlobalQualitativeDocumentReview a owl:Class ;
+    rdfs:label "GlobalQualitativeDocumentReview"@en ;
+    rdfs:subClassOf nias-o:GenericDocumentReview ;
+    skos:definition "A structured global qualitative review that complements field-level findings with mandatory section-level and document-level judgments."@en .
+
 nias-o:MonitoringImpactReport a owl:Class ;
     rdfs:label "MonitoringImpactReport"@en ;
     rdfs:subClassOf claimont:Report ;
@@ -859,6 +864,18 @@ nias-o:pddSectionCValidationReview a owl:ObjectProperty ;
     rdfs:range nias-o:DocumentReference ;
     skos:definition "Reference to the approved validation review for PDD section C."@en .
 
+nias-o:pddSectionQualitativeReview a owl:ObjectProperty ;
+    rdfs:label "pddSectionQualitativeReview"@en ;
+    rdfs:domain nias-o:PddCertificateIssuanceRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved section-level qualitative review that complements paragraph-level PDD checks."@en .
+
+nias-o:pddDocumentLevelQualitativeReview a owl:ObjectProperty ;
+    rdfs:label "pddDocumentLevelQualitativeReview"@en ;
+    rdfs:domain nias-o:PddCertificateIssuanceRequest ;
+    rdfs:range nias-o:DocumentReference ;
+    skos:definition "Reference to the approved document-level qualitative review for the full PDD package."@en .
+
 nias-o:reportedIndicatorLabel a owl:DatatypeProperty ;
     rdfs:label "reportedIndicatorLabel"@en ;
     rdfs:domain nias-o:MonitoringReport ;
@@ -911,6 +928,30 @@ nias-o:reviewerFeedback a owl:DatatypeProperty ;
     rdfs:domain nias-o:DocumentFieldReview ;
     rdfs:range xsd:string ;
     skos:definition "Reviewer feedback for one field-level review finding."@en .
+
+nias-o:sectionQualitativeJudgement a owl:DatatypeProperty ;
+    rdfs:label "sectionQualitativeJudgement"@en ;
+    rdfs:domain nias-o:DocumentReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Structured qualitative judgment that summarizes section-level review outcomes across related anchors."@en .
+
+nias-o:documentLevelQualitativeJudgement a owl:DatatypeProperty ;
+    rdfs:label "documentLevelQualitativeJudgement"@en ;
+    rdfs:domain nias-o:DocumentReview ;
+    rdfs:range xsd:string ;
+    skos:definition "Structured qualitative judgment that summarizes full-document coherence and completion."@en .
+
+nias-o:reviewScope a owl:DatatypeProperty ;
+    rdfs:label "reviewScope"@en ;
+    rdfs:domain skos:Concept ;
+    rdfs:range xsd:string ;
+    skos:definition "Normalized review scope label used in the canonical question catalog (e.g., paragraph, section, document)."@en .
+
+nias-o:linkedPrinciple a owl:ObjectProperty ;
+    rdfs:label "linkedPrinciple"@en ;
+    rdfs:domain skos:Concept ;
+    rdfs:range skos:Concept ;
+    skos:definition "Links a canonical guiding or review question to one or more related principles."@en .
 
 nias-o:stakeholderCommentConsideration a owl:DatatypeProperty ;
     rdfs:label "stakeholderCommentConsideration"@en ;

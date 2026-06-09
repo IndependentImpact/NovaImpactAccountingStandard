@@ -2,7 +2,7 @@
 
 ### Accounting principles
 
-Controlled vocabulary of principles that agents should adhere to when accounting for the impact of their activities, ensuring impact reports are relevant, complete, consistent, accurate, conservative, verifiable, and accountable.
+Controlled vocabulary of principles that agents should adhere to when accounting for the impact of their activities, ensuring impact reports are relevant, complete, consistent, accurate, conservative, verifiable, and accountable. Canonical guiding and reviewer questions are provided in 03-b Guiding and Review Questions.
 
 | Term | Definition | IRI |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ Controlled vocabulary of principles that agents should adhere to when accounting
 
 ### Impact principles
 
-Controlled vocabulary of guiding principles that activities and their owners should adhere to when pursuing net-positive outcomes for society or the environment.
+Controlled vocabulary of guiding principles that activities and their owners should adhere to when pursuing net-positive outcomes for society or the environment. Canonical guiding and reviewer questions are provided in 03-b Guiding and Review Questions.
 
 | Term | Definition | IRI |
 | --- | --- | --- |

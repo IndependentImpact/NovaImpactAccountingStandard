@@ -42,7 +42,7 @@ nias-cs:adaptiveness a skos:Concept ;
     skos:topConceptOf nias-cs:ImpactPrinciple .
 
 nias-cs:ImpactPrinciple a skos:ConceptScheme ;
-    skos:definition "Controlled vocabulary of guiding principles that activities and their owners should adhere to when pursuing net-positive outcomes for society or the environment." ;
+    skos:definition "Controlled vocabulary of guiding principles that activities and their owners should adhere to when pursuing net-positive outcomes for society or the environment. Canonical guiding and reviewer questions are provided in 03-b Guiding and Review Questions." ;
     skos:hasTopConcept nias-cs:adaptiveness,
         nias-cs:do-no-harm,
         nias-cs:equity-and-inclusivity,
@@ -98,7 +98,7 @@ nias-cs:accounting-accountability a skos:Concept ;
     skos:topConceptOf nias-cs:AccountingPrinciple .
 
 nias-cs:AccountingPrinciple a skos:ConceptScheme ;
-    skos:definition "Controlled vocabulary of principles that agents should adhere to when accounting for the impact of their activities, ensuring impact reports are relevant, complete, consistent, accurate, conservative, verifiable, and accountable." ;
+    skos:definition "Controlled vocabulary of principles that agents should adhere to when accounting for the impact of their activities, ensuring impact reports are relevant, complete, consistent, accurate, conservative, verifiable, and accountable. Canonical guiding and reviewer questions are provided in 03-b Guiding and Review Questions." ;
     skos:hasTopConcept nias-cs:accounting-accountability,
         nias-cs:accounting-accuracy,
         nias-cs:accounting-completeness,

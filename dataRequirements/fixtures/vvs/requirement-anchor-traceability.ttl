@@ -171,6 +171,48 @@ trace:proof-req-pdd-003-section-c a nias-o:RequirementCoverageProof ;
     nias-o:coverageReviewDecision nias-cs:review-approve ;
     nias-o:coverageReviewerFeedback "Section C schema evidence is sufficient for REQ-PDD-003." .
 
+trace:proof-req-pdd-004-section-review-completion a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-004-section-review-completion ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-004 ;
+    nias-o:coverageRequirementId "REQ-PDD-004" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd004Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-section-review-qualitative-completion ;
+    nias-o:coverageAnchorKey "pdd.sectionReview.qualitativeCompletion" ;
+    nias-o:coverageAnchorTitle "Section C. Stakeholder Engagement" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionReview.qualitativeCompletion> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-section-qualitative ;
+    nias-o:coverageReviewedContent "Section-level qualitative completion evidence is present and approved." ;
+    nias-o:coverageReviewedContentHash "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Section-level qualitative completion evidence is sufficient for REQ-PDD-004." .
+
+trace:proof-req-pdd-005-document-review-completion a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-005-document-review-completion ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-005 ;
+    nias-o:coverageRequirementId "REQ-PDD-005" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:coverageShape nias-o:ReqPdd005Shape ;
+    nias-o:coverageAnchorDefinition nias-o:pdd-document-level-qualitative-completion ;
+    nias-o:coverageAnchorKey "pdd.documentLevel.qualitativeCompletion" ;
+    nias-o:coverageAnchorTitle "Section B. Impact Claims And Monitoring" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.documentLevel.qualitativeCompletion> ;
+    nias-o:coverageReviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "pdd" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracepddcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracepddschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "PDD-composite-2026-06-01" ;
+    nias-o:coverageReviewField trace:validation-review-pdd-document-qualitative ;
+    nias-o:coverageReviewedContent "Document-level qualitative completion evidence is present and approved." ;
+    nias-o:coverageReviewedContentHash "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Document-level qualitative completion evidence is sufficient for REQ-PDD-005." .
+
 trace:proof-req-dlr-001-pdd-data-parameters a nias-o:RequirementCoverageProof ;
     nias-o:coverageRequirementMapping nias-map:req-dlr-001-pdd-data-parameters ;
     nias-o:coverageRequirement nias-vvs:REQ-DLR-001 ;
@@ -402,6 +444,48 @@ trace:proof-req-cross-001-monitoring-observation a nias-o:RequirementCoveragePro
     nias-o:coverageReviewDecision nias-cs:review-approve ;
     nias-o:coverageReviewerFeedback "Observation evidence is sufficient for REQ-MR-001 and REQ-CROSS-001." .
 
+trace:proof-req-pdd-004-monitoring-section-review-evidence a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-004-monitoring-section-review-evidence ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-004 ;
+    nias-o:coverageRequirementId "REQ-PDD-004" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqPdd004Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-section-review-evidence ;
+    nias-o:coverageAnchorKey "monitoring.sectionReviewEvidence" ;
+    nias-o:coverageAnchorTitle "Monitoring Report" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.sectionReviewEvidence> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-section-qualitative ;
+    nias-o:coverageReviewedContent "Section-level qualitative evidence confirms monitoring narrative coherence." ;
+    nias-o:coverageReviewedContentHash "sha256:1212121212121212121212121212121212121212121212121212121212121212" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Section-level qualitative evidence is sufficient for REQ-PDD-004." .
+
+trace:proof-req-pdd-005-monitoring-document-review-evidence a nias-o:RequirementCoverageProof ;
+    nias-o:coverageRequirementMapping nias-map:req-pdd-005-monitoring-document-review-evidence ;
+    nias-o:coverageRequirement nias-vvs:REQ-PDD-005 ;
+    nias-o:coverageRequirementId "REQ-PDD-005" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:coverageShape nias-o:ReqPdd005Shape ;
+    nias-o:coverageAnchorDefinition nias-o:monitoring-document-level-review-evidence ;
+    nias-o:coverageAnchorKey "monitoring.documentLevelReviewEvidence" ;
+    nias-o:coverageAnchorTitle "Calculation Resources" ;
+    nias-o:coverageArtifactAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.documentLevelReviewEvidence> ;
+    nias-o:coverageReviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:coverageReviewedArtifactType "monitoring-report" ;
+    nias-o:coverageReviewedArtifactContentCid "bafytracemrcontentcid" ;
+    nias-o:coverageReviewedArtifactSchemaCid "bafytracemrschemacid" ;
+    nias-o:coverageReviewedArtifactSchemaVersionLabel "MonitoringReport-6.0.0" ;
+    nias-o:coverageReviewField trace:verification-review-monitoring-document-qualitative ;
+    nias-o:coverageReviewedContent "Document-level qualitative evidence confirms full package coherence." ;
+    nias-o:coverageReviewedContentHash "sha256:3434343434343434343434343434343434343434343434343434343434343434" ;
+    nias-o:coverageReviewDecision nias-cs:review-approve ;
+    nias-o:coverageReviewerFeedback "Document-level qualitative evidence is sufficient for REQ-PDD-005." .
+
 trace:validation-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSet ;
     dcterms:identifier "trace-validation-review-v1" ;
     dcterms:source "requirement-anchor-traceability.ttl" ;
@@ -413,7 +497,9 @@ trace:validation-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSet 
         trace:proof-req-pdd-001-technologies,
         trace:proof-req-pdd-002-methodology,
         trace:proof-req-pdd-002-declared-impacts,
-        trace:proof-req-pdd-003-section-c .
+        trace:proof-req-pdd-003-section-c,
+        trace:proof-req-pdd-004-section-review-completion,
+        trace:proof-req-pdd-005-document-review-completion .
 
 trace:verification-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSet ;
     dcterms:identifier "trace-verification-review-v1" ;
@@ -432,13 +518,17 @@ trace:verification-coverage-proof-sidecar-v1 a nias-o:RequirementCoverageProofSe
         trace:proof-req-mr-002-monitoring-resources,
         trace:proof-req-cross-001-pdd-declared-impacts,
         trace:proof-req-cross-001-monitoring-package-summary,
-        trace:proof-req-cross-001-monitoring-observation .
+        trace:proof-req-cross-001-monitoring-observation,
+        trace:proof-req-pdd-004-monitoring-section-review-evidence,
+        trace:proof-req-pdd-005-monitoring-document-review-evidence .
 
 trace:proof-req-pdd-001-section-a dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
 trace:proof-req-pdd-001-technologies dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
 trace:proof-req-pdd-002-methodology dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
 trace:proof-req-pdd-002-declared-impacts dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
 trace:proof-req-pdd-003-section-c dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-004-section-review-completion dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-005-document-review-completion dcterms:isPartOf trace:validation-coverage-proof-sidecar-v1 .
 
 trace:proof-req-dlr-001-pdd-data-parameters dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
 trace:proof-req-dlr-001-raw-dataset dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
@@ -451,6 +541,8 @@ trace:proof-req-mr-002-monitoring-resources dcterms:isPartOf trace:verification-
 trace:proof-req-cross-001-pdd-declared-impacts dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
 trace:proof-req-cross-001-monitoring-package-summary dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
 trace:proof-req-cross-001-monitoring-observation dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-004-monitoring-section-review-evidence dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
+trace:proof-req-pdd-005-monitoring-document-review-evidence dcterms:isPartOf trace:verification-coverage-proof-sidecar-v1 .
 
 trace:pdd-section-a-node a nias-o:PddSectionAReport .
 trace:pdd-section-b-node a nias-o:PddSectionBReport .
@@ -516,6 +608,26 @@ trace:monitoring-node a nias-o:MonitoringReport .
     nias-o:renderHeading "Section C. Stakeholder Engagement" ;
     nias-o:contentHash "sha256:6666666666666666666666666666666666666666666666666666666666666666" .
 
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionReview.qualitativeCompletion>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-section-review-qualitative-completion ;
+    nias-o:anchorKey "pdd.sectionReview.qualitativeCompletion" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-c-node ;
+    nias-o:sourcePath nias-o:pddSectionQualitativeReview ;
+    nias-o:renderHeading "Section-Level Qualitative Review Completion" ;
+    nias-o:contentHash "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.documentLevel.qualitativeCompletion>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:pdd-document-level-qualitative-completion ;
+    nias-o:anchorKey "pdd.documentLevel.qualitativeCompletion" ;
+    dcterms:isPartOf trace:pdd-submission-v1 ;
+    nias-o:sourceNode trace:pdd-section-c-node ;
+    nias-o:sourcePath nias-o:pddDocumentLevelQualitativeReview ;
+    nias-o:renderHeading "Document-Level Qualitative Review Completion" ;
+    nias-o:contentHash "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" .
+
 <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/dlr-submission-v1/anchors/dlr.rawDataset>
     a nias-o:ArtifactAnchor ;
     nias-o:anchorDefinition nias-o:dlr-raw-dataset ;
@@ -574,6 +686,26 @@ trace:monitoring-node a nias-o:MonitoringReport .
     nias-o:renderHeading "Calculation Resources" ;
     nias-o:contentHash "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" .
 
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.sectionReviewEvidence>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:monitoring-section-review-evidence ;
+    nias-o:anchorKey "monitoring.sectionReviewEvidence" ;
+    dcterms:isPartOf trace:monitoring-submission-v1 ;
+    nias-o:sourceNode trace:monitoring-node ;
+    nias-o:sourcePath nias-o:sectionQualitativeJudgement ;
+    nias-o:renderHeading "Section-Level Qualitative Review Evidence" ;
+    nias-o:contentHash "sha256:1212121212121212121212121212121212121212121212121212121212121212" .
+
+<https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.documentLevelReviewEvidence>
+    a nias-o:ArtifactAnchor ;
+    nias-o:anchorDefinition nias-o:monitoring-document-level-review-evidence ;
+    nias-o:anchorKey "monitoring.documentLevelReviewEvidence" ;
+    dcterms:isPartOf trace:monitoring-submission-v1 ;
+    nias-o:sourceNode trace:monitoring-node ;
+    nias-o:sourcePath nias-o:documentLevelQualitativeJudgement ;
+    nias-o:renderHeading "Document-Level Qualitative Review Evidence" ;
+    nias-o:contentHash "sha256:3434343434343434343434343434343434343434343434343434343434343434" .
+
 trace:validation-review-v1 a data:Document,
         nias-o:GenericDocumentReview ;
     dcterms:title "Validation report v1" ;
@@ -590,7 +722,9 @@ trace:validation-review-v1 a data:Document,
         trace:validation-review-pdd-technologies,
         trace:validation-review-pdd-methodology,
         trace:validation-review-pdd-declared-impacts,
-        trace:validation-review-pdd-section-c ;
+        trace:validation-review-pdd-section-c,
+        trace:validation-review-pdd-section-qualitative,
+        trace:validation-review-pdd-document-qualitative ;
     nias-o:finalReviewDecision nias-cs:review-approve ;
     nias-o:hasWorkflowSubmission trace:validation-review-workflow-submission-v1 ;
     nias-o:isEncrypted false ;
@@ -625,7 +759,9 @@ trace:verification-review-v1 a data:Document,
         trace:verification-review-dlr-final-dataset,
         trace:verification-review-monitoring-package-summary,
         trace:verification-review-monitoring-observation,
-        trace:verification-review-monitoring-resources ;
+        trace:verification-review-monitoring-resources,
+        trace:verification-review-monitoring-section-qualitative,
+        trace:verification-review-monitoring-document-qualitative ;
     nias-o:finalReviewDecision nias-cs:review-approve ;
     nias-o:hasWorkflowSubmission trace:verification-review-workflow-submission-v1 ;
     nias-o:isEncrypted false ;
@@ -682,6 +818,22 @@ trace:validation-review-pdd-section-c a nias-o:DocumentFieldReview ;
     nias-o:originalResponse "The PDD Section C content conforms to PDDxC-4.0.0." ;
     nias-o:reviewerDecision nias-cs:review-approve ;
     nias-o:reviewerFeedback "Section C schema evidence is sufficient for REQ-PDD-003." .
+
+trace:validation-review-pdd-section-qualitative a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-section-qualitative ;
+    nias-o:fieldTitle "PDD section-level qualitative completion" ;
+    nias-o:fieldPrompt "Validate section-level qualitative completion reference." ;
+    nias-o:originalResponse "Section-level qualitative completion evidence is present and approved." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Section-level qualitative completion evidence is sufficient for REQ-PDD-004." .
+
+trace:validation-review-pdd-document-qualitative a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-pdd-document-qualitative ;
+    nias-o:fieldTitle "PDD document-level qualitative completion" ;
+    nias-o:fieldPrompt "Validate document-level qualitative completion reference." ;
+    nias-o:originalResponse "Document-level qualitative completion evidence is present and approved." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Document-level qualitative completion evidence is sufficient for REQ-PDD-005." .
 
 trace:verification-review-pdd-declared-impacts a nias-o:DocumentFieldReview ;
     nias-o:reviewTarget trace:target-pdd-declared-impacts-verification ;
@@ -747,6 +899,22 @@ trace:verification-review-monitoring-resources a nias-o:DocumentFieldReview ;
     nias-o:reviewerDecision nias-cs:review-approve ;
     nias-o:reviewerFeedback "Resource evidence is sufficient for REQ-MR-002." .
 
+trace:verification-review-monitoring-section-qualitative a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-monitoring-section-qualitative ;
+    nias-o:fieldTitle "Monitoring section-level qualitative evidence" ;
+    nias-o:fieldPrompt "Verify section-level qualitative review evidence." ;
+    nias-o:originalResponse "Section-level qualitative evidence confirms monitoring narrative coherence." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Section-level qualitative evidence is sufficient for REQ-PDD-004." .
+
+trace:verification-review-monitoring-document-qualitative a nias-o:DocumentFieldReview ;
+    nias-o:reviewTarget trace:target-monitoring-document-qualitative ;
+    nias-o:fieldTitle "Monitoring document-level qualitative evidence" ;
+    nias-o:fieldPrompt "Verify document-level qualitative review evidence." ;
+    nias-o:originalResponse "Document-level qualitative evidence confirms full package coherence." ;
+    nias-o:reviewerDecision nias-cs:review-approve ;
+    nias-o:reviewerFeedback "Document-level qualitative evidence is sufficient for REQ-PDD-005." .
+
 trace:target-pdd-section-a a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact trace:pdd-submission-v1 ;
     nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionA> .
@@ -766,6 +934,14 @@ trace:target-pdd-declared-impacts-validation a nias-o:ReviewTarget ;
 trace:target-pdd-section-c a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact trace:pdd-submission-v1 ;
     nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionC> .
+
+trace:target-pdd-section-qualitative a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.sectionReview.qualitativeCompletion> .
+
+trace:target-pdd-document-qualitative a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:pdd-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/pdd-submission-v1/anchors/pdd.documentLevel.qualitativeCompletion> .
 
 trace:target-pdd-declared-impacts-verification a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact trace:pdd-submission-v1 ;
@@ -798,6 +974,14 @@ trace:target-monitoring-observation a nias-o:ReviewTarget ;
 trace:target-monitoring-resources a nias-o:ReviewTarget ;
     nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
     nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.resources> .
+
+trace:target-monitoring-section-qualitative a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.sectionReviewEvidence> .
+
+trace:target-monitoring-document-qualitative a nias-o:ReviewTarget ;
+    nias-o:reviewedArtifact trace:monitoring-submission-v1 ;
+    nias-o:reviewedAnchor <https://nova.org.za/novaimpactaccountingstandard/fixtures/requirement-anchor-traceability/monitoring-submission-v1/anchors/monitoring.documentLevelReviewEvidence> .
 
 trace:project-1 a aiao:Project ;
     dcterms:title "Simulated solar irrigation impact project" ;

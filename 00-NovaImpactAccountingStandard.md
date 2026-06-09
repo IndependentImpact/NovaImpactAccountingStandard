@@ -9,6 +9,8 @@
 
 !INCLUDE "03-a-Principles.md"
 
+!INCLUDE "03-b-GuidingAndReviewQuestions.md"
+
 !INCLUDE "04-a-KnowledgeAndSkillsReputationRules.md"
 
 !INCLUDE "05-a-ActivityScoringRules.md"

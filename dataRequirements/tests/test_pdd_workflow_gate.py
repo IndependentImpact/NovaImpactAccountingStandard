@@ -17,13 +17,32 @@ PDD_CIR = URIRef(f"{NIAS}requests/pdd-alpha-cir")
 PDD_A_SCHEMA = URIRef(f"{NIAS}document-schema/PDDxA-1.0.0")
 PDD_B_SCHEMA = URIRef(f"{NIAS}document-schema/PDDxB-9.0.0")
 PDD_C_SCHEMA = URIRef(f"{NIAS}document-schema/PDDxC-4.0.0")
+PDD_SECTION_QUAL_SCHEMA = URIRef(f"{NIAS}document-schema/PDDxSectionQualitative-1.0.0")
+PDD_DOCUMENT_QUAL_SCHEMA = URIRef(f"{NIAS}document-schema/PDDx-1.0.0")
 REVIEW_APPROVE = URIRef(f"{NIAS}review-approve")
 REVIEW_REJECT = URIRef(f"{NIAS}review-reject")
 
 GATE_EXPECTATIONS = {
-    NIAS.pddSectionAValidationReview: PDD_A_SCHEMA,
-    NIAS.pddSectionBValidationReview: PDD_B_SCHEMA,
-    NIAS.pddSectionCValidationReview: PDD_C_SCHEMA,
+    NIAS.pddSectionAValidationReview: {
+        "schema": PDD_A_SCHEMA,
+        "review_class": NIAS.GenericDocumentReview,
+    },
+    NIAS.pddSectionBValidationReview: {
+        "schema": PDD_B_SCHEMA,
+        "review_class": NIAS.GenericDocumentReview,
+    },
+    NIAS.pddSectionCValidationReview: {
+        "schema": PDD_C_SCHEMA,
+        "review_class": NIAS.GenericDocumentReview,
+    },
+    NIAS.pddSectionQualitativeReview: {
+        "schema": PDD_SECTION_QUAL_SCHEMA,
+        "review_class": NIAS.GlobalQualitativeDocumentReview,
+    },
+    NIAS.pddDocumentLevelQualitativeReview: {
+        "schema": PDD_DOCUMENT_QUAL_SCHEMA,
+        "review_class": NIAS.GlobalQualitativeDocumentReview,
+    },
 }
 
 
@@ -52,7 +71,7 @@ def _document_message_id(graph, document):
     return f"{topic_id}-{timestamp}"
 
 
-def _resolve_review_reference(graph, reference_node):
+def _resolve_review_reference(graph, reference_node, expected_review_class):
     ipfs_uri = graph.value(reference_node, NIAS.resourceIpfsUri)
     message_id = graph.value(reference_node, NIAS.documentMessageId)
     if ipfs_uri is None or message_id is None:
@@ -62,7 +81,7 @@ def _resolve_review_reference(graph, reference_node):
         document
         for document in graph.subjects(NIAS.resourceIpfsUri, ipfs_uri)
         if (document, RDF.type, DATA.Document) in graph
-        and (document, RDF.type, NIAS.GenericDocumentReview) in graph
+        and (document, RDF.type, expected_review_class) in graph
     ]
     matches = [
         document
@@ -147,7 +166,9 @@ def pdd_cir_gate_errors(graph, pdd_cir):
         errors.append("PDD-CIR has no workflow subject")
 
     resolved_reviews = {}
-    for reference_property, expected_schema in GATE_EXPECTATIONS.items():
+    for reference_property, expectation in GATE_EXPECTATIONS.items():
+        expected_schema = expectation["schema"]
+        expected_review_class = expectation["review_class"]
         label = str(reference_property).split("/")[-1]
         references = list(graph.objects(pdd_cir, reference_property))
         if not references:
@@ -157,7 +178,9 @@ def pdd_cir_gate_errors(graph, pdd_cir):
         candidate_errors = []
         accepted_review = None
         for reference in references:
-            review_document, resolution_error = _resolve_review_reference(graph, reference)
+            review_document, resolution_error = _resolve_review_reference(
+                graph, reference, expected_review_class
+            )
             if resolution_error:
                 candidate_errors.append(resolution_error)
                 continue
@@ -181,7 +204,7 @@ def pdd_cir_gate_errors(graph, pdd_cir):
         resolved_reviews[reference_property] = accepted_review
 
     if len(set(resolved_reviews.values())) != len(resolved_reviews):
-        errors.append("PDD-CIR review references must resolve to three distinct reviews")
+        errors.append("PDD-CIR review references must resolve to five distinct reviews")
 
     return errors
 
@@ -320,6 +343,43 @@ class PddWorkflowGateTests(unittest.TestCase):
 
         self.assertIn(
             "pddSectionAValidationReview: reviewed document is stale for this PDD section",
+            errors,
+        )
+
+    def test_missing_global_review_layer_blocks_pdd_cir(self):
+        reference = self.graph.value(PDD_CIR, NIAS.pddDocumentLevelQualitativeReview)
+        self.graph.remove((PDD_CIR, NIAS.pddDocumentLevelQualitativeReview, reference))
+
+        errors = pdd_cir_gate_errors(self.graph, PDD_CIR)
+
+        self.assertIn(
+            "pddDocumentLevelQualitativeReview must have at least one DocumentReference",
+            errors,
+        )
+
+    def test_global_review_wrong_subject_blocks_pdd_cir(self):
+        submission = URIRef(
+            f"{NIAS}submissions/pdd-alpha-document-qualitative-review"
+        )
+        self.graph.remove((submission, NIAS.workflowSubject, NIAS["projects/pdd-alpha"]))
+        self.graph.add((submission, NIAS.workflowSubject, NIAS["projects/pdd-beta"]))
+
+        errors = pdd_cir_gate_errors(self.graph, PDD_CIR)
+
+        self.assertIn(
+            "pddDocumentLevelQualitativeReview: review workflow subject does not match PDD-CIR",
+            errors,
+        )
+
+    def test_global_review_wrong_artifact_schema_blocks_pdd_cir(self):
+        reviewed_doc = URIRef(f"{NIAS}documents/pdd-alpha-package")
+        self.graph.remove((reviewed_doc, NIAS.documentSchema, PDD_DOCUMENT_QUAL_SCHEMA))
+        self.graph.add((reviewed_doc, NIAS.documentSchema, PDD_B_SCHEMA))
+
+        errors = pdd_cir_gate_errors(self.graph, PDD_CIR)
+
+        self.assertIn(
+            "pddDocumentLevelQualitativeReview: reviewed document has the wrong PDD section schema",
             errors,
         )
 

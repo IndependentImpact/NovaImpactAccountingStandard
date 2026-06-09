@@ -1,7 +1,10 @@
 # PDD Workflow Gate Contract
 
 This document defines the application-level gate that unlocks the PDD
-certificate issuance request after PDD-A, PDD-B, and PDD-C validation.
+certificate issuance request after:
+
+1. PDD-A, PDD-B, and PDD-C paragraph/anchor-level validation, and
+2. mandatory section-level and document-level qualitative review completion.
 
 The canonical SHACL shapes validate each document payload. The workflow gate is
 different: it resolves references across submitted ledger artifacts and checks
@@ -17,6 +20,8 @@ The gate receives:
   - `nias-o:pddSectionAValidationReview`.
   - `nias-o:pddSectionBValidationReview`.
   - `nias-o:pddSectionCValidationReview`.
+  - `nias-o:pddSectionQualitativeReview`.
+  - `nias-o:pddDocumentLevelQualitativeReview`.
 - Ledger-resolved review documents referenced by those values.
 - Ledger-resolved source PDD documents linked from each review by
   `nias-o:isReviewOf`.
@@ -30,6 +35,8 @@ The PDD-CIR can proceed only when the review references resolve to this set:
 | `nias-o:pddSectionAValidationReview` | `nias-o:GenericDocumentReview` | `document-schema/PDDxA-1.0.0` | `nias-cs:review-approve` |
 | `nias-o:pddSectionBValidationReview` | `nias-o:GenericDocumentReview` | `document-schema/PDDxB-9.0.0` | `nias-cs:review-approve` |
 | `nias-o:pddSectionCValidationReview` | `nias-o:GenericDocumentReview` | `document-schema/PDDxC-4.0.0` | `nias-cs:review-approve` |
+| `nias-o:pddSectionQualitativeReview` | `nias-o:GlobalQualitativeDocumentReview` | `document-schema/PDDxSectionQualitative-1.0.0` | `nias-cs:review-approve` |
+| `nias-o:pddDocumentLevelQualitativeReview` | `nias-o:GlobalQualitativeDocumentReview` | `document-schema/PDDx-1.0.0` | `nias-cs:review-approve` |
 
 ## Gate Checks
 
@@ -48,11 +55,11 @@ For each section reference, the workflow shell or Fluree-backed service must:
    records.
 7. Confirm the reviewed PDD document is the latest known artifact for that
    workflow subject and section schema (stale links fail).
-8. Confirm the three resolved review documents are distinct.
+8. Confirm the five resolved review documents are distinct.
 
 The gate must accept multiple candidate references per section and pass when at
 least one candidate resolves to an approved, current review for the expected
-section. The gate fails if references are missing, unresolved, ambiguous,
+section/layer. The gate fails if references are missing, unresolved, ambiguous,
 rejected, stale, incomplete, linked to the wrong section schema, linked to a
 different workflow subject, or duplicated across sections.
 
@@ -76,11 +83,21 @@ A successful gate returns a normalized review set to the PDD-CIR form:
     "document": "https://nova.org.za/novaimpactaccountingstandard/reviews/...",
     "documentMessageId": "0.0.1001-2026-01-06T00:00:00Z",
     "resourceIpfsUri": "ipfs://..."
+  },
+  "pddSectionQualitativeReview": {
+    "document": "https://nova.org.za/novaimpactaccountingstandard/reviews/...",
+    "documentMessageId": "0.0.1001-2026-01-07T00:00:00Z",
+    "resourceIpfsUri": "ipfs://..."
+  },
+  "pddDocumentLevelQualitativeReview": {
+    "document": "https://nova.org.za/novaimpactaccountingstandard/reviews/...",
+    "documentMessageId": "0.0.1001-2026-01-08T00:00:00Z",
+    "resourceIpfsUri": "ipfs://..."
   }
 }
 ```
 
-The generated `PddCertificateIssuanceRequestUiShape` can then write the three
+The generated `PddCertificateIssuanceRequestUiShape` can then write the five
 `DocumentReference` values, but the workflow shell is responsible for ensuring
 that the values came from this gate rather than from unchecked free text.
 

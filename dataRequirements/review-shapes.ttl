@@ -109,6 +109,24 @@ nias-o:GenericDocumentReviewShape a sh:NodeShape ;
     sh:targetClass nias-o:GenericDocumentReview ;
     sh:node nias-o:DocumentReviewShape .
 
+nias-o:GlobalQualitativeDocumentReviewShape a sh:NodeShape ;
+    sh:targetClass nias-o:GlobalQualitativeDocumentReview ;
+    sh:node nias-o:DocumentReviewShape ;
+    sh:property [
+        sh:path nias-o:sectionQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A global qualitative review must include a section-level qualitative judgment summary."@en ;
+    ] ;
+    sh:property [
+        sh:path nias-o:documentLevelQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A global qualitative review must include a document-level qualitative judgment summary."@en ;
+    ] .
+
 nias-o:VerifiedImpactCertificateIssuanceRequestReviewShape a sh:NodeShape ;
     sh:targetClass nias-o:VerifiedImpactCertificateIssuanceRequestReview ;
     sh:node nias-o:DocumentReviewShape ;

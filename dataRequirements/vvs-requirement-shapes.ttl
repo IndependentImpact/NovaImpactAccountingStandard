@@ -115,6 +115,54 @@ nias-o:ReqPdd003Shape a sh:NodeShape ;
     ] .
 
 # ---------------------------------------------------------------------------
+# REQ-PDD-004 — Section-level qualitative review completion
+# ---------------------------------------------------------------------------
+
+nias-o:ReqPddQualitativeReferenceShape a sh:NodeShape ;
+    sh:property [
+        sh:path nias-o:documentMessageId ;
+        sh:name "REQ-PDD-004" ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "[REQ-PDD-004] A qualitative review reference must include documentMessageId."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:resourceIpfsUri ;
+        sh:name "REQ-PDD-004" ;
+        sh:minCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:message "[REQ-PDD-004] A qualitative review reference must include resourceIpfsUri."@en
+    ] .
+
+nias-o:ReqPdd004Shape a sh:NodeShape ;
+    sh:name "REQ-PDD-004" ;
+    sh:targetClass nias-o:PddCertificateIssuanceRequest ;
+    sh:property [
+        sh:path nias-o:pddSectionQualitativeReview ;
+        sh:name "REQ-PDD-004" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node nias-o:ReqPddQualitativeReferenceShape ;
+        sh:message "[REQ-PDD-004] A PDD certificate issuance request must include one complete section-level qualitative review reference (nias-o:pddSectionQualitativeReview)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# REQ-PDD-005 — Document-level qualitative review completion
+# ---------------------------------------------------------------------------
+
+nias-o:ReqPdd005Shape a sh:NodeShape ;
+    sh:name "REQ-PDD-005" ;
+    sh:targetClass nias-o:PddCertificateIssuanceRequest ;
+    sh:property [
+        sh:path nias-o:pddDocumentLevelQualitativeReview ;
+        sh:name "REQ-PDD-005" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node nias-o:ReqPddQualitativeReferenceShape ;
+        sh:message "[REQ-PDD-005] A PDD certificate issuance request must include one complete document-level qualitative review reference (nias-o:pddDocumentLevelQualitativeReview)."@en
+    ] .
+
+# ---------------------------------------------------------------------------
 # REQ-DLR-001 — Data Lineage Report evidence traceability
 #
 # Requirement text: Every data parameter recorded in a Data Lineage Report
