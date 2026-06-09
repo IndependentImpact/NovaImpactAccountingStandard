@@ -51,3 +51,17 @@ nias-o:monitoring-workflow-evidence a nias-o:AnchorDefinition ;
     nias-o:sourceShape nias-o:WorkflowDocumentSubmissionShape ;
     nias-o:sourcePath nias-o:hasWorkflowSubmission ;
     nias-o:renderOrder 160 .
+
+nias-o:monitoring-section-review-evidence a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.sectionReviewEvidence" ;
+    dcterms:title "Monitoring Report"@en ;
+    nias-o:sourceShape nias-o:GlobalQualitativeDocumentReviewShape ;
+    nias-o:sourcePath nias-o:sectionQualitativeJudgement ;
+    nias-o:renderOrder 170 .
+
+nias-o:monitoring-document-level-review-evidence a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "monitoring.documentLevelReviewEvidence" ;
+    dcterms:title "Calculation Resources"@en ;
+    nias-o:sourceShape nias-o:GlobalQualitativeDocumentReviewShape ;
+    nias-o:sourcePath nias-o:documentLevelQualitativeJudgement ;
+    nias-o:renderOrder 180 .

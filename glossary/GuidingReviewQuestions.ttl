@@ -1,0 +1,89 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+nias-cs:GuidingReviewQuestionCatalog a skos:ConceptScheme ;
+    skos:prefLabel "Guiding and review question catalog" ;
+    skos:definition "Canonical 03-b catalog of guiding and review questions with stable IDs, review mandate, scope, and linked principles." ;
+    skos:hasTopConcept
+        nias-cs:GQ-001,
+        nias-cs:GQ-002,
+        nias-cs:GQ-003,
+        nias-cs:GQ-004,
+        nias-cs:GQ-005,
+        nias-cs:GQ-006,
+        nias-cs:GQ-007,
+        nias-cs:GQ-008 .
+
+nias-cs:GQ-001 a skos:Concept ;
+    skos:prefLabel "GQ-001" ;
+    skos:definition "Does the stated purpose clearly define the intended positive impact and its link to the target environment?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-001" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:reviewScope "paragraph" ;
+    nias-o:linkedPrinciple nias-cs:accounting-relevance .
+
+nias-cs:GQ-002 a skos:Concept ;
+    skos:prefLabel "GQ-002" ;
+    skos:definition "Is the justification for the activity purpose complete and supported by evidence or baseline data?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-002" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:reviewScope "paragraph" ;
+    nias-o:linkedPrinciple nias-cs:accounting-completeness .
+
+nias-cs:GQ-003 a skos:Concept ;
+    skos:prefLabel "GQ-003" ;
+    skos:definition "Is the implemented activity consistent with its original stated purpose?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-003" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:reviewScope "paragraph" ;
+    nias-o:linkedPrinciple nias-cs:accounting-consistency .
+
+nias-cs:GQ-004 a skos:Concept ;
+    skos:prefLabel "GQ-004" ;
+    skos:definition "Were any material changes to the activity purpose or objectives disclosed and justified?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-004" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:reviewScope "paragraph" ;
+    nias-o:linkedPrinciple nias-cs:accounting-accountability .
+
+nias-cs:GQ-005 a skos:Concept ;
+    skos:prefLabel "GQ-005" ;
+    skos:definition "Is the section-level narrative internally coherent across purpose, target environment, and intervention details?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-005" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:reviewScope "section" ;
+    nias-o:linkedPrinciple nias-cs:accounting-completeness .
+
+nias-cs:GQ-006 a skos:Concept ;
+    skos:prefLabel "GQ-006" ;
+    skos:definition "Does section-level evidence support that implemented interventions match approved section content?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-006" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:reviewScope "section" ;
+    nias-o:linkedPrinciple nias-cs:accounting-accuracy .
+
+nias-cs:GQ-007 a skos:Concept ;
+    skos:prefLabel "GQ-007" ;
+    skos:definition "Does the full PDD present a coherent qualitative argument that all mandatory sections jointly support the claimed impacts?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-007" ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:reviewScope "document" ;
+    nias-o:linkedPrinciple nias-cs:accounting-accountability .
+
+nias-cs:GQ-008 a skos:Concept ;
+    skos:prefLabel "GQ-008" ;
+    skos:definition "Does cross-section and linked-artifact evidence support the full-document qualitative judgment without unresolved contradictions?" ;
+    skos:inScheme nias-cs:GuidingReviewQuestionCatalog ;
+    dcterms:identifier "GQ-008" ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:reviewScope "document" ;
+    nias-o:linkedPrinciple nias-cs:accounting-verifiability .

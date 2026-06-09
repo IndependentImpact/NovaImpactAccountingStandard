@@ -37,6 +37,11 @@ run_generator \
   "## Principles"
 
 run_generator \
+  "$GLOSSARY_DIR/GuidingReviewQuestions.ttl" \
+  "$OUT/03-b-GuidingAndReviewQuestions.md" \
+  "## Guiding And Review Questions"
+
+run_generator \
   "$GLOSSARY_DIR/ReputationRules.ttl" \
   "$OUT/04-a-KnowledgeAndSkillsReputationRules.md" \
   "## Reputation Lifecycle Terms"

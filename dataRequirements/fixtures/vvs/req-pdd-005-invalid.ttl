@@ -1,0 +1,16 @@
+@prefix data: <https://jellyfiiish.xyz/ns/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://nova.org.za/novaimpactaccountingstandard/requests/vvs-pdd-005-invalid>
+    a data:Document,
+        nias-o:PddCertificateIssuanceRequest ;
+    nias-o:pddSectionQualitativeReview [
+        a nias-o:DocumentReference ;
+        nias-o:documentMessageId "0.0.1001-2026-06-01T00:00:00Z" ;
+        nias-o:resourceIpfsUri "ipfs://bafysectionqualreview"^^xsd:anyURI
+    ] ;
+    nias-o:pddDocumentLevelQualitativeReview [
+        a nias-o:DocumentReference ;
+        nias-o:documentMessageId "0.0.1001-2026-06-02T00:00:00Z"
+    ] .

@@ -9,6 +9,7 @@ Keep SKOS Turtle files in `glossary/` as the canonical source and deterministica
 - **In scope:** deterministic generation of the following markdown outputs from SKOS Turtle inputs:
   - `02-a-Glossary.md` ← `glossary/NovaImpactAccountingStandardGlossary.ttl`
   - `03-a-Principles.md` ← `glossary/Principle.ttl`
+  - `03-b-GuidingAndReviewQuestions.md` ← `glossary/GuidingReviewQuestions.ttl`
   - `04-a-KnowledgeAndSkillsReputationRules.md` ← `glossary/ReputationRules.ttl`
   - `05-a-ScoringRules.md` ← `glossary/ScoringRules.ttl`
   - `VVS-RequirementStatus.md` ← `glossary/ValidationVerificationStandard.ttl`

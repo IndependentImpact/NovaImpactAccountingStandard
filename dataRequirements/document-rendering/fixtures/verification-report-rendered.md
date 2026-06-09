@@ -101,6 +101,8 @@ validation-verification-report-input.jsonld
 | REQ-DLR-002 | verification | pdd.sectionB.dataParameterTables - B.5 Data And Parameter Requirements; dlr.finalDataset - Final Dataset Artifact | ReqDlr002Shape | draft evidence present (1) |
 | REQ-MR-001 | verification | pdd.sectionB.declaredImpacts - B.2 Declared Impacts; monitoring.observation - Measured Impact Observation | ReqMr001Shape | draft evidence present (1) |
 | REQ-MR-002 | verification | monitoring.resources - Calculation Resources | ReqMr002Shape | draft evidence present (1) |
+| REQ-PDD-004 | validation | monitoring.sectionReviewEvidence - Monitoring Report | ReqPdd004Shape | not assessed in draft mode |
+| REQ-PDD-005 | validation | monitoring.documentLevelReviewEvidence - Calculation Resources | ReqPdd005Shape | not assessed in draft mode |
 
 
 \newpage

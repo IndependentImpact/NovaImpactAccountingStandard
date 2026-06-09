@@ -16,7 +16,7 @@ Agents should see to it that their activities adhere to the following principles
 
 6. **Adaptiveness.** Activities should, where relevant, be periodically reviewed and adjusted in response to observed outcomes and contextual changes.
 
-The Standard provides activity owners with a rich set of questions that they can use to guide them towards adherence to these principles when they plan their activities. Reviewers are equipped with an equally rich set of questions to evaluate whether an activity adheres to these principles. For the full lists of activity owner questions and reviewer questions, refer to Appendix XXX.
+The Standard provides activity owners with a rich set of questions that they can use to guide them towards adherence to these principles when they plan their activities. Reviewers are equipped with an equally rich set of questions to evaluate whether an activity adheres to these principles. For the canonical question catalog, refer to 03-b Guiding and Review Questions.
 
 ### Accounting principles
 
@@ -36,6 +36,6 @@ When accounting for the impact of their activities, agents should adhere to the 
 
 7. **Accountability.** Those responsible for producing and reporting information should be clearly identified and answerable for its quality.
 
-The Standard provides a rich set of questions to agents (see Appendix TODO) to guide them towards adherence to these principles when accounting for the impacts of their activities. Reviewers are equipped with a similar set of questions (see Appendix TODO) to help them evaluate whether an activity's impact accounting adheres to these principles.
+The Standard provides a rich set of questions to agents (see 03-b Guiding and Review Questions) to guide them towards adherence to these principles when accounting for the impacts of their activities. Reviewers are equipped with a similar set of questions to help them evaluate whether an activity's impact accounting adheres to these principles.
 
 Note: "Accounting" here includes reporting.

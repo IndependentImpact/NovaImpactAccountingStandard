@@ -24,6 +24,12 @@ TTL_FIXTURES = [
         "Purposefulness",
     ),
     (
+        GLOSSARY_DIR / "GuidingReviewQuestions.ttl",
+        "## Guiding And Review Questions",
+        "Guiding and review question catalog",
+        "GQ-001",
+    ),
+    (
         GLOSSARY_DIR / "ReputationRules.ttl",
         "## Reputation Lifecycle Terms",
         "Reputation lifecycle terms",
@@ -115,6 +121,11 @@ class GenerateSkosMarkdownTests(unittest.TestCase):
                 GLOSSARY_DIR / "Principle.ttl",
                 REPO_ROOT / "GenerateStandardText/03-a-Principles.md",
                 "## Principles",
+            ),
+            (
+                GLOSSARY_DIR / "GuidingReviewQuestions.ttl",
+                REPO_ROOT / "GenerateStandardText/03-b-GuidingAndReviewQuestions.md",
+                "## Guiding And Review Questions",
             ),
             (
                 GLOSSARY_DIR / "ReputationRules.ttl",

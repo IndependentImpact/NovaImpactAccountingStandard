@@ -1104,13 +1104,31 @@ nias-ui:PddCertificateIssuanceRequestUiShape a sh:NodeShape ;
         ui:order 9 ;
     ] ;
     sh:property [
+        sh:path nias-o:pddSectionQualitativeReview ;
+        sh:node nias-ui:DocumentReferenceUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Approved section-level qualitative review" ;
+        ui:widget ui:subform ;
+        ui:order 10 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:pddDocumentLevelQualitativeReview ;
+        sh:node nias-ui:DocumentReferenceUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Approved document-level qualitative review" ;
+        ui:widget ui:subform ;
+        ui:order 11 ;
+    ] ;
+    sh:property [
         sh:path nias-o:requestedIssuanceAccountId ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Issuance account ID" ;
         ui:help "Hedera account in shard.realm.num format." ;
-        ui:order 10 ;
+        ui:order 12 ;
     ] .
 
 nias-ui:ReviewTargetUiShape a sh:NodeShape ;
@@ -1310,4 +1328,61 @@ nias-ui:PddSectionCValidationReviewUiShape a sh:NodeShape ;
         ui:label "Final PDD-C review decision" ;
         ui:widget ui:radio ;
         ui:order 4 ;
+    ] .
+
+nias-ui:GlobalQualitativeDocumentReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:GlobalQualitativeDocumentReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Global qualitative review workflow submission" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:isReviewOf ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Reviewed artifact document" ;
+        ui:widget ui:text ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:node nias-ui:DocumentFieldReviewUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 99 ;
+        ui:label "Anchor-level review findings" ;
+        ui:widget ui:subform ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:sectionQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Section-level qualitative judgement" ;
+        ui:widget ui:textarea ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:documentLevelQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Document-level qualitative judgement" ;
+        ui:widget ui:textarea ;
+        ui:order 5 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "Final global qualitative review decision" ;
+        ui:widget ui:radio ;
+        ui:order 6 ;
     ] .

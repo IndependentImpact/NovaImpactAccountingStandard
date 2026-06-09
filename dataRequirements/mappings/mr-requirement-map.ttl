@@ -13,6 +13,10 @@ nias-vvs:REQ-PDD-002 nias-o:verifiedBy nias-o:MonitoringReport .
 
 nias-vvs:REQ-PDD-003 nias-o:verifiedBy nias-o:MonitoringReport .
 
+nias-vvs:REQ-PDD-004 nias-o:verifiedBy nias-o:MonitoringReport .
+
+nias-vvs:REQ-PDD-005 nias-o:verifiedBy nias-o:MonitoringReport .
+
 nias-vvs:REQ-MR-001 nias-o:verifiedBy nias-o:MonitoringReport .
 
 nias-vvs:REQ-MR-002 nias-o:verifiedBy nias-o:MonitoringReport .

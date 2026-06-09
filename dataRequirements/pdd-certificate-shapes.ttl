@@ -46,6 +46,22 @@ nias-o:PddCertificateIssuanceRequestShape a sh:NodeShape ;
         sh:message "A PDD-CIR must reference the approved PDD-C validation review."@en
     ] ;
     sh:property [
+        sh:path nias-o:pddSectionQualitativeReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must reference an approved section-level qualitative review."@en
+    ] ;
+    sh:property [
+        sh:path nias-o:pddDocumentLevelQualitativeReview ;
+        sh:class nias-o:DocumentReference ;
+        sh:node nias-o:DocumentReferenceShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A PDD-CIR must reference an approved document-level qualitative review."@en
+    ] ;
+    sh:property [
         sh:path nias-o:requestedIssuanceAccountId ;
         sh:datatype xsd:string ;
         sh:pattern "^\\d+\\.\\d+\\.\\d+$" ;

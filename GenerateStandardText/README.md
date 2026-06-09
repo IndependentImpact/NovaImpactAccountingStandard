@@ -12,6 +12,7 @@ markdown files from the SKOS Turtle sources in [`../glossary/`](../glossary/).
 | `Spec_GlossaryGenerationSpecification.md` | Maintained specification for the GenerateStandardText generation contract and workflow. |
 | `02-a-Glossary.md` | Generated from `glossary/NovaImpactAccountingStandardGlossary.ttl`. |
 | `03-a-Principles.md` | Generated from `glossary/Principle.ttl`. |
+| `03-b-GuidingAndReviewQuestions.md` | Generated from `glossary/GuidingReviewQuestions.ttl`. |
 | `04-a-KnowledgeAndSkillsReputationRules.md` | Generated from `glossary/ReputationRules.ttl`. |
 | `05-a-ScoringRules.md` | Generated from `glossary/ScoringRules.ttl`. |
 | `VVS-RequirementStatus.md` | Generated from `glossary/ValidationVerificationStandard.ttl`. |

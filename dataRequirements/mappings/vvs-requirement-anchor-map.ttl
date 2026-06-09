@@ -54,6 +54,42 @@ nias-map:req-pdd-003-section-c a nias-o:RequirementMapping ;
     nias-o:evidenceExpectation "The validation reviewer checks that PDD Section C declares conformance to the canonical PDDxC document schema." ;
     dcterms:description "REQ-PDD-003 is anchored at the PDD Section C document-schema declaration."@en .
 
+nias-map:req-pdd-004-section-review-completion a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-004 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-section-review-qualitative-completion ;
+    nias-o:mappedShape nias-o:ReqPdd004Shape ;
+    nias-o:evidenceExpectation "The reviewer checks that the certificate request contains an approved section-level qualitative review reference." ;
+    dcterms:description "REQ-PDD-004 validation coverage is anchored at the PDD section-level qualitative completion reference."@en .
+
+nias-map:req-pdd-004-monitoring-section-review-evidence a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-004 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-section-review-evidence ;
+    nias-o:mappedShape nias-o:ReqPdd004Shape ;
+    nias-o:evidenceExpectation "The reviewer checks the section-level qualitative judgment evidence that complements granular findings." ;
+    dcterms:description "REQ-PDD-004 verification coverage is anchored at section-level qualitative evidence."@en .
+
+nias-map:req-pdd-005-document-review-completion a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-005 ;
+    nias-o:reviewMandate nias-cs:validation ;
+    nias-o:targetArtifactType "pdd" ;
+    nias-o:mappedAnchor nias-o:pdd-document-level-qualitative-completion ;
+    nias-o:mappedShape nias-o:ReqPdd005Shape ;
+    nias-o:evidenceExpectation "The reviewer checks that the certificate request contains an approved document-level qualitative review reference." ;
+    dcterms:description "REQ-PDD-005 validation coverage is anchored at the PDD document-level qualitative completion reference."@en .
+
+nias-map:req-pdd-005-monitoring-document-review-evidence a nias-o:RequirementMapping ;
+    nias-o:mappedRequirement nias-vvs:REQ-PDD-005 ;
+    nias-o:reviewMandate nias-cs:verification ;
+    nias-o:targetArtifactType "monitoring-report" ;
+    nias-o:mappedAnchor nias-o:monitoring-document-level-review-evidence ;
+    nias-o:mappedShape nias-o:ReqPdd005Shape ;
+    nias-o:evidenceExpectation "The reviewer checks the document-level qualitative judgment evidence for full package coherence." ;
+    dcterms:description "REQ-PDD-005 verification coverage is anchored at document-level qualitative evidence."@en .
+
 nias-map:req-dlr-001-pdd-data-parameters a nias-o:RequirementMapping ;
     nias-o:mappedRequirement nias-vvs:REQ-DLR-001 ;
     nias-o:reviewMandate nias-cs:verification ;

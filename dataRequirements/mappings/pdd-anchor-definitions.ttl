@@ -126,3 +126,17 @@ nias-o:pdd-section-c-stakeholder-comment-consideration a nias-o:AnchorDefinition
     nias-o:sourceShape nias-o:PddSectionCShape ;
     nias-o:sourcePath nias-o:stakeholderCommentConsideration ;
     nias-o:renderOrder 330 .
+
+nias-o:pdd-section-review-qualitative-completion a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.sectionReview.qualitativeCompletion" ;
+    dcterms:title "Section C. Stakeholder Engagement"@en ;
+    nias-o:sourceShape nias-o:PddCertificateIssuanceRequestShape ;
+    nias-o:sourcePath nias-o:pddSectionQualitativeReview ;
+    nias-o:renderOrder 340 .
+
+nias-o:pdd-document-level-qualitative-completion a nias-o:AnchorDefinition ;
+    nias-o:anchorKey "pdd.documentLevel.qualitativeCompletion" ;
+    dcterms:title "Section B. Impact Claims And Monitoring"@en ;
+    nias-o:sourceShape nias-o:PddCertificateIssuanceRequestShape ;
+    nias-o:sourcePath nias-o:pddDocumentLevelQualitativeReview ;
+    nias-o:renderOrder 350 .

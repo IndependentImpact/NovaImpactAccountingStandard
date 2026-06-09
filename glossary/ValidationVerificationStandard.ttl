@@ -87,6 +87,40 @@ nias-vvs:REQ-PDD-003 a nias-o:ValidationRequirement,
     rdfs:label "REQ-PDD-003: PDD Section C schema conformance"@en ;
     skos:definition "A PDD Section C report must identify the canonical PDDxC document schema to ensure implementation and monitoring planning content is versioned against the approved standard form."@en .
 
+# REQ-PDD-004 — PDD section-level qualitative review completion
+nias-vvs:REQ-PDD-004 a nias-o:ValidationRequirement,
+        nias-o:VerificationRequirement,
+        aiao:Control ;
+    nias-o:requirementId "REQ-PDD-004" ;
+    nias-o:reviewMandate nias-cs:validation,
+        nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionCReport ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:PddSectionCReport,
+        nias-o:PddCertificateIssuanceRequest,
+        nias-o:MonitoringReport ;
+    nias-o:implementedByShape nias-o:ReqPdd004Shape ;
+    rdfs:label "REQ-PDD-004: Section-level qualitative review completion"@en ;
+    skos:definition "A certificate request package must include approved section-level qualitative review evidence in addition to paragraph-level review findings."@en .
+
+# REQ-PDD-005 — PDD document-level qualitative review completion
+nias-vvs:REQ-PDD-005 a nias-o:ValidationRequirement,
+        nias-o:VerificationRequirement,
+        aiao:Control ;
+    nias-o:requirementId "REQ-PDD-005" ;
+    nias-o:reviewMandate nias-cs:validation,
+        nias-cs:verification ;
+    nias-o:requirementStatus nias-vvs:active ;
+    nias-o:validatedAt nias-o:PddSectionCReport ;
+    nias-o:verifiedBy nias-o:MonitoringReport ;
+    aiao:governs nias-o:PddSectionCReport,
+        nias-o:PddCertificateIssuanceRequest,
+        nias-o:MonitoringReport ;
+    nias-o:implementedByShape nias-o:ReqPdd005Shape ;
+    rdfs:label "REQ-PDD-005: Document-level qualitative review completion"@en ;
+    skos:definition "A certificate request package must include approved document-level qualitative review evidence that confirms full-document qualitative coherence and completion."@en .
+
 # REQ-DLR-001 — DLR evidence lineage
 nias-vvs:REQ-DLR-001 a nias-o:VerificationRequirement,
         aiao:Control ;
@@ -206,7 +240,13 @@ nias-o:PddSectionBReport aiao:isGovernedBy
 
 nias-o:PddSectionCReport aiao:isGovernedBy
         nias-vvs:REQ-PDD-003,
+        nias-vvs:REQ-PDD-004,
+        nias-vvs:REQ-PDD-005,
         nias-vvs:TERM-PDD-METADATA-003 .
+
+nias-o:PddCertificateIssuanceRequest aiao:isGovernedBy
+        nias-vvs:REQ-PDD-004,
+        nias-vvs:REQ-PDD-005 .
 
 nias-o:DataLineageReport aiao:isGovernedBy
         nias-vvs:REQ-DLR-001,
@@ -214,6 +254,8 @@ nias-o:DataLineageReport aiao:isGovernedBy
 
 nias-o:MonitoringReport aiao:isGovernedBy
         nias-vvs:REQ-PDD-003,
+        nias-vvs:REQ-PDD-004,
+        nias-vvs:REQ-PDD-005,
         nias-vvs:REQ-MR-001,
         nias-vvs:REQ-MR-002,
         nias-vvs:REQ-CROSS-001 .

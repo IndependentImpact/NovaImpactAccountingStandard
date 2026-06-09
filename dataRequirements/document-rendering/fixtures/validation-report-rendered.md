@@ -99,6 +99,8 @@ validation-verification-report-input.jsonld
 | REQ-PDD-001 | validation | pdd.sectionA - Section A. Description Of Project; pdd.sectionA.technologiesAndMeasures - A.3 Technologies And Measures | ReqPdd001Shape | draft evidence present (1) |
 | REQ-PDD-002 | validation | pdd.sectionB.methodologyReferences - B.1 Methodology References; pdd.sectionB.declaredImpacts - B.2 Declared Impacts | ReqPdd002Shape | draft evidence present (1) |
 | REQ-PDD-003 | validation | pdd.sectionC - Section C. Stakeholder Engagement | ReqPdd003Shape | draft evidence present (1) |
+| REQ-PDD-004 | validation | pdd.sectionReview.qualitativeCompletion - Section C. Stakeholder Engagement | ReqPdd004Shape | not assessed in draft mode |
+| REQ-PDD-005 | validation | pdd.documentLevel.qualitativeCompletion - Section B. Impact Claims And Monitoring | ReqPdd005Shape | not assessed in draft mode |
 
 
 \newpage

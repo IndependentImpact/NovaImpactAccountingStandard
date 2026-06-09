@@ -70,6 +70,8 @@ class VvsRequirementShapesSyntaxTest(unittest.TestCase):
             URIRef(f"{NIAS}ReqPdd001Shape"),
             URIRef(f"{NIAS}ReqPdd002Shape"),
             URIRef(f"{NIAS}ReqPdd003Shape"),
+            URIRef(f"{NIAS}ReqPdd004Shape"),
+            URIRef(f"{NIAS}ReqPdd005Shape"),
             URIRef(f"{NIAS}ReqDlr001Shape"),
             URIRef(f"{NIAS}ReqDlr002Shape"),
             URIRef(f"{NIAS}ReqMr001Shape"),
@@ -164,6 +166,26 @@ class VvsRequirementShapesFixtureTest(unittest.TestCase):
         self._assert_violates_requirement("req-pdd-003-invalid.ttl", "REQ-PDD-003")
 
     # ------------------------------------------------------------------
+    # REQ-PDD-004 — Section-level qualitative review completion
+    # ------------------------------------------------------------------
+
+    def test_req_pdd_004_valid_fixture_conforms(self):
+        self._assert_conforms("req-pdd-004-valid.ttl")
+
+    def test_req_pdd_004_invalid_fixture_fails_with_requirement_message(self):
+        self._assert_violates_requirement("req-pdd-004-invalid.ttl", "REQ-PDD-004")
+
+    # ------------------------------------------------------------------
+    # REQ-PDD-005 — Document-level qualitative review completion
+    # ------------------------------------------------------------------
+
+    def test_req_pdd_005_valid_fixture_conforms(self):
+        self._assert_conforms("req-pdd-005-valid.ttl")
+
+    def test_req_pdd_005_invalid_fixture_fails_with_requirement_message(self):
+        self._assert_violates_requirement("req-pdd-005-invalid.ttl", "REQ-PDD-005")
+
+    # ------------------------------------------------------------------
     # REQ-DLR-001 — Data Lineage Report evidence traceability
     # ------------------------------------------------------------------
 
@@ -224,6 +246,8 @@ class VvsImplementedByShapeLinksTest(unittest.TestCase):
             URIRef(f"{VVS_BASE}REQ-PDD-001"): URIRef(f"{NIAS_BASE}ReqPdd001Shape"),
             URIRef(f"{VVS_BASE}REQ-PDD-002"): URIRef(f"{NIAS_BASE}ReqPdd002Shape"),
             URIRef(f"{VVS_BASE}REQ-PDD-003"): URIRef(f"{NIAS_BASE}ReqPdd003Shape"),
+            URIRef(f"{VVS_BASE}REQ-PDD-004"): URIRef(f"{NIAS_BASE}ReqPdd004Shape"),
+            URIRef(f"{VVS_BASE}REQ-PDD-005"): URIRef(f"{NIAS_BASE}ReqPdd005Shape"),
             URIRef(f"{VVS_BASE}REQ-DLR-001"): URIRef(f"{NIAS_BASE}ReqDlr001Shape"),
             URIRef(f"{VVS_BASE}REQ-DLR-002"): URIRef(f"{NIAS_BASE}ReqDlr002Shape"),
             URIRef(f"{VVS_BASE}REQ-MR-001"): URIRef(f"{NIAS_BASE}ReqMr001Shape"),

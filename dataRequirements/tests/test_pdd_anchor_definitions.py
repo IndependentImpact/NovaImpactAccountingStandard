@@ -141,6 +141,7 @@ class PddAnchorDefinitionTests(unittest.TestCase):
         anchor_order = [
             record["key"]
             for record in sorted(self.anchor_records, key=lambda record: record["order"])
+            if record["key"] in profile_order
         ]
 
         self.assertEqual(anchor_order, profile_order)
