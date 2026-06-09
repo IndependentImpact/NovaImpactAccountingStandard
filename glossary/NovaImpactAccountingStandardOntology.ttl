@@ -514,33 +514,33 @@ nias-o:isEncrypted a owl:DatatypeProperty ;
     rdfs:range xsd:boolean ;
     skos:definition "Indicates whether the content of a resource is encrypted."@en .
 
-nias-o:isLinkedToHederaAccount a owl:ObjectProperty ;
-    rdfs:label "isLinkedToHederaAccount"@en ;
-    rdfs:comment "Links a NIAS platform user directly to a Hedera account." ;
+nias-o:hasHederaAccount a owl:ObjectProperty ;
+    rdfs:label "hasHederaAccount"@en ;
     rdfs:domain nias-o:PlatformUser ;
     rdfs:range hedera:Account ;
-    owl:inverseOf nias-o:hasLinkedPlatformUser .
+    skos:definition "Links a platform user directly to a Hedera account. Replaces the deprecated PlatformUserXhederaAccountLink intermediate class."@en .
 
-nias-o:isLinkedToHederaTopic a owl:ObjectProperty ;
-    rdfs:label "isLinkedToHederaTopic"@en ;
-    rdfs:comment "Links a NIAS entity directly to a Hedera Consensus Service topic." ;
-    rdfs:domain owl:Thing ;
-    rdfs:range hedera:ConsensusTopic ;
-    owl:inverseOf nias-o:hasLinkedEntity .
+nias-o:isLinkedToHederaAccount a owl:ObjectProperty ;
+    rdfs:label "isLinkedToHederaAccount"@en ;
+    rdfs:subPropertyOf nias-o:hasHederaAccount ;
+    owl:deprecated true ;
+    rdfs:domain nias-o:PlatformUser ;
+    rdfs:range hedera:Account ;
+    skos:definition "Deprecated. Use nias-o:hasHederaAccount instead."@en .
 
 nias-o:hasLinkedHederaTopic a owl:ObjectProperty ;
     rdfs:label "hasLinkedHederaTopic"@en ;
     rdfs:domain owl:Thing ;
     rdfs:range hedera:ConsensusTopic ;
-    owl:inverseOf nias-o:isLinkedToHederaTopic ;
     skos:definition "Links a NIAS entity to a Hedera Consensus Service topic. Replaces the deprecated EntityXhederaTopicLink intermediate class."@en .
 
-nias-o:hasHederaAccount a owl:ObjectProperty ;
-    rdfs:label "hasHederaAccount"@en ;
-    rdfs:domain nias-o:PlatformUser ;
-    rdfs:range hedera:Account ;
-    owl:inverseOf nias-o:isLinkedToHederaAccount ;
-    skos:definition "Links a platform user directly to a Hedera account. Replaces the deprecated PlatformUserXhederaAccountLink intermediate class."@en .
+nias-o:isLinkedToHederaTopic a owl:ObjectProperty ;
+    rdfs:label "isLinkedToHederaTopic"@en ;
+    rdfs:subPropertyOf nias-o:hasLinkedHederaTopic ;
+    owl:deprecated true ;
+    rdfs:domain owl:Thing ;
+    rdfs:range hedera:ConsensusTopic ;
+    skos:definition "Deprecated. Use nias-o:hasLinkedHederaTopic instead."@en .
 
 nias-o:isReviewOf a owl:ObjectProperty ;
     rdfs:label "isReviewOf"@en ;
