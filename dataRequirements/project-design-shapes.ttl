@@ -60,6 +60,12 @@ nias-o:ProjectPartyShape a sh:NodeShape ;
     ] ;
     sh:property nias-o:PublicPrivateClassificationPropertyShape ;
     sh:property [
+        sh:path nias-o:partyAgent ;
+        sh:class nias-o:PlatformUser ;
+        sh:maxCount 1 ;
+        sh:message "A project party may reference at most one platform user as its agent (prov:agent)."@en
+    ] ;
+    sh:property [
         sh:path nias-o:additionalInfo ;
         sh:datatype xsd:string ;
         sh:maxCount 1

@@ -157,11 +157,6 @@ nias-o:ReputationLifecycleTerm a owl:Class ;
     rdfs:subClassOf nias-o:OperationalVocabularyTerm ;
     skos:definition "A controlled term describing the lifecycle dynamics of Knowledge and Skills Reputation."@en .
 
-nias-o:AgentActivityWorkflowRelation a owl:Class ;
-    rdfs:label "AgentActivityWorkflowRelation"@en ;
-    rdfs:subClassOf aiao:AgentActivityRelation ;
-    skos:definition "Relates an agent to an activity in the context of a specific workflow."@en .
-
 nias-o:AgentLicense a owl:Class ;
     rdfs:label "AgentLicense"@en ;
     rdfs:subClassOf vcdm:VerifiableCredential ;
@@ -203,18 +198,14 @@ nias-o:DocumentFieldReview a owl:Class ;
 nias-o:DocumentReference a owl:Class ;
     rdfs:label "DocumentReference"@en ;
     rdfs:subClassOf dcterms:Resource ;
-    skos:definition "A compact reference to a document using its workflow message identifier and content-addressed resource location."@en .
+    owl:deprecated true ;
+    skos:definition "Deprecated. A compact reference to a document using its workflow message identifier and content-addressed resource location. Migrate to using document IRIs directly, with nias-o:resourceConsensusMessage for the Hedera message link and nias-o:resourceIpfsUri for content-addressed location."@en .
 
 nias-o:DocumentReview a owl:Class ;
     rdfs:label "DocumentReview"@en ;
     rdfs:subClassOf data:Document,
         claimont:Attestation ;
     skos:definition "A workflow document that attests to a review decision over another document using one or more field-level review findings."@en .
-
-nias-o:EntityXhederaTopicLink a owl:Class ;
-    rdfs:label "EntityXhederaTopicLink"@en ;
-    rdfs:subClassOf owl:Thing ;
-    skos:definition "Links a Nova Impact Accounting Standard entity (user, project, methodology, etc.) to a Hedera topic."@en .
 
 nias-o:ImpactDeclaration a owl:Class ;
     rdfs:label "ImpactDeclaration"@en ;
@@ -295,11 +286,6 @@ nias-o:PlatformUser a owl:Class ;
     rdfs:subClassOf infocomm:CommunicationParty ;
     skos:definition "An actor on the Nova Impact Accounting Standard platform."@en .
 
-nias-o:PlatformUserXhederaAccountLink a owl:Class ;
-    rdfs:label "PlatformUserXhederaAccountLink"@en ;
-    rdfs:subClassOf owl:Thing ;
-    skos:definition "Links an Nova Impact Accounting Standard platform user to a Hedera account."@en .
-
 nias-o:ProjectListingApplication a owl:Class ;
     rdfs:label "ProjectListingApplication"@en ;
     rdfs:subClassOf data:Document,
@@ -308,8 +294,8 @@ nias-o:ProjectListingApplication a owl:Class ;
 
 nias-o:ProjectParty a owl:Class ;
     rdfs:label "ProjectParty"@en ;
-    rdfs:subClassOf aiao:AgentActivityRelation ;
-    skos:definition "A party relation for a project, including host, participant, and public/private classification."@en .
+    rdfs:subClassOf prov:Association ;
+    skos:definition "A qualified participation node recording a party's role in a project, including host/participant flags and public/private classification. Follows the PROV-O Association pattern: use nias-o:partyAgent to link to the PlatformUser acting as the party."@en .
 
 nias-o:ResourceArtifact a owl:Class ;
     rdfs:label "ResourceArtifact"@en ;
@@ -461,12 +447,6 @@ nias-o:validatingShape a owl:ObjectProperty ;
     rdfs:range sh:NodeShape ;
     skos:definition "The SHACL node shape that validates data claiming conformance to a document schema."@en .
 
-nias-o:entityXhederaTopicLinkDescription a owl:DatatypeProperty ;
-    rdfs:label "description"@en ;
-    rdfs:domain nias-o:EntityXhederaTopicLink ;
-    rdfs:range xsd:string ;
-    skos:definition "A description of the link between an entity and a Hedera topic, e.g., 'DID'."@en .
-
 nias-o:estimatedLifespanInYears a owl:DatatypeProperty ;
     rdfs:label "estimatedLifespanInYears"@en ;
     rdfs:domain owl:Thing ;
@@ -509,18 +489,6 @@ nias-o:hasWorkflowSubmission a owl:ObjectProperty ;
     rdfs:domain data:Document ;
     rdfs:range nias-o:WorkflowDocumentSubmission .
 
-nias-o:hederaAccount a owl:ObjectProperty ;
-    rdfs:label "hederaAccount"@en ;
-    rdfs:domain nias-o:PlatformUserXhederaAccountLink ;
-    rdfs:range hedera:Account ;
-    skos:definition "A Hedera account."@en .
-
-nias-o:hederaTopic a owl:ObjectProperty ;
-    rdfs:label "hederaTopic"@en ;
-    rdfs:domain nias-o:EntityXhederaTopicLink ;
-    rdfs:range hedera:ConsensusTopic ;
-    skos:definition "A Hedera Consensus Service topic."@en .
-
 nias-o:hasDeclaredImpact a owl:ObjectProperty ;
     rdfs:label "hasDeclaredImpact"@en ;
     rdfs:domain [ owl:unionOf ( nias-o:ImpactDeclaration nias-o:PddSectionBReport ) ] ;
@@ -546,17 +514,33 @@ nias-o:isEncrypted a owl:DatatypeProperty ;
     rdfs:range xsd:boolean ;
     skos:definition "Indicates whether the content of a resource is encrypted."@en .
 
+nias-o:hasHederaAccount a owl:ObjectProperty ;
+    rdfs:label "hasHederaAccount"@en ;
+    rdfs:domain nias-o:PlatformUser ;
+    rdfs:range hedera:Account ;
+    skos:definition "Links a platform user directly to a Hedera account. Replaces the deprecated PlatformUserXhederaAccountLink intermediate class."@en .
+
 nias-o:isLinkedToHederaAccount a owl:ObjectProperty ;
     rdfs:label "isLinkedToHederaAccount"@en ;
-    rdfs:comment "Links an Nova Impact Accounting Standard platform user to a Hedera account." ;
+    rdfs:subPropertyOf nias-o:hasHederaAccount ;
+    owl:deprecated true ;
     rdfs:domain nias-o:PlatformUser ;
-    rdfs:range nias-o:PlatformUserXhederaAccountLink .
+    rdfs:range hedera:Account ;
+    skos:definition "Deprecated. Use nias-o:hasHederaAccount instead."@en .
+
+nias-o:hasLinkedHederaTopic a owl:ObjectProperty ;
+    rdfs:label "hasLinkedHederaTopic"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range hedera:ConsensusTopic ;
+    skos:definition "Links a NIAS entity to a Hedera Consensus Service topic. Replaces the deprecated EntityXhederaTopicLink intermediate class."@en .
 
 nias-o:isLinkedToHederaTopic a owl:ObjectProperty ;
     rdfs:label "isLinkedToHederaTopic"@en ;
-    rdfs:comment "Links an Nova Impact Accounting Standard entity to a Hedera topic." ;
-    rdfs:domain nias-o:PlatformUser ;
-    rdfs:range nias-o:EntityXhederaTopicLink .
+    rdfs:subPropertyOf nias-o:hasLinkedHederaTopic ;
+    owl:deprecated true ;
+    rdfs:domain owl:Thing ;
+    rdfs:range hedera:ConsensusTopic ;
+    skos:definition "Deprecated. Use nias-o:hasLinkedHederaTopic instead."@en .
 
 nias-o:isReviewOf a owl:ObjectProperty ;
     rdfs:label "isReviewOf"@en ;
@@ -983,12 +967,6 @@ nias-o:notMonitoredJustification a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "Provides a justification for why an impact of a project or activity will not be monitored."@en .
 
-nias-o:platformUserXhederaAccountLinkDescription a owl:DatatypeProperty ;
-    rdfs:label "description"@en ;
-    rdfs:domain nias-o:PlatformUserXhederaAccountLink ;
-    rdfs:range xsd:string ;
-    skos:definition "A description of the link between a platform user and a Hedera account, e.g., 'PRIMARY_ACCOUNT'."@en .
-
 nias-o:measurementMethodsAndProcedures a owl:DatatypeProperty ;
     rdfs:label "measurementMethodsAndProcedures"@en ;
     rdfs:domain nias-o:DataParameterRequirement ;
@@ -1042,6 +1020,13 @@ nias-o:publicPrivateClassification a owl:ObjectProperty ;
     rdfs:domain nias-o:ProjectParty ;
     rdfs:range nias-o:PublicPrivateClassification ;
     skos:definition "Classifies a project party as public or private."@en .
+
+nias-o:partyAgent a owl:ObjectProperty ;
+    rdfs:label "partyAgent"@en ;
+    rdfs:domain nias-o:ProjectParty ;
+    rdfs:range nias-o:PlatformUser ;
+    rdfs:subPropertyOf prov:agent ;
+    skos:definition "The platform user acting as a party to the project. Satisfies the PROV-O Association pattern by linking the qualified participation node to the participating agent."@en .
 
 nias-o:qaQcProcedures a owl:DatatypeProperty ;
     rdfs:label "qaQcProcedures"@en ;
@@ -1169,9 +1154,9 @@ nias-o:unitOfMeasure a owl:ObjectProperty ;
 
 nias-o:workflow a owl:ObjectProperty ;
     rdfs:label "workflow"@en ;
-    rdfs:domain [ owl:unionOf ( nias-o:WorkflowDocumentSubmission nias-o:AgentActivityWorkflowRelation ) ] ;
+    rdfs:domain nias-o:WorkflowDocumentSubmission ;
     rdfs:range nias-o:Workflow ;
-    skos:definition "The workflow to which a document was submitted, or in the context of which an agent-activity relation exists."@en .
+    skos:definition "The workflow to which a document was submitted."@en .
 
 nias-o:workflowDocumentSubmissionHederaMessageId a owl:ObjectProperty ;
     rdfs:label "hederaMessageId"@en ;
