@@ -101,10 +101,12 @@ void main() {
         final review = entry as Map<String, dynamic>;
         expect(review.containsKey('${NiasTerm.base}fieldKey'), isFalse,
             reason: 'fieldKey must not appear in reviewSeed output');
-        final target = review['${NiasTerm.base}reviewTarget'];
-        expect(target, isA<Map<String, dynamic>>(),
-            reason: 'reviewTarget must be a structured object');
-        final targetMap = target as Map<String, dynamic>;
+        final targetList = review['${NiasTerm.base}reviewTarget'];
+        expect(targetList, isA<List>(),
+            reason:
+                'reviewTarget must be a list-wrapped node (sh:node subform)');
+        final targetMap =
+            (targetList as List<dynamic>).first as Map<String, dynamic>;
         expect(targetMap['${NiasTerm.base}reviewedArtifact'], isNotNull);
         expect(targetMap['${NiasTerm.base}reviewedAnchor'], isNotNull);
       }

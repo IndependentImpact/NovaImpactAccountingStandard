@@ -534,12 +534,14 @@ class PddWorkflowState {
     seed['${NiasTerm.base}fieldReview'] = [
       {
         '@type': '${NiasTerm.base}DocumentFieldReview',
-        '${NiasTerm.base}reviewTarget': {
-          '@type': '${NiasTerm.base}ReviewTarget',
-          '${NiasTerm.base}reviewedArtifact': source?.documentIri ?? '',
-          '${NiasTerm.base}reviewedAnchor':
-              '${NiasTerm.base}anchors/section_${section.name}_summary',
-        },
+        '${NiasTerm.base}reviewTarget': [
+          {
+            '@type': '${NiasTerm.base}ReviewTarget',
+            '${NiasTerm.base}reviewedArtifact': source?.documentIri ?? '',
+            '${NiasTerm.base}reviewedAnchor':
+                '${NiasTerm.base}anchors/section_${section.name}_summary',
+          }
+        ],
         '${NiasTerm.base}fieldTitle': '${section.label} summary',
         '${NiasTerm.base}fieldPrompt':
             'Review the submitted ${section.label} section.',
