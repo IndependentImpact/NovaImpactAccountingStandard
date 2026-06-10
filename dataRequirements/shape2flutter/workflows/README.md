@@ -14,13 +14,22 @@ being reviewed.
 | `validation-report.yaml` | Primary | Validation review of a completed PDD by a validator |
 | `monitoring-report.yaml` | Primary | Monitoring report capture by a monitoring party |
 | `verification-report.yaml` | Primary | Verification review of a monitoring report by a verifier |
-| `pdd.yaml` | Legacy / demo | Combined PDD creation + review screens (pre-split shell) |
-| `validation-verification.yaml` | Legacy / demo | Combined validation and verification screens (pre-split shell) |
 
 The four **primary** workflow files are the authoritative definitions used by
-the build and test infrastructure. The two **legacy** files are retained for
-backward compatibility with older local scripts and the combined PDD workflow
-shell demo but are not the primary startup path.
+the build and test infrastructure.
+
+## Archive
+
+Legacy and demo workflow definitions have been moved to the
+[`archive/`](archive/) subdirectory:
+
+| File | Purpose |
+|---|---|
+| `archive/pdd.yaml` | Combined PDD creation + review screens (pre-split shell) |
+| `archive/validation-verification.yaml` | Combined validation and verification screens (pre-split shell) |
+
+These files are retained for backward compatibility with older local scripts and
+the combined PDD workflow shell demo but are not the primary startup path.
 
 ## Role in the Broader Process
 

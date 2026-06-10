@@ -225,11 +225,11 @@ Workflow step definitions are tracked in:
 - `dataRequirements/shape2flutter/workflows/verification-report.yaml`
 
 The existing combined preview definitions are retained as legacy/demo
-compatibility paths while the split activity workflows are the primary startup
-mode:
+compatibility paths in the archive folder while the split activity workflows
+are the primary startup mode:
 
-- `dataRequirements/shape2flutter/workflows/pdd.yaml`
-- `dataRequirements/shape2flutter/workflows/validation-verification.yaml`
+- `dataRequirements/shape2flutter/workflows/archive/pdd.yaml`
+- `dataRequirements/shape2flutter/workflows/archive/validation-verification.yaml`
 
 Per-report export mapping config now lives in:
 
