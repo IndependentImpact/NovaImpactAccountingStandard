@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 . "$ROOT_DIR/dataRequirements/shape2flutter/load-env.sh"
 load_nias_env "$ROOT_DIR"
 SHAPE2FLUTTER_BIN="${SHAPE2FLUTTER_BIN:-/Users/christiaanpauw/shape2flutter/shape2flutter}"
 OUT_BASE="${NIAS_TMP_DIR:-/tmp}"
 OUT_BASE="${OUT_BASE%/}"
 OUT_ROOT="${OUT_ROOT:-$OUT_BASE/nias-shape2flutter/validation-verification}"
-SHAPES_FILE="$ROOT_DIR/dataRequirements/shape2flutter/validation-verification-ui-shapes.ttl"
+SHAPES_FILE="$ROOT_DIR/dataRequirements/shape2flutter/archive/validation-verification-ui-shapes.ttl"
 SCHEMA_DIR="$OUT_ROOT/schema"
 FLUTTER_DIR="$OUT_ROOT/flutter"
 
