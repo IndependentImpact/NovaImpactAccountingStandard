@@ -153,6 +153,7 @@ def _report_mandate(report_type: str):
 
 def _review_nodes(graph: Graph, report_type: str | None = None):
     nodes = set(graph.subjects(RDF.type, NIAS.GenericDocumentReview))
+    nodes.update(graph.subjects(RDF.type, NIAS.GlobalQualitativeDocumentReview))
     nodes.update(graph.subjects(RDF.type, NIAS.VerifiedImpactCertificateIssuanceRequestReview))
     if report_type == "validation":
         nodes = {
@@ -347,6 +348,18 @@ def _render_blank_directive(directive: str, report_type: str):
             "| --- | --- | --- | ---: |",
             "| **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[anchor review count]_ |",
         ]
+    if directive == "review.documentQualitativeEvaluation":
+        return [
+            "| Review document | Review type | Document-level qualitative judgement |",
+            "| --- | --- | --- |",
+            "| **[required for validation]** _[review document]_ | _[validation or verification]_ | _[global qualitative judgement against guiding questions]_ |",
+        ]
+    if directive == "review.sectionQualitativeEvaluation":
+        return [
+            "| Review document | Review type | Section-level qualitative judgement |",
+            "| --- | --- | --- |",
+            "| **[required for validation]** _[review document]_ | _[validation or verification]_ | _[section-level qualitative judgement against guiding questions]_ |",
+        ]
     if directive == "review.documentEnvelope":
         return [
             "| Review document | Schema | Author | IPFS URI | Encrypted | Auth proof |",
@@ -389,6 +402,8 @@ def _render_blank_directive(directive: str, report_type: str):
                 ("Document IPFS URI", "nias-o:resourceIpfsUri"),
                 ("Authenticity proof", "nias-o:authProof"),
                 ("Final review decision", "nias-o:finalReviewDecision"),
+                ("Document-level qualitative judgement", "nias-o:documentLevelQualitativeJudgement"),
+                ("Section-level qualitative judgement", "nias-o:sectionQualitativeJudgement"),
                 ("Anchor review", "nias-o:fieldReview"),
                 ("Review target", "nias-o:reviewTarget"),
                 ("Reviewed artifact", "nias-o:reviewedArtifact"),
@@ -622,6 +637,52 @@ def _render_decision_register(graph: Graph, report_type: str):
         )
     if len(lines) == 2:
         lines.append("| No review documents supplied. |  |  |  |")
+    return lines
+
+
+def _render_document_qualitative_evaluations(graph: Graph, report_type: str):
+    lines = [
+        "| Review document | Review type | Document-level qualitative judgement |",
+        "| --- | --- | --- |",
+    ]
+    for review in _review_nodes(graph, report_type):
+        lines.append(
+            "| {review} | {kind} | {judgement} |".format(
+                review=_escape(_display_value(graph, review)),
+                kind=_escape(_review_kind(graph, review)),
+                judgement=_escape(
+                    _display_value(
+                        graph,
+                        _first_value(graph, review, NIAS.documentLevelQualitativeJudgement),
+                    )
+                ),
+            )
+        )
+    if len(lines) == 2:
+        lines.append("| No global qualitative evaluations supplied. |  |  |")
+    return lines
+
+
+def _render_section_qualitative_evaluations(graph: Graph, report_type: str):
+    lines = [
+        "| Review document | Review type | Section-level qualitative judgement |",
+        "| --- | --- | --- |",
+    ]
+    for review in _review_nodes(graph, report_type):
+        lines.append(
+            "| {review} | {kind} | {judgement} |".format(
+                review=_escape(_display_value(graph, review)),
+                kind=_escape(_review_kind(graph, review)),
+                judgement=_escape(
+                    _display_value(
+                        graph,
+                        _first_value(graph, review, NIAS.sectionQualitativeJudgement),
+                    )
+                ),
+            )
+        )
+    if len(lines) == 2:
+        lines.append("| No section-level qualitative evaluations supplied. |  |  |")
     return lines
 
 
@@ -1188,6 +1249,8 @@ def _render_predicate_map():
             ("Review document type", "rdf:type"),
             ("Document schema", "nias-o:documentSchema"),
             ("Final review decision", "nias-o:finalReviewDecision"),
+            ("Document-level qualitative judgement", "nias-o:documentLevelQualitativeJudgement"),
+            ("Section-level qualitative judgement", "nias-o:sectionQualitativeJudgement"),
             ("Anchor review", "nias-o:fieldReview"),
             ("Review target", "nias-o:reviewTarget"),
             ("Reviewed artifact", "nias-o:reviewedArtifact"),
@@ -1232,6 +1295,10 @@ def _render_filled_directive(
         return [r"\tableofcontents"]
     if directive == "review.decisionRegister":
         return _render_decision_register(display_graph, report_type)
+    if directive == "review.documentQualitativeEvaluation":
+        return _render_document_qualitative_evaluations(display_graph, report_type)
+    if directive == "review.sectionQualitativeEvaluation":
+        return _render_section_qualitative_evaluations(display_graph, report_type)
     if directive == "review.documentEnvelope":
         return _render_review_document_envelope(display_graph, report_type)
     if directive == "review.fieldFindings":

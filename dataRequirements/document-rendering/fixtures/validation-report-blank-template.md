@@ -74,21 +74,35 @@ Validation Report
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-## Review Decision Register
+## Section 1. Global Evaluation
 
 | Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
 | **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[anchor review count]_ |
 
 
-## Anchor Review Findings
+### 1.1 Document-Level Qualitative Evaluation
+
+| Review document | Review type | Document-level qualitative judgement |
+| --- | --- | --- |
+| **[required for validation]** _[review document]_ | _[validation or verification]_ | _[global qualitative judgement against guiding questions]_ |
+
+
+## Section 2. Section-Level Evaluation (Guiding Questions)
+
+| Review document | Review type | Section-level qualitative judgement |
+| --- | --- | --- |
+| **[required for validation]** _[review document]_ | _[validation or verification]_ | _[section-level qualitative judgement against guiding questions]_ |
+
+
+## Section 3. Paragraph-Level Validation Findings
 
 | Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
 | --- | --- | --- | --- | --- | --- |
 | **[required]** _[review document]_ | _[artifact IRI]_ | _[anchor IRI]_ | _[review decision]_ | _[reviewer feedback]_ | _[anchored content]_ |
 
 
-## VVS Requirement Coverage Summary
+## Section 4. VVS Requirement Coverage Summary
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
@@ -144,6 +158,12 @@ nias-o:authProof
 
 ### Final review decision
 nias-o:finalReviewDecision
+
+### Document-level qualitative judgement
+nias-o:documentLevelQualitativeJudgement
+
+### Section-level qualitative judgement
+nias-o:sectionQualitativeJudgement
 
 ### Anchor review
 nias-o:fieldReview

@@ -106,7 +106,7 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
         self.assertEqual(workflow["outputs"], ["validation-report"])
         self.assertEqual(
             [step["form"] for step in workflow["steps"]],
-            ["GenericDocumentReviewShape"],
+            ["GlobalQualitativeDocumentReviewShape"],
         )
 
     def test_monitoring_report_workflow_reports_against_pdd(self):

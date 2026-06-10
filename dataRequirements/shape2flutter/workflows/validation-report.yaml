@@ -23,7 +23,7 @@ canonical_bundle:
 steps:
   - id: validation-review
     label: Validate PDD
-    form: GenericDocumentReviewShape
+    form: GlobalQualitativeDocumentReviewShape
 outputs:
   - validation-report
 artifact_identity_fields:

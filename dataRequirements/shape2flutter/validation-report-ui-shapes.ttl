@@ -294,3 +294,51 @@ nias-ui:GenericDocumentReviewUiShape a sh:NodeShape ;
         ui:widget ui:radio ;
         ui:order 3 ;
     ] .
+
+nias-ui:GlobalQualitativeDocumentReviewUiShape a sh:NodeShape ;
+    sh:targetClass nias-o:GlobalQualitativeDocumentReview ;
+    sh:property [
+        sh:path nias-o:hasWorkflowSubmission ;
+        sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "1.0 Workflow submission context" ;
+        ui:widget ui:subform ;
+        ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:documentLevelQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "1.1 Global qualitative evaluation (guiding questions)" ;
+        ui:widget ui:textarea ;
+        ui:order 2 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:sectionQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "2.0 Section-level qualitative evaluation (guiding questions)" ;
+        ui:widget ui:textarea ;
+        ui:order 3 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:fieldReview ;
+        sh:node nias-ui:DocumentFieldReviewUiShape ;
+        sh:minCount 1 ;
+        sh:maxCount 99 ;
+        ui:label "3.0 Paragraph-level validation findings" ;
+        ui:widget ui:subform ;
+        ui:order 4 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:finalReviewDecision ;
+        sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "4.0 Final validation decision" ;
+        ui:widget ui:radio ;
+        ui:order 5 ;
+    ] .
