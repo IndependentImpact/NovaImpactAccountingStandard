@@ -8,7 +8,7 @@ SHAPE2FLUTTER_BIN="${SHAPE2FLUTTER_BIN:-/Users/christiaanpauw/shape2flutter/shap
 OUT_BASE="${NIAS_TMP_DIR:-/tmp}"
 OUT_BASE="${OUT_BASE%/}"
 OUT_ROOT="${OUT_ROOT:-$OUT_BASE/nias-shape2flutter/validation-verification}"
-SHAPES_FILE="$ROOT_DIR/dataRequirements/shape2flutter/validation-verification-ui-shapes.ttl"
+SHAPES_FILE="$ROOT_DIR/dataRequirements/shape2flutter/archive/validation-verification-ui-shapes.ttl"
 SCHEMA_DIR="$OUT_ROOT/schema"
 FLUTTER_DIR="$OUT_ROOT/flutter"
 
