@@ -24,7 +24,7 @@ shell demo but are not the primary startup path.
 
 ## Role in the Broader Process
 
-The workflow YAML files sit at the centre of a four-stage pipeline:
+The workflow YAML files sit at the center of a four-stage pipeline:
 
 ```
 Canonical SHACL / TTL shapes
@@ -56,13 +56,13 @@ Concretely:
    shapes and add `ui:` hints so `shape2flutter` can produce usable Flutter
    forms.
 4. **Build scripts** (e.g. `build-pdd-design.sh`) call `shape2flutter build`
-   with the adapter bundle and write generated Dart/schema artefacts to
+   with the adapter bundle and write generated Dart/schema artifacts to
    `/tmp/nias-shape2flutter/…` outside the repository.
 5. **Export tools** (e.g.
    `shape2flutter/validation_report/tool/export_validation_report_markdown.py`)
    map captured JSON payloads to renderer-ingestible JSON-LD packages.
 6. **Document renderers** consume those packages and produce the final
-   Markdown, PDF, and HTML artefacts.
+   Markdown, PDF, and HTML artifacts.
 
 The workflow YAMLs are therefore the local contract between the semantic
 standard and the shape2flutter toolchain. They are read by the automated tests
@@ -106,7 +106,7 @@ Each entry in `steps` declares one form screen in the workflow.
 | Sub-field | Required | Description |
 |---|---|---|
 | `ui_shape_bundle` | Yes | Repository-relative path to the `*-ui-shapes.ttl` adapter bundle used for Flutter form generation. |
-| `generated_output_status` | Yes | Always `downstream-generated`. Marks that Flutter code and form schemas are operational outputs, not normative standard artefacts. |
+| `generated_output_status` | Yes | Always `downstream-generated`. Marks that Flutter code and form schemas are operational outputs, not normative standard artifacts. |
 | `canonical_shape_sources` | Yes | Ordered list of repository-relative paths to the canonical Turtle files (ontology, SHACL shapes, mapping anchors) that this workflow draws from. |
 
 ### Common Artifact Identity Fields
