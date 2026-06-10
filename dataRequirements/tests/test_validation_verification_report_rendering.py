@@ -152,9 +152,9 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         rendered = validation
         self.assertIn("\\tableofcontents", rendered)
         self.assertNotIn("| Section | Page |", rendered)
-        self.assertIn("## Review Decision Register", rendered)
-        self.assertIn("## Anchor Review Findings", rendered)
-        self.assertIn("## VVS Requirement Coverage Summary", rendered)
+        self.assertIn("## Section 1. Global Evaluation", rendered)
+        self.assertIn("## Section 3. Paragraph-Level Validation Findings", rendered)
+        self.assertIn("## Section 4. VVS Requirement Coverage Summary", rendered)
         self.assertIn("## Appendix A. Review Document And Workflow Evidence", rendered)
         self.assertNotIn("\n## Workflow And Consensus Evidence\n", rendered)
         self.assertIn("**[required for final]**", rendered)
@@ -202,7 +202,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
     def test_workflow_and_document_envelope_render_in_appendix_only(self):
         rendered = self._render_draft("validation")
         self.assertLess(
-            rendered.index("## VVS Requirement Coverage Summary"),
+            rendered.index("## Section 4. VVS Requirement Coverage Summary"),
             rendered.index("## Appendix A. Review Document And Workflow Evidence"),
         )
         body = rendered.split("## Appendix A. Review Document And Workflow Evidence", 1)[0]
@@ -444,11 +444,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
             self.assertTrue(validation.exists())
 
             self.assertIn(
-                "## VVS Requirement Coverage Summary",
+                "## Section 4. VVS Requirement Coverage Summary",
                 markdown.read_text(encoding="utf-8"),
             )
             self.assertIn(
-                "## Review Decision Register",
+                "## Section 1. Global Evaluation",
                 html.read_text(encoding="utf-8"),
             )
             pdf_bytes = pdf.read_bytes()

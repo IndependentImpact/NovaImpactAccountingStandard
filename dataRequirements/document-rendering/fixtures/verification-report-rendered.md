@@ -78,21 +78,35 @@ validation-verification-report-input.jsonld
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-## Review Decision Register
+## Section 1. Global Evaluation
 
 | Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
 | vv-verification-review-1 | Verification review | Approve | 1 |
 
 
-## Anchor Review Findings
+### 1.1 Document-Level Qualitative Evaluation
+
+| Review document | Review type | Document-level qualitative judgement |
+| --- | --- | --- |
+| vv-verification-review-1 | Verification review | Unavailable |
+
+
+## Section 2. Section-Level Evaluation (Guiding Questions)
+
+| Review document | Review type | Section-level qualitative judgement |
+| --- | --- | --- |
+| vv-verification-review-1 | Verification review | Unavailable |
+
+
+## Section 3. Paragraph-Level Validation Findings
 
 | Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
 | --- | --- | --- | --- | --- | --- |
 | vv-verification-review-1 | monitoring-report | monitoring.observation | Approve | The verified impact summary is consistent with the monitoring report review. | 87.5 tCO2e avoided during the monitoring period. |
 
 
-## VVS Requirement Coverage Summary
+## Section 4. VVS Requirement Coverage Summary
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
@@ -151,6 +165,12 @@ nias-o:documentSchema
 
 ### Final review decision
 nias-o:finalReviewDecision
+
+### Document-level qualitative judgement
+nias-o:documentLevelQualitativeJudgement
+
+### Section-level qualitative judgement
+nias-o:sectionQualitativeJudgement
 
 ### Anchor review
 nias-o:fieldReview

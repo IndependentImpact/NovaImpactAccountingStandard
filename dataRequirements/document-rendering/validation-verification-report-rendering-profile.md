@@ -48,15 +48,23 @@ sidecarOutputs:
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-## Review Decision Register
+## Section 1. Global Evaluation
 
 {{ render: review.decisionRegister }}
 
-## Anchor Review Findings
+### 1.1 Document-Level Qualitative Evaluation
+
+{{ render: review.documentQualitativeEvaluation }}
+
+## Section 2. Section-Level Evaluation (Guiding Questions)
+
+{{ render: review.sectionQualitativeEvaluation }}
+
+## Section 3. Paragraph-Level Validation Findings
 
 {{ render: review.fieldFindings }}
 
-## VVS Requirement Coverage Summary
+## Section 4. VVS Requirement Coverage Summary
 
 {{ render: vvs.requirementCoverage }}
 
@@ -84,10 +92,12 @@ sidecarOutputs:
 
 | Report section | Source shape | Publication location | Render directive |
 | --- | --- | --- | --- |
-| Review package summary | `GenericDocumentReviewShape` / `VerifiedImpactCertificateIssuanceRequestReviewShape` | Title page | `{{ render: titlePage.packageSummary }}` |
-| Review decisions | `GenericDocumentReviewShape` / `VerifiedImpactCertificateIssuanceRequestReviewShape` | Review Decision Register | `{{ render: review.decisionRegister }}` |
-| Anchor findings | `DocumentFieldReviewShape` / `ReviewTargetShape` | Anchor Review Findings | `{{ render: review.fieldFindings }}` |
-| VVS requirements | `vvs-requirement-shapes.ttl` / `ValidationVerificationStandard.ttl` | VVS Requirement Coverage Summary | `{{ render: vvs.requirementCoverage }}` |
+| Review package summary | `GlobalQualitativeDocumentReviewUiShape` / `VerifiedImpactCertificateIssuanceRequestReviewUiShape` | Title page | `{{ render: titlePage.packageSummary }}` |
+| Global decision register | `GlobalQualitativeDocumentReviewUiShape` / `VerifiedImpactCertificateIssuanceRequestReviewUiShape` | Section 1. Global Evaluation | `{{ render: review.decisionRegister }}` |
+| Document-level qualitative evaluation | `GlobalQualitativeDocumentReviewUiShape` | Section 1.1 Document-Level Qualitative Evaluation | `{{ render: review.documentQualitativeEvaluation }}` |
+| Section-level qualitative evaluation | `GlobalQualitativeDocumentReviewUiShape` | Section 2. Section-Level Evaluation (Guiding Questions) | `{{ render: review.sectionQualitativeEvaluation }}` |
+| Paragraph-level findings | `DocumentFieldReviewUiShape` / `ReviewTargetUiShape` | Section 3. Paragraph-Level Validation Findings | `{{ render: review.fieldFindings }}` |
+| VVS requirements | `vvs-requirement-shapes.ttl` / `ValidationVerificationStandard.ttl` | Section 4. VVS Requirement Coverage Summary | `{{ render: vvs.requirementCoverage }}` |
 | Review document envelope | `DocumentShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: review.documentEnvelope }}` |
 | Workflow evidence | `WorkflowDocumentSubmissionShape` / `HederaTopicMessageShape` | Appendix A. Review Document And Workflow Evidence | `{{ render: workflow.consensusEvidence }}` |
 
@@ -106,8 +116,10 @@ render in appendices or sidecars, not as report content.
 | Value kind | Rendering behavior |
 | --- | --- |
 | Review document | One row in the decision register |
+| Document-level qualitative judgement | One row per review in Section 1.1, aligned to global guiding-question evaluation |
+| Section-level qualitative judgement | One row per review in Section 2, aligned to section guiding-question evaluation |
 | Review document envelope | Appendix-only provenance row with schema, author, IPFS URI, encryption, and proof metadata |
-| Anchor review | One row in the findings register, linked to a reviewed artifact and artifact anchor |
+| Anchor review | One row in Section 3 paragraph-level findings, linked to a reviewed artifact and artifact anchor |
 | Review decision concept | Human label when available, otherwise compact IRI |
 | Workflow submission | Appendix-only workflow evidence row with subject, parties, and consensus message |
 | VVS requirement | One row per active requirement with shape, anchor, and evidence status |
