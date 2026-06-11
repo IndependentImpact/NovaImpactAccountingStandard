@@ -9,8 +9,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
-sys.path.insert(0, str(REPO_ROOT / "tooling/document-rendering"))
+REPO_ROOT = Path(__file__).resolve().parents[2]
+tooling_dir = Path(__file__).resolve().parent
+if str(tooling_dir) not in sys.path:
+    sys.path.insert(0, str(tooling_dir))
 from export_workflow_report import (
     load_export_config,
     normalize_identity_field_names,

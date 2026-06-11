@@ -232,6 +232,7 @@ are the primary startup mode:
 - `dataRequirements/shape2flutter/workflows/archive/validation-verification.yaml`
 - `dataRequirements/shape2flutter/archive/validation-verification-ui-shapes.ttl`
 - `dataRequirements/shape2flutter/archive/build-validation-verification.sh`
+- `dataRequirements/shape2flutter/archive/validation_verification_report/tool/export_validation_verification_report_markdown.py`
 
 Per-report export mapping config now lives in:
 
