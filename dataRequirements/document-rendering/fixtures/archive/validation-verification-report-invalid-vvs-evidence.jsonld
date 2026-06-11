@@ -1,0 +1,13 @@
+[
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/invalid-monitoring-report",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/MonitoringReport"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/alignedWithPDD": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-a-report"
+      }
+    ]
+  }
+]

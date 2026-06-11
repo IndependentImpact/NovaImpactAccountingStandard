@@ -21,7 +21,8 @@ VERIFICATION_WRAPPER = (
     / "dataRequirements/shape2flutter/verification_report/tool/export_verification_report_markdown.py"
 )
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
-EVIDENCE = FIXTURES / "validation-verification-report-evidence.jsonld"
+VALIDATION_EVIDENCE = FIXTURES / "validation-report-evidence.jsonld"
+VERIFICATION_EVIDENCE = FIXTURES / "verification-report-evidence.jsonld"
 
 DATA = "https://jellyfiiish.xyz/ns/"
 HEDERA = "https://hashgraphontology.xyz/core/"
@@ -73,7 +74,7 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                     "--review-id",
                     f"{NIAS}test/handoff-validation-review",
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(VALIDATION_EVIDENCE),
                     "--document-author",
                     f"{NIAS}test/validator-1",
                     "--resource-ipfs-uri",
@@ -152,7 +153,7 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                     "--review-id",
                     f"{NIAS}test/handoff-verification-review",
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(VERIFICATION_EVIDENCE),
                     "--document-author",
                     f"{NIAS}test/verifier-1",
                     "--resource-ipfs-uri",
@@ -216,7 +217,7 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                     "--review-id",
                     f"{NIAS}test/wrapper-validation-review",
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(VALIDATION_EVIDENCE),
                     "--document-author",
                     f"{NIAS}test/validator-1",
                     "--resource-ipfs-uri",
@@ -274,7 +275,7 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                     "--review-id",
                     f"{NIAS}test/wrapper-verification-review",
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(VERIFICATION_EVIDENCE),
                     "--document-author",
                     f"{NIAS}test/verifier-1",
                     "--resource-ipfs-uri",
@@ -419,7 +420,11 @@ class ValidationVerificationHandoffExportTests(unittest.TestCase):
                     "--review-id",
                     f"{NIAS}test/{report_type}-review",
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(
+                        VALIDATION_EVIDENCE
+                        if report_type == "validation"
+                        else VERIFICATION_EVIDENCE
+                    ),
                     "--document-author",
                     (
                         f"{NIAS}test/validator-1"

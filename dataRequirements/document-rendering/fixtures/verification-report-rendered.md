@@ -24,7 +24,7 @@ renderedDocumentType: Verification Report
 renderMode: draft
 reportType: verification
 rendererVersion: 0.1.0
-sourceArtifact: validation-verification-report-input.jsonld
+sourceArtifact: verification-report-input.jsonld
 generatedAt: 2026-05-28T00:00:00Z
 ---
 
@@ -63,7 +63,7 @@ Approve: 1
 draft
 
 #### Source artifact
-validation-verification-report-input.jsonld
+verification-report-input.jsonld
 
 
 \thispagestyle{pddtitle}
@@ -142,19 +142,19 @@ validation-verification-report-input.jsonld
 ## Appendix B. Source Graph And Hash Evidence
 
 ### Source artifact
-validation-verification-report-input.jsonld
+verification-report-input.jsonld
 
 ### Input JSON-LD
-validation-verification-report-input.jsonld
+verification-report-input.jsonld
 
 ### Input SHA-256
-fbba3078461bbb06351c98d5768c5dfa6628f9645ef138facb71ce6e33bed4ab
+dc019d48283a33e9b422f052a0cbbab68e449a31b56cbdc7cfc747ec4fb2bbc6
 
 ### Evidence JSON-LD 1
-validation-verification-report-evidence.jsonld
+verification-report-evidence.jsonld
 
 ### Evidence SHA-256 1
-880acc33f8caa29240d2d34c4bce0891480bcdbe852f14818ce6d7ed8c74d659
+dd8ae74f4bfe6e037448dc9547692bd0d4f7795b79da7fa9603149c7d3224a56
 
 
 \newpage

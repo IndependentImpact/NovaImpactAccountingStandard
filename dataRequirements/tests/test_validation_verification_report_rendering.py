@@ -17,14 +17,23 @@ SCRIPT = (
     / "tooling/document-rendering/render_validation_verification_report_markdown.py"
 )
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
-INPUT = FIXTURES / "validation-verification-report-input.jsonld"
-EVIDENCE = FIXTURES / "validation-verification-report-evidence.jsonld"
-INVALID_STRUCTURAL = (
-    FIXTURES / "validation-verification-report-invalid-structural.jsonld"
-)
-INVALID_VVS_EVIDENCE = (
-    FIXTURES / "validation-verification-report-invalid-vvs-evidence.jsonld"
-)
+INPUTS = {
+    "validation": FIXTURES / "validation-report-input.jsonld",
+    "verification": FIXTURES / "verification-report-input.jsonld",
+}
+EVIDENCE_FIXTURES = {
+    "validation": FIXTURES / "validation-report-evidence.jsonld",
+    "verification": FIXTURES / "verification-report-evidence.jsonld",
+}
+SOURCE_ARTIFACT_IDS = {
+    "validation": "validation-report-input.jsonld",
+    "verification": "verification-report-input.jsonld",
+}
+INVALID_STRUCTURAL_INPUTS = {
+    "validation": FIXTURES / "validation-report-invalid-structural.jsonld",
+    "verification": FIXTURES / "verification-report-invalid-structural.jsonld",
+}
+INVALID_VVS_EVIDENCE = FIXTURES / "verification-report-invalid-vvs-evidence.jsonld"
 VALIDATION_BLANK_FIXTURE = FIXTURES / "validation-report-blank-template.md"
 VERIFICATION_BLANK_FIXTURE = FIXTURES / "verification-report-blank-template.md"
 VALIDATION_RENDERED_FIXTURE = FIXTURES / "validation-report-rendered.md"
@@ -78,11 +87,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 report_type,
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS[report_type]),
                 "--evidence-jsonld",
-                str(EVIDENCE),
+                str(EVIDENCE_FIXTURES[report_type]),
                 "--source-artifact-id",
-                "validation-verification-report-input.jsonld",
+                SOURCE_ARTIFACT_IDS[report_type],
                 "--generated-at",
                 "2026-05-28T00:00:00Z",
                 "--render-mode",
@@ -218,11 +227,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "validation",
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS["validation"]),
                 "--evidence-jsonld",
-                str(EVIDENCE),
+                str(EVIDENCE_FIXTURES["validation"]),
                 "--source-artifact-id",
-                "validation-verification-report-input.jsonld",
+                SOURCE_ARTIFACT_IDS["validation"],
                 "--generated-at",
                 "2026-05-28T00:00:00Z",
                 "--render-mode",
@@ -246,11 +255,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "verification",
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS["verification"]),
                 "--evidence-jsonld",
-                str(EVIDENCE),
+                str(EVIDENCE_FIXTURES["verification"]),
                 "--source-artifact-id",
-                "validation-verification-report-input.jsonld",
+                SOURCE_ARTIFACT_IDS["verification"],
                 "--generated-at",
                 "2026-05-28T00:00:00Z",
                 "--render-mode",
@@ -274,9 +283,9 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "validation",
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS["validation"]),
                 "--evidence-jsonld",
-                str(EVIDENCE),
+                str(EVIDENCE_FIXTURES["validation"]),
                 "--evidence-jsonld",
                 str(INVALID_VVS_EVIDENCE),
                 "--render-mode",
@@ -299,9 +308,35 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "validation",
                 "--input-jsonld",
-                str(INVALID_STRUCTURAL),
+                str(INVALID_STRUCTURAL_INPUTS["validation"]),
                 "--evidence-jsonld",
-                str(EVIDENCE),
+                str(EVIDENCE_FIXTURES["validation"]),
+                "--render-mode",
+                "final",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            cwd=REPO_ROOT,
+        )
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("structurally conformant review input", completed.stderr)
+        self.assertIn(
+            "A document review must have a final approve/reject decision.",
+            completed.stderr,
+        )
+
+    def test_final_verification_rendering_rejects_structurally_invalid_review_input(self):
+        completed = subprocess.run(
+            [
+                *self._base_command(),
+                "--report-type",
+                "verification",
+                "--input-jsonld",
+                str(INVALID_STRUCTURAL_INPUTS["verification"]),
+                "--evidence-jsonld",
+                str(EVIDENCE_FIXTURES["verification"]),
                 "--render-mode",
                 "final",
             ],
@@ -325,7 +360,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "verification",
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS["verification"]),
                 "--evidence-jsonld",
                 str(INVALID_VVS_EVIDENCE),
                 "--render-mode",
@@ -349,7 +384,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                 "--report-type",
                 "validation",
                 "--input-jsonld",
-                str(INPUT),
+                str(INPUTS["validation"]),
                 "--render-mode",
                 "final",
             ],
@@ -403,11 +438,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--report-type",
                     "validation",
                     "--input-jsonld",
-                    str(INPUT),
+                    str(INPUTS["validation"]),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["validation"]),
                     "--source-artifact-id",
-                    "validation-verification-report-input.jsonld",
+                    SOURCE_ARTIFACT_IDS["validation"],
                     "--generated-at",
                     "2026-05-28T00:00:00Z",
                     "--render-mode",
@@ -526,11 +561,11 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--report-type",
                     "verification",
                     "--input-jsonld",
-                    str(INPUT),
+                    str(INPUTS["verification"]),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--source-artifact-id",
-                    "validation-verification-report-input.jsonld",
+                    SOURCE_ARTIFACT_IDS["verification"],
                     "--generated-at",
                     "2026-05-28T00:00:00Z",
                     "--render-mode",
@@ -635,7 +670,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             invalid = tmp_path / "vv-missing-reviewed-content-cid.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["validation"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -655,7 +690,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["validation"]),
                     "--render-mode",
                     "final",
                 ],
@@ -677,7 +712,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             invalid = tmp_path / "vv-missing-reviewed-monitoring-content-cid.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["verification"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -697,7 +732,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--render-mode",
                     "final",
                 ],
@@ -719,7 +754,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             invalid = tmp_path / "vv-missing-reviewed-monitoring-topic-id.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["verification"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -739,7 +774,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--render-mode",
                     "final",
                 ],
@@ -759,7 +794,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             invalid = tmp_path / "vv-missing-reviewed-monitoring-timestamp.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["verification"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -779,7 +814,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--render-mode",
                     "final",
                 ],
@@ -799,7 +834,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             invalid = tmp_path / "vv-missing-reviewed-dlr-cid.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["verification"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -819,7 +854,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--render-mode",
                     "final",
                 ],
@@ -839,7 +874,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             aliased = tmp_path / "vv-linked-dlr-cid-alias.jsonld"
-            payload = json.loads(INPUT.read_text(encoding="utf-8"))
+            payload = json.loads(INPUTS["verification"].read_text(encoding="utf-8"))
             review = next(
                 node
                 for node in payload
@@ -860,7 +895,7 @@ class ValidationVerificationReportRenderingTests(unittest.TestCase):
                     "--input-jsonld",
                     str(aliased),
                     "--evidence-jsonld",
-                    str(EVIDENCE),
+                    str(EVIDENCE_FIXTURES["verification"]),
                     "--render-mode",
                     "final",
                     "--output-dir",

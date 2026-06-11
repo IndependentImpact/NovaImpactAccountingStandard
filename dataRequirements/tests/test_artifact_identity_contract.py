@@ -15,9 +15,11 @@ PDD_ALPHA_FIXTURE = REPO_ROOT / "dataRequirements/document-rendering/fixtures/pd
 MONITORING_FIXTURE = (
     REPO_ROOT / "dataRequirements/document-rendering/fixtures/monitoring-report-input.jsonld"
 )
-VALIDATION_VERIFICATION_FIXTURE = (
-    REPO_ROOT
-    / "dataRequirements/document-rendering/fixtures/validation-verification-report-input.jsonld"
+VALIDATION_FIXTURE = (
+    REPO_ROOT / "dataRequirements/document-rendering/fixtures/validation-report-input.jsonld"
+)
+VERIFICATION_FIXTURE = (
+    REPO_ROOT / "dataRequirements/document-rendering/fixtures/verification-report-input.jsonld"
 )
 TRACEABILITY_FIXTURE = (
     REPO_ROOT / "dataRequirements/fixtures/vvs/requirement-anchor-traceability.ttl"
@@ -98,7 +100,7 @@ class ArtifactIdentityContractTests(unittest.TestCase):
 
     def test_validation_review_identity_conforms_against_reviewed_pdd(self):
         conforms, _, validation_text = _validate_contract(
-            _load_graph([VALIDATION_VERIFICATION_FIXTURE]),
+            _load_graph([VALIDATION_FIXTURE]),
             NIAS.ReviewedArtifactIdentityShape,
             VALIDATION_REVIEW,
         )
@@ -107,7 +109,7 @@ class ArtifactIdentityContractTests(unittest.TestCase):
 
     def test_verification_review_identity_conforms_against_reviewed_monitoring_report(self):
         conforms, _, validation_text = _validate_contract(
-            _load_graph([VALIDATION_VERIFICATION_FIXTURE]),
+            _load_graph([VERIFICATION_FIXTURE]),
             NIAS.VerificationReviewIdentityShape,
             VERIFICATION_REVIEW,
         )
@@ -144,7 +146,7 @@ class ArtifactIdentityContractTests(unittest.TestCase):
         self.assertIn("submissionEventKey must equal", validation_text)
 
     def test_contract_rejects_reviewed_artifact_content_identity_mismatch(self):
-        graph = _load_graph([VALIDATION_VERIFICATION_FIXTURE])
+        graph = _load_graph([VALIDATION_FIXTURE])
         graph.remove((VALIDATION_REVIEW, NIAS.reviewedArtifactContentCid, None))
         graph.add((VALIDATION_REVIEW, NIAS.reviewedArtifactContentCid, Literal("wrongcid")))
 

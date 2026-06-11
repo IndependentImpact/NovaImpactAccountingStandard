@@ -275,14 +275,16 @@ reviewed-artifact evidence:
 ```bash
 python3 tooling/document-rendering/render_validation_verification_report_markdown.py \
   --report-type validation \
-  --input-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-input.jsonld \
-  --evidence-jsonld dataRequirements/document-rendering/fixtures/validation-verification-report-evidence.jsonld \
-  --source-artifact-id validation-verification-report-input.jsonld \
+  --input-jsonld dataRequirements/document-rendering/fixtures/validation-report-input.jsonld \
+  --evidence-jsonld dataRequirements/document-rendering/fixtures/validation-report-evidence.jsonld \
+  --source-artifact-id validation-report-input.jsonld \
   --generated-at 2026-05-28T00:00:00Z \
   --render-mode draft
 ```
 
-Use `--report-type verification` for the corresponding Verification Report.
+Use `--report-type verification` with
+`verification-report-input.jsonld` and `verification-report-evidence.jsonld`
+for the corresponding Verification Report.
 
 When starting from generated validation or verification review forms, use the
 shape2flutter handoff adapter first. It wraps the generated form payloads into
