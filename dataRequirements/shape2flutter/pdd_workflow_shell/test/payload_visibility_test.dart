@@ -27,4 +27,37 @@ void main() {
     expect(find.text('Payload'), findsNothing);
     expect(find.byTooltip('Open payload'), findsOneWidget);
   });
+
+  testWidgets('artifact identity panel starts collapsed and can be expanded',
+      (tester) async {
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const PddWorkflowShellApp());
+    await tester.pumpAndSettle();
+
+    // The panel title is visible but the content rows are hidden by default.
+    expect(find.text('Artifact identity'), findsOneWidget);
+    expect(
+      find.text('Auto-populated by the system — expand to review'),
+      findsOneWidget,
+    );
+    expect(find.text('IPFS URI'), findsNothing);
+
+    // Expanding the tile reveals the identity field rows.
+    await tester.tap(find.text('Artifact identity'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('IPFS URI'), findsOneWidget);
+    expect(find.text('Document schema'), findsOneWidget);
+    expect(find.text('Document author'), findsOneWidget);
+
+    // Collapsing again hides the rows.
+    await tester.tap(find.text('Artifact identity'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('IPFS URI'), findsNothing);
+  });
 }

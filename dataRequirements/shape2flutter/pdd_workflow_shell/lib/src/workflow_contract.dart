@@ -12,6 +12,7 @@ class NiasTerm {
   static const claimBase = 'http://w3id.org/claimont#';
   static const dataDocument = 'https://jellyfiiish.xyz/ns/Document';
   static const dctermsBase = 'http://purl.org/dc/terms/';
+  static const hederaBase = 'https://hashgraphontology.xyz/core/';
   static const impactBase = 'http://w3id.org/impactont#';
   static const schemaBase = 'https://schema.org/';
 
@@ -32,6 +33,10 @@ class NiasTerm {
   static const hasSpatialLocation = '${impactBase}hasSpatialLocation';
   static const hasSubject = '${claimBase}hasSubject';
   static const hasWorkflowSubmission = '${base}hasWorkflowSubmission';
+  static const hederaHasConsensusTimestamp =
+      '${hederaBase}hasConsensusTimestamp';
+  static const hederaHasTopicId = '${hederaBase}hasTopicId';
+  static const hederaInTopic = '${hederaBase}inTopic';
   static const impactClaim = '${base}impactClaim';
   static const impactIntentionality = '${base}impactIntentionality';
   static const isHostParty = '${base}isHostParty';
@@ -417,10 +422,10 @@ class PddWorkflowState {
           '${NiasTerm.base}workflowDocumentRecipient': NiasTerm.registry,
           NiasTerm.workflowSubmissionConsensusMessage: [
             {
-              'https://hashgraphontology.xyz/core/inTopic': [
-                {'https://hashgraphontology.xyz/core/hasTopicId': '0.0.1001'},
+              NiasTerm.hederaInTopic: [
+                {NiasTerm.hederaHasTopicId: '0.0.1001'},
               ],
-              'https://hashgraphontology.xyz/core/hasConsensusTimestamp':
+              NiasTerm.hederaHasConsensusTimestamp:
                   '2026-01-${_dayForStep(step).toString().padLeft(2, '0')}T00:00:00Z',
             },
           ],
@@ -568,15 +573,9 @@ class PddWorkflowState {
     final message = _firstMap(
       submission?[NiasTerm.workflowSubmissionConsensusMessage],
     );
-    final topic = _firstMap(
-      message?['https://hashgraphontology.xyz/core/inTopic'],
-    );
-    final topicId = _stringValue(
-      topic?['https://hashgraphontology.xyz/core/hasTopicId'],
-    );
-    final timestamp = _stringValue(
-      message?['https://hashgraphontology.xyz/core/hasConsensusTimestamp'],
-    );
+    final topic = _firstMap(message?[NiasTerm.hederaInTopic]);
+    final topicId = _stringValue(topic?[NiasTerm.hederaHasTopicId]);
+    final timestamp = _stringValue(message?[NiasTerm.hederaHasConsensusTimestamp]);
     if (topicId != null && timestamp != null) {
       return '$topicId-$timestamp';
     }
