@@ -16,7 +16,6 @@ ACTIVE_EXPORTER = (
 def main():
     command = [sys.executable, str(ACTIVE_EXPORTER), *sys.argv[1:]]
     os.execv(sys.executable, command)
-    return 0
 
 
 if __name__ == "__main__":

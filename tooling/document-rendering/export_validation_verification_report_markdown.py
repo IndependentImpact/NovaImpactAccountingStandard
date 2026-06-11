@@ -9,8 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 TOOLING_DIR = Path(__file__).resolve().parent
+REPO_ROOT = TOOLING_DIR.parent.parent
 if str(TOOLING_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLING_DIR))
 from export_workflow_report import (
