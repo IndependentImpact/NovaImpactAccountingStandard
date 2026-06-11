@@ -125,30 +125,35 @@ class _PddWorkflowShellPageState extends State<PddWorkflowShellPage> {
 
   Widget _buildForm(PddWorkflowStep step) {
     final draft = _drafts[step]!;
-    switch (step) {
-      case PddWorkflowStep.pddA:
-        return pdda.PddSectionAUiShapeFormWidget(initial: draft);
-      case PddWorkflowStep.pddB:
-        return pddb.PddSectionBUiShapeFormWidget(initial: draft);
-      case PddWorkflowStep.pddC:
-        return pddc.PddSectionCUiShapeFormWidget(initial: draft);
-      case PddWorkflowStep.reviewA:
-        return pdda_review.PddSectionAValidationReviewUiShapeFormWidget(
+    final innerForm = switch (step) {
+      PddWorkflowStep.pddA =>
+        pdda.PddSectionAUiShapeFormWidget(initial: draft),
+      PddWorkflowStep.pddB =>
+        pddb.PddSectionBUiShapeFormWidget(initial: draft),
+      PddWorkflowStep.pddC =>
+        pddc.PddSectionCUiShapeFormWidget(initial: draft),
+      PddWorkflowStep.reviewA =>
+        pdda_review.PddSectionAValidationReviewUiShapeFormWidget(
           initial: draft,
-        );
-      case PddWorkflowStep.reviewB:
-        return pddb_review.PddSectionBValidationReviewUiShapeFormWidget(
+        ),
+      PddWorkflowStep.reviewB =>
+        pddb_review.PddSectionBValidationReviewUiShapeFormWidget(
           initial: draft,
-        );
-      case PddWorkflowStep.reviewC:
-        return pddc_review.PddSectionCValidationReviewUiShapeFormWidget(
+        ),
+      PddWorkflowStep.reviewC =>
+        pddc_review.PddSectionCValidationReviewUiShapeFormWidget(
           initial: draft,
-        );
-      case PddWorkflowStep.pddCir:
-        return cir.PddCertificateIssuanceRequestUiShapeFormWidget(
-          initial: draft,
-        );
-    }
+        ),
+      PddWorkflowStep.pddCir =>
+        cir.PddCertificateIssuanceRequestUiShapeFormWidget(initial: draft),
+    };
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _IdentityFieldsPanel(draft: draft),
+        innerForm,
+      ],
+    );
   }
 
   void _refreshDerivedDraft(PddWorkflowStep step) {
@@ -501,6 +506,119 @@ class _BlockedPanel extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A collapsible panel that shows artifact identity fields above the generated
+/// form. It starts collapsed so users can focus on the form content, which they
+/// must fill in. The identity fields (IPFS URI, schema, author, submission
+/// metadata) will be auto-populated by the system in production.
+class _IdentityFieldsPanel extends StatelessWidget {
+  final Map<String, dynamic> draft;
+
+  const _IdentityFieldsPanel({required this.draft});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        leading: const Icon(Icons.fingerprint_outlined),
+        title: const Text('Artifact identity'),
+        subtitle: const Text(
+          'Auto-populated by the system — expand to review',
+        ),
+        initiallyExpanded: false,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _row(context, 'IPFS URI', draft[NiasTerm.resourceIpfsUri]),
+                _row(
+                  context,
+                  'Document schema',
+                  draft[NiasTerm.documentSchema],
+                ),
+                _row(
+                  context,
+                  'Document author',
+                  draft[NiasTerm.documentAuthor],
+                ),
+                _row(context, 'Auth proof', draft[NiasTerm.authProof]),
+                _row(context, 'Encrypted', draft[NiasTerm.isEncrypted]),
+                for (final entry in _submissionSummary())
+                  _row(context, entry.key, entry.value),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<MapEntry<String, Object?>> _submissionSummary() {
+    final submissions = draft[NiasTerm.hasWorkflowSubmission];
+    if (submissions is! List || submissions.isEmpty) return [];
+    final submission = submissions.first;
+    if (submission is! Map) return [];
+    final entries = <MapEntry<String, Object?>>[];
+    final subject = submission[NiasTerm.workflowSubject];
+    if (subject != null) {
+      entries.add(MapEntry('Workflow subject', subject));
+    }
+    final messages = submission[NiasTerm.workflowSubmissionConsensusMessage];
+    if (messages is List && messages.isNotEmpty) {
+      final msg = messages.first;
+      if (msg is Map) {
+        final topics = msg['https://hashgraphontology.xyz/core/inTopic'];
+        if (topics is List && topics.isNotEmpty) {
+          final topic = topics.first;
+          if (topic is Map) {
+            entries.add(
+              MapEntry(
+                'Submission topic',
+                topic['https://hashgraphontology.xyz/core/hasTopicId'],
+              ),
+            );
+          }
+        }
+        final timestamp =
+            msg['https://hashgraphontology.xyz/core/hasConsensusTimestamp'];
+        if (timestamp != null) {
+          entries.add(MapEntry('Consensus timestamp', timestamp));
+        }
+      }
+    }
+    return entries;
+  }
+
+  Widget _row(BuildContext context, String label, Object? value) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 180,
+            child: Text(
+              label,
+              style:
+                  textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value?.toString() ?? '—',
+              style: textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+            ),
+          ),
+        ],
       ),
     );
   }

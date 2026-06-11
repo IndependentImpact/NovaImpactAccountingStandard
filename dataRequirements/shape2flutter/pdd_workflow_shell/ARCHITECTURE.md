@@ -260,6 +260,28 @@ LayoutBuilder(builder: (context, constraints) {
 
 This pattern should be carried into any monitoring-report shell.
 
+### 5.2 _IdentityFieldsPanel — collapsible artifact identity section
+
+`_buildForm` prepends an `_IdentityFieldsPanel` above each generated form
+widget. The panel groups the artifact identity fields (IPFS URI, document
+schema, author, auth proof, submission topic, and timestamp) in a collapsed
+`ExpansionTile` so users focus on the form content they need to fill in.
+
+```
+_FormSurface (scroll wrapper)
+└── Column
+    ├── _IdentityFieldsPanel  ← ExpansionTile, collapsed by default
+    └── <generated FormWidget>
+```
+
+The panel starts collapsed and carries the subtitle
+**"Auto-populated by the system — expand to review"**. In production the
+identity fields will be populated automatically by the Fluree/service layer;
+no user interaction is expected.
+
+The `_IdentityFieldsPanel` reads values directly from the `draft` map that the
+shell already maintains. It does not mutate the draft.
+
 ---
 
 ## 6. State Ownership
@@ -596,6 +618,11 @@ One widget test verifying the payload inspector dialog:
 - Shows `Payload` heading and a "Close payload" button when open.
 - Dismisses on close.
 
+One widget test verifying the identity fields panel:
+- "Artifact identity" title is visible immediately; field rows are hidden when collapsed.
+- Tapping the tile expands it to show IPFS URI, Document schema, and Document author rows.
+- Tapping again collapses it and hides the rows.
+
 The test sets `tester.view.physicalSize = Size(1400, 1000)` and
 `devicePixelRatio = 1` to simulate a desktop browser viewport — important for
 any shell that has minimum-width layout constraints.
@@ -609,11 +636,12 @@ The following patterns can be lifted directly:
 | Pattern | File | Lines | Notes |
 |---|---|---|---|
 | Aliased import per generated shape | `pdd_workflow_shell_app.dart` | 5–11 | One alias per shape, prevents class name collisions |
-| `initial: Map<String,dynamic>` instantiation | `pdd_workflow_shell_app.dart` | 126–152 | Generated widget API; do not modify |
+| `initial: Map<String,dynamic>` instantiation | `pdd_workflow_shell_app.dart` | 126–157 | Generated widget API; do not modify |
+| `_IdentityFieldsPanel` collapsible metadata section | `pdd_workflow_shell_app.dart` | 514–625 | `ExpansionTile` collapsed by default; prepended above every generated form |
 | `documentSeed()` factory | `workflow_contract.dart` | 399–449 | Pre-populate framework fields before form opens |
 | `WorkflowArtifact` snapshot on submit | `workflow_contract.dart` | 325–337 | Captures IRI, schema, messageId, ipfsUri, payload |
 | `toDocumentReference()` serializer | `workflow_contract.dart` | 259–265 | Produces `DocumentReference` node for downstream cross-refs |
-| Payload inspector dialog | `pdd_workflow_shell_app.dart` | 509–562 | `JsonEncoder.withIndent('  ')` view; reuse as-is |
+| Payload inspector dialog | `pdd_workflow_shell_app.dart` | 627–680 | `JsonEncoder.withIndent('  ')` view; reuse as-is |
 | `_FormSurface` dual-axis scroll wrapper | `pdd_workflow_shell_app.dart` | 345–367 | Minimum 1160 px content width |
 | Role-based `canOpen` / `blockers` | `workflow_contract.dart` | 290–323 | Returns `List<String>` for UI display |
 | `_StepTile` lock / check / radio icons | `pdd_workflow_shell_app.dart` | 237–257 | Visual state: locked, open, submitted |
