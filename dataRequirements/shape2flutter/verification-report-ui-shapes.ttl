@@ -191,7 +191,7 @@ nias-ui:ReviewTargetUiShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Reviewed artifact IRI" ;
-        ui:help "IRI of the exact PDD, monitoring report, or other reviewed artifact version." ;
+        ui:help "IRI of the Monitoring Report version being verified." ;
         ui:order 1 ;
     ] ;
     sh:property [
@@ -200,7 +200,7 @@ nias-ui:ReviewTargetUiShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Reviewed anchor IRI" ;
-        ui:help "IRI of the concrete artifact anchor being reviewed." ;
+        ui:help "IRI of the specific Monitoring Report or Data Lineage Report anchor being verified. Refer to monitoring-anchor-definitions.ttl and dlr-anchor-definitions.ttl." ;
         ui:order 2 ;
     ] .
 
@@ -272,27 +272,37 @@ nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
         sh:node nias-ui:WorkflowDocumentSubmissionUiShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Workflow submission" ;
+        ui:label "1.0 Verification workflow submission context" ;
         ui:widget ui:subform ;
         ui:order 1 ;
+    ] ;
+    sh:property [
+        sh:path nias-o:documentLevelQualitativeJudgement ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        ui:label "1.1 Monitoring Report global qualitative evaluation (verification guiding questions GQ-003, GQ-004, GQ-006, GQ-008)" ;
+        ui:help "Respond to the verification guiding questions: GQ-003 (consistency of implemented activity with purpose), GQ-004 (material changes disclosure), GQ-006 (section-level evidence alignment), GQ-008 (cross-section and linked-artifact coherence). These questions are defined in GuidingReviewQuestions.ttl." ;
+        ui:widget ui:textarea ;
+        ui:order 2 ;
     ] ;
     sh:property [
         sh:path nias-o:fieldReview ;
         sh:node nias-ui:DocumentFieldReviewUiShape ;
         sh:minCount 1 ;
         sh:maxCount 99 ;
-        ui:label "Anchor reviews" ;
+        ui:label "2.0 Monitoring Report paragraph-level verification findings (per MR/DLR anchor definitions)" ;
         ui:widget ui:subform ;
-        ui:order 2 ;
+        ui:order 3 ;
     ] ;
     sh:property [
         sh:path nias-o:finalReviewDecision ;
         sh:in ( nias-cs:review-approve nias-cs:review-reject ) ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        ui:label "Final review decision" ;
+        ui:label "3.0 Final verification decision (approve or reject the Monitoring Report)" ;
         ui:widget ui:radio ;
-        ui:order 3 ;
+        ui:order 4 ;
     ] ;
     sh:property [
         sh:path nias-o:requestedIssuanceAccountId ;
@@ -301,5 +311,5 @@ nias-ui:VerifiedImpactCertificateIssuanceRequestReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Issuance account ID" ;
         ui:help "Hedera account in shard.realm.num format." ;
-        ui:order 4 ;
+        ui:order 5 ;
     ] .
