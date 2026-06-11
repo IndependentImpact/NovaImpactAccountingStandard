@@ -8,6 +8,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = REPO_ROOT / "dataRequirements/document-rendering/fixtures"
+VALIDATION_INPUT = FIXTURES / "validation-report-input.jsonld"
+VERIFICATION_INPUT = FIXTURES / "verification-report-input.jsonld"
+VALIDATION_EVIDENCE = FIXTURES / "validation-report-evidence.jsonld"
+VERIFICATION_EVIDENCE = FIXTURES / "verification-report-evidence.jsonld"
 PDD_RENDERER = REPO_ROOT / "tooling/document-rendering/render_pdd_markdown.py"
 MR_RENDERER = REPO_ROOT / "tooling/document-rendering/render_monitoring_report_markdown.py"
 VV_RENDERER = REPO_ROOT / "tooling/document-rendering/render_validation_verification_report_markdown.py"
@@ -46,9 +50,9 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
                     "--report-type",
                     "validation",
                     "--input-jsonld",
-                    str(FIXTURES / "validation-verification-report-input.jsonld"),
+                    str(VALIDATION_INPUT),
                     "--evidence-jsonld",
-                    str(FIXTURES / "validation-verification-report-evidence.jsonld"),
+                    str(VALIDATION_EVIDENCE),
                     "--render-mode",
                     "final",
                     "--output-dir",
@@ -84,9 +88,9 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
                     "--report-type",
                     "verification",
                     "--input-jsonld",
-                    str(FIXTURES / "validation-verification-report-input.jsonld"),
+                    str(VERIFICATION_INPUT),
                     "--evidence-jsonld",
-                    str(FIXTURES / "validation-verification-report-evidence.jsonld"),
+                    str(VERIFICATION_EVIDENCE),
                     "--render-mode",
                     "final",
                     "--output-dir",
@@ -153,7 +157,7 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
             invalid = tmp / "invalid-vv.jsonld"
-            payload = json.loads((FIXTURES / "validation-verification-report-input.jsonld").read_text())
+            payload = json.loads(VALIDATION_INPUT.read_text())
             review = next(
                 node
                 for node in payload
@@ -174,7 +178,7 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(FIXTURES / "validation-verification-report-evidence.jsonld"),
+                    str(VALIDATION_EVIDENCE),
                     "--render-mode",
                     "final",
                 ],
@@ -192,7 +196,7 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
             invalid = tmp / "invalid-vv-dlr.jsonld"
-            payload = json.loads((FIXTURES / "validation-verification-report-input.jsonld").read_text())
+            payload = json.loads(VERIFICATION_INPUT.read_text())
             review = next(
                 node
                 for node in payload
@@ -213,7 +217,7 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
                     "--input-jsonld",
                     str(invalid),
                     "--evidence-jsonld",
-                    str(FIXTURES / "validation-verification-report-evidence.jsonld"),
+                    str(VERIFICATION_EVIDENCE),
                     "--render-mode",
                     "final",
                 ],
@@ -291,4 +295,3 @@ class LinkedArtifactIdentityTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

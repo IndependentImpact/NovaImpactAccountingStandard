@@ -1,0 +1,89 @@
+[
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/project-1",
+    "@type": [
+      "http://w3id.org/aiao#Project"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/technologyOrMeasure": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/technology-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/title": [
+      {
+        "@value": "VVS Rendering Solar Project"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/technology-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/TechnologyOrMeasure"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/techMeasType": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/facility"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-a-report",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PddSectionAReport"
+    ],
+    "http://w3id.org/claimont#hasSubject": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/project-1"
+      }
+    ],
+    "http://w3id.org/claimont#isMadeBy": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/developer-1"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/developer-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PlatformUser"
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-b-report",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PddSectionBReport"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/hasDeclaredImpact": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/impact-1"
+      }
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/usesMethodology": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/methodology-1"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/impact-1",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/Impact"
+    ],
+    "https://nova.org.za/novaimpactaccountingstandard/beneficialOrAdverse": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/beneficial"
+      }
+    ]
+  },
+  {
+    "@id": "https://nova.org.za/novaimpactaccountingstandard/vvs/rendering/pdd-c-report",
+    "@type": [
+      "https://nova.org.za/novaimpactaccountingstandard/PddSectionCReport"
+    ],
+    "http://purl.org/dc/terms/conformsTo": [
+      {
+        "@id": "https://nova.org.za/novaimpactaccountingstandard/document-schema/PDDxC-4.0.0"
+      }
+    ]
+  }
+]
