@@ -575,20 +575,16 @@ class _IdentityFieldsPanel extends StatelessWidget {
     if (messages is List && messages.isNotEmpty) {
       final msg = messages.first;
       if (msg is Map) {
-        final topics = msg['https://hashgraphontology.xyz/core/inTopic'];
+        final topics = msg[NiasTerm.hederaInTopic];
         if (topics is List && topics.isNotEmpty) {
           final topic = topics.first;
           if (topic is Map) {
             entries.add(
-              MapEntry(
-                'Submission topic',
-                topic['https://hashgraphontology.xyz/core/hasTopicId'],
-              ),
+              MapEntry('Submission topic', topic[NiasTerm.hederaHasTopicId]),
             );
           }
         }
-        final timestamp =
-            msg['https://hashgraphontology.xyz/core/hasConsensusTimestamp'];
+        final timestamp = msg[NiasTerm.hederaHasConsensusTimestamp];
         if (timestamp != null) {
           entries.add(MapEntry('Consensus timestamp', timestamp));
         }
