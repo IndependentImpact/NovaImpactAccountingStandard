@@ -30,7 +30,7 @@ Related implementation inputs are currently:
 - `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`
 - `dataRequirements/fixtures/pdd-workflow/*.ttl`
 - `dataRequirements/shape2flutter/pdd_workflow_shell/`
-- `dataRequirements/document-rendering/pdd-markdown-export-phase1-assessment.md`
+- `dev/Completed/pdd-markdown-export-phase1-assessment.md`
 
 ## Conceptual Model
 
@@ -326,7 +326,7 @@ Tasks:
 - Recorded fields that are required for human document rendering but are not
   yet explicit in the semantic model.
 - Added the Phase 1 assessment in
-  `dataRequirements/document-rendering/pdd-markdown-export-phase1-assessment.md`.
+  `dev/Completed/pdd-markdown-export-phase1-assessment.md`.
 
 End-of-phase criteria:
 

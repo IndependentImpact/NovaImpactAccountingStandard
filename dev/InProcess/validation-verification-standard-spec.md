@@ -6,7 +6,7 @@ This specification defines how to evolve the current NIAS Turtle assets from sec
 
 Linked-artifact identity and reviewed-artifact boundary rules used by these
 workflows are defined in
-`dataRequirements/linked-artifact-boundary-decisions.md`.
+`dev/Completed/linked-artifact-boundary-decisions.md`.
 
 The target state is:
 

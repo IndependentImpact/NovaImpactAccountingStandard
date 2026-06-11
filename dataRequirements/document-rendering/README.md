@@ -13,7 +13,7 @@ The renderer stays independent of Fluree, IPFS, and Hedera deployment concerns.
 It consumes canonical data and produces deterministic document artifacts.
 
 Linked-artifact identity boundaries are normatively defined in:
-`dataRequirements/linked-artifact-boundary-decisions.md`. The
+`dev/Completed/linked-artifact-boundary-decisions.md`. The
 machine-checkable identity contract is expressed in
 `dataRequirements/artifact-identity-contract-shapes.ttl`.
 

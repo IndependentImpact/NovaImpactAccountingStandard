@@ -27,7 +27,7 @@ normative standard artifacts.
 
 Linked-artifact identity requirements and reviewed-artifact boundary decisions
 are normatively defined in:
-`dataRequirements/linked-artifact-boundary-decisions.md`. The corresponding
+`dev/Completed/linked-artifact-boundary-decisions.md`. The corresponding
 SHACL identity contract is
 `dataRequirements/artifact-identity-contract-shapes.ttl`.
 
