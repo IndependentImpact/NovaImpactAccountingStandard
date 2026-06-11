@@ -10,7 +10,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = (
     REPO_ROOT
-    / "dataRequirements/shape2flutter/validation_verification_report/tool/export_validation_verification_report_markdown.py"
+    / "tooling/document-rendering/export_validation_verification_report_markdown.py"
 )
 VALIDATION_WRAPPER = (
     REPO_ROOT
@@ -30,6 +30,18 @@ NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
 
 
 class ValidationVerificationHandoffExportTests(unittest.TestCase):
+    def test_split_wrappers_do_not_depend_on_archived_combined_exporter(self):
+        for wrapper_path in (VALIDATION_WRAPPER, VERIFICATION_WRAPPER):
+            source = wrapper_path.read_text(encoding="utf-8")
+            self.assertIn(
+                "tooling/document-rendering/export_validation_verification_report_markdown.py",
+                source,
+            )
+            self.assertNotIn(
+                "validation_verification_report/tool/export_validation_verification_report_markdown.py",
+                source,
+            )
+
     def _write_fake_pandoc(self, path: Path):
         path.write_text(
             "\n".join(

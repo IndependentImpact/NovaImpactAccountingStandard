@@ -7,9 +7,10 @@ from pathlib import Path
 
 
 NIAS = "https://nova.org.za/novaimpactaccountingstandard/"
+REPO_ROOT = Path(__file__).resolve().parents[4]
 SHARED_EXPORTER = (
-    Path(__file__).resolve().parents[2]
-    / "validation_verification_report/tool/export_validation_verification_report_markdown.py"
+    REPO_ROOT
+    / "tooling/document-rendering/export_validation_verification_report_markdown.py"
 )
 
 

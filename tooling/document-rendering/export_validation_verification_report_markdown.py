@@ -4,13 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
-sys.path.insert(0, str(REPO_ROOT / "tooling/document-rendering"))
+REPO_ROOT = Path(__file__).resolve().parents[2]
 from export_workflow_report import (
     load_export_config,
     normalize_identity_field_names,
