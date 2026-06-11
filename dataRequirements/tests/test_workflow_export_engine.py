@@ -50,10 +50,16 @@ class WorkflowExportEngineTests(unittest.TestCase):
         )
         self.assertEqual(validation_config["default_output_targets"], ["markdown"])
         self.assertEqual(
+            validation_config["renderer_args"], ["--report-type", "validation"]
+        )
+        self.assertEqual(
             verification_config["renderer_script"],
             validation_config["renderer_script"],
         )
         self.assertEqual(verification_config["default_output_targets"], ["markdown"])
+        self.assertEqual(
+            verification_config["renderer_args"], ["--report-type", "verification"]
+        )
         self.assertEqual(
             validation_config["payload_filename"],
             "validation-report-review-package.jsonld",

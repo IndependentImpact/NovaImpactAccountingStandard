@@ -40,6 +40,9 @@ Each config file is a YAML mapping with these required keys:
 
 Optional key:
 
+- `renderer_args`  
+  Optional CLI arguments appended before any exporter-provided renderer args.
+  Use this to pin renderer mode selectors such as `--report-type`.
 - `final_gate_requirements`  
   Section-to-gate mapping used by `evaluate_final_gate_failures` for
   final-mode approval checks.
@@ -57,6 +60,7 @@ different renderer, payload filename, or default output target set.
      `tooling/document-rendering/`;
    - `payload_filename` to a unique descriptive filename;
    - `default_output_targets` to the expected default outputs.
+   - `renderer_args` when the renderer needs fixed selector flags.
 3. Update the relevant exporter script (for example under
    `dataRequirements/shape2flutter/.../tool/`) to point to the new config path.
 4. Add or update tests in `dataRequirements/tests/test_workflow_export_engine.py`

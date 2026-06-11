@@ -2,3 +2,6 @@ renderer_script: tooling/document-rendering/render_validation_verification_repor
 payload_filename: validation-report-review-package.jsonld
 default_output_targets:
   - markdown
+renderer_args:
+  - --report-type
+  - validation
