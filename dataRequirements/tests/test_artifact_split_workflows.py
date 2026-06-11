@@ -248,6 +248,65 @@ class ArtifactSplitWorkflowTests(unittest.TestCase):
                 graph.parse(path, format="turtle")
                 self.assertGreater(len(graph), 0)
 
+    def test_validation_report_ui_shape_language_is_pdd_specific(self):
+        bundle = (SHAPE2FLUTTER_ROOT / "validation-report-ui-shapes.ttl").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn(
+            "1.1 Global PDD qualitative evaluation (validation guiding questions GQ-001, GQ-002, GQ-005, GQ-007)",
+            bundle,
+        )
+        self.assertIn(
+            "2.0 PDD section-level qualitative evaluation (validation guiding question GQ-005)",
+            bundle,
+        )
+        self.assertIn(
+            "3.0 PDD paragraph-level validation findings (per PDD anchor definitions)",
+            bundle,
+        )
+        self.assertIn(
+            "4.0 Final validation decision (approve or reject the PDD)",
+            bundle,
+        )
+        self.assertIn("IRI of the PDD version being validated.", bundle)
+        self.assertIn(
+            "IRI of the specific PDD anchor (section or paragraph) being validated. Refer to pdd-anchor-definitions.ttl.",
+            bundle,
+        )
+        self.assertNotIn("Monitoring Report version being verified", bundle)
+
+    def test_verification_report_ui_shape_language_is_monitoring_specific(self):
+        bundle = (SHAPE2FLUTTER_ROOT / "verification-report-ui-shapes.ttl").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn(
+            "1.0 Verification workflow submission context",
+            bundle,
+        )
+        self.assertIn(
+            "1.1 Monitoring Report global qualitative evaluation (verification guiding questions GQ-003, GQ-004, GQ-006, GQ-008)",
+            bundle,
+        )
+        self.assertIn(
+            "2.0 Monitoring Report paragraph-level verification findings (per MR/DLR anchor definitions)",
+            bundle,
+        )
+        self.assertIn(
+            "3.0 Final verification decision (approve or reject the Monitoring Report)",
+            bundle,
+        )
+        self.assertIn(
+            "IRI of the Monitoring Report version being verified.",
+            bundle,
+        )
+        self.assertIn(
+            "IRI of the specific Monitoring Report or Data Lineage Report anchor being verified. Refer to monitoring-anchor-definitions.ttl and dlr-anchor-definitions.ttl.",
+            bundle,
+        )
+        self.assertNotIn("PDD version being validated", bundle)
+
 
 if __name__ == "__main__":
     unittest.main()
