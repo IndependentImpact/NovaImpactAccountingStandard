@@ -1,0 +1,33 @@
+@prefix nias-cs: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix nias-o: <https://nova.org.za/novaimpactaccountingstandard/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# ---------------------------------------------------------------------------
+# Review Mandate concept scheme
+#
+# Declares nias-cs:validation and nias-cs:verification as formal SKOS
+# Concepts belonging to nias-cs:ReviewMandateScheme.  These concepts are
+# used as nias-o:ReviewMandate instances throughout the Validation &
+# Verification Standard (glossary/ValidationVerificationStandard.ttl) and
+# the Guiding Review Questions (glossary/GuidingReviewQuestions.ttl).
+# ---------------------------------------------------------------------------
+
+nias-cs:validation a nias-o:ReviewMandate,
+        skos:Concept ;
+    skos:definition "Ex-ante formal compliance review of a Project Design Document by a licensed validator. Validation assesses the PDD section-by-section and paragraph-by-paragraph for clarity, completeness, and level of evidence against the Validation & Verification Standard and the accounting principles." ;
+    skos:inScheme nias-cs:ReviewMandateScheme ;
+    skos:prefLabel "Validation" ;
+    skos:topConceptOf nias-cs:ReviewMandateScheme .
+
+nias-cs:verification a nias-o:ReviewMandate,
+        skos:Concept ;
+    skos:definition "Ex-post process in which actual project implementation is monitored in accordance with the validated monitoring plan set out in PDD Section B. Verification inspects the Data Lineage Report and Monitoring Report for data lineage and calculation correctness." ;
+    skos:inScheme nias-cs:ReviewMandateScheme ;
+    skos:prefLabel "Verification" ;
+    skos:topConceptOf nias-cs:ReviewMandateScheme .
+
+nias-cs:ReviewMandateScheme a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary declaring the two review mandates under the Nova Impact Accounting Standard: Validation (ex-ante formal compliance review of a Project Design Document) and Verification (ex-post review of the Data Lineage Report and Monitoring Report)." ;
+    skos:hasTopConcept nias-cs:validation,
+        nias-cs:verification ;
+    skos:prefLabel "Review mandate concepts" .

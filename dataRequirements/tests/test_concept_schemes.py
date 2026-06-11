@@ -59,6 +59,9 @@ class ConceptSchemeTtlParsingTests(unittest.TestCase):
     def test_reputation_rules_shapes_ttl_parses(self):
         self._assert_parses(GLOSSARY / "ReputationRulesShapes.ttl")
 
+    def test_review_mandate_concepts_ttl_parses(self):
+        self._assert_parses(GLOSSARY / "ReviewMandateConcepts.ttl")
+
 
 class ConceptSchemeSkosCompletenessTests(unittest.TestCase):
     """Every concept scheme and concept must carry required SKOS predicates."""
@@ -96,6 +99,9 @@ class ConceptSchemeSkosCompletenessTests(unittest.TestCase):
 
     def test_reputation_rules_skos_complete(self):
         self._assert_skos_complete(GLOSSARY / "ReputationRules.ttl")
+
+    def test_review_mandate_concepts_skos_complete(self):
+        self._assert_skos_complete(GLOSSARY / "ReviewMandateConcepts.ttl")
 
 
 class ConceptSchemeExpectedContentsTests(unittest.TestCase):
@@ -187,6 +193,48 @@ class ConceptSchemeExpectedContentsTests(unittest.TestCase):
         )
         self.assertEqual(len(concepts), 5)
 
+    def test_review_mandate_concepts_has_review_mandate_scheme(self):
+        g = _load_graph(GLOSSARY / "ReviewMandateConcepts.ttl")
+        self.assertIn(
+            "https://nova.org.za/novaimpactaccountingstandard/ReviewMandateScheme",
+            self._scheme_iris(g),
+        )
+
+    def test_review_mandate_concepts_has_validation_and_verification(self):
+        g = _load_graph(GLOSSARY / "ReviewMandateConcepts.ttl")
+        concepts = self._concepts_in_scheme(
+            g, "https://nova.org.za/novaimpactaccountingstandard/ReviewMandateScheme"
+        )
+        base = "https://nova.org.za/novaimpactaccountingstandard/"
+        self.assertIn(base + "validation", concepts)
+        self.assertIn(base + "verification", concepts)
+
+    def test_review_mandate_concepts_validation_has_label_and_definition(self):
+        from rdflib import URIRef
+        g = _load_graph(GLOSSARY / "ReviewMandateConcepts.ttl")
+        validation = URIRef("https://nova.org.za/novaimpactaccountingstandard/validation")
+        self.assertTrue(
+            list(g.objects(validation, SKOS.prefLabel)),
+            msg="nias-cs:validation must have skos:prefLabel",
+        )
+        self.assertTrue(
+            list(g.objects(validation, SKOS.definition)),
+            msg="nias-cs:validation must have skos:definition",
+        )
+
+    def test_review_mandate_concepts_verification_has_label_and_definition(self):
+        from rdflib import URIRef
+        g = _load_graph(GLOSSARY / "ReviewMandateConcepts.ttl")
+        verification = URIRef("https://nova.org.za/novaimpactaccountingstandard/verification")
+        self.assertTrue(
+            list(g.objects(verification, SKOS.prefLabel)),
+            msg="nias-cs:verification must have skos:prefLabel",
+        )
+        self.assertTrue(
+            list(g.objects(verification, SKOS.definition)),
+            msg="nias-cs:verification must have skos:definition",
+        )
+
 
 class ConceptSchemeShaclConformanceTests(unittest.TestCase):
     """Each concept scheme file must conform to its accompanying SHACL shapes."""
@@ -219,6 +267,11 @@ class ConceptSchemeShaclConformanceTests(unittest.TestCase):
     def test_reputation_rules_conforms_to_reputation_rules_shapes(self):
         self._assert_conforms(
             GLOSSARY / "ReputationRules.ttl", GLOSSARY / "ReputationRulesShapes.ttl"
+        )
+
+    def test_review_mandate_concepts_conforms_to_principle_shapes(self):
+        self._assert_conforms(
+            GLOSSARY / "ReviewMandateConcepts.ttl", GLOSSARY / "PrincipleShapes.ttl"
         )
 
 
