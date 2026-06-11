@@ -13,10 +13,12 @@ import render_pdd_markdown as pdd_renderer
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_PROFILE = (
-    REPO_ROOT
-    / "dataRequirements/document-rendering/validation-verification-report-rendering-profile.md"
-)
+DEFAULT_PROFILES = {
+    "validation": REPO_ROOT
+    / "dataRequirements/document-rendering/validation-report-rendering-profile.md",
+    "verification": REPO_ROOT
+    / "dataRequirements/document-rendering/verification-report-rendering-profile.md",
+}
 DEFAULT_VVS_REQUIREMENTS = REPO_ROOT / "glossary/ValidationVerificationStandard.ttl"
 DEFAULT_VVS_SHAPES = REPO_ROOT / "dataRequirements/vvs-requirement-shapes.ttl"
 DEFAULT_VVS_REQUIREMENT_ANCHOR_MAP = (
@@ -1511,7 +1513,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Render NIAS Validation or Verification Report Markdown from review JSON-LD."
     )
-    parser.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    parser.add_argument("--profile", type=Path)
     parser.add_argument(
         "--report-type",
         choices=REPORT_TYPES,
@@ -1544,6 +1546,8 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
+    profile_path = args.profile or DEFAULT_PROFILES[args.report_type]
+
     source_artifact = "blank-template"
     generated_at = datetime.now(timezone.utc).isoformat()
     if args.input_jsonld:
@@ -1551,7 +1555,7 @@ def main():
         generated_at = args.generated_at or generated_at
         try:
             rendered = render_filled_markdown(
-                args.profile,
+                profile_path,
                 args.input_jsonld,
                 args.evidence_jsonld,
                 source_artifact=source_artifact,
@@ -1562,7 +1566,7 @@ def main():
         except (RuntimeError, ValueError) as exc:
             parser.exit(1, f"{exc}\n")
     else:
-        rendered = render_blank_template(args.profile, args.report_type)
+        rendered = render_blank_template(profile_path, args.report_type)
 
     if args.output_dir:
         output_targets = args.output_target or ["markdown"]

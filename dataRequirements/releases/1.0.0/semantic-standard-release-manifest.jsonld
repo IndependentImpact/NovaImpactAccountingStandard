@@ -490,7 +490,7 @@
       "@id": "https://nova.org.za/novaimpactaccountingstandard/releases/1.0.0/artifacts/validation-verification-rendering-profile",
       "@type": "nias:ReleaseArtifact",
       "dcterms:title": "Validation/verification report rendering profile",
-      "nias:relativePath": "dataRequirements/document-rendering/validation-verification-report-rendering-profile.md",
+      "nias:relativePath": "dataRequirements/document-rendering/archive/validation-verification-report-rendering-profile.md",
       "nias:artifactRole": "rendering-profile",
       "nias:sourceStatus": "operational-profile",
       "nias:parseFormat": "markdown",

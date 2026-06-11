@@ -1,8 +1,8 @@
 ---
-profile: nias-validation-verification-report-rendering-profile
+profile: nias-verification-report-rendering-profile
 profileVersion: 0.1.0
 standard: Nova Impact Accounting Standard
-documentType: Validation or Verification Report
+documentType: Verification Report
 formatVersion: 0.1.0
 canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
@@ -18,8 +18,6 @@ defaultOutputTargets:
   - pdf
   - html
 sidecarOutputs:
-  - validation-report.metadata.jsonld
-  - validation-report.validation.json
   - verification-report.metadata.jsonld
   - verification-report.validation.json
 renderedDocumentType: Verification Report
@@ -29,6 +27,12 @@ reportType: verification
 # Nova Impact Accounting Standard
 
 ## Verification Report
+
+Verification scope note: guiding questions in scope are GQ-003, GQ-004,
+GQ-006, and GQ-008. VVS requirements in scope are REQ-DLR-001,
+REQ-DLR-002, REQ-MR-001, REQ-MR-002, REQ-CROSS-001, REQ-PDD-003
+(verification facet), REQ-PDD-004 (verification facet), and REQ-PDD-005
+(verification facet).
 
 ### _[Verification Report package title]_
 
@@ -74,35 +78,35 @@ Verification Report
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-## Section 1. Global Evaluation
+## Section 1. Global Monitoring Report Evaluation
 
 | Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
 | **[required]** _[review document]_ | _[validation or verification]_ | _[approve or reject]_ | _[anchor review count]_ |
 
 
-### 1.1 Document-Level Qualitative Evaluation
+### 1.1 Document-Level Monitoring Report Qualitative Evaluation
 
 | Review document | Review type | Document-level qualitative judgement |
 | --- | --- | --- |
 | **[required for validation]** _[review document]_ | _[validation or verification]_ | _[global qualitative judgement against guiding questions]_ |
 
 
-## Section 2. Section-Level Evaluation (Guiding Questions)
+## Section 2. Monitoring Report Section-Level Evaluation (Guiding Questions)
 
 | Review document | Review type | Section-level qualitative judgement |
 | --- | --- | --- |
 | **[required for validation]** _[review document]_ | _[validation or verification]_ | _[section-level qualitative judgement against guiding questions]_ |
 
 
-## Section 3. Paragraph-Level Validation Findings
+## Section 3. Monitoring Report Paragraph-Level Verification Findings
 
 | Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
 | --- | --- | --- | --- | --- | --- |
 | **[required]** _[review document]_ | _[artifact IRI]_ | _[anchor IRI]_ | _[review decision]_ | _[reviewer feedback]_ | _[anchored content]_ |
 
 
-## Section 4. VVS Requirement Coverage Summary
+## Section 4. Verification VVS Requirement Coverage
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
