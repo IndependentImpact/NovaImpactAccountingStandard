@@ -277,5 +277,5 @@ shape_enforced_reviewed_identity_fields:
 - `dataRequirements/shape2flutter/*-ui-shapes.ttl` — activity-specific adapter bundles
 - `dataRequirements/shape2flutter/build-*.sh` — build scripts that call `shape2flutter`
 - `dataRequirements/tests/test_artifact_split_workflows.py` — automated tests for these workflow files
-- `dataRequirements/linked-artifact-boundary-decisions.md` — normative linked-artifact identity decisions
+- `dev/Completed/linked-artifact-boundary-decisions.md` — normative linked-artifact identity decisions
 - `dataRequirements/artifact-identity-contract-shapes.ttl` — SHACL identity contract

@@ -1252,7 +1252,7 @@ Status: completed 2026-05-14.
 Actions:
 
 - Freeze the current `reference/` scripts as legacy adapters. ✅ completed in
-  `dataRequirements/legacy-reference-freeze.md` and
+  `dev/Completed/legacy-reference-freeze.md` and
   `dataRequirements/legacy-reference-manifest.sha256`.
 - Extract every legacy input field path, output RDF predicate, expected
   datatype, cardinality, and conditional rule into a table. ✅ completed in

@@ -145,7 +145,7 @@ and operationalize the ontology, concept schemes, document schema resources, and
 SHACL shapes using the same canonical IRIs.
 
 The detailed post-SHACL specification is
-[`../fluree-ledger-deployment-package.md`](../fluree-ledger-deployment-package.md).
+[`../InProcess/fluree-ledger-deployment-package.md`](../InProcess/fluree-ledger-deployment-package.md).
 
 ## UI Adapter Shape Set
 
