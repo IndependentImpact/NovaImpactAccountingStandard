@@ -153,6 +153,12 @@ def run_renderer_with_payload(
             encoding="utf-8",
         )
 
+        renderer_args = config.get("renderer_args") or []
+        if not isinstance(renderer_args, list) or not all(
+            isinstance(arg, str) for arg in renderer_args
+        ):
+            raise ValueError("Export config renderer_args must be a list of strings.")
+
         command = [
             os.environ.get("PYTHON3_BIN") or sys.executable,
             str(render_script),
@@ -163,6 +169,7 @@ def run_renderer_with_payload(
             "--source-artifact-id",
             source_artifact_id,
         ]
+        command.extend(renderer_args)
         command.extend(extra_renderer_args or [])
 
         if output:
