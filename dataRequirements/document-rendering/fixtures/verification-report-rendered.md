@@ -1,8 +1,8 @@
 ---
-profile: nias-validation-verification-report-rendering-profile
+profile: nias-verification-report-rendering-profile
 profileVersion: 0.1.0
 standard: Nova Impact Accounting Standard
-documentType: Validation or Verification Report
+documentType: Verification Report
 formatVersion: 0.1.0
 canonicalDataAuthority: SHACL
 primaryInput: JSON-LD
@@ -18,8 +18,6 @@ defaultOutputTargets:
   - pdf
   - html
 sidecarOutputs:
-  - validation-report.metadata.jsonld
-  - validation-report.validation.json
   - verification-report.metadata.jsonld
   - verification-report.validation.json
 renderedDocumentType: Verification Report
@@ -33,6 +31,12 @@ generatedAt: 2026-05-28T00:00:00Z
 # Nova Impact Accounting Standard
 
 ## Verification Report
+
+Verification scope note: guiding questions in scope are GQ-003, GQ-004,
+GQ-006, and GQ-008. VVS requirements in scope are REQ-DLR-001,
+REQ-DLR-002, REQ-MR-001, REQ-MR-002, REQ-CROSS-001, REQ-PDD-003
+(verification facet), REQ-PDD-004 (verification facet), and REQ-PDD-005
+(verification facet).
 
 ### Verification Review Package
 
@@ -78,35 +82,35 @@ validation-verification-report-input.jsonld
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-## Section 1. Global Evaluation
+## Section 1. Global Monitoring Report Evaluation
 
 | Review document | Review type | Final decision | Anchor reviews |
 | --- | --- | --- | ---: |
 | vv-verification-review-1 | Verification review | Approve | 1 |
 
 
-### 1.1 Document-Level Qualitative Evaluation
+### 1.1 Document-Level Monitoring Report Qualitative Evaluation
 
 | Review document | Review type | Document-level qualitative judgement |
 | --- | --- | --- |
 | vv-verification-review-1 | Verification review | Unavailable |
 
 
-## Section 2. Section-Level Evaluation (Guiding Questions)
+## Section 2. Monitoring Report Section-Level Evaluation (Guiding Questions)
 
 | Review document | Review type | Section-level qualitative judgement |
 | --- | --- | --- |
 | vv-verification-review-1 | Verification review | Unavailable |
 
 
-## Section 3. Paragraph-Level Validation Findings
+## Section 3. Monitoring Report Paragraph-Level Verification Findings
 
 | Review document | Reviewed artifact | Reviewed anchor | Decision | Feedback | Reviewed content |
 | --- | --- | --- | --- | --- | --- |
 | vv-verification-review-1 | monitoring-report | monitoring.observation | Approve | The verified impact summary is consistent with the monitoring report review. | 87.5 tCO2e avoided during the monitoring period. |
 
 
-## Section 4. VVS Requirement Coverage Summary
+## Section 4. Verification VVS Requirement Coverage
 
 | Requirement | Mandate | Anchor | Shape | Evidence status |
 | --- | --- | --- | --- | --- |
