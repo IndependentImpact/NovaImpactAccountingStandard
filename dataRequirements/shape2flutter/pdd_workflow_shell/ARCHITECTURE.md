@@ -289,6 +289,15 @@ The `_ReviewTargetPanel` is only rendered when `step.isReview` is true; it
 extracts `isReviewOf` and the nested `reviewTarget` sub-node from the first
 `fieldReview` entry in the draft.
 
+**Panel / shape de-duplication contract:** The system-managed fields shown in
+the panels (`resourceIpfsUri`, `isEncrypted`, `documentSchema`, `documentAuthor`,
+`authProof`, `hasWorkflowSubmission`, and `isReviewOf` on review shapes) are
+intentionally **absent from the section-level UI shapes** in
+`pdd-workflow-ui-shapes.ttl`. Removing them from the shapes prevents the
+generated `FormWidget` from rendering duplicate inputs for fields that are
+already visible in the collapsed panels. The seed map in `documentSeed()` still
+carries all these fields so the submitted payload remains complete.
+
 ---
 
 ## 6. State Ownership
