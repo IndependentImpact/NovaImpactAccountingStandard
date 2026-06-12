@@ -85,11 +85,23 @@ There are exactly **two hand-authored Dart files** (`main.dart` and
 
 ## 3. Build Pipeline — from SHACL to Dart
 
-### 3.1 Shape source
+### 3.1 Canonical requirements vs presentation adapters
 
-The canonical shape bundle is
-`dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`. It contains one
-`sh:NodeShape` per workflow step:
+The build chain intentionally separates **canonical requirements** from
+**presentation-specific form projection**:
+
+1. **Canonical semantic sources (normative):**
+   `dataRequirements/*.ttl`, supporting vocabularies, and ontology-linked SHACL
+   constraints define the authoritative model and validation semantics.
+2. **UI adapter bundle (derived, non-canonical):**
+   `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl` projects those
+   canonical constraints into form-friendly `sh:NodeShape`s with UI hints for
+   shape2flutter.
+3. **Generated outputs (operational artifacts):**
+   emitted JSON-LD form schema and generated Dart widgets in `/tmp/...` are
+   downstream build products and are never the source of truth.
+
+For the combined PDD workflow adapter, the workflow-step entry shapes are:
 
 | Shape | Workflow step |
 |---|---|
@@ -101,7 +113,19 @@ The canonical shape bundle is
 | `PddSectionCValidationReviewUiShape` | Validate PDD-C (validator) |
 | `PddCertificateIssuanceRequestUiShape` | PDD-CIR (project developer) |
 
-### 3.2 Build script (`build-pdd-workflow.sh`)
+### 3.2 Transformation stages, tools, and artifacts
+
+| Stage | Tooling entrypoint | Input (authoritative) | Output artifact |
+|---|---|---|---|
+| 1. Semantic modeling | Turtle + SHACL authoring in canonical files | Canonical ontology/requirements (`dataRequirements/*.ttl`) | Updated normative model + constraints |
+| 2. UI projection | `pdd-workflow-ui-shapes.ttl` authoring | Canonical predicates/classes/shapes | UI adapter NodeShapes + `ui:` hints |
+| 3. shape2flutter validation | `build-pdd-workflow.sh` → `shape2flutter lint` | UI adapter bundle | Lint verdict for projection correctness |
+| 4. Form schema emit | `build-pdd-workflow.sh` → `shape2flutter emit-jsonld` | UI adapter bundle | `/tmp/nias-shape2flutter/pdd-workflow/schema/forms.jsonld` |
+| 5. Dart generation | `build-pdd-workflow.sh` → `shape2flutter build` | UI adapter bundle | `/tmp/nias-shape2flutter/pdd-workflow/flutter/*.dart` |
+| 6. Shell wiring | `tool/prepare_pdd_workflow_shell.sh` | Generated Dart in `/tmp/.../flutter` | Copied `lib/generated/*.dart` for local compile/test |
+| 7. App validation | `tool/check_pdd_workflow_shell.sh` (`flutter test/analyze/build`) | Shell + generated files | Verified runnable workflow shell |
+
+### 3.3 Build script (`build-pdd-workflow.sh`)
 
 ```bash
 "$SHAPE2FLUTTER_BIN" lint   -allow-path-prefixes "$ALLOWED_PREFIXES" "$SHAPES_FILE"
@@ -109,23 +133,24 @@ The canonical shape bundle is
 "$SHAPE2FLUTTER_BIN" build  -outdir "$FLUTTER_DIR" "$SHAPES_FILE"
 ```
 
+`$SHAPES_FILE` is `dataRequirements/shape2flutter/pdd-workflow-ui-shapes.ttl`.
 Outputs land in `/tmp/nias-shape2flutter/pdd-workflow/{schema,flutter}` (or the
 path set by `$OUT_ROOT`).
 
-### 3.3 Prepare script (`tool/prepare_pdd_workflow_shell.sh`)
+### 3.4 Prepare script (`tool/prepare_pdd_workflow_shell.sh`)
 
 ```bash
-"$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"  # run shape2flutter
-rm -f "$SHELL_DIR/lib/generated"/*.dart                            # clean old files
-cp "$OUT_ROOT/flutter"/*.dart "$SHELL_DIR/lib/generated/"          # copy new files
+"$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"  # run shape2flutter from adapter SHACL
+rm -f "$SHELL_DIR/lib/generated"/*.dart                            # clean old generated files
+cp "$OUT_ROOT/flutter"/*.dart "$SHELL_DIR/lib/generated/"          # copy fresh generated files
 flutter pub get
 dart format "$SHELL_DIR/lib" "$SHELL_DIR/test"
 ```
 
 The generated files are **never committed** (`.gitignore` covers
-`lib/generated/*.dart`). The canonical source remains the SHACL bundle.
+`lib/generated/*.dart`); they are disposable build outputs.
 
-### 3.4 CI check script (`tool/check_pdd_workflow_shell.sh`)
+### 3.5 CI check script (`tool/check_pdd_workflow_shell.sh`)
 
 ```bash
 "$SHELL_DIR/tool/prepare_pdd_workflow_shell.sh"
@@ -134,8 +159,23 @@ flutter analyze
 flutter build web
 ```
 
-The prepare step always runs before tests so CI always works against a freshly
-generated widget set.
+The prepare step always runs first so tests run against the latest generated
+projection of SHACL requirements.
+
+### 3.6 Where to edit for each kind of change
+
+| Goal | Edit location | Expected downstream impact |
+|---|---|---|
+| Change ontology term/IRI semantics | Canonical ontology + canonical requirement shapes (`dataRequirements/*.ttl`) | May require adapter updates, regenerated forms, and shell/export alignment |
+| Change validation requirement (cardinality/datatype/constraint) | Canonical SHACL requirement shapes | Constraint behavior changes across all consumers, including exported package validation |
+| Change form layout/labels/widgets/order only | `pdd-workflow-ui-shapes.ttl` (`ui:` annotations, projection structure) | Regenerated Dart UI changes without redefining canonical meaning |
+| Change which forms are generated and where they are written | `build-pdd-workflow.sh` shape2flutter args/env | Different generated schema/Dart artifacts; shell prepare script consumes new output |
+| Change workflow behavior, gating, navigation, export handoff | `lib/src/*.dart` and shell tooling | Runtime UX/workflow semantics change; does not by itself alter canonical SHACL |
+
+Rule of thumb: if a change should alter meaning or conformance requirements,
+edit canonical SHACL/ontology first; if it should alter UI presentation only,
+edit the adapter bundle; if it should alter runtime workflow behavior, edit the
+shell Dart code.
 
 ---
 
