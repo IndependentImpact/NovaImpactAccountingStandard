@@ -463,9 +463,9 @@ class PddWorkflowState {
 
   Map<String, dynamic> _projectDesignSeed() {
     return {
-      NiasTerm.title: '',
+      NiasTerm.title: '...',
       NiasTerm.hasObjective: [
-        {NiasTerm.description: ''},
+        {NiasTerm.description: '...'},
       ],
       NiasTerm.hasSpatialLocation: [
         {NiasTerm.resourceIpfsUri: 'ipfs://draft-pdd-location'},
@@ -473,23 +473,23 @@ class PddWorkflowState {
       NiasTerm.technologyOrMeasure: [
         {
           NiasTerm.techMeasType: NiasTerm.facility,
-          NiasTerm.description: '',
+          NiasTerm.description: '...',
           NiasTerm.currentAgeInYears: 0,
           NiasTerm.estimatedLifespanInYears: 0,
         },
       ],
       NiasTerm.projectParty: [
         {
-          NiasTerm.partyName: '',
+          NiasTerm.partyName: '...',
           NiasTerm.isHostParty: true,
           NiasTerm.isParticipantParty: true,
           NiasTerm.publicPrivateClassification: NiasTerm.private,
         },
       ],
-      NiasTerm.legalMatters: '',
+      NiasTerm.legalMatters: '...',
       NiasTerm.publicFundingStatus: false,
-      NiasTerm.projectHistory: '',
-      NiasTerm.debundlingAssessment: '',
+      NiasTerm.projectHistory: '...',
+      NiasTerm.debundlingAssessment: '...',
     };
   }
 
@@ -508,7 +508,7 @@ class PddWorkflowState {
     return {
       NiasTerm.impactIntentionality: NiasTerm.intentional,
       NiasTerm.beneficialOrAdverse: NiasTerm.beneficial,
-      NiasTerm.description: '',
+      NiasTerm.description: '...',
       NiasTerm.monitored: true,
     };
   }
@@ -525,9 +525,9 @@ class PddWorkflowState {
       NiasTerm.isMadeBy: NiasTerm.developer,
       NiasTerm.hasSubject: NiasTerm.project,
       NiasTerm.conformsTo: NiasTerm.pddCSchema,
-      NiasTerm.stakeholderEngagementModalities: '',
-      NiasTerm.stakeholderCommentSummary: '',
-      NiasTerm.stakeholderCommentConsideration: '',
+      NiasTerm.stakeholderEngagementModalities: '...',
+      NiasTerm.stakeholderCommentSummary: '...',
+      NiasTerm.stakeholderCommentConsideration: '...',
     };
   }
 
@@ -535,7 +535,7 @@ class PddWorkflowState {
     final source = _submitted[section.sourceStep];
     final seed = documentSeed(section.reviewStep);
     seed[NiasTerm.isReviewOf] = source?.documentIri ?? '';
-    seed[NiasTerm.finalReviewDecision] = NiasTerm.reviewApprove;
+    seed[NiasTerm.finalReviewDecision] = NiasTerm.reviewReject;
     seed['${NiasTerm.base}fieldReview'] = [
       {
         '@type': '${NiasTerm.base}DocumentFieldReview',
@@ -547,14 +547,11 @@ class PddWorkflowState {
                 '${NiasTerm.base}anchors/section_${section.name}_summary',
           }
         ],
-        '${NiasTerm.base}fieldTitle': '${section.label} summary',
-        '${NiasTerm.base}fieldPrompt':
-            'Review the submitted ${section.label} section.',
-        '${NiasTerm.base}originalResponse':
-            'Submitted ${section.label} payload.',
-        '${NiasTerm.base}reviewerDecision': NiasTerm.reviewApprove,
-        '${NiasTerm.base}reviewerFeedback':
-            'The submitted section is acceptable.',
+        '${NiasTerm.base}fieldTitle': '...',
+        '${NiasTerm.base}fieldPrompt': '...',
+        '${NiasTerm.base}originalResponse': '...',
+        '${NiasTerm.base}reviewerDecision': NiasTerm.reviewReject,
+        '${NiasTerm.base}reviewerFeedback': '...',
       },
     ];
     return seed;

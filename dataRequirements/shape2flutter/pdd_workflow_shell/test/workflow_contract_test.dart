@@ -37,7 +37,10 @@ void main() {
     expect(workflow.gateResult().allowed, isFalse);
 
     for (final section in ReviewSection.values) {
-      workflow.submit(section.reviewStep, workflow.reviewSeed(section));
+      final seed = workflow.reviewSeed(section);
+      // Explicitly approve: the conservative default is reject.
+      seed[NiasTerm.finalReviewDecision] = NiasTerm.reviewApprove;
+      workflow.submit(section.reviewStep, seed);
     }
 
     expect(workflow.gateResult().allowed, isTrue);

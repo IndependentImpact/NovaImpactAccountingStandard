@@ -42,7 +42,7 @@ void main() {
     expect(find.text('Artifact identity'), findsOneWidget);
     expect(
       find.text('Auto-populated by the system — expand to review'),
-      findsOneWidget,
+      findsWidgets,
     );
     expect(find.text('IPFS URI'), findsNothing);
 
@@ -51,13 +51,64 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('IPFS URI'), findsOneWidget);
-    expect(find.text('Document schema'), findsOneWidget);
-    expect(find.text('Document author'), findsOneWidget);
+    expect(find.text('Encrypted'), findsOneWidget);
 
     // Collapsing again hides the rows.
     await tester.tap(find.text('Artifact identity'));
     await tester.pumpAndSettle();
 
     expect(find.text('IPFS URI'), findsNothing);
+  });
+
+  testWidgets('document details panel starts collapsed and can be expanded',
+      (tester) async {
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const PddWorkflowShellApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Document details'), findsOneWidget);
+    expect(find.text('Document schema IRI'), findsNothing);
+
+    await tester.tap(find.text('Document details'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Document schema IRI'), findsOneWidget);
+    expect(find.text('Document author'), findsOneWidget);
+    expect(find.text('Authenticity proof'), findsOneWidget);
+
+    await tester.tap(find.text('Document details'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Document schema IRI'), findsNothing);
+  });
+
+  testWidgets(
+      'workflow submission panel starts collapsed and can be expanded',
+      (tester) async {
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const PddWorkflowShellApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Workflow submission'), findsOneWidget);
+    expect(find.text('Workflow subject'), findsNothing);
+
+    await tester.tap(find.text('Workflow submission'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Workflow subject'), findsOneWidget);
+    expect(find.text('Submission topic'), findsOneWidget);
+
+    await tester.tap(find.text('Workflow submission'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Workflow subject'), findsNothing);
   });
 }
