@@ -16,6 +16,31 @@ The shell is intentionally thin:
 The generated form Dart files are not committed. They are copied into
 `lib/generated/` by the preparation script.
 
+## Prerequisites
+
+| Tool | Requirement | Notes |
+|------|-------------|-------|
+| Flutter SDK | ≥ 3.0.0 | `flutter --version` to check |
+| Dart SDK | included with Flutter | |
+| `shape2flutter` binary | any recent build | set `SHAPE2FLUTTER_BIN` in `.env` |
+| Python 3 | for export bridge | set `PYTHON3_BIN` in `.env` if not on `PATH` |
+
+### Environment variables
+
+Copy the repository-root `.env.example` to `.env` and adjust for your machine:
+
+```bash
+cp ../../../../.env.example ../../../../.env
+# then edit ../../../../.env
+```
+
+Relevant variables for this package:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `SHAPE2FLUTTER_BIN` | *(must be set)* | Absolute path to the `shape2flutter` binary |
+| `NIAS_TMP_DIR` | `/tmp` | Directory for intermediate build output |
+
 ## Prepare
 
 ```bash
@@ -86,3 +111,20 @@ calls shaped by:
 
 The generated forms remain UI projections. Canonical validation still belongs
 to the SHACL assets and the Fluree/service enforcement layer.
+
+## Modifying and Extending the Shell
+
+For detailed guidance on how the shell is structured and how to build equivalent
+shells for other workflows (e.g. a monitoring-report shell), see
+**[ARCHITECTURE.md](ARCHITECTURE.md)**.
+
+Key sections:
+
+| Section | Topic |
+|---------|-------|
+| §2 Code Layout | Directory structure and file responsibilities |
+| §3 Build Pipeline | From SHACL shapes → Dart widgets → shell |
+| §4 Generated Widget Import Contract | How generated widgets are imported and aliased |
+| §5–8 Routing, State, Seed Data, Roles | Core shell patterns |
+| §14 Reusable Patterns | Checklist for building a new workflow shell |
+| §16 Monitoring-Report Shell | Step-by-step walkthrough for adding a monitoring shell |
