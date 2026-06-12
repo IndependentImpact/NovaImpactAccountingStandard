@@ -260,27 +260,34 @@ LayoutBuilder(builder: (context, constraints) {
 
 This pattern should be carried into any monitoring-report shell.
 
-### 5.2 _IdentityFieldsPanel — collapsible artifact identity section
+### 5.2 Collapsible metadata panels
 
-`_buildForm` prepends an `_IdentityFieldsPanel` above each generated form
-widget. The panel groups the artifact identity fields (IPFS URI, document
-schema, author, auth proof, submission topic, and timestamp) in a collapsed
-`ExpansionTile` so users focus on the form content they need to fill in.
+`_buildForm` prepends four focused metadata panels above each generated form
+widget. Each panel groups a logical category of auto-populated fields in a
+collapsed `ExpansionTile` so users focus on the form content they need to fill
+in. For review forms an extra **Review target** panel is also prepended.
 
 ```
 _FormSurface (scroll wrapper)
 └── Column
-    ├── _IdentityFieldsPanel  ← ExpansionTile, collapsed by default
+    ├── _IdentityFieldsPanel      ← fingerprint icon; IPFS URI + encrypted
+    ├── _DocumentDetailsPanel     ← description icon; schema IRI, author, auth proof
+    ├── _WorkflowSubmissionPanel  ← send icon; workflow subject, topic, timestamp
+    ├── _ReviewTargetPanel        ← flag icon; review forms only — isReviewOf + target
     └── <generated FormWidget>
 ```
 
-The panel starts collapsed and carries the subtitle
+All panels start collapsed and carry the subtitle
 **"Auto-populated by the system — expand to review"**. In production the
-identity fields will be populated automatically by the Fluree/service layer;
-no user interaction is expected.
+fields will be populated automatically by the Fluree/service layer; no user
+interaction is expected for these fields.
 
-The `_IdentityFieldsPanel` reads values directly from the `draft` map that the
-shell already maintains. It does not mutate the draft.
+Each panel reads values directly from the `draft` map that the shell already
+maintains. The panels do not mutate the draft.
+
+The `_ReviewTargetPanel` is only rendered when `step.isReview` is true; it
+extracts `isReviewOf` and the nested `reviewTarget` sub-node from the first
+`fieldReview` entry in the draft.
 
 ---
 
@@ -605,7 +612,9 @@ Five pure-Dart unit tests covering:
 - `documentSeed` shapes: verifies the nested `hasObjective`, `hasSpatialLocation`,
   `technologyOrMeasure`, `projectParty`, `hasDeclaredImpact`, `impactClaim` lists
   are present in seeds.
-- Gate opens after all three sections and reviews submitted with `reviewApprove`.
+- Gate opens after all three sections and reviews submitted with `reviewApprove`
+  (the gate test sets `finalReviewDecision` explicitly, since the conservative
+  default from `reviewSeed` is `reviewReject`).
 - Rejected review (`reviewReject`) blocks the gate.
 - `reviewSeed` emits `reviewTarget` as a list-wrapped node and does not include
   a deprecated `fieldKey` field.
@@ -618,12 +627,16 @@ One widget test verifying the payload inspector dialog:
 - Shows `Payload` heading and a "Close payload" button when open.
 - Dismisses on close.
 
-One widget test verifying the identity fields panel:
-- "Artifact identity" title is visible immediately; field rows are hidden when collapsed.
-- Tapping the tile expands it to show IPFS URI, Document schema, and Document author rows.
-- Tapping again collapses it and hides the rows.
+Three widget tests verifying the collapsible metadata panels:
 
-The test sets `tester.view.physicalSize = Size(1400, 1000)` and
+1. **Artifact identity** — title visible when collapsed; expanding shows IPFS URI
+   and Encrypted rows; collapsing hides them again.
+2. **Document details** — title visible when collapsed; expanding shows
+   Document schema IRI, Document author, and Authenticity proof rows.
+3. **Workflow submission** — title visible when collapsed; expanding shows
+   Workflow subject and Submission topic rows.
+
+All tests set `tester.view.physicalSize = Size(1400, 1000)` and
 `devicePixelRatio = 1` to simulate a desktop browser viewport — important for
 any shell that has minimum-width layout constraints.
 
@@ -637,11 +650,11 @@ The following patterns can be lifted directly:
 |---|---|---|---|
 | Aliased import per generated shape | `pdd_workflow_shell_app.dart` | 5–11 | One alias per shape, prevents class name collisions |
 | `initial: Map<String,dynamic>` instantiation | `pdd_workflow_shell_app.dart` | 126–157 | Generated widget API; do not modify |
-| `_IdentityFieldsPanel` collapsible metadata section | `pdd_workflow_shell_app.dart` | 514–625 | `ExpansionTile` collapsed by default; prepended above every generated form |
+| `_IdentityFieldsPanel` / `_DocumentDetailsPanel` / `_WorkflowSubmissionPanel` / `_ReviewTargetPanel` | `pdd_workflow_shell_app.dart` | — | Four focused `ExpansionTile` panels collapsed by default; prepended above every generated form |
 | `documentSeed()` factory | `workflow_contract.dart` | 399–449 | Pre-populate framework fields before form opens |
 | `WorkflowArtifact` snapshot on submit | `workflow_contract.dart` | 325–337 | Captures IRI, schema, messageId, ipfsUri, payload |
 | `toDocumentReference()` serializer | `workflow_contract.dart` | 259–265 | Produces `DocumentReference` node for downstream cross-refs |
-| Payload inspector dialog | `pdd_workflow_shell_app.dart` | 627–680 | `JsonEncoder.withIndent('  ')` view; reuse as-is |
+| Payload inspector dialog | `pdd_workflow_shell_app.dart` | — | `JsonEncoder.withIndent('  ')` view; reuse as-is |
 | `_FormSurface` dual-axis scroll wrapper | `pdd_workflow_shell_app.dart` | 345–367 | Minimum 1160 px content width |
 | Role-based `canOpen` / `blockers` | `workflow_contract.dart` | 290–323 | Returns `List<String>` for UI display |
 | `_StepTile` lock / check / radio icons | `pdd_workflow_shell_app.dart` | 237–257 | Visual state: locked, open, submitted |

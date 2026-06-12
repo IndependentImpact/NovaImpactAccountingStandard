@@ -151,6 +151,9 @@ class _PddWorkflowShellPageState extends State<PddWorkflowShellPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _IdentityFieldsPanel(draft: draft),
+        _DocumentDetailsPanel(draft: draft),
+        _WorkflowSubmissionPanel(draft: draft),
+        if (step.isReview) _ReviewTargetPanel(draft: draft),
         innerForm,
       ],
     );
@@ -513,8 +516,8 @@ class _BlockedPanel extends StatelessWidget {
 
 /// A collapsible panel that shows artifact identity fields above the generated
 /// form. It starts collapsed so users can focus on the form content, which they
-/// must fill in. The identity fields (IPFS URI, schema, author, submission
-/// metadata) will be auto-populated by the system in production.
+/// must fill in. The identity fields (IPFS URI and encryption status) will be
+/// auto-populated by the system in production.
 class _IdentityFieldsPanel extends StatelessWidget {
   final Map<String, dynamic> draft;
 
@@ -539,9 +542,71 @@ class _IdentityFieldsPanel extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _row(context, 'IPFS URI', draft[NiasTerm.resourceIpfsUri]),
+                _row(context, 'Encrypted', draft[NiasTerm.isEncrypted]),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(BuildContext context, String label, Object? value) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 180,
+            child: Text(
+              label,
+              style:
+                  textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value?.toString() ?? '—',
+              style: textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A collapsible panel that shows document metadata fields (schema IRI, author,
+/// authenticity proof) above the generated form. These fields will be
+/// auto-populated by the system in production.
+class _DocumentDetailsPanel extends StatelessWidget {
+  final Map<String, dynamic> draft;
+
+  const _DocumentDetailsPanel({required this.draft});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        leading: const Icon(Icons.description_outlined),
+        title: const Text('Document details'),
+        subtitle: const Text(
+          'Auto-populated by the system — expand to review',
+        ),
+        initiallyExpanded: false,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 _row(
                   context,
-                  'Document schema',
+                  'Document schema IRI',
                   draft[NiasTerm.documentSchema],
                 ),
                 _row(
@@ -549,9 +614,75 @@ class _IdentityFieldsPanel extends StatelessWidget {
                   'Document author',
                   draft[NiasTerm.documentAuthor],
                 ),
-                _row(context, 'Auth proof', draft[NiasTerm.authProof]),
-                _row(context, 'Encrypted', draft[NiasTerm.isEncrypted]),
-                for (final entry in _submissionSummary())
+                _row(
+                  context,
+                  'Authenticity proof',
+                  draft[NiasTerm.authProof],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(BuildContext context, String label, Object? value) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 180,
+            child: Text(
+              label,
+              style:
+                  textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value?.toString() ?? '—',
+              style: textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A collapsible panel that shows workflow submission metadata above the
+/// generated form. These fields will be auto-populated by the system in
+/// production.
+class _WorkflowSubmissionPanel extends StatelessWidget {
+  final Map<String, dynamic> draft;
+
+  const _WorkflowSubmissionPanel({required this.draft});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = _submissionEntries();
+    if (entries.isEmpty) return const SizedBox.shrink();
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        leading: const Icon(Icons.send_outlined),
+        title: const Text('Workflow submission'),
+        subtitle: const Text(
+          'Auto-populated by the system — expand to review',
+        ),
+        initiallyExpanded: false,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final entry in entries)
                   _row(context, entry.key, entry.value),
               ],
             ),
@@ -561,7 +692,7 @@ class _IdentityFieldsPanel extends StatelessWidget {
     );
   }
 
-  List<MapEntry<String, Object?>> _submissionSummary() {
+  List<MapEntry<String, Object?>> _submissionEntries() {
     final submissions = draft[NiasTerm.hasWorkflowSubmission];
     if (submissions is! List || submissions.isEmpty) return [];
     final submission = submissions.first;
@@ -570,6 +701,16 @@ class _IdentityFieldsPanel extends StatelessWidget {
     final subject = submission[NiasTerm.workflowSubject];
     if (subject != null) {
       entries.add(MapEntry('Workflow subject', subject));
+    }
+    final submittedBy =
+        submission['${NiasTerm.base}workflowDocumentSubmittedBy'];
+    if (submittedBy != null) {
+      entries.add(MapEntry('Submitted by', submittedBy));
+    }
+    final recipient =
+        submission['${NiasTerm.base}workflowDocumentRecipient'];
+    if (recipient != null) {
+      entries.add(MapEntry('Recipient', recipient));
     }
     final messages = submission[NiasTerm.workflowSubmissionConsensusMessage];
     if (messages is List && messages.isNotEmpty) {
@@ -587,6 +728,100 @@ class _IdentityFieldsPanel extends StatelessWidget {
         final timestamp = msg[NiasTerm.hederaHasConsensusTimestamp];
         if (timestamp != null) {
           entries.add(MapEntry('Consensus timestamp', timestamp));
+        }
+      }
+    }
+    return entries;
+  }
+
+  Widget _row(BuildContext context, String label, Object? value) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 180,
+            child: Text(
+              label,
+              style:
+                  textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value?.toString() ?? '—',
+              style: textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A collapsible panel that shows the review target details for PDD validator
+/// review forms. It starts collapsed so validators can focus on the review
+/// content. These fields are auto-populated from the submitted PDD artifact.
+class _ReviewTargetPanel extends StatelessWidget {
+  final Map<String, dynamic> draft;
+
+  const _ReviewTargetPanel({required this.draft});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = _reviewTargetEntries();
+    if (entries.isEmpty) return const SizedBox.shrink();
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        leading: const Icon(Icons.flag_outlined),
+        title: const Text('Review target'),
+        subtitle: const Text(
+          'Auto-populated by the system — expand to review',
+        ),
+        initiallyExpanded: false,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final entry in entries)
+                  _row(context, entry.key, entry.value),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<MapEntry<String, Object?>> _reviewTargetEntries() {
+    final entries = <MapEntry<String, Object?>>[];
+    final isReviewOf = draft[NiasTerm.isReviewOf];
+    if (isReviewOf != null && isReviewOf.toString().isNotEmpty) {
+      entries.add(MapEntry('Reviewed document', isReviewOf));
+    }
+    final fieldReviews = draft['${NiasTerm.base}fieldReview'];
+    if (fieldReviews is List && fieldReviews.isNotEmpty) {
+      final firstReview = fieldReviews.first;
+      if (firstReview is Map) {
+        final targets = firstReview[NiasTerm.reviewTarget];
+        if (targets is List && targets.isNotEmpty) {
+          final target = targets.first;
+          if (target is Map) {
+            final artifact = target[NiasTerm.reviewedArtifact];
+            if (artifact != null) {
+              entries.add(MapEntry('Reviewed artifact', artifact));
+            }
+            final anchor = target[NiasTerm.reviewedAnchor];
+            if (anchor != null) {
+              entries.add(MapEntry('Reviewed anchor', anchor));
+            }
+          }
         }
       }
     }
