@@ -140,7 +140,7 @@ path set by `$OUT_ROOT`).
 ### 3.4 Prepare script (`tool/prepare_pdd_workflow_shell.sh`)
 
 ```bash
-"$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"  # regenerate from SHACL adapter
+"$ROOT_DIR/dataRequirements/shape2flutter/build-pdd-workflow.sh"  # run shape2flutter from adapter SHACL
 rm -f "$SHELL_DIR/lib/generated"/*.dart                            # clean old generated files
 cp "$OUT_ROOT/flutter"/*.dart "$SHELL_DIR/lib/generated/"          # copy fresh generated files
 flutter pub get
