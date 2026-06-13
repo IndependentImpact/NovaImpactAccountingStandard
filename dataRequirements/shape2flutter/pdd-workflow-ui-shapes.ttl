@@ -727,34 +727,10 @@ nias-ui:PddSectionAReportContentUiShape a sh:NodeShape ;
         ui:label "Project design" ;
         ui:widget ui:subform ;
         ui:order 2 ;
-    ] ;
-    sh:property [
-        sh:path dcterms:conformsTo ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Document schema IRI" ;
-        ui:order 3 ;
     ] .
 
 nias-ui:PddSectionBReportContentUiShape a sh:NodeShape ;
     sh:targetClass nias-o:PddSectionBReport ;
-    sh:property [
-        sh:path claimont:isMadeBy ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Reporting agent IRI" ;
-        ui:order 1 ;
-    ] ;
-    sh:property [
-        sh:path claimont:hasSubject ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Project subject IRI" ;
-        ui:order 2 ;
-    ] ;
     sh:property [
         sh:path nias-o:hasDeclaredImpact ;
         sh:node nias-ui:ImpactRequirementUiShape ;
@@ -762,7 +738,7 @@ nias-ui:PddSectionBReportContentUiShape a sh:NodeShape ;
         sh:maxCount 99 ;
         ui:label "Declared impacts" ;
         ui:widget ui:subform ;
-        ui:order 3 ;
+        ui:order 1 ;
     ] ;
     sh:property [
         sh:path nias-o:impactClaim ;
@@ -771,7 +747,7 @@ nias-ui:PddSectionBReportContentUiShape a sh:NodeShape ;
         sh:maxCount 99 ;
         ui:label "Impact claims" ;
         ui:widget ui:subform ;
-        ui:order 4 ;
+        ui:order 2 ;
     ] ;
     sh:property [
         sh:path nias-o:usesMethodology ;
@@ -779,15 +755,7 @@ nias-ui:PddSectionBReportContentUiShape a sh:NodeShape ;
         sh:maxCount 99 ;
         ui:label "Report methodology IRIs" ;
         ui:widget ui:chips ;
-        ui:order 5 ;
-    ] ;
-    sh:property [
-        sh:path dcterms:conformsTo ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Document schema IRI" ;
-        ui:order 6 ;
+        ui:order 3 ;
     ] .
 
 nias-ui:PddSectionAUiShape a sh:NodeShape ;
@@ -817,37 +785,13 @@ nias-ui:PddSectionBUiShape a sh:NodeShape ;
 nias-ui:PddSectionCUiShape a sh:NodeShape ;
     sh:targetClass nias-o:PddSectionCStakeholderEngagement ;
     sh:property [
-        sh:path claimont:isMadeBy ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Reporting agent IRI" ;
-        ui:order 1 ;
-    ] ;
-    sh:property [
-        sh:path claimont:hasSubject ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Project subject IRI" ;
-        ui:order 2 ;
-    ] ;
-    sh:property [
-        sh:path dcterms:conformsTo ;
-        sh:datatype xsd:anyURI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Report schema IRI" ;
-        ui:order 3 ;
-    ] ;
-    sh:property [
         sh:path nias-o:stakeholderEngagementModalities ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Stakeholder engagement modalities" ;
         ui:widget ui:textarea ;
-        ui:order 4 ;
+        ui:order 1 ;
     ] ;
     sh:property [
         sh:path nias-o:stakeholderCommentSummary ;
@@ -855,7 +799,7 @@ nias-ui:PddSectionCUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Stakeholder comment summary" ;
         ui:widget ui:textarea ;
-        ui:order 5 ;
+        ui:order 2 ;
     ] ;
     sh:property [
         sh:path nias-o:stakeholderCommentConsideration ;
@@ -863,7 +807,7 @@ nias-ui:PddSectionCUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Stakeholder comment consideration" ;
         ui:widget ui:textarea ;
-        ui:order 6 ;
+        ui:order 3 ;
     ] .
 
 nias-ui:PddCertificateIssuanceRequestUiShape a sh:NodeShape ;
@@ -947,21 +891,12 @@ nias-ui:ReviewTargetUiShape a sh:NodeShape ;
 nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
     sh:targetClass nias-o:DocumentFieldReview ;
     sh:property [
-        sh:path nias-o:reviewTarget ;
-        sh:node nias-ui:ReviewTargetUiShape ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        ui:label "Review target" ;
-        ui:widget ui:subform ;
-        ui:order 1 ;
-    ] ;
-    sh:property [
         sh:path nias-o:fieldTitle ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         ui:label "Field title" ;
-        ui:order 2 ;
+        ui:order 1 ;
     ] ;
     sh:property [
         sh:path nias-o:fieldPrompt ;
@@ -970,7 +905,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Field prompt" ;
         ui:widget ui:textarea ;
-        ui:order 3 ;
+        ui:order 2 ;
     ] ;
     sh:property [
         sh:path nias-o:originalResponse ;
@@ -979,7 +914,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Original response" ;
         ui:widget ui:textarea ;
-        ui:order 4 ;
+        ui:order 3 ;
     ] ;
     sh:property [
         sh:path nias-o:reviewerDecision ;
@@ -993,7 +928,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Reviewer decision" ;
         ui:widget ui:radio ;
-        ui:order 5 ;
+        ui:order 4 ;
     ] ;
     sh:property [
         sh:path nias-o:reviewerFeedback ;
@@ -1002,7 +937,7 @@ nias-ui:DocumentFieldReviewUiShape a sh:NodeShape ;
         sh:maxCount 1 ;
         ui:label "Reviewer feedback" ;
         ui:widget ui:textarea ;
-        ui:order 6 ;
+        ui:order 5 ;
     ] .
 
 nias-ui:PddSectionAValidationReviewUiShape a sh:NodeShape ;
